@@ -1,0 +1,416 @@
+/* =========================================================
+   Feirzen kit: one shared file every app loads.
+   - Settings gear (top right) that rolls out a tray
+   - Look panel: Light / Dark / Sepia / Chameleon
+   - Gecko token (top bar) when Chameleon is on: tap = new colors, lock = freeze
+   - Flags: plant a flag on anything, or send general feedback
+
+   Add to any app, right before </body>:
+   <script src="https://cdn.jsdelivr.net/gh/Feirzen/flag-hub@main/kit/kit.js"
+           data-app="study-decks" data-name="Study Decks" defer></script>
+
+   Apps style themselves with these CSS variables:
+   --bg --surface --surface2 --border --border2 --text --dim --muted
+   --accent --accBg --ok --bad --star --scrim --shadow
+   Optional hooks: Kit.tray.add({...}), Kit.theme.reroll(), Kit.theme.onChange(fn)
+   ========================================================= */
+(function () {
+  if (window.Kit) return;
+  const me = document.currentScript || document.querySelector('script[src*="kit.js"]');
+  const APP = (me && me.dataset.app) || location.pathname.split("/").filter(Boolean)[0] || location.hostname;
+  const NAME = (me && me.dataset.name) || document.title || APP;
+  const REPO = "Feirzen/flag-hub";
+  const KEY = "fk.look";
+
+  /* ---------- palettes ---------- */
+  const FIXED = {
+    light: { mode: "light", vars: { bg: "#f6f3ec", surface: "#ffffff", surface2: "#efebe2", border: "#e2ddd2", border2: "#c9c2b4", text: "#1f1d1a", dim: "#4a463f", muted: "#7a746a", accent: "#2f6fdf", accBg: "rgba(47,111,223,.10)", ok: "#16855b", bad: "#c23b3b", star: "#b8650f", scrim: "rgba(246,243,236,.82)", shadow: "rgba(40,35,20,.16)" } },
+    dark: { mode: "dark", vars: { bg: "#0f0f13", surface: "#18181f", surface2: "#131318", border: "#26262f", border2: "#3a3a46", text: "#ececf1", dim: "#b9b9c4", muted: "#7d7d89", accent: "#7c8cff", accBg: "rgba(124,140,255,.14)", ok: "#4fd1a0", bad: "#f37b7b", star: "#f2b544", scrim: "rgba(15,15,19,.82)", shadow: "rgba(0,0,0,.5)" } },
+    sepia: { mode: "dark", vars: { bg: "#2a211a", surface: "#352a21", surface2: "#2f251d", border: "#463829", border2: "#5e4c39", text: "#efe2cf", dim: "#d5c3a8", muted: "#a8957a", accent: "#e0a458", accBg: "rgba(224,164,88,.15)", ok: "#8fcf9a", bad: "#ef8b7a", star: "#f0c060", scrim: "rgba(42,33,26,.82)", shadow: "rgba(0,0,0,.45)" } },
+  };
+  const VARS = Object.keys(FIXED.dark.vars);
+  function makeCham(tone) {
+    const h = Math.floor(Math.random() * 360);
+    const a = (h + 120 + Math.floor(Math.random() * 110)) % 360;
+    const light = tone === "light" ? true : tone === "dark" ? false : Math.random() < 0.28;
+    const H = (x, s, l, al) => `hsl(${x} ${s}% ${l}%${al ? " / " + al + "%" : ""})`;
+    if (light) return { mode: "light", vars: { bg: H(h, 32, 95), surface: H(h, 42, 99), surface2: H(h, 26, 91), border: H(h, 22, 83), border2: H(h, 20, 66), text: H(h, 38, 11), dim: H(h, 18, 33), muted: H(h, 14, 50), accent: H(a, 66, 37), accBg: H(a, 66, 45, 11), ok: "hsl(158 72% 29%)", bad: "hsl(0 72% 44%)", star: "hsl(32 88% 34%)", scrim: H(h, 32, 95, 82), shadow: "rgba(40,35,20,.16)" } };
+    return { mode: "dark", vars: { bg: H(h, 26, 7), surface: H(h, 22, 12), surface2: H(h, 26, 9), border: H(h, 18, 21), border2: H(h, 18, 33), text: H(h, 26, 95), dim: H(h, 14, 74), muted: H(h, 12, 50), accent: H(a, 74, 63), accBg: H(a, 74, 63, 14), ok: "hsl(158 66% 56%)", bad: "hsl(0 82% 73%)", star: "hsl(38 92% 55%)", scrim: H(h, 26, 7, 82), shadow: "rgba(0,0,0,.5)" } };
+  }
+
+  /* ---------- saved look ---------- */
+  let look = { theme: "dark", tone: "any", lock: null };
+  try { Object.assign(look, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
+  if (!FIXED[look.theme] && look.theme !== "chameleon") look.theme = "dark";
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(look)); } catch (e) {} };
+  let current = null;
+  const listeners = [];
+
+  function paint(p) {
+    current = p;
+    const r = document.documentElement;
+    VARS.forEach(v => r.style.setProperty("--" + v, p.vars[v]));
+    r.dataset.theme = look.theme;
+    r.dataset.mode = p.mode;
+    r.style.colorScheme = p.mode;
+    let m = document.querySelector('meta[name="theme-color"]');
+    if (!m) { m = document.createElement("meta"); m.name = "theme-color"; document.head.appendChild(m); }
+    m.content = p.vars.bg;
+    listeners.forEach(fn => { try { fn(look.theme, p); } catch (e) {} });
+  }
+  function apply() {
+    if (look.theme === "chameleon") paint(look.lock || makeCham(look.tone));
+    else paint(FIXED[look.theme]);
+    syncUI();
+  }
+  function reroll() {
+    if (look.theme !== "chameleon" || look.lock) return;
+    paint(makeCham(look.tone));
+  }
+  function setTheme(t) { look.theme = t; look.lock = null; save(); apply(); }
+  function setTone(t) { const was = !!look.lock; look.tone = t; paint(makeCham(t)); look.lock = was ? current : null; save(); syncUI(); }
+  function toggleLock() { look.lock = look.lock ? null : current; save(); syncUI(); }
+
+  /* paint before anything shows (no flash) */
+  if (look.theme === "chameleon") paint(look.lock || makeCham(look.tone)); else paint(FIXED[look.theme]);
+
+  /* ---------- icons ---------- */
+  const SV = (d, w) => `<svg width="${w || 18}" height="${w || 18}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+  const IC = {
+    gear: SV('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>', 19),
+    paint: SV('<circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.6 1.6-1.6H16c3.1 0 5.6-2.5 5.6-5.6C21.6 6 17.3 2 12 2z"/>'),
+    flag: SV('<path d="M4 22V4"/><path d="M4 4h12l-2 4 2 4H4"/>'),
+    lock: SV('<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>', 12),
+    unlock: SV('<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/>', 12),
+    x: SV('<path d="M18 6 6 18M6 6l12 12"/>'),
+    shuffle: SV('<path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>', 15),
+    pin: SV('<path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>', 16),
+    chat: SV('<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/>', 16),
+  };
+  const GECKO = w => `<svg width="${w}" height="${w}" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(-38 12 12) translate(0 -.4)"><path stroke="none" d="M12 .6c1.4.3 2.4 2 2.4 3.6 0 1-.4 1.8-.9 2.4.7 1.1 1.1 2.6 1.1 4.3 0 1.9-.4 3.4-1 4.5h-3.2c-.6-1.1-1-2.6-1-4.5 0-1.7.4-3.2 1.1-4.3-.5-.6-.9-1.4-.9-2.4 0-1.6 1-3.3 2.4-3.6z"/><path fill="none" stroke-width="2.6" d="M12 14.8c0 1.6 0 2.8.3 3.9"/><path fill="none" stroke-width="1.9" d="M12.3 18.7c.4 1.3 1.2 2.3 2.4 2.6"/><path fill="none" stroke-width="1.3" d="M14.7 21.3c1.4.3 2.6-.6 2.5-1.8-.1-.9-.9-1.4-1.6-1.1"/><path fill="none" stroke-width="1.7" d="M10.8 8.8L8.2 8.2 7.4 6.2M13.2 8.8l2.6-.6.8-2M10.7 13.4l-2.4 1.1-.5 2.1M13.3 13.4l2.4 1.1.5 2.1"/><g stroke="none"><circle cx="7.3" cy="5.8" r="1.15"/><circle cx="16.7" cy="5.8" r="1.15"/><circle cx="7.7" cy="17" r="1.15"/><circle cx="16.3" cy="17" r="1.15"/></g></g></svg>`;
+
+  /* ---------- styles ---------- */
+  const CSS = `
+.fk,.fk *{box-sizing:border-box;font-family:inherit}
+.fk-bar{position:fixed;top:0;right:0;z-index:2147483000;display:flex;flex-direction:column;align-items:flex-end;gap:7px;padding:calc(10px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) 10px 10px;pointer-events:none}
+.fk-bar>*{pointer-events:auto}
+.fk-row{display:flex;gap:8px;align-items:center}
+.fk-btn{width:38px;height:38px;border-radius:11px;background:var(--surface);border:1px solid var(--border);color:var(--dim);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:border-color .2s,color .2s,transform .12s,background .4s}
+.fk-btn:active{transform:scale(.93)}
+.fk-btn.on{color:var(--accent);border-color:var(--accent)}
+.fk-gear svg{transition:transform .55s cubic-bezier(.175,.885,.32,1.275)}
+.fk-bar.open .fk-gear{color:var(--accent);border-color:var(--accent)}
+.fk-bar.open .fk-gear svg{transform:rotate(180deg)}
+.fk-tray{display:flex;flex-direction:column;align-items:flex-end;gap:7px;pointer-events:none}
+.fk-ti{opacity:0;visibility:hidden;transform:translateY(calc(-45px * (var(--i) + 1))) rotate(-1turn) scale(.45);transition:transform .34s cubic-bezier(.2,.8,.2,1) calc(var(--r) * 35ms),opacity .2s ease calc(var(--r) * 35ms),visibility 0s linear calc(.34s + var(--r) * 35ms)}
+.fk-bar.open .fk-ti{opacity:1;visibility:visible;transform:none;pointer-events:auto;transition:transform .42s cubic-bezier(.175,.885,.32,1.275) calc(var(--i) * 55ms),opacity .18s ease calc(var(--i) * 55ms),visibility 0s}
+.fk-tok{display:none;align-items:center;height:38px;border-radius:19px;background:#f4f4f1;border:1px solid rgba(0,0,0,.12);color:#111;padding:0 4px 0 4px;gap:0;box-shadow:0 2px 10px var(--shadow);animation:fk-pop .35s cubic-bezier(.175,.885,.32,1.275)}
+.fk-tok.show{display:flex}
+.fk-tok button{background:none;border:0;color:#111;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:16px;padding:0 6px}
+.fk-tok .g svg{transition:transform .45s cubic-bezier(.175,.885,.32,1.275)}
+.fk-tok .g.spin svg{transform:rotate(360deg)}
+.fk-tok .l{width:28px;padding:0;color:#555}
+.fk-tok .l.on{background:#111;color:#fff}
+@keyframes fk-pop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+.fk-panel{position:fixed;top:calc(58px + env(safe-area-inset-top));right:calc(62px + env(safe-area-inset-right));z-index:2147483001;width:min(300px,calc(100vw - 80px));background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;color:var(--text);box-shadow:0 12px 40px var(--shadow);transform-origin:top right;animation:fk-in .28s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes fk-in{from{opacity:0;transform:scale(.85) translateY(-6px)}to{opacity:1;transform:none}}
+.fk-h{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600;margin:0 0 10px}
+.fk-x{background:none;border:0;color:var(--muted);cursor:pointer;padding:4px;display:flex}
+.fk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fk-tile{border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:12px;padding:12px 6px 9px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;cursor:pointer;transition:border-color .2s,transform .12s}
+.fk-tile:active{transform:scale(.96)}
+.fk-tile.on{border:2px solid var(--accent);padding:11px 5px 8px}
+.fk-sw{width:30px;height:30px;border-radius:50%;border:1px solid rgba(128,128,128,.35)}
+.fk-gk{color:#22a35a;height:30px;display:flex;align-items:center}
+.fk-sub{font-size:12px;color:var(--muted);margin:12px 0 6px}
+.fk-seg{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.fk-seg button{flex:1;border:0;background:transparent;color:var(--dim);font-size:13px;padding:8px 2px;cursor:pointer;transition:background .2s,color .2s}
+.fk-seg button.on{background:var(--accent);color:var(--bg)}
+.fk-pills{display:flex;gap:8px;margin-top:8px}
+.fk-pill{flex:1;border:1px solid var(--border);background:transparent;color:var(--text);border-radius:10px;font-size:13px;padding:8px 6px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}
+.fk-pill.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.fk-cham{overflow:hidden;transition:max-height .35s ease,opacity .25s ease;max-height:0;opacity:0}
+.fk-cham.show{max-height:200px;opacity:1}
+.fk-hint{font-size:12px;color:var(--muted);margin:8px 2px 0;line-height:1.45}
+.fk-menu button{width:100%;display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:12px;padding:12px;margin-bottom:8px;font-size:14px;text-align:left;cursor:pointer}
+.fk-menu small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.fk-dim{position:fixed;inset:0;z-index:2147482990;background:rgba(0,0,0,.45);cursor:crosshair;animation:fk-fade .3s ease}
+@keyframes fk-fade{from{opacity:0}to{opacity:1}}
+.fk-tip{white-space:nowrap;position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2147483002;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:24px;padding:10px 16px;font-size:14px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.fk-tip button{background:none;border:0;color:var(--muted);cursor:pointer;font-size:13px}
+.fk-hl{position:fixed;z-index:2147482995;border:2px solid #ff5a4f;border-radius:8px;background:rgba(255,90,79,.12);pointer-events:none;transition:all .12s ease}
+.fk-pin{position:fixed;z-index:2147482996;color:#ff5a4f;pointer-events:none;animation:fk-drop .45s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes fk-drop{from{transform:translateY(-30px) scale(.5);opacity:0}to{transform:none;opacity:1}}
+.fk-sheet{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2147483003;width:min(420px,calc(100vw - 24px));background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 16px 50px rgba(0,0,0,.4);animation:fk-up .32s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes fk-up{from{opacity:0;transform:translate(-50%,30px)}to{opacity:1;transform:translateX(-50%)}}
+.fk-sheet textarea{width:100%;min-height:90px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);padding:10px;font-size:15px;resize:vertical;outline:none}
+.fk-sheet textarea:focus{border-color:var(--accent)}
+.fk-what{font-size:12px;color:var(--muted);margin:0 0 8px;word-break:break-word}
+.fk-err{color:var(--bad);font-size:12px;margin:6px 2px 0;min-height:1em}
+.fk-go{width:100%;margin-top:8px;border:0;background:var(--accent);color:var(--bg);border-radius:12px;padding:12px;font-size:15px;font-weight:600;cursor:pointer}
+.fk-note{font-size:11px;color:var(--muted);margin:8px 2px 0;text-align:center}
+@media (prefers-reduced-motion:reduce){.fk *,.fk-ti,.fk-panel,.fk-sheet,.fk-pin{animation:none!important;transition:none!important}}
+`;
+
+  /* ---------- tray + UI ---------- */
+  const extra = [];
+  let bar, tok, panel = null, mode = null;
+
+  function el(html) { const d = document.createElement("div"); d.innerHTML = html.trim(); return d.firstChild; }
+
+  function buildBar() {
+    const st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
+    bar = el(`<div class="fk fk-bar"><div class="fk-row">
+      <div class="fk-tok"><button class="g" aria-label="New colors" title="New colors">${GECKO(22)}</button><button class="l" aria-label="Freeze colors" title="Freeze colors">${IC.unlock}</button></div>
+      <button class="fk-btn fk-gear" aria-label="Settings" aria-expanded="false" title="Settings">${IC.gear}</button></div>
+      <div class="fk-tray"></div></div>`);
+    document.body.appendChild(bar);
+    tok = bar.querySelector(".fk-tok");
+    bar.querySelector(".fk-gear").onclick = () => toggleTray();
+    tok.querySelector(".g").onclick = () => {
+      const g = tok.querySelector(".g");
+      if (look.lock) { g.animate([{ transform: "translateX(-3px)" }, { transform: "translateX(3px)" }, { transform: "none" }], { duration: 220 }); return; }
+      g.classList.toggle("spin"); reroll();
+    };
+    tok.querySelector(".l").onclick = () => toggleLock();
+    renderTray();
+    syncUI();
+  }
+  function trayItems() {
+    return [
+      { id: "look", icon: IC.paint, label: "Look", onClick: () => openPanel("look") },
+      { id: "flag", icon: IC.flag, label: "Flag", onClick: () => openPanel("flag") },
+      ...extra,
+    ];
+  }
+  function renderTray() {
+    if (!bar) return;
+    const tray = bar.querySelector(".fk-tray");
+    const items = trayItems(); const n = items.length;
+    tray.innerHTML = "";
+    items.forEach((it, i) => {
+      const w = el(`<div class="fk-ti" style="--i:${i};--r:${n - 1 - i}"><button class="fk-btn" aria-label="${it.label}" title="${it.label}">${it.icon}</button></div>`);
+      w.firstChild.onclick = e => { e.stopPropagation(); it.onClick(); };
+      w.firstChild.dataset.id = it.id || "";
+      tray.appendChild(w);
+    });
+  }
+  function toggleTray(force) {
+    const open = force === undefined ? !bar.classList.contains("open") : force;
+    bar.classList.toggle("open", open);
+    bar.querySelector(".fk-gear").setAttribute("aria-expanded", open);
+    if (!open) closePanel();
+  }
+  function closePanel() { if (panel) { panel.remove(); panel = null; } bar && bar.querySelectorAll(".fk-tray .fk-btn").forEach(b => b.classList.remove("on")); }
+
+  function openPanel(which) {
+    const was = panel && panel.dataset.which;
+    closePanel();
+    if (was === which) return;
+    panel = which === "look" ? lookPanel() : flagMenu();
+    panel.dataset.which = which;
+    document.body.appendChild(panel);
+    const b = bar.querySelector(`.fk-tray [data-id="${which}"]`); if (b) b.classList.add("on");
+    syncUI();
+  }
+
+  function lookPanel() {
+    const t = (k, label, sw) => `<button class="fk-tile" data-t="${k}">${sw}<span>${label}</span></button>`;
+    const p = el(`<div class="fk fk-panel" role="dialog" aria-label="Look">
+      <div class="fk-h"><span>Look</span><button class="fk-x" aria-label="Close">${IC.x}</button></div>
+      <div class="fk-grid">
+        ${t("light", "Light", '<span class="fk-sw" style="background:#f6f3ec"></span>')}
+        ${t("dark", "Dark", '<span class="fk-sw" style="background:#0f0f13"></span>')}
+        ${t("sepia", "Sepia", '<span class="fk-sw" style="background:#2a211a"></span>')}
+        ${t("chameleon", "Chameleon", `<span class="fk-gk">${GECKO(30)}</span>`)}
+      </div>
+      <div class="fk-cham">
+        <div class="fk-sub">Chameleon tone</div>
+        <div class="fk-seg"><button data-tone="any">Any</button><button data-tone="light">Light</button><button data-tone="dark">Dark</button></div>
+        <div class="fk-pills"><button class="fk-pill" data-a="lock"></button><button class="fk-pill" data-a="new">${IC.shuffle}New colors</button></div>
+        <p class="fk-hint">New colors every screen. The gecko up top does the same thing: tap it to shuffle, tap its lock to freeze.</p>
+      </div></div>`);
+    p.querySelector(".fk-x").onclick = closePanel;
+    p.querySelectorAll("[data-t]").forEach(b => b.onclick = () => setTheme(b.dataset.t));
+    p.querySelectorAll("[data-tone]").forEach(b => b.onclick = () => setTone(b.dataset.tone));
+    p.querySelector('[data-a="lock"]').onclick = toggleLock;
+    p.querySelector('[data-a="new"]').onclick = () => { if (look.lock) { look.lock = null; save(); } paint(makeCham(look.tone)); syncUI(); };
+    return p;
+  }
+
+  function syncUI() {
+    if (!bar) return;
+    const isC = look.theme === "chameleon";
+    tok.classList.toggle("show", isC);
+    const l = tok.querySelector(".l");
+    l.classList.toggle("on", !!look.lock); l.innerHTML = look.lock ? IC.lock : IC.unlock;
+    l.title = look.lock ? "Colors frozen (tap to unfreeze)" : "Freeze colors";
+    if (panel && panel.dataset.which === "look") {
+      panel.querySelectorAll("[data-t]").forEach(b => b.classList.toggle("on", b.dataset.t === look.theme));
+      panel.querySelector(".fk-cham").classList.toggle("show", isC);
+      panel.querySelectorAll("[data-tone]").forEach(b => b.classList.toggle("on", b.dataset.tone === look.tone));
+      const lk = panel.querySelector('[data-a="lock"]');
+      lk.classList.toggle("on", !!look.lock);
+      lk.innerHTML = (look.lock ? IC.lock : IC.unlock) + (look.lock ? "Frozen" : "Changing");
+    }
+  }
+
+  /* ---------- flags ---------- */
+  function flagMenu() {
+    const p = el(`<div class="fk fk-panel fk-menu" role="dialog" aria-label="Flags">
+      <div class="fk-h"><span>Raise a flag</span><button class="fk-x" aria-label="Close">${IC.x}</button></div>
+      <button data-a="plant">${IC.pin}<span>Plant a flag<small>Tap the exact thing you mean</small></span></button>
+      <button data-a="general">${IC.chat}<span>General feedback<small>About ${esc(NAME)} as a whole</small></span></button>
+      <p class="fk-hint" style="margin-top:0">Tip: long-press anything (or right-click on a computer) to plant a flag right there.</p></div>`);
+    p.querySelector(".fk-x").onclick = closePanel;
+    p.querySelector('[data-a="plant"]').onclick = () => { toggleTray(false); startPlant(); };
+    p.querySelector('[data-a="general"]').onclick = () => { toggleTray(false); openSheet(null); };
+    return p;
+  }
+
+  let dim = null, hl = null, tip = null, pin = null, sheet = null, planting = false;
+  function clearFlagUI() { planting = false; [dim, hl, tip, pin, sheet].forEach(n => n && n.remove()); dim = hl = tip = pin = sheet = null; document.removeEventListener("keydown", onEsc); }
+  function onEsc(e) { if (e.key === "Escape") clearFlagUI(); }
+
+  function under(x, y) {
+    if (dim) dim.style.pointerEvents = "none";
+    let t = document.elementFromPoint(x, y);
+    if (dim) dim.style.pointerEvents = "";
+    while (t && t.closest && t.closest(".fk")) t = null;
+    return t;
+  }
+  function box(t) {
+    if (!t) { if (hl) hl.style.opacity = 0; return; }
+    const r = t.getBoundingClientRect();
+    if (!hl) { hl = el('<div class="fk-hl"></div>'); document.body.appendChild(hl); }
+    Object.assign(hl.style, { opacity: 1, left: r.left - 3 + "px", top: r.top - 3 + "px", width: r.width + 6 + "px", height: r.height + 6 + "px" });
+  }
+  function startPlant() {
+    clearFlagUI();
+    dim = el('<div class="fk-dim" aria-hidden="true"></div>');
+    tip = el(`<div class="fk fk-tip">${IC.flag}<span>Tap what you want to flag</span><button>Cancel</button></div>`);
+    tip.querySelector("button").onclick = clearFlagUI;
+    document.body.append(dim, tip);
+    planting = true;
+    document.addEventListener("keydown", onEsc);
+    dim.addEventListener("mousemove", e => { if (planting) box(under(e.clientX, e.clientY)); });
+    dim.addEventListener("click", e => { if (!planting) return; const t = under(e.clientX, e.clientY); if (t) place(t, e.clientX, e.clientY); });
+  }
+  function place(t, x, y) {
+    planting = false;
+    if (!dim) { dim = el('<div class="fk-dim" aria-hidden="true"></div>'); document.body.appendChild(dim); }
+    if (tip) { tip.remove(); tip = null; }
+    box(t);
+    pin = el(`<div class="fk-pin" style="left:${x - 4}px;top:${y - 26}px">${SV('<path d="M4 22V4"/><path d="M4 4h12l-2 4 2 4H4" fill="currentColor"/>', 28)}</div>`);
+    document.body.appendChild(pin);
+    dim.onclick = null;
+    setTimeout(() => openSheet(t), 250);
+  }
+
+  function describe(t) {
+    if (!t) return null;
+    const path = [];
+    let n = t;
+    while (n && n.nodeType === 1 && n !== document.body && path.length < 6) {
+      let s = n.tagName.toLowerCase();
+      if (n.id) { s += "#" + n.id; path.unshift(s); break; }
+      const cls = [...n.classList].filter(c => !c.startsWith("fk")).slice(0, 2);
+      if (cls.length) s += "." + cls.join(".");
+      const sib = n.parentElement ? [...n.parentElement.children].filter(c => c.tagName === n.tagName) : [];
+      if (sib.length > 1) s += `:nth-of-type(${sib.indexOf(n) + 1})`;
+      path.unshift(s); n = n.parentElement;
+    }
+    const text = (t.innerText || t.getAttribute("aria-label") || t.getAttribute("alt") || "").replace(/\s+/g, " ").trim().slice(0, 120);
+    return { selector: path.join(" > "), text };
+  }
+
+  function openSheet(t) {
+    const d = describe(t);
+    if (!dim) { dim = el('<div class="fk-dim" aria-hidden="true"></div>'); document.body.appendChild(dim); }
+    dim.onclick = clearFlagUI; document.addEventListener("keydown", onEsc);
+    sheet = el(`<div class="fk fk-sheet" role="dialog" aria-label="Flag">
+      <div class="fk-h"><span>${d ? "Flag this spot" : "General feedback"}</span><button class="fk-x" aria-label="Close">${IC.x}</button></div>
+      <p class="fk-what">${d ? (d.text ? "“" + esc(d.text) + "”" : esc(d.selector)) : esc(NAME) + " overall"}</p>
+      <textarea placeholder="${d ? "What looks off, or what's your idea?" : "What would make this better?"}"></textarea>
+      <div class="fk-err"></div>
+      <button class="fk-go">Send flag</button>
+      <p class="fk-note">Opens GitHub with everything filled in. Tap Submit there.</p></div>`);
+    document.body.appendChild(sheet);
+    const ta = sheet.querySelector("textarea"), err = sheet.querySelector(".fk-err");
+    setTimeout(() => ta.focus(), 50);
+    ta.oninput = () => { err.textContent = ""; };
+    sheet.querySelector(".fk-x").onclick = clearFlagUI;
+    sheet.querySelector(".fk-go").onclick = () => {
+      const note = ta.value.trim();
+      if (!note) { err.textContent = "Type a quick note first."; ta.focus(); return; }
+      const url = issueURL(note, d);
+      window.open(url, "_blank", "noopener");
+      clearFlagUI();
+      toast("Flag ready. Tap Submit on GitHub.");
+    };
+  }
+
+  function issueURL(note, d) {
+    const short = note.replace(/\s+/g, " ").slice(0, 60) + (note.length > 60 ? "…" : "");
+    const title = `[${APP}] ${d ? "" : "(general) "}${short}`;
+    const lines = [
+      note, "", "---",
+      `**App:** ${NAME} (\`${APP}\`)`,
+      `**Type:** ${d ? "planted flag" : "general feedback"}`,
+      `**Page:** ${location.href}`,
+    ];
+    if (d) { lines.push(`**Element:** \`${d.selector}\``); if (d.text) lines.push(`**Says:** ${d.text}`); }
+    lines.push(`**Screen:** ${innerWidth}×${innerHeight}, ${/Mobi|iPhone|Android/.test(navigator.userAgent) ? "phone" : "computer"}`);
+    lines.push(`**Look:** ${look.theme}${look.theme === "chameleon" ? " (" + look.tone + ")" : ""}`);
+    lines.push(`**When:** ${new Date().toLocaleString()}`);
+    lines.push("", "<!-- flag-kit v1 -->");
+    const q = new URLSearchParams({ title, body: lines.join("\n"), labels: "flag" });
+    return `https://github.com/${REPO}/issues/new?${q.toString()}`;
+  }
+
+  function toast(msg) {
+    const t = el(`<div class="fk fk-tip">${IC.flag}<span>${esc(msg)}</span></div>`);
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.transition = "opacity .4s"; t.style.opacity = 0; setTimeout(() => t.remove(), 450); }, 2600);
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  /* long-press (phone) and right-click (computer) plant a flag right there */
+  let lp = null, lpXY = null;
+  function cancelLP() { clearTimeout(lp); lp = null; }
+  document.addEventListener("touchstart", e => {
+    if (e.touches.length !== 1 || e.target.closest(".fk") || e.target.closest("input,textarea,select,[contenteditable]")) return;
+    const p = e.touches[0]; lpXY = [p.clientX, p.clientY];
+    lp = setTimeout(() => { lp = null; const t = under(lpXY[0], lpXY[1]); if (t) { if (navigator.vibrate) navigator.vibrate(15); place(t, lpXY[0], lpXY[1]); } }, 650);
+  }, { passive: true });
+  document.addEventListener("touchmove", e => { if (lp && lpXY) { const p = e.touches[0]; if (Math.hypot(p.clientX - lpXY[0], p.clientY - lpXY[1]) > 10) cancelLP(); } }, { passive: true });
+  document.addEventListener("touchend", cancelLP, { passive: true });
+  document.addEventListener("contextmenu", e => {
+    if (e.target.closest(".fk") || e.target.closest("input,textarea,select,[contenteditable]") || e.shiftKey) return;
+    if ("ontouchstart" in window && matchMedia("(pointer:coarse)").matches) { e.preventDefault(); return; }
+    e.preventDefault(); place(e.target, e.clientX, e.clientY);
+  });
+
+  /* close the tray when tapping elsewhere */
+  document.addEventListener("click", e => {
+    if (!bar || e.composedPath().some(n => n.classList && n.classList.contains("fk"))) return;
+    if (panel) closePanel(); else if (bar.classList.contains("open")) toggleTray(false);
+  });
+
+  /* chameleon: new colors when the screen changes */
+  addEventListener("hashchange", reroll);
+  addEventListener("popstate", reroll);
+
+  window.Kit = {
+    app: APP,
+    theme: {
+      get: () => ({ ...look, palette: current }),
+      set: setTheme, reroll,
+      onChange: fn => { listeners.push(fn); if (current) fn(look.theme, current); },
+    },
+    tray: { add: item => { extra.push(item); renderTray(); } },
+    flag: { plant: startPlant, general: () => openSheet(null) },
+  };
+
+  if (document.body) buildBar(); else document.addEventListener("DOMContentLoaded", buildBar);
+})();
