@@ -30,6 +30,7 @@
   const GEAR = opt("gear") !== "off";
   const FLOATBTN = !GEAR && opt("button") !== "off";
   const LONGPRESS = opt("longpress") ? opt("longpress") === "on" : LOOK;
+  const HIDE_WHEN = opt("hideWhen");   /* data-hide-when=".game-screen" hides the gear while that exists on the page */
   const KEY = "fk.look";
 
   /* ---------- Flag Hub store ----------
@@ -159,6 +160,7 @@
 .fk-tray{display:flex;flex-direction:column;align-items:flex-end;gap:7px;pointer-events:none}
 .fk-ti{opacity:0;visibility:hidden;transform:translateY(calc(-45px * (var(--i) + 1))) rotate(-1turn) scale(.45);transition:transform .34s cubic-bezier(.2,.8,.2,1) calc(var(--r) * 35ms),opacity .2s ease calc(var(--r) * 35ms),visibility 0s linear calc(.34s + var(--r) * 35ms)}
 .fk-bar.open .fk-ti{opacity:1;visibility:visible;transform:none;pointer-events:auto;transition:transform .42s cubic-bezier(.175,.885,.32,1.275) calc(var(--i) * 55ms),opacity .18s ease calc(var(--i) * 55ms),visibility 0s}
+.fk-hidden{opacity:0!important;visibility:hidden!important;pointer-events:none!important;transition:opacity .25s,visibility 0s .25s!important}
 .fk-float{position:fixed;left:calc(12px + env(safe-area-inset-left));bottom:calc(14px + env(safe-area-inset-bottom));z-index:2147482980;width:34px;height:34px;border-radius:50%;opacity:.55;transition:opacity .2s,transform .12s}
 .fk-float:hover,.fk-float:focus-visible{opacity:1}
 .fk-panel.fk-solo{top:auto;right:auto;left:50%;bottom:calc(64px + env(safe-area-inset-bottom));transform-origin:bottom center;translate:-50% 0}
@@ -190,8 +192,8 @@
 .fk-cham{overflow:hidden;transition:max-height .35s ease,opacity .25s ease;max-height:0;opacity:0}
 .fk-cham.show{max-height:200px;opacity:1}
 .fk-hint{font-size:12px;color:var(--muted);margin:8px 2px 0;line-height:1.45}
-.fk-menu button{width:100%;display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:12px;padding:12px;margin-bottom:8px;font-size:14px;text-align:left;cursor:pointer}
-.fk-menu small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.fk-menu>button{width:100%;display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:12px;padding:12px;margin-bottom:8px;font-size:14px;text-align:left;cursor:pointer}
+.fk-menu>button small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
 .fk-dim{position:fixed;inset:0;z-index:2147482990;background:rgba(0,0,0,.45);cursor:crosshair;animation:fk-fade .3s ease}
 @keyframes fk-fade{from{opacity:0}to{opacity:1}}
 .fk-tip{white-space:nowrap;position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:2147483002;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:24px;padding:10px 16px;font-size:14px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 30px rgba(0,0,0,.35)}
@@ -245,6 +247,18 @@
     tok.querySelector(".l").onclick = () => toggleLock();
     renderTray();
     syncUI();
+    if (HIDE_WHEN) {
+      const check = () => setHidden("auto", !!document.querySelector(HIDE_WHEN));
+      new MutationObserver(check).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "hidden"] });
+      check();
+    }
+  }
+  const hiddenBy = new Set();
+  function setHidden(who, on) {
+    on ? hiddenBy.add(who) : hiddenBy.delete(who);
+    const h = hiddenBy.size > 0;
+    document.querySelectorAll(".fk-bar,.fk-float").forEach(n => n.classList.toggle("fk-hidden", h));
+    if (h) { closePanel(); if (bar) { bar.classList.remove("open"); } }
   }
   function trayItems() {
     return [
@@ -341,14 +355,27 @@
   }
 
   let dim = null, hl = null, tip = null, pin = null, sheet = null, planting = false;
-  function clearFlagUI() { planting = false; [dim, hl, tip, pin, sheet].forEach(n => n && n.remove()); dim = hl = tip = pin = sheet = null; document.removeEventListener("keydown", onEsc); }
+  /* the gear and tray sit above the dimmer, so catch taps on them while planting */
+  function plantKitClick(e) {
+    if (!planting) return;
+    const t = e.target.closest && e.target.closest(".fk-bar button,.fk-bar .fk-tok,.fk-float");
+    if (!t) return;
+    e.preventDefault(); e.stopPropagation();
+    place(t, e.clientX, e.clientY);
+  }
+  function plantKitHover(e) {
+    if (!planting) return;
+    const t = e.target.closest && e.target.closest(".fk-bar button,.fk-float");
+    if (t) box(t);
+  }
+  function clearFlagUI() { document.removeEventListener("click", plantKitClick, true); document.removeEventListener("mousemove", plantKitHover, true); planting = false; [dim, hl, tip, pin, sheet].forEach(n => n && n.remove()); dim = hl = tip = pin = sheet = null; document.removeEventListener("keydown", onEsc); }
   function onEsc(e) { if (e.key === "Escape") clearFlagUI(); }
 
   function under(x, y) {
     if (dim) dim.style.pointerEvents = "none";
     let t = document.elementFromPoint(x, y);
     if (dim) dim.style.pointerEvents = "";
-    while (t && t.closest && t.closest(".fk")) t = null;
+    if (t && t.closest && t.closest(".fk") && !t.closest(".fk-bar,.fk-float")) t = null;
     return t;
   }
   function box(t) {
@@ -365,11 +392,15 @@
     document.body.append(dim, tip);
     planting = true;
     document.addEventListener("keydown", onEsc);
+    document.addEventListener("click", plantKitClick, true);
+    document.addEventListener("mousemove", plantKitHover, true);
     dim.addEventListener("mousemove", e => { if (planting) box(under(e.clientX, e.clientY)); });
     dim.addEventListener("click", e => { if (!planting) return; const t = under(e.clientX, e.clientY); if (t) place(t, e.clientX, e.clientY); });
   }
   function place(t, x, y) {
     planting = false;
+    document.removeEventListener("click", plantKitClick, true);
+    document.removeEventListener("mousemove", plantKitHover, true);
     if (!dim) { dim = el('<div class="fk-dim" aria-hidden="true"></div>'); document.body.appendChild(dim); }
     if (tip) { tip.remove(); tip = null; }
     box(t);
@@ -392,6 +423,7 @@
       if (sib.length > 1) s += `:nth-of-type(${sib.indexOf(n) + 1})`;
       path.unshift(s); n = n.parentElement;
     }
+    if (t.closest(".fk-bar,.fk-float")) { const b = t.closest("button") || t; return { selector: "kit: " + (b.getAttribute("aria-label") || "settings gear"), text: "Settings gear menu (shared kit)", kit: true }; }
     const text = (t.innerText || t.getAttribute("aria-label") || t.getAttribute("alt") || "").replace(/\s+/g, " ").trim().slice(0, 120);
     return { selector: path.join(" > "), text };
   }
@@ -418,7 +450,7 @@
       if (!note) { err.textContent = "Type a quick note first."; ta.focus(); return; }
       if (store.token()) {
         const go = sheet.querySelector(".fk-go"); go.disabled = true; go.textContent = "Sending…";
-        const flag = { id: "f" + Date.now().toString(36), project: NAME, text: note, kind: "fix", status: "open", source: "app", created: new Date().toISOString(),
+        const flag = { id: "f" + Date.now().toString(36), project: d && d.kit ? "Flag Hub" : NAME, text: note, kind: "fix", status: "open", source: "app", created: new Date().toISOString(),
           where: { app: APP, page: location.href, element: d ? d.selector : null, says: d ? d.text : null,
             screen: innerWidth + "x" + innerHeight + (/Mobi|iPhone|Android/.test(navigator.userAgent) ? " phone" : " computer"), look: look.theme } };
         try {
@@ -435,7 +467,7 @@
 
   function issueURL(note, d) {
     const short = note.replace(/\s+/g, " ").slice(0, 60) + (note.length > 60 ? "…" : "");
-    const title = `[${APP}] ${d ? "" : "(general) "}${short}`;
+    const title = `[${d && d.kit ? "flag-hub" : APP}] ${d ? "" : "(general) "}${short}`;
     const lines = [
       note, "", "---",
       `**App:** ${NAME} (\`${APP}\`)`,
@@ -494,6 +526,8 @@
       onChange: fn => { listeners.push(fn); if (current) fn(look.theme, current); },
     },
     tray: { add: item => { extra.push(item); renderTray(); } },
+    hide: () => setHidden("app", true),
+    show: () => setHidden("app", false),
     flag: { plant: startPlant, general: () => openSheet(null), menu: () => setTimeout(() => openPanel("flag"), 0) },
   };
 

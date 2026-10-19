@@ -12,7 +12,7 @@ Home base for flags across every app and project, plus the shared kit every app 
 One line before `</body>` in any app:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/Feirzen/flag-hub@main/kit/kit.js"
+<script src="https://feirzen.github.io/flag-hub/kit/kit.js"
         data-app="study-decks" data-name="Study Decks" defer></script>
 ```
 
@@ -25,7 +25,6 @@ Apps color themselves with these CSS variables:
 
 Optional hooks: `Kit.tray.add({id, icon, label, onClick})`, `Kit.theme.reroll()` (call on screen change), `Kit.theme.onChange(fn)`.
 
-After changing the kit, refresh the CDN copy: `https://purge.jsdelivr.net/gh/Feirzen/flag-hub@main/kit/kit.js`
 
 ## Night shift rules
 
