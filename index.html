@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Flag Hub</title>
+<meta name="description" content="Every flag across your apps and projects, plus the night shift switch.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Flag Hub">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta property="og:title" content="Flag Hub">
+<meta property="og:description" content="Every flag across your apps and projects, plus the night shift switch.">
+<meta property="og:image" content="https://feirzen.github.io/flag-hub/icons/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column like a field clipboard; night-shift switch on top, then what needs you, then the flags. */
+:root{
+  --card:var(--surface,#18181f); --card2:var(--surface2,#131318); --line:var(--border,#26262f); --ink:var(--text,#ececf1); --ink2:var(--dim,#b9b9c4); --ink3:var(--muted,#7d7d89);
+  --flag:#ff5a3c; --flagInk:#ffffff; --flagBg:color-mix(in srgb,#ff5a3c 15%,var(--card));
+  --okc:var(--ok,#4fd1a0); --okBg:color-mix(in srgb,var(--okc) 15%,var(--card)); --warn:var(--star,#f2b544); --warnBg:color-mix(in srgb,var(--warn) 15%,var(--card));
+  --off:var(--muted,#7d7d89); --big:#8b6cff; --bigBg:color-mix(in srgb,#8b6cff 16%,var(--card));
+  --fd:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif; --fb:"Instrument Sans",ui-sans-serif,system-ui,sans-serif; --fm:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--bg,#0f0f13)}
+body{margin:0;background:var(--bg,#0f0f13);color:var(--ink);font:15px/1.5 var(--fb);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:calc(48px + env(safe-area-inset-bottom,0px));transition:background .5s,color .5s}
+.wrap{max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding-top:6px;padding-right:56px}
+h1{font:700 34px/1 var(--fd);letter-spacing:-.02em;margin:0;display:flex;align-items:center;gap:10px;text-wrap:balance}
+h1 svg{color:var(--flag);flex:none}
+.tally{font:500 12px/1.4 var(--fm);color:var(--ink3);font-variant-numeric:tabular-nums}
+.tally b{color:var(--ink);font-weight:500}
+section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px}
+h2{font:600 13px/1 var(--fb);letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin:0;display:flex;justify-content:space-between;align-items:center}
+h2 span.n{font:500 12px var(--fm);letter-spacing:0;color:var(--ink3);text-transform:none}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mode{border:1.5px solid var(--line);background:var(--card2);color:var(--ink);border-radius:14px;padding:12px 8px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font:600 15px var(--fd);transition:transform .15s,border-color .2s,background .2s}
+.mode small{font:400 11.5px/1.3 var(--fb);color:var(--ink3);text-align:center}
+.mode:active{transform:scale(.97)}
+.mode[aria-pressed="true"][data-m="off"]{border-color:var(--off);background:var(--card)}
+.mode[aria-pressed="true"][data-m="light"]{border-color:var(--okc);background:var(--okBg)}
+.mode[aria-pressed="true"][data-m="big"]{border-color:var(--big);background:var(--bigBg)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.mode[aria-pressed="true"][data-m="off"] .dot{background:var(--off)}
+.mode[aria-pressed="true"][data-m="light"] .dot{background:var(--okc)}
+.mode[aria-pressed="true"][data-m="big"] .dot{background:var(--big)}
+.lastrun{font-size:13px;color:var(--ink2);margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--card2);color:var(--ink2);border-radius:999px;padding:6px 11px;font:500 13px var(--fb);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip.add{border-style:dashed}
+textarea,input[type=text]{width:100%;border:1px solid var(--line);background:var(--card2);color:var(--ink);border-radius:12px;padding:11px 12px;font:15px/1.45 var(--fb);outline:none}
+textarea{min-height:84px;resize:vertical}
+textarea:focus,input[type=text]:focus{border-color:var(--flag)}
+.row{display:flex;gap:8px;align-items:center}
+.btn{white-space:nowrap;border:0;border-radius:12px;padding:11px 16px;font:600 15px var(--fb);cursor:pointer;background:var(--flag);color:var(--flagInk);transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:10px}
+.err{color:var(--flag);font-size:13px;min-height:1em;margin:0}
+.list{display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:12px 0;border-top:1px solid var(--line);animation:in .35s ease}
+.item:first-child{border-top:0;padding-top:2px}
+@keyframes in{from{opacity:.0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.item .txt{min-width:0;overflow-wrap:anywhere}
+.meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font:500 11.5px var(--fm);color:var(--ink3)}
+.tag{background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--ink2)}
+.tag.app{background:var(--flagBg);border-color:transparent;color:var(--flag)}
+.tag.prop{background:var(--warnBg);border-color:transparent;color:var(--warn)}
+.acts{display:flex;gap:6px;align-items:start}
+.ic{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--ink2);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ic.sure{background:var(--flag);color:var(--flagInk);border-color:var(--flag)}
+.empty{color:var(--ink3);font-size:14px;margin:0;padding:6px 0}
+.prop{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.prop h3{margin:0;font:600 16px/1.3 var(--fd)}
+.prop p{margin:0;color:var(--ink2);font-size:14px}
+.prop a{color:var(--ink);font-size:13px}
+.state{font:600 12px var(--fb);padding:3px 8px;border-radius:6px;align-self:flex-start}
+.state.approved{background:var(--okBg);color:var(--okc)}
+.state.denied{background:var(--card);color:var(--ink3);border:1px solid var(--line)}
+.filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.filters .chip{flex:none}
+details summary{cursor:pointer;color:var(--ink3);font-size:13px}
+.note{font-size:12.5px;color:var(--ink3);margin:0}
+:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+[hidden]{display:none!important}
+.connect{border-color:var(--flag)}
+.connect ol{margin:0;padding-left:20px;color:var(--ink2);font-size:14px;display:flex;flex-direction:column;gap:6px}
+.connect code{font:12.5px var(--fm);background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 5px}
+footer{display:flex;justify-content:space-between;gap:10px;color:var(--ink3);font-size:12.5px;flex-wrap:wrap}
+footer button{background:none;border:0;color:var(--ink3);text-decoration:underline;cursor:pointer;font:inherit;padding:0}
+.tag.kind-you{background:var(--warnBg);border-color:transparent;color:var(--warn)}
+.tag.kind-idea{background:transparent}
+</style>
+</head>
+<body>
+<script src="kit/kit.js" data-app="flag-hub" data-name="Flag Hub"></script>
+
+<div class="wrap">
+  <header>
+    <h1><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 3h12l-2.5 4.5L17 12H5" fill="currentColor"/></svg>Flag Hub</h1>
+    <div class="tally" id="tally">loading…</div>
+  </header>
+
+  <section class="connect" id="connect" aria-labelledby="cn" hidden>
+    <h2 id="cn">Connect this device</h2>
+    <p class="note" style="font-size:14px;color:var(--ink2)">One time per device. This lets the Hub and every one of your apps save flags straight to your flag-hub repo. The key stays on this device and only works on flag-hub.</p>
+    <ol>
+      <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener" style="color:var(--ink)">GitHub's new token page</a>.</li>
+      <li>Name it <code>Flag Hub</code>. Expiration: the longest it allows.</li>
+      <li>Repository access: <b>Only select repositories</b>, then pick <code>flag-hub</code>.</li>
+      <li>Permissions: <b>Contents</b>, set to <b>Read and write</b>. Leave everything else alone.</li>
+      <li>Tap Generate, copy the key, and paste it here.</li>
+    </ol>
+    <div class="row"><input type="text" id="tokenIn" placeholder="github_pat_…" autocomplete="off" spellcheck="false"><button class="btn sm" id="tokenSave">Connect</button></div>
+    <p class="err" id="tokenErr"></p>
+  </section>
+
+  <section aria-labelledby="ns">
+    <h2 id="ns">Night shift <span class="n" id="modeSaved"></span></h2>
+    <div class="modes" role="group" aria-label="Night shift mode">
+      <button class="mode" data-m="off" aria-pressed="false"><span class="dot"></span>Off<small>Skip tonight</small></button>
+      <button class="mode" data-m="light" aria-pressed="true"><span class="dot"></span>Light<small>2 small fixes or 1 proposal</small></button>
+      <button class="mode" data-m="big" aria-pressed="false"><span class="dot"></span>Go Big<small>Bigger builds, more flags</small></button>
+    </div>
+    <p class="lastrun" id="lastrun">No night shift runs yet.</p>
+  </section>
+
+  <section aria-labelledby="wy">
+    <h2 id="wy">Waiting on you <span class="n" id="propN"></span></h2>
+    <div id="props" class="list"><p class="empty">Nothing waiting. Proposals from the night shift land here for a quick yes or no.</p></div>
+  </section>
+
+  <section aria-labelledby="rf">
+    <h2 id="rf">Raise a flag</h2>
+    <div class="chips" id="projChips" role="group" aria-label="Project"></div>
+    <div class="row" id="newProjRow" hidden><input type="text" id="newProj" placeholder="Project name, like Claude OS" maxlength="40"><button class="btn sm" id="addProj">Add</button></div>
+    <textarea id="flagText" placeholder="What did you notice, or what's the idea?" maxlength="1500"></textarea>
+    <p class="err" id="flagErr"></p>
+    <div class="row" style="justify-content:space-between"><span class="note">Small stuff gets fixed overnight. Big stuff comes back as a proposal.</span><button class="btn" id="send">Raise flag</button></div>
+  </section>
+
+  <section aria-labelledby="of">
+    <h2 id="of">Open flags <span class="n" id="openN"></span></h2>
+    <div class="filters" id="filters"></div>
+    <div id="flags" class="list"><p class="empty">No open flags yet. Raise one above, or plant one from any app's gear menu.</p></div>
+    <details id="doneBox"><summary>Recently resolved</summary><div id="done" class="list" style="margin-top:8px"></div></details>
+  </section>
+
+  <section aria-labelledby="af" id="appBox" hidden>
+    <h2 id="af">Sent through GitHub <span class="n" id="appN"></span></h2>
+    <div id="appFlags" class="list"></div>
+  </section>
+  <footer><span id="syncNote">Not synced yet</span><button id="disconnect" hidden>Disconnect this device</button></footer>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ago = t => { if (!t) return ""; const m = Math.round((Date.now() - new Date(t)) / 60000); if (m < 1) return "just now"; if (m < 60) return m + "m ago"; const h = Math.round(m / 60); if (h < 24) return h + "h ago"; const d = Math.round(h / 24); return d < 30 ? d + "d ago" : new Date(t).toLocaleDateString(); };
+const S = { mode: "light", projects: [], flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null };
+const store = Kit.store;
+let busy = false;
+
+const MODE_TXT = { off: "Night shift is off.", light: "Light: a couple of small fixes a night.", big: "Go Big: bigger builds tonight." };
+function renderMode() {
+  document.querySelectorAll(".mode").forEach(b => b.setAttribute("aria-pressed", b.dataset.m === S.mode));
+}
+function renderTally() {
+  const open = S.flags.filter(f => f.status === "open").length + S.appFlags.length;
+  const wait = S.props.filter(p => p.status === "waiting").length;
+  $("#tally").innerHTML = `<b>${open}</b> open · <b>${wait}</b> waiting`;
+}
+function renderRuns() {
+  const r = S.runs[0];
+  $("#lastrun").textContent = r ? `Last run ${ago(r.at)}: ${r.summary}` : "No night shift runs yet. The first one runs tonight.";
+}
+function renderChips() {
+  const box = $("#projChips");
+  box.innerHTML = S.projects.map(p => `<button class="chip" aria-pressed="${S.pick === p}" data-p="${esc(p)}">${esc(p)}</button>`).join("") + `<button class="chip add" id="addChip">+ New</button>`;
+  box.querySelectorAll("[data-p]").forEach(b => b.onclick = () => { S.pick = S.pick === b.dataset.p ? null : b.dataset.p; $("#flagErr").textContent = ""; renderChips(); });
+  $("#addChip").onclick = () => { const r = $("#newProjRow"); r.hidden = !r.hidden; if (!r.hidden) $("#newProj").focus(); };
+  const fs = ["all", ...new Set(S.flags.filter(f => f.status === "open").map(f => f.project))];
+  $("#filters").innerHTML = fs.length > 2 ? fs.map(p => `<button class="chip" aria-pressed="${S.filter === p}" data-f="${esc(p)}">${p === "all" ? "All" : esc(p)}</button>`).join("") : "";
+  $("#filters").querySelectorAll("[data-f]").forEach(b => b.onclick = () => { S.filter = b.dataset.f; renderChips(); renderFlags(); });
+}
+const ICON = {
+  done: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>',
+  del: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+  undo: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>',
+};
+function flagRow(f, doneView) {
+  const src = f.source === "reminders" ? "from Reminders" : f.source === "app" ? "sent from the app" : "";
+  const kind = f.kind === "you" ? '<span class="tag kind-you">needs you</span>' : f.kind === "idea" ? '<span class="tag kind-idea">idea</span>' : "";
+  const st = f.status === "proposed" ? '<span class="tag prop">proposal sent</span>' : f.status === "doing" ? '<span class="tag prop">in progress</span>' : "";
+  return `<div class="item" data-id="${f.id}"><div class="txt">${esc(f.text)}</div>
+    <div class="acts">${doneView
+      ? `<button class="ic" data-a="reopen" aria-label="Reopen">${ICON.undo}</button>`
+      : `<button class="ic" data-a="done" aria-label="Mark done">${ICON.done}</button><button class="ic ${S.sure === f.id ? "sure" : ""}" data-a="del" aria-label="${S.sure === f.id ? "Tap again to delete" : "Delete"}">${ICON.del}</button>`}</div>
+    <div class="meta"><span class="tag">${esc(f.project)}</span>${kind}${st}${src ? `<span>${src}</span>` : ""}<span>${ago(doneView ? f.resolvedAt : f.created)}</span>${f.resolution ? `<span>· ${esc(f.resolution)}</span>` : ""}</div></div>`;
+}
+function renderFlags() {
+  const open = S.flags.filter(f => f.status !== "done" && f.status !== "dismissed" && (S.filter === "all" || f.project === S.filter));
+  $("#openN").textContent = open.length ? open.length : "";
+  $("#flags").innerHTML = open.length ? open.map(f => flagRow(f, false)).join("") : `<p class="empty">No open flags${S.filter === "all" ? "" : " for " + esc(S.filter)}. Raise one above, or plant one from any app's gear menu.</p>`;
+  const done = S.flags.filter(f => f.status === "done" || f.status === "dismissed").sort((a, b) => (b.resolvedAt || "").localeCompare(a.resolvedAt || "")).slice(0, 15);
+  $("#doneBox").hidden = !done.length;
+  $("#done").innerHTML = done.map(f => flagRow(f, true)).join("");
+}
+function renderProps() {
+  const list = [...S.props].sort((a, b) => (a.status === "waiting" ? 0 : 1) - (b.status === "waiting" ? 0 : 1) || (b.created || "").localeCompare(a.created || "")).slice(0, 12);
+  const w = S.props.filter(p => p.status === "waiting").length;
+  $("#propN").textContent = w ? w : "";
+  $("#props").innerHTML = list.length ? list.map(p => `<div class="prop" data-id="${p.id}">
+      <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.created)}</span></div>
+      <h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p>
+      ${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">See the before and after</a>` : ""}
+      ${p.status === "waiting"
+        ? `<div class="row"><button class="btn sm" data-a="approve">Approve</button><button class="btn sm ghost" data-a="deny">Deny</button></div>`
+        : `<span class="state ${p.status}">${p.status === "approved" ? "Approved. Ships on the next night shift." : p.status === "shipped" ? "Shipped" : "Denied"}</span>`}
+    </div>`).join("") : `<p class="empty">Nothing waiting. Proposals from the night shift land here for a quick yes or no.</p>`;
+}
+function renderApp() {
+  $("#appN").textContent = S.appFlags.length ? S.appFlags.length : "";
+  if (!S.appFlags.length) return;
+  $("#appFlags").innerHTML = S.appFlags.map(i => `<div class="item"><div class="txt">${esc(i.title.replace(/^\[[^\]]+\]\s*/, ""))}</div><div class="acts"><a class="ic" href="${esc(i.url)}" target="_blank" rel="noopener" aria-label="Open on GitHub"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></div><div class="meta"><span class="tag app">${esc((i.title.match(/^\[([^\]]+)\]/) || [, "app"])[1])}</span><span>${ago(i.created)}</span></div></div>`).join("");
+}
+function renderAll() { renderMode(); renderTally(); renderRuns(); renderChips(); renderFlags(); renderProps(); renderApp(); }
+
+/* ---------- actions ---------- */
+async function setMode(m) {
+  if (m === S.mode) return;
+  if (!store.token()) { showConnect("Connect this device to change the night shift."); return; }
+  const prev = S.mode; S.mode = m; renderMode(); $("#modeSaved").textContent = "Saving…";
+  try {
+    await store.change("status.json", st => { st.mode = m; st.openFlags = openCount(); st.waiting = S.props.filter(p => p.status === "waiting").length; st.updated = new Date().toISOString(); }, "Night shift mode: " + m);
+    $("#modeSaved").textContent = "Saved";
+  } catch (e) { S.mode = prev; renderMode(); $("#modeSaved").textContent = e.code === "token" ? "Key didn't work" : "Didn't save. Try again."; if (e.code === "token") showConnect("That key didn't work. Make a new one below."); }
+}
+function openCount() { return S.flags.filter(f => f.status === "open").length + S.appFlags.length; }
+async function save(fn, msg) {
+  if (!store.token()) { showConnect("Connect this device to save changes."); return false; }
+  busy = true;
+  try { const d = await store.change("data/flags.json", fn, msg); apply(d); return true; }
+  catch (e) { if (e.code === "token") showConnect("That key didn't work. Make a new one below."); else $("#syncNote").textContent = "Didn't save. Try again."; return false; }
+  finally { busy = false; }
+}
+async function sendFlag() {
+  const text = $("#flagText").value.trim(), err = $("#flagErr");
+  if (!S.pick) { err.textContent = "Pick a project first."; return; }
+  if (!text) { err.textContent = "Type what you noticed first."; $("#flagText").focus(); return; }
+  $("#send").disabled = true; $("#send").textContent = "Saving…";
+  const f = { id: "f" + Date.now().toString(36), project: S.pick, text, kind: "fix", status: "open", source: "hub", created: new Date().toISOString() };
+  const ok = await save(d => { d.flags = d.flags || []; d.flags.unshift(f); }, "Flag: " + S.pick);
+  if (ok) { $("#flagText").value = ""; err.textContent = ""; $("#send").textContent = "Raised"; setTimeout(() => $("#send").textContent = "Raise flag", 1400); }
+  else { $("#send").textContent = "Raise flag"; if (store.token()) err.textContent = "That flag didn't save. Try again in a moment."; }
+  $("#send").disabled = false;
+}
+async function addProject() {
+  const name = $("#newProj").value.trim();
+  if (!name) { $("#newProj").focus(); return; }
+  if (!S.projects.includes(name)) S.projects = [...S.projects, name];
+  S.pick = name; $("#newProj").value = ""; $("#newProjRow").hidden = true; renderChips();
+  save(d => { d.projects = d.projects || []; if (!d.projects.includes(name)) d.projects.push(name); }, "Add project: " + name);
+}
+document.addEventListener("click", async e => {
+  const m = e.target.closest(".mode"); if (m) return setMode(m.dataset.m);
+  const b = e.target.closest("[data-a]"); if (!b || b.closest(".fk")) return;
+  const row = b.closest("[data-id]"); const id = row && row.dataset.id; const a = b.dataset.a;
+  const now = new Date().toISOString();
+  const edit = (coll, fn) => d => { const it = (d[coll] || []).find(x => x.id === id); if (it) fn(it, d); };
+  if (a === "done") save(edit("flags", f => { f.status = "done"; f.resolvedAt = now; f.resolution = "marked done by you"; }), "Flag done");
+  else if (a === "reopen") save(edit("flags", f => { f.status = "open"; delete f.resolvedAt; delete f.resolution; }), "Flag reopened");
+  else if (a === "del") {
+    if (S.sure !== id) { S.sure = id; renderFlags(); setTimeout(() => { if (S.sure === id) { S.sure = null; renderFlags(); } }, 3000); return; }
+    S.sure = null; save(d => { d.flags = (d.flags || []).filter(f => f.id !== id); }, "Flag deleted");
+  }
+  else if (a === "approve" || a === "deny") save(edit("proposals", p => { p.status = a === "approve" ? "approved" : "denied"; p.decidedAt = now; }), a === "approve" ? "Proposal approved" : "Proposal denied");
+});
+$("#send").onclick = sendFlag;
+$("#addProj").onclick = addProject;
+$("#newProj").addEventListener("keydown", e => { if (e.key === "Enter") addProject(); });
+$("#flagText").addEventListener("input", () => $("#flagErr").textContent = "");
+
+/* ---------- data ---------- */
+function apply(d) {
+  S.projects = d.projects || [];
+  S.flags = (d.flags || []).slice().sort((a, b) => (b.created || "").localeCompare(a.created || ""));
+  S.props = d.proposals || [];
+  S.runs = (d.runs || []).slice().sort((a, b) => (b.at || "").localeCompare(a.at || ""));
+  $("#syncNote").textContent = "Synced " + new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  renderAll();
+}
+function showConnect(msg) {
+  const c = $("#connect"); c.hidden = false;
+  if (msg) $("#tokenErr").textContent = msg;
+  c.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+async function load() {
+  if (busy) return;
+  try { const { data } = await store.read("data/flags.json"); apply(data); }
+  catch (e) { if (e.code === "token") { showConnect("That key stopped working. Make a new one below."); } else $("#syncNote").textContent = "Couldn't reach GitHub. Showing last view."; }
+  try { const { data } = await store.read("status.json"); S.mode = data.mode || "light"; renderMode(); } catch (e) {}
+  try {
+    const r = await fetch("https://api.github.com/repos/Feirzen/flag-hub/issues?state=open&labels=flag&per_page=50");
+    if (r.ok) { const arr = await r.json(); S.appFlags = arr.filter(i => !i.pull_request).map(i => ({ title: i.title, url: i.html_url, created: i.created_at })); $("#appBox").hidden = !S.appFlags.length; renderApp(); renderTally(); }
+  } catch (e) {}
+}
+$("#tokenSave").onclick = async () => {
+  const t = $("#tokenIn").value.trim(), err = $("#tokenErr");
+  if (!/^(github_pat_|ghp_)/.test(t)) { err.textContent = "That doesn't look like a GitHub key. It starts with github_pat_"; return; }
+  store.setToken(t); err.textContent = "Checking…";
+  try { await store.read("data/flags.json"); err.textContent = ""; $("#connect").hidden = true; $("#tokenIn").value = ""; $("#disconnect").hidden = false; load(); }
+  catch (e) { store.setToken(""); err.textContent = "GitHub didn't accept that key. Check that it's for flag-hub with Contents: Read and write."; }
+};
+$("#disconnect").onclick = () => { store.setToken(""); $("#disconnect").hidden = true; $("#connect").hidden = false; };
+if (store.token()) $("#disconnect").hidden = false; else $("#connect").hidden = false;
+renderAll();
+load();
+setInterval(() => { if (!document.hidden) load(); }, 60000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+</script>
+</body>
+</html>

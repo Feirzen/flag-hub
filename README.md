@@ -2,8 +2,9 @@
 
 Home base for flags across every app and project, plus the shared kit every app loads.
 
-- **Flag Hub app:** https://claude.ai/artifact/PGWTqtLu7cZqtf8ugUoEDs (raise flags for any project, night shift switch, approve or deny proposals)
-- **App flags:** planted inside apps, they arrive here as Issues labeled `flag`.
+- **Flag Hub:** https://feirzen.github.io/flag-hub/ (raise flags for any project, night shift switch, approve or deny proposals)
+- **data/flags.json:** every flag, proposal, and night shift run. The Hub, the kit, and the night shift all read and write this file.
+- **App flags:** with the device connected (key saved once in the Hub), flags from any app go straight into data/flags.json. Without it, they open a filled-in GitHub Issue labeled `flag`.
 - **status.json:** what the Scriptable widget and Claude OS read (mode, open flags, waiting proposals, last run).
 
 ## The kit (`kit/kit.js`)

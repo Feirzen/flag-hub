@@ -5,7 +5,7 @@
 // Then long-press home screen > + > Scriptable > pick "Night Shift".
 
 const STATUS = "https://raw.githubusercontent.com/Feirzen/flag-hub/main/status.json";
-const HUB = "https://claude.ai/artifact/PGWTqtLu7cZqtf8ugUoEDs";
+const HUB = "https://feirzen.github.io/flag-hub/";
 
 const MODES = {
   off:   { label: "Off",    color: "#8a948e", note: "Skipping tonight" },

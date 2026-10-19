@@ -1,0 +1,443 @@
+{
+ "version": 1,
+ "projects": [
+  "Study Decks",
+  "Music Space",
+  "Bulk Manager",
+  "RetroBat",
+  "RetroBat Wizard",
+  "3DS Setup",
+  "Claude OS",
+  "Home Assistant",
+  "Brother's CRM",
+  "Jellyfin",
+  "Trip Board",
+  "Interview Prep",
+  "GRE Quant",
+  "Panic Button",
+  "Money Hacking",
+  "Spotify",
+  "Screen Time",
+  "Big ideas",
+  "Unsorted",
+  "Flag Hub"
+ ],
+ "flags": [
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "3DS Setup",
+   "source": "reminders",
+   "status": "open",
+   "text": "Inject game titles to 3DS main page?",
+   "id": "rem-01"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "3DS Setup",
+   "source": "reminders",
+   "status": "open",
+   "text": "Set up GB emulators. Open_gba_firm? Can be played natively or emulated: native is faster, emulated has lots of perks.",
+   "id": "rem-02"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "3DS Setup",
+   "source": "reminders",
+   "status": "open",
+   "text": "Set up DS emulator (TWiLight Menu)",
+   "id": "rem-03"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "3DS Setup",
+   "source": "reminders",
+   "status": "open",
+   "text": "Set up theme, splash, and badges",
+   "id": "rem-04"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "3DS Setup",
+   "source": "reminders",
+   "status": "open",
+   "text": "Make sure save states are backed up and don't get lost",
+   "id": "rem-05"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "3DS Setup",
+   "source": "reminders",
+   "status": "open",
+   "text": "Connect to Pretendo online?",
+   "id": "rem-06"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "you",
+   "project": "3DS Setup",
+   "source": "reminders",
+   "status": "open",
+   "text": "Get all Pokemon games",
+   "id": "rem-07"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Spotify",
+   "source": "reminders",
+   "status": "open",
+   "text": "Add all the concerts we've been to as playlists: OneRepublic, YSA Together in Christ, Yoke Lore, Owl City, Andy Grammer YSA. Claude on laptop has the chat with the setlists.",
+   "id": "rem-08"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Claude OS",
+   "source": "reminders",
+   "status": "open",
+   "text": "A little dynamic desk clock, like an Echo Show I can program: show Claude animations, interact with study stuff, set timers visually, scale to the room and integrate with everything.",
+   "id": "rem-09"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Big ideas",
+   "source": "reminders",
+   "status": "open",
+   "text": "Touchscreen table for games, drawing, homework, covered when not in use",
+   "id": "rem-10"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Big ideas",
+   "source": "reminders",
+   "status": "open",
+   "text": "3D printer + AI",
+   "id": "rem-11"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Big ideas",
+   "source": "reminders",
+   "status": "open",
+   "text": "Live workout form coach",
+   "id": "rem-12"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Big ideas",
+   "source": "reminders",
+   "status": "open",
+   "text": "Pokemon Mystery Dungeon style pixel game: towns from my life (high school, college, mission) with Pokemon named after people I know, higher evolutions for older or more experienced. A fun way to remember wonderful people.",
+   "id": "rem-13"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Big ideas",
+   "source": "reminders",
+   "status": "open",
+   "text": "Live photography coach?",
+   "id": "rem-14"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Big ideas",
+   "source": "reminders",
+   "status": "open",
+   "text": "Kitchen or living room touchscreen like a Skylight calendar but better: fades to a painting, chores tabs, FaceTime, drawing, videos, AI assistant. Maybe one built into a table for tabletop games.",
+   "id": "rem-15"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Home Assistant",
+   "source": "reminders",
+   "status": "open",
+   "text": "Custom home assistant that integrates everything (Skylight, Bluetooth, smart devices, gear) with no walled-garden limits. Claude knows the whole setup and can redesign things like the calendar on request. Worth the effort?",
+   "id": "rem-16"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "fix",
+   "project": "Unsorted",
+   "source": "reminders",
+   "status": "open",
+   "text": "Daily activity not tracking? Or at least not showing",
+   "id": "rem-17"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "fix",
+   "project": "Screen Time",
+   "source": "reminders",
+   "status": "open",
+   "text": "Tell me how to add my GitHub websites to allowed on my phone at night",
+   "id": "rem-18"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Jellyfin",
+   "source": "reminders",
+   "status": "open",
+   "text": "Jellyfin (ARR stack?): stream ripped DVDs to Roku. Ideas: FAST channels (Pluto, Tubi), IPTV m3u live TV, plugins for live TV, intro/credit skipping, trailers.",
+   "id": "rem-19"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Money Hacking",
+   "source": "reminders",
+   "status": "open",
+   "text": "$$$ Automation",
+   "id": "rem-20"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "you",
+   "project": "Money Hacking",
+   "source": "reminders",
+   "status": "open",
+   "text": "Connect the Monarch MCP if it ever opens",
+   "id": "rem-21"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Trip Board",
+   "source": "reminders",
+   "status": "open",
+   "text": "Travel automation",
+   "id": "rem-22"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "you",
+   "project": "Trip Board",
+   "source": "reminders",
+   "status": "open",
+   "text": "Finish travel review project: sign up for aero-seat and Google trip alerts, forward them to Resend through the Feirzen email, flesh out details for planned trips, give Ri access",
+   "id": "rem-23"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Unsorted",
+   "source": "reminders",
+   "status": "open",
+   "text": "Newsletters",
+   "id": "rem-24"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "Music Space",
+   "source": "reminders",
+   "status": "open",
+   "text": "Add a widget to see my daily streak and use streak freezes, like Duolingo",
+   "id": "rem-25"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "you",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Pokemon ROM hacks: Lazarus, Odyssey, ROWE, Unbound",
+   "id": "rem-26"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "you",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Pokemon fan games: Tectonic, Reloaded, Reborn (passwords?), Reminiscencia, Infinite Fusion, Infinity, Awakening",
+   "id": "rem-27"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "you",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Get 2 more real Wii remotes? Laggy nunchucks, one didn't work",
+   "id": "rem-28"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "you",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Complete the collection of games",
+   "id": "rem-29"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Streaming online: Sunshine + Moonlight plus Tailscale, maybe a custom ping that gives people access. Wii remotes won't work.",
+   "id": "rem-30"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "you",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Make a video?",
+   "id": "rem-31"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Flash games: some use the keyboard. Custom key bindings per game?",
+   "id": "rem-32"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat Wizard",
+   "source": "reminders",
+   "status": "open",
+   "text": "Controller alerts: default to the Xbox/Pro controller. When a game needs mouse, Wii remotes, or something else, show a Wii U style window to pick how to play, with the ideal way suggested. Skip NAND launch for Wii games that work with Pro. Mention couch mouse for point-and-clicks. Maybe tie into custom keybinds per game, or just a warning page with a back button.",
+   "id": "rem-33"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat Wizard",
+   "source": "reminders",
+   "status": "open",
+   "text": "Redo the icons: concept art with multiple options to choose from, plus new profile picture icons and console icons",
+   "id": "rem-34"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat Wizard",
+   "source": "reminders",
+   "status": "open",
+   "text": "Add a game request button to the online Library section. Collapsible headers by company (Nintendo, Xbox, PlayStation) on both wizard and website, and an expanded view with game details in the wizard.",
+   "id": "rem-35"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Find a legit mod or add-on for Wii Play Tanks: multiplayer, more maps",
+   "id": "rem-36"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat Wizard",
+   "source": "reminders",
+   "status": "open",
+   "text": "Install process notes: mention install location (default C:\\RetroBat is fine, pick the drive if you want it on one) and the 'Windows protected your PC' window; step 3 should find RetroBat automatically and say so if it can't; the .bat never closed or said done; install took 20-30 min after showing 242/242, so speed it up and add a real progress bar; add a back button in advanced setup; don't assume an external drive (only ask drive rename/extra machines if it IS one, change 'this drive' wording to 'this setup'); profile image zoom/crop; 2GB+ games don't stay on 'downloading' and should verify against the library; admin uploads should verify too; first-run defaults: front-end music off, only collections with games plus 2/4 player and all games on; auto scraper login; apply my customizations as defaults on first run only.",
+   "id": "rem-37"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "fix",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Make the ALL GAMES view a grid, and 2+4 player become grid + details",
+   "id": "rem-38"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Make the shared RetroBat have the intro videos for each console, and add the NAND thing to Wii",
+   "id": "rem-39"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat Wizard",
+   "source": "reminders",
+   "status": "open",
+   "text": "Uploading games via admin tab: show speed and estimated time, and let me edit the queue (remove or reorder games)",
+   "id": "rem-40"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat Wizard",
+   "source": "reminders",
+   "status": "open",
+   "text": "The online library on the website",
+   "id": "rem-41"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat Wizard",
+   "source": "reminders",
+   "status": "open",
+   "text": "Replace the normal Windows title bar with custom minimize, full/small screen, and close buttons",
+   "id": "rem-42"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat Wizard",
+   "source": "reminders",
+   "status": "open",
+   "text": "Controller button: a custom controllers window, easier to read than Windows', that pings controllers, shows which is assigned where, and explains how RetroBat and other games use them",
+   "id": "rem-43"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "fix",
+   "project": "RetroBat Wizard",
+   "source": "reminders",
+   "status": "open",
+   "text": "Drive health light: cut the green '7 checks passed' button on the Home screen since it's in the bottom banner now, and swap the Home screen controller icon for the one from the tab header",
+   "id": "rem-44"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "idea",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Add more console intro videos and find new RetroBat startup videos",
+   "id": "rem-45"
+  },
+  {
+   "created": "2026-10-19T16:10:00-06:00",
+   "kind": "you",
+   "project": "RetroBat",
+   "source": "reminders",
+   "status": "open",
+   "text": "Add sports games like Madden and 2K",
+   "id": "rem-46"
+  }
+ ],
+ "proposals": [],
+ "runs": []
+}

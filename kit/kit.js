@@ -32,6 +32,49 @@
   const LONGPRESS = opt("longpress") ? opt("longpress") === "on" : LOOK;
   const KEY = "fk.look";
 
+  /* ---------- Flag Hub store ----------
+     Flags live in Feirzen/flag-hub data/flags.json. The Hub saves a GitHub token on
+     this device once (localStorage, never in any repo). Every app on feirzen.github.io
+     shares that storage, so with it saved, flags send in one tap. Without it, flags
+     open a filled-in GitHub page instead. */
+  const API = "https://api.github.com/repos/" + REPO + "/contents/";
+  const TKEY = "fh.token";
+  const b64e = str => { const b = new TextEncoder().encode(str); let s = ""; b.forEach(c => s += String.fromCharCode(c)); return btoa(s); };
+  const b64d = b64 => new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\n/g, "")), c => c.charCodeAt(0)));
+  const store = {
+    token() { try { return localStorage.getItem(TKEY) || ""; } catch (e) { return ""; } },
+    setToken(t) { try { t ? localStorage.setItem(TKEY, t.trim()) : localStorage.removeItem(TKEY); } catch (e) {} },
+    async read(path) {
+      const t = store.token();
+      if (!t) {
+        const r = await fetch("https://raw.githubusercontent.com/" + REPO + "/main/" + path + "?t=" + Date.now());
+        if (!r.ok) throw new Error("read " + r.status);
+        return { data: await r.json(), sha: null };
+      }
+      const r = await fetch(API + path + "?ref=main&t=" + Date.now(), { headers: { Authorization: "Bearer " + t, Accept: "application/vnd.github+json" }, cache: "no-store" });
+      if (r.status === 401 || r.status === 403) { const e = new Error("token"); e.code = "token"; throw e; }
+      if (!r.ok) throw new Error("read " + r.status);
+      const j = await r.json();
+      return { data: JSON.parse(b64d(j.content)), sha: j.sha };
+    },
+    /* read, change, save; retries if something else saved first */
+    async change(path, fn, message) {
+      const t = store.token();
+      if (!t) { const e = new Error("token"); e.code = "token"; throw e; }
+      for (let i = 0; i < 4; i++) {
+        const { data, sha } = await store.read(path);
+        const next = fn(data) || data;
+        const r = await fetch(API + path, { method: "PUT", headers: { Authorization: "Bearer " + t, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+          body: JSON.stringify({ message, content: b64e(JSON.stringify(next, null, 1) + "\n"), sha, branch: "main" }) });
+        if (r.ok) return next;
+        if (r.status === 401 || r.status === 403) { const e = new Error("token"); e.code = "token"; throw e; }
+        if (r.status !== 409 && r.status !== 422) throw new Error("save " + r.status);
+        await new Promise(res => setTimeout(res, 400 + i * 500));
+      }
+      throw new Error("busy");
+    },
+  };
+
   /* ---------- palettes ---------- */
   const FIXED = {
     light: { mode: "light", vars: { bg: "#f6f3ec", surface: "#ffffff", surface2: "#efebe2", border: "#e2ddd2", border2: "#c9c2b4", text: "#1f1d1a", dim: "#4a463f", muted: "#7a746a", accent: "#2f6fdf", accBg: "rgba(47,111,223,.10)", ok: "#16855b", bad: "#c23b3b", star: "#b8650f", scrim: "rgba(246,243,236,.82)", shadow: "rgba(40,35,20,.16)" } },
@@ -369,11 +412,22 @@
     setTimeout(() => ta.focus(), 50);
     ta.oninput = () => { err.textContent = ""; };
     sheet.querySelector(".fk-x").onclick = clearFlagUI;
-    sheet.querySelector(".fk-go").onclick = () => {
+    if (store.token()) sheet.querySelector(".fk-note").textContent = "Goes straight to your Flag Hub.";
+    sheet.querySelector(".fk-go").onclick = async () => {
       const note = ta.value.trim();
       if (!note) { err.textContent = "Type a quick note first."; ta.focus(); return; }
-      const url = issueURL(note, d);
-      window.open(url, "_blank", "noopener");
+      if (store.token()) {
+        const go = sheet.querySelector(".fk-go"); go.disabled = true; go.textContent = "Sending…";
+        const flag = { id: "f" + Date.now().toString(36), project: NAME, text: note, kind: "fix", status: "open", source: "app", created: new Date().toISOString(),
+          where: { app: APP, page: location.href, element: d ? d.selector : null, says: d ? d.text : null,
+            screen: innerWidth + "x" + innerHeight + (/Mobi|iPhone|Android/.test(navigator.userAgent) ? " phone" : " computer"), look: look.theme } };
+        try {
+          await store.change("data/flags.json", data => { data.flags = data.flags || []; data.flags.unshift(flag); }, "Flag: " + NAME);
+          clearFlagUI(); toast("Flag sent to your Hub.");
+          return;
+        } catch (e) { go.disabled = false; go.textContent = "Send flag"; if (e.code !== "token") { err.textContent = "Couldn't reach the Hub. Opening GitHub instead."; } }
+      }
+      window.open(issueURL(note, d), "_blank", "noopener");
       clearFlagUI();
       toast("Flag ready. Tap Submit on GitHub.");
     };
@@ -433,6 +487,7 @@
 
   window.Kit = {
     app: APP,
+    store,
     theme: {
       get: () => ({ ...look, palette: current }),
       set: setTheme, reroll,
