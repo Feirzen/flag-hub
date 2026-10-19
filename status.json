@@ -2,6 +2,9 @@
  "mode": "light",
  "openFlags": 46,
  "waiting": 0,
- "lastRun": null,
- "updated": "2026-10-19T22:28:43.981Z"
+ "lastRun": {
+  "at": "2026-10-19T22:40:44Z",
+  "summary": "Nothing new tonight"
+ },
+ "updated": "2026-10-19T22:40:44Z"
 }
