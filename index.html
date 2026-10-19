@@ -91,6 +91,16 @@ details summary{cursor:pointer;color:var(--ink3);font-size:13px}
 :focus-visible{outline:2px solid var(--flag);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 [hidden]{display:none!important}
+.digest{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:10px}
+.digest .dl{display:flex;gap:8px;align-items:baseline;font-size:14px;color:var(--ink2)}
+.digest .dk{flex:none;font:600 11px var(--fm);text-transform:uppercase;letter-spacing:.04em;padding:2px 6px;border-radius:6px;background:var(--card2);color:var(--ink3)}
+.digest .dk.fixed,.digest .dk.shipped{background:var(--okBg);color:var(--okc)}
+.digest .dk.proposed{background:var(--warnBg);color:var(--warn)}
+.digest .dk.failed{background:var(--flagBg);color:var(--flag)}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shots figure{margin:0;display:flex;flex-direction:column;gap:4px}
+.shots img{width:100%;border-radius:10px;border:1px solid var(--line);display:block;background:var(--card)}
+.shots figcaption{font:500 11px var(--fm);color:var(--ink3)}
 .connect{border-color:var(--flag)}
 .connect ol{margin:0;padding-left:20px;color:var(--ink2);font-size:14px;display:flex;flex-direction:column;gap:6px}
 .connect code{font:12.5px var(--fm);background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 5px}
@@ -131,6 +141,7 @@ footer button{background:none;border:0;color:var(--ink3);text-decoration:underli
       <button class="mode" data-m="big" aria-pressed="false"><span class="dot"></span>Go Big<small>Bigger builds, more flags</small></button>
     </div>
     <p class="lastrun" id="lastrun">No night shift runs yet.</p>
+    <div class="digest" id="digest" hidden></div>
   </section>
 
   <section aria-labelledby="wy">
@@ -181,6 +192,10 @@ function renderTally() {
 function renderRuns() {
   const r = S.runs[0];
   $("#lastrun").textContent = r ? `Last run ${ago(r.at)}: ${r.summary}` : "No night shift runs yet. The first one runs tonight.";
+  const since = Date.now() - 30 * 3600 * 1000;
+  const items = S.runs.filter(x => new Date(x.at) > since).flatMap(x => x.items || []);
+  const d = $("#digest"); d.hidden = !items.length;
+  d.innerHTML = items.map(i => `<div class="dl"><span class="dk ${esc(i.kind)}">${esc(i.kind)}</span><span><b style="font-weight:600;color:var(--ink)">${esc(i.project)}</b> ${esc(i.text)}</span></div>`).join("");
 }
 function renderChips() {
   const box = $("#projChips");
@@ -221,6 +236,7 @@ function renderProps() {
   $("#props").innerHTML = list.length ? list.map(p => `<div class="prop" data-id="${p.id}">
       <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.created)}</span></div>
       <h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p>
+      ${(p.images || []).length ? `<div class="shots">${p.images.map((src, k) => `<figure><a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" alt="${k ? "After" : "Before"}" loading="lazy"></a><figcaption>${k ? "after" : "before"}</figcaption></figure>`).join("")}</div>` : ""}
       ${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">See the before and after</a>` : ""}
       ${p.status === "waiting"
         ? `<div class="row"><button class="btn sm" data-a="approve">Approve</button><button class="btn sm ghost" data-a="deny">Deny</button></div>`
