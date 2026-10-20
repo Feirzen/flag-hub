@@ -30,7 +30,18 @@
   const GEAR = opt("gear") !== "off";
   const FLOATBTN = !GEAR && opt("button") !== "off";
   const LONGPRESS = opt("longpress") ? opt("longpress") === "on" : LOOK;
-  const HIDE_WHEN = opt("hideWhen");   /* data-hide-when=".game-screen" hides the gear while that exists on the page */
+  /* window.KitConfig (set by the app before this file runs) lets an app wire the kit into itself:
+       gear: "#gear"        use the app's own settings button instead of adding a second one
+       look: { get, set, tone, lock, reroll }   the app paints its own looks; the kit is just the controls
+       tray: [items]        extra tray buttons; an item can be { id, icon, label, onClick } or a slider:
+                            { id, icon, label, slider: { min, max, step, get, set }, toggle: { label, get, set } }
+       more: fn             adds a "..." button that opens the app's full settings page
+     The tray shows 5 buttons at most; past that, a "..." button holds the rest. */
+  const CFG = window.KitConfig || {};
+  const ADAPT = CFG.look && typeof CFG.look.get === "function" ? CFG.look : null;
+  const ANCHOR_SEL = CFG.gear || (/^[#.]/.test(opt("gear")) ? opt("gear") : "");
+  let anchor = null;
+  const HIDE_WHEN = CFG.hideWhen || opt("hideWhen");   /* data-hide-when=".game-screen" hides the gear while that exists on the page */
   const KEY = "fk.look";
 
   /* ---------- Flag Hub store ----------
@@ -112,23 +123,30 @@
     m.content = p.vars.bg;
     listeners.forEach(fn => { try { fn(look.theme, p); } catch (e) {} });
   }
+  const cur = () => {
+    if (ADAPT) { try { const c = ADAPT.get() || {}; return { theme: c.theme || "dark", tone: c.tone || "any", locked: !!c.locked }; } catch (e) { return { theme: "dark", tone: "any", locked: false }; } }
+    return { theme: look.theme, tone: look.tone, locked: !!look.lock };
+  };
   function apply() {
+    if (ADAPT) { syncUI(); return; }
     if (!LOOK) return;
     if (look.theme === "chameleon") paint(look.lock || makeCham(look.tone));
     else paint(FIXED[look.theme]);
     syncUI();
   }
   function reroll() {
+    if (ADAPT) { if (cur().theme === "chameleon" && !cur().locked && ADAPT.reroll) ADAPT.reroll(); return; }
     if (!LOOK) return;
     if (look.theme !== "chameleon" || look.lock) return;
     paint(makeCham(look.tone));
   }
-  function setTheme(t) { look.theme = t; look.lock = null; save(); apply(); }
-  function setTone(t) { const was = !!look.lock; look.tone = t; paint(makeCham(t)); look.lock = was ? current : null; save(); syncUI(); }
-  function toggleLock() { look.lock = look.lock ? null : current; save(); syncUI(); }
+  function setTheme(t) { if (ADAPT) { ADAPT.set(t); syncUI(); return; } look.theme = t; look.lock = null; save(); apply(); }
+  function setTone(t) { if (ADAPT) { ADAPT.tone && ADAPT.tone(t); syncUI(); return; } const was = !!look.lock; look.tone = t; paint(makeCham(t)); look.lock = was ? current : null; save(); syncUI(); }
+  function toggleLock() { if (ADAPT) { ADAPT.lock && ADAPT.lock(!cur().locked); syncUI(); return; } look.lock = look.lock ? null : current; save(); syncUI(); }
+  function newColors() { if (ADAPT) { if (cur().locked && ADAPT.lock) ADAPT.lock(false); ADAPT.reroll && ADAPT.reroll(); syncUI(); return; } if (look.lock) { look.lock = null; save(); } paint(makeCham(look.tone)); syncUI(); }
 
   /* paint before anything shows (no flash) */
-  if (LOOK) { if (look.theme === "chameleon") paint(look.lock || makeCham(look.tone)); else paint(FIXED[look.theme]); }
+  if (LOOK && !ADAPT) { if (look.theme === "chameleon") paint(look.lock || makeCham(look.tone)); else paint(FIXED[look.theme]); }
 
   /* ---------- icons ---------- */
   const SV = (d, w) => `<svg width="${w || 18}" height="${w || 18}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
@@ -138,6 +156,7 @@
     flag: SV('<path d="M4 22V4"/><path d="M4 4h12l-2 4 2 4H4"/>'),
     lock: SV('<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>', 12),
     unlock: SV('<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/>', 12),
+    more: SV('<circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/>'),
     x: SV('<path d="M18 6 6 18M6 6l12 12"/>'),
     shuffle: SV('<path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>', 15),
     pin: SV('<path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>', 16),
@@ -161,6 +180,14 @@
 .fk-ti{opacity:0;visibility:hidden;transform:translateY(calc(-45px * (var(--i) + 1))) rotate(-1turn) scale(.45);transition:transform .34s cubic-bezier(.2,.8,.2,1) calc(var(--r) * 35ms),opacity .2s ease calc(var(--r) * 35ms),visibility 0s linear calc(.34s + var(--r) * 35ms)}
 .fk-bar.open .fk-ti{opacity:1;visibility:visible;transform:none;pointer-events:auto;transition:transform .42s cubic-bezier(.175,.885,.32,1.275) calc(var(--i) * 55ms),opacity .18s ease calc(var(--i) * 55ms),visibility 0s}
 .fk-hidden{opacity:0!important;visibility:hidden!important;pointer-events:none!important;transition:opacity .25s,visibility 0s .25s!important}
+.fk-bar.fk-anchored{padding:0;position:fixed}
+.fk-anchor svg{transition:transform .55s cubic-bezier(.175,.885,.32,1.275)}
+.fk-anchor.fk-open svg{transform:rotate(180deg)}
+.fk-tok.fk-tok-inline{height:34px;box-shadow:none;margin-right:4px}
+.fk-aimbar{gap:8px}
+.fk-aimbar .fk-aimgo{background:#ff5a3c;color:#fff;border-radius:16px;padding:6px 14px;font-weight:600;font-size:14px}
+.fk-range{width:100%;accent-color:var(--accent);height:28px}
+.fk-slider .fk-pill{justify-content:center}
 .fk-float{position:fixed;left:calc(12px + env(safe-area-inset-left));bottom:calc(14px + env(safe-area-inset-bottom));z-index:2147482980;width:34px;height:34px;border-radius:50%;opacity:.55;transition:opacity .2s,transform .12s}
 .fk-float:hover,.fk-float:focus-visible{opacity:1}
 .fk-panel.fk-solo{top:auto;right:auto;left:50%;bottom:calc(64px + env(safe-area-inset-bottom));transform-origin:bottom center;translate:-50% 0}
@@ -232,6 +259,19 @@
       }
       return;
     }
+    anchor = ANCHOR_SEL ? document.querySelector(ANCHOR_SEL) : null;
+    if (anchor) {
+      /* use the app's own gear: the tray rolls out under it, the gecko sits beside it */
+      bar = el(`<div class="fk fk-bar fk-anchored"><div class="fk-tray"></div></div>`);
+      tok = el(`<div class="fk fk-tok fk-tok-inline"><button class="g" aria-label="New colors" title="New colors">${GECKO(20)}</button><button class="l" aria-label="Freeze colors" title="Freeze colors">${IC.unlock}</button></div>`);
+      document.body.appendChild(bar);
+      anchor.parentElement.insertBefore(tok, anchor);
+      anchor.classList.add("fk-anchor");
+      anchor.setAttribute("aria-expanded", "false");
+      anchor.addEventListener("click", e => { e.preventDefault(); toggleTray(); });
+      addEventListener("resize", placeTray);
+      addEventListener("scroll", placeTray, { passive: true });
+    } else {
     bar = el(`<div class="fk fk-bar"><div class="fk-row">
       <div class="fk-tok"><button class="g" aria-label="New colors" title="New colors">${GECKO(22)}</button><button class="l" aria-label="Freeze colors" title="Freeze colors">${IC.unlock}</button></div>
       <button class="fk-btn fk-gear" aria-label="Settings" aria-expanded="false" title="Settings">${IC.gear}</button></div>
@@ -239,9 +279,10 @@
     document.body.appendChild(bar);
     tok = bar.querySelector(".fk-tok");
     bar.querySelector(".fk-gear").onclick = () => toggleTray();
+    }
     tok.querySelector(".g").onclick = () => {
       const g = tok.querySelector(".g");
-      if (look.lock) { g.animate([{ transform: "translateX(-3px)" }, { transform: "translateX(3px)" }, { transform: "none" }], { duration: 220 }); return; }
+      if (cur().locked) { g.animate([{ transform: "translateX(-3px)" }, { transform: "translateX(3px)" }, { transform: "none" }], { duration: 220 }); return; }
       g.classList.toggle("spin"); reroll();
     };
     tok.querySelector(".l").onclick = () => toggleLock();
@@ -257,15 +298,21 @@
   function setHidden(who, on) {
     on ? hiddenBy.add(who) : hiddenBy.delete(who);
     const h = hiddenBy.size > 0;
-    document.querySelectorAll(".fk-bar,.fk-float").forEach(n => n.classList.toggle("fk-hidden", h));
+    document.querySelectorAll(".fk-bar,.fk-float,.fk-tok-inline").forEach(n => n.classList.toggle("fk-hidden", h));
     if (h) { closePanel(); if (bar) { bar.classList.remove("open"); } }
   }
   function trayItems() {
-    return [
+    const all = [
       ...(LOOK ? [{ id: "look", icon: IC.paint, label: "Look", onClick: () => openPanel("look") }] : []),
       { id: "flag", icon: IC.flag, label: "Flag", onClick: () => openPanel("flag") },
+      ...(CFG.tray || []),
       ...extra,
-    ];
+    ].map((it, i) => it.slider ? { ...it, id: it.id || "s" + i, onClick: () => openPanel("slider", it) } : it);
+    const moreFn = CFG.more;
+    if (!moreFn && all.length <= 5) return all;
+    const keep = all.slice(0, 4), over = all.slice(4);
+    return [...keep, { id: "more", icon: IC.more, label: moreFn ? "All settings" : "More",
+      onClick: () => { if (moreFn) { closeAll(); setTimeout(moreFn, 0); } else openPanel("more", over); } }];
   }
   function renderTray() {
     if (!bar) return;
@@ -279,29 +326,72 @@
       tray.appendChild(w);
     });
   }
+  function placeTray() {
+    if (!anchor || !bar) return;
+    const r = anchor.getBoundingClientRect();
+    bar.style.top = r.bottom + 6 + "px";
+    bar.style.right = Math.max(4, innerWidth - r.right) + "px";
+    if (panel && !panel.classList.contains("fk-solo")) { panel.style.top = r.bottom + 6 + "px"; panel.style.right = Math.max(8, innerWidth - r.right + 50) + "px"; }
+  }
   function toggleTray(force) {
     const open = force === undefined ? !bar.classList.contains("open") : force;
+    if (open) placeTray();
     bar.classList.toggle("open", open);
-    bar.querySelector(".fk-gear").setAttribute("aria-expanded", open);
+    const g = anchor || bar.querySelector(".fk-gear");
+    if (g) { g.setAttribute("aria-expanded", open); g.classList.toggle("fk-open", open); }
     if (!open) closePanel();
   }
   function closeAll() { closePanel(); if (bar && bar.classList.contains("open")) toggleTray(false); }
   function closePanel() { if (panel) { panel.remove(); panel = null; } bar && bar.querySelectorAll(".fk-tray .fk-btn").forEach(b => b.classList.remove("on")); }
 
-  function openPanel(which) {
+  function openPanel(which, arg) {
+    const key = which + (arg && arg.id ? ":" + arg.id : "");
     const was = panel && panel.dataset.which;
     closePanel();
-    if (was === which) return;
-    panel = which === "look" ? lookPanel() : flagMenu();
-    panel.dataset.which = which;
+    if (was === key) return;
+    panel = which === "look" ? lookPanel() : which === "slider" ? sliderPanel(arg) : which === "more" ? morePanel(arg) : flagMenu();
+    panel.dataset.which = key;
     document.body.appendChild(panel);
     if (!bar) { panel.classList.add("fk-solo"); return; }
+    placeTray();
+    if (which === "slider" && arg) { const b0 = bar.querySelector(`.fk-tray [data-id="${arg.id}"]`); if (b0) b0.classList.add("on"); }
     const b = bar.querySelector(`.fk-tray [data-id="${which}"]`); if (b) b.classList.add("on");
     syncUI();
   }
 
+  function sliderPanel(it) {
+    const sl = it.slider, tg = it.toggle;
+    const p = el(`<div class="fk fk-panel fk-slider" role="dialog" aria-label="${esc(it.label)}">
+      <div class="fk-h"><span>${esc(it.label)}</span><button class="fk-x" aria-label="Close">${IC.x}</button></div>
+      ${tg ? `<button class="fk-pill fk-tg" style="width:100%;margin:0 0 10px"></button>` : ""}
+      <input type="range" class="fk-range" min="${sl.min ?? 0}" max="${sl.max ?? 1}" step="${sl.step ?? 0.05}" aria-label="${esc(it.label)}">
+      <div class="fk-hint fk-val"></div></div>`);
+    const rg = p.querySelector(".fk-range"), val = p.querySelector(".fk-val");
+    const show = () => {
+      const v = Number(sl.get()); rg.value = v;
+      const pct = Math.round(((v - (sl.min ?? 0)) / ((sl.max ?? 1) - (sl.min ?? 0))) * 100);
+      val.textContent = sl.format ? sl.format(v) : pct + "%";
+      if (tg) { const on = !!tg.get(); const b = p.querySelector(".fk-tg"); b.classList.toggle("on", on); b.textContent = (tg.label || "On") + (on ? ": on" : ": off"); rg.disabled = !on; rg.style.opacity = on ? 1 : .45; }
+    };
+    rg.addEventListener("input", () => { sl.set(Number(rg.value)); show(); });
+    if (tg) p.querySelector(".fk-tg").onclick = () => { tg.set(!tg.get()); show(); };
+    p.querySelector(".fk-x").onclick = closePanel;
+    show();
+    return p;
+  }
+  function morePanel(items) {
+    const p = el(`<div class="fk fk-panel fk-menu" role="dialog" aria-label="More">
+      <div class="fk-h"><span>More</span><button class="fk-x" aria-label="Close">${IC.x}</button></div></div>`);
+    (items || []).forEach(it => {
+      const b = el(`<button>${it.icon}<span>${esc(it.label)}</span></button>`);
+      b.onclick = () => { if (it.slider) openPanel("slider", it); else { closePanel(); it.onClick(); } };
+      p.appendChild(b);
+    });
+    p.querySelector(".fk-x").onclick = closePanel;
+    return p;
+  }
   function lookPanel() {
-    const t = (k, label, sw) => `<button class="fk-tile" data-t="${k}">${sw}<span>${label}</span></button>`;
+    const t = (k, label, sw) => `<button class="fk-tile" data-t="${k}">${sw}<span>${esc((ADAPT && ADAPT.labels && ADAPT.labels[k]) || label)}</span></button>`;
     const p = el(`<div class="fk fk-panel" role="dialog" aria-label="Look">
       <div class="fk-h"><span>Look</span><button class="fk-x" aria-label="Close">${IC.x}</button></div>
       <div class="fk-grid">
@@ -320,24 +410,25 @@
     p.querySelectorAll("[data-t]").forEach(b => b.onclick = () => setTheme(b.dataset.t));
     p.querySelectorAll("[data-tone]").forEach(b => b.onclick = () => setTone(b.dataset.tone));
     p.querySelector('[data-a="lock"]').onclick = toggleLock;
-    p.querySelector('[data-a="new"]').onclick = () => { if (look.lock) { look.lock = null; save(); } paint(makeCham(look.tone)); syncUI(); };
+    p.querySelector('[data-a="new"]').onclick = newColors;
     return p;
   }
 
   function syncUI() {
     if (!bar) return;
-    const isC = look.theme === "chameleon";
+    const c = cur();
+    const isC = c.theme === "chameleon";
     tok.classList.toggle("show", isC);
     const l = tok.querySelector(".l");
-    l.classList.toggle("on", !!look.lock); l.innerHTML = look.lock ? IC.lock : IC.unlock;
-    l.title = look.lock ? "Colors frozen (tap to unfreeze)" : "Freeze colors";
+    l.classList.toggle("on", c.locked); l.innerHTML = c.locked ? IC.lock : IC.unlock;
+    l.title = c.locked ? "Colors frozen (tap to unfreeze)" : "Freeze colors";
     if (panel && panel.dataset.which === "look") {
-      panel.querySelectorAll("[data-t]").forEach(b => b.classList.toggle("on", b.dataset.t === look.theme));
+      panel.querySelectorAll("[data-t]").forEach(b => b.classList.toggle("on", b.dataset.t === c.theme));
       panel.querySelector(".fk-cham").classList.toggle("show", isC);
-      panel.querySelectorAll("[data-tone]").forEach(b => b.classList.toggle("on", b.dataset.tone === look.tone));
+      panel.querySelectorAll("[data-tone]").forEach(b => b.classList.toggle("on", b.dataset.tone === c.tone));
       const lk = panel.querySelector('[data-a="lock"]');
-      lk.classList.toggle("on", !!look.lock);
-      lk.innerHTML = (look.lock ? IC.lock : IC.unlock) + (look.lock ? "Frozen" : "Changing");
+      lk.classList.toggle("on", c.locked);
+      lk.innerHTML = (c.locked ? IC.lock : IC.unlock) + (c.locked ? "Frozen" : "Changing");
     }
   }
 
@@ -384,7 +475,16 @@
     if (!hl) { hl = el('<div class="fk-hl"></div>'); document.body.appendChild(hl); }
     Object.assign(hl.style, { opacity: 1, left: r.left - 3 + "px", top: r.top - 3 + "px", width: r.width + 6 + "px", height: r.height + 6 + "px" });
   }
+  let aimBar = null;
   function startPlant() {
+    clearFlagUI();
+    if (aimBar) aimBar.remove();
+    aimBar = el(`<div class="fk fk-tip fk-aimbar" role="status">${IC.flag}<span>Go to the spot, then tap Aim</span><button class="fk-aimgo">Aim</button><button class="fk-aimx">Cancel</button></div>`);
+    aimBar.querySelector(".fk-aimgo").onclick = e => { e.stopPropagation(); aimBar.remove(); aimBar = null; startAim(); };
+    aimBar.querySelector(".fk-aimx").onclick = e => { e.stopPropagation(); aimBar.remove(); aimBar = null; };
+    document.body.appendChild(aimBar);
+  }
+  function startAim() {
     clearFlagUI();
     dim = el('<div class="fk-dim" aria-hidden="true"></div>');
     tip = el(`<div class="fk fk-tip">${IC.flag}<span>Tap what you want to flag</span><button>Cancel</button></div>`);
@@ -452,7 +552,7 @@
         const go = sheet.querySelector(".fk-go"); go.disabled = true; go.textContent = "Sending…";
         const flag = { id: "f" + Date.now().toString(36), project: d && d.kit ? "Flag Hub" : NAME, text: note, kind: "fix", status: "open", source: "app", created: new Date().toISOString(),
           where: { app: APP, page: location.href, element: d ? d.selector : null, says: d ? d.text : null,
-            screen: innerWidth + "x" + innerHeight + (/Mobi|iPhone|Android/.test(navigator.userAgent) ? " phone" : " computer"), look: look.theme } };
+            screen: innerWidth + "x" + innerHeight + (/Mobi|iPhone|Android/.test(navigator.userAgent) ? " phone" : " computer"), look: cur().theme } };
         try {
           await store.change("data/flags.json", data => { data.flags = data.flags || []; data.flags.unshift(flag); }, "Flag: " + NAME);
           clearFlagUI(); toast("Flag sent to your Hub.");
@@ -476,7 +576,7 @@
     ];
     if (d) { lines.push(`**Element:** \`${d.selector}\``); if (d.text) lines.push(`**Says:** ${d.text}`); }
     lines.push(`**Screen:** ${innerWidth}×${innerHeight}, ${/Mobi|iPhone|Android/.test(navigator.userAgent) ? "phone" : "computer"}`);
-    lines.push(`**Look:** ${look.theme}${look.theme === "chameleon" ? " (" + look.tone + ")" : ""}`);
+    lines.push(`**Look:** ${cur().theme}${cur().theme === "chameleon" ? " (" + cur().tone + ")" : ""}`);
     lines.push(`**When:** ${new Date().toLocaleString()}`);
     lines.push("", "<!-- flag-kit v1 -->");
     const q = new URLSearchParams({ title, body: lines.join("\n"), labels: "flag" });
@@ -509,7 +609,8 @@
 
   /* close the tray when tapping elsewhere */
   document.addEventListener("click", e => {
-    if (e.composedPath().some(n => n.classList && n.classList.contains("fk"))) return;
+    const path = e.composedPath();
+    if (path.some(n => n.classList && n.classList.contains("fk")) || (anchor && path.includes(anchor))) return;
     if (panel) closePanel(); else if (bar && bar.classList.contains("open")) toggleTray(false);
   });
 
@@ -521,7 +622,8 @@
     app: APP,
     store,
     theme: {
-      get: () => ({ ...look, palette: current }),
+      get: () => ({ ...cur(), palette: current }),
+      refresh: () => syncUI(),
       set: setTheme, reroll,
       onChange: fn => { listeners.push(fn); if (current) fn(look.theme, current); },
     },
