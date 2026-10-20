@@ -572,6 +572,12 @@
    "mode": "light",
    "summary": "Nothing new tonight",
    "items": []
+  },
+  {
+   "at": "2026-10-20T07:53:41Z",
+   "mode": "off",
+   "summary": "Skipped: night shift is off",
+   "items": []
   }
  ]
 }
