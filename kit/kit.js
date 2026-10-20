@@ -183,7 +183,7 @@
 .fk-bar.fk-anchored{padding:0;position:fixed}
 .fk-anchor svg{transition:transform .55s cubic-bezier(.175,.885,.32,1.275)}
 .fk-anchor.fk-open svg{transform:rotate(180deg)}
-.fk-tok.fk-tok-inline{height:34px;box-shadow:none;margin-right:4px}
+.fk-tok.fk-tok-float{position:fixed;z-index:2147483000;height:34px}
 .fk-aimbar{gap:8px}
 .fk-aimbar .fk-aimgo{background:#ff5a3c;color:#fff;border-radius:16px;padding:6px 14px;font-weight:600;font-size:14px}
 .fk-range{width:100%;accent-color:var(--accent);height:28px}
@@ -191,7 +191,8 @@
 .fk-float{position:fixed;left:calc(12px + env(safe-area-inset-left));bottom:calc(14px + env(safe-area-inset-bottom));z-index:2147482980;width:34px;height:34px;border-radius:50%;opacity:.55;transition:opacity .2s,transform .12s}
 .fk-float:hover,.fk-float:focus-visible{opacity:1}
 .fk-panel.fk-solo{top:auto;right:auto;left:50%;bottom:calc(64px + env(safe-area-inset-bottom));transform-origin:bottom center;translate:-50% 0}
-.fk-tok{display:none;align-items:center;height:38px;border-radius:19px;background:#f4f4f1;border:1px solid rgba(0,0,0,.12);color:#111;padding:0 4px 0 4px;gap:0;box-shadow:0 2px 10px var(--shadow);animation:fk-pop .35s cubic-bezier(.175,.885,.32,1.275)}
+.fk-tok{display:none;align-items:center;height:38px;border-radius:19px;background:#f4f4f1;border:1px solid rgba(0,0,0,.12);color:#111;padding:0 4px 0 4px;gap:0;box-shadow:0 2px 10px var(--shadow);transform-origin:right center;animation:fk-slide .42s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes fk-slide{from{opacity:0;transform:translateX(26px) scale(.55)}to{opacity:1;transform:none}}
 .fk-tok.show{display:flex}
 .fk-tok button{background:none;border:0;color:#111;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:16px;padding:0 6px}
 .fk-tok .g svg{transition:transform .45s cubic-bezier(.175,.885,.32,1.275)}
@@ -261,11 +262,12 @@
     }
     anchor = ANCHOR_SEL ? document.querySelector(ANCHOR_SEL) : null;
     if (anchor) {
-      /* use the app's own gear: the tray rolls out under it, the gecko sits beside it */
+      /* use the app's own gear: the tray rolls out under it, and while it's open
+         (and Chameleon is on) the gecko rolls out to its left. Nothing sits in the app's header. */
       bar = el(`<div class="fk fk-bar fk-anchored"><div class="fk-tray"></div></div>`);
-      tok = el(`<div class="fk fk-tok fk-tok-inline"><button class="g" aria-label="New colors" title="New colors">${GECKO(20)}</button><button class="l" aria-label="Freeze colors" title="Freeze colors">${IC.unlock}</button></div>`);
+      tok = el(`<div class="fk fk-tok fk-tok-float"><button class="g" aria-label="New colors" title="New colors">${GECKO(20)}</button><button class="l" aria-label="Freeze colors" title="Freeze colors">${IC.unlock}</button></div>`);
       document.body.appendChild(bar);
-      anchor.parentElement.insertBefore(tok, anchor);
+      document.body.appendChild(tok);
       anchor.classList.add("fk-anchor");
       anchor.setAttribute("aria-expanded", "false");
       anchor.addEventListener("click", e => { e.preventDefault(); toggleTray(); });
@@ -298,7 +300,7 @@
   function setHidden(who, on) {
     on ? hiddenBy.add(who) : hiddenBy.delete(who);
     const h = hiddenBy.size > 0;
-    document.querySelectorAll(".fk-bar,.fk-float,.fk-tok-inline").forEach(n => n.classList.toggle("fk-hidden", h));
+    document.querySelectorAll(".fk-bar,.fk-float,.fk-tok-float").forEach(n => n.classList.toggle("fk-hidden", h));
     if (h) { closePanel(); if (bar) { bar.classList.remove("open"); } }
   }
   function trayItems() {
@@ -331,6 +333,7 @@
     const r = anchor.getBoundingClientRect();
     bar.style.top = r.bottom + 6 + "px";
     bar.style.right = Math.max(4, innerWidth - r.right) + "px";
+    if (tok) { tok.style.top = (r.top + r.height / 2 - 17) + "px"; tok.style.right = Math.max(4, innerWidth - r.left + 6) + "px"; }
     if (panel && !panel.classList.contains("fk-solo")) { panel.style.top = r.bottom + 6 + "px"; panel.style.right = Math.max(8, innerWidth - r.right + 50) + "px"; }
   }
   function toggleTray(force) {
@@ -340,6 +343,7 @@
     const g = anchor || bar.querySelector(".fk-gear");
     if (g) { g.setAttribute("aria-expanded", open); g.classList.toggle("fk-open", open); }
     if (!open) closePanel();
+    syncUI();
   }
   function closeAll() { closePanel(); if (bar && bar.classList.contains("open")) toggleTray(false); }
   function closePanel() { if (panel) { panel.remove(); panel = null; } bar && bar.querySelectorAll(".fk-tray .fk-btn").forEach(b => b.classList.remove("on")); }
@@ -404,7 +408,7 @@
         <div class="fk-sub">Chameleon tone</div>
         <div class="fk-seg"><button data-tone="any">Any</button><button data-tone="light">Light</button><button data-tone="dark">Dark</button></div>
         <div class="fk-pills"><button class="fk-pill" data-a="lock"></button><button class="fk-pill" data-a="new">${IC.shuffle}New colors</button></div>
-        <p class="fk-hint">New colors every screen. The gecko up top does the same thing: tap it to shuffle, tap its lock to freeze.</p>
+        <p class="fk-hint">New colors every screen. While settings are open, the gecko next to the gear does the same: tap it to shuffle, tap its lock to freeze.</p>
       </div></div>`);
     p.querySelector(".fk-x").onclick = closePanel;
     p.querySelectorAll("[data-t]").forEach(b => b.onclick = () => setTheme(b.dataset.t));
@@ -418,7 +422,7 @@
     if (!bar) return;
     const c = cur();
     const isC = c.theme === "chameleon";
-    tok.classList.toggle("show", isC);
+    tok.classList.toggle("show", isC && bar.classList.contains("open"));
     const l = tok.querySelector(".l");
     l.classList.toggle("on", c.locked); l.innerHTML = c.locked ? IC.lock : IC.unlock;
     l.title = c.locked ? "Colors frozen (tap to unfreeze)" : "Freeze colors";
