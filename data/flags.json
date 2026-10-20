@@ -23,6 +23,23 @@
  ],
  "flags": [
   {
+   "id": "fmvgbofk1",
+   "project": "Flag Hub",
+   "text": "These descriptions take up half this flag’s space, and the rest is empty cause little icons take that entire space, even through they’re little. Want to adjust so the space is better used? Let the text go all the way to the right and make those icons sit above maybe?",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-20T06:48:57.025Z",
+   "where": {
+    "app": "flag-hub",
+    "page": "https://feirzen.github.io/flag-hub/",
+    "element": "div#flags > div.item.is-pri:nth-of-type(1) > div.txt:nth-of-type(1)",
+    "says": "A lot of the flags here are ones requiring action from me not you, maybe we should add seperate colored flags for me? No",
+    "screen": "366x655 phone",
+    "look": "chameleon"
+   }
+  },
+  {
    "id": "fmvgbmklu",
    "project": "Flag Hub",
    "text": "All of these little tags I can add, I’d prefer a drop down of maybe a scrolling list like you have down below. Also I wouldn’t mind more color on this whole website instead of like 2 total. Some more colors wouldn’t go wrong fs.",
