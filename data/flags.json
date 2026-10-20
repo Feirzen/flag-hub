@@ -23,6 +23,16 @@
  ],
  "flags": [
   {
+   "id": "fmvg8cu7o",
+   "project": "Flag Hub",
+   "text": "A lot of the flags here are ones requiring action from me not you, maybe we should add seperate colored flags for me? Not anything that show on the different web apps, but instead only shows within this app- the for claude flags can be an orange like now, and for me flags are teal seafoam green. Then you don’t have to sift through a ton of flags that are really just reminders for me. I can just add them here directly, you don’t need to add a way to input teal flags on any apps.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-20T05:15:57.300Z",
+   "priority": true
+  },
+  {
    "id": "fmvg85dez",
    "project": "Flag Hub",
    "text": "The Apple icon of this repo won’t render correctly, if I add it to the home screen it just shows a white background with black text over it.",
