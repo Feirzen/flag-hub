@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvgct0to",
+   "project": "Claude OS",
+   "text": "Claude OS (kiosk)\nYou're right, the artifact frame is the problem. The fix:\n• Host it on GitHub Pages and add it to the iPhone Home Screen as a web app. That opens fullscreen with no Safari bars at all.\n• Turn on Guided Access to lock the phone to it, and set Auto-Lock to Never.\n• Live control: the page checks a small settings file in the repo every 30 seconds or so. You tell me \"alarm at 6:30\" or \"show something funi from any chat, I edit the file, and the phone updates within a minute or two, no reloading. One catch:\n¡OS needs a single tap after launch before it'll play sound.\nLet’s do this sooner than later, just not quite priority",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-20T07:20:30.830Z"
+  },
+  {
    "id": "fmvgbofk1",
    "project": "Flag Hub",
    "text": "These descriptions take up half this flag’s space, and the rest is empty cause little icons take that entire space, even through they’re little. Want to adjust so the space is better used? Let the text go all the way to the right and make those icons sit above maybe?",
