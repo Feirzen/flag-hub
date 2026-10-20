@@ -23,6 +23,23 @@
  ],
  "flags": [
   {
+   "id": "fmvgbmklu",
+   "project": "Flag Hub",
+   "text": "All of these little tags I can add, I’d prefer a drop down of maybe a scrolling list like you have down below. Also I wouldn’t mind more color on this whole website instead of like 2 total. Some more colors wouldn’t go wrong fs.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-20T06:47:30.259Z",
+   "where": {
+    "app": "flag-hub",
+    "page": "https://feirzen.github.io/flag-hub/",
+    "element": "div#projChips > button.chip:nth-of-type(1)",
+    "says": "Study Decks",
+    "screen": "366x655 phone",
+    "look": "chameleon"
+   }
+  },
+  {
    "id": "fmvgbkz0b",
    "project": "Flag Hub",
    "text": "Maybe make me another flag hub widget that is large on scriptable, and allows me to see previews of the flags. Basically had the same info as the medium one, but that info is consolidated to the top and the other 3/4 of the bigger space can be a list of the flags, sorted by priority and then secondly more recent first. Not the whole blurb, but like the first line of them? Make sense?",
