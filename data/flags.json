@@ -13,7 +13,6 @@
   "Jellyfin",
   "Trip Board",
   "Interview Prep",
-  "GRE Quant",
   "Panic Button",
   "Money Hacking",
   "Spotify",
@@ -23,6 +22,46 @@
   "Flag Hub"
  ],
  "flags": [
+  {
+   "id": "gear-4",
+   "project": "Trip Board",
+   "text": "Trip Board: add a gear top-right that fits the masthead. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
+   "kind": "fix",
+   "priority": true,
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-19T23:00:04-06:00"
+  },
+  {
+   "id": "gear-3",
+   "project": "Interview Prep",
+   "text": "Interview Prep: turn the theme button into the gear. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
+   "kind": "fix",
+   "priority": true,
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-19T23:00:04-06:00"
+  },
+  {
+   "id": "gear-2",
+   "project": "Bulk Manager",
+   "text": "Bulk Manager: turn the theme dot into the gear; keep the bottom tabs clear; covers index, nutrition, and workout pages. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
+   "kind": "fix",
+   "priority": true,
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-19T23:00:04-06:00"
+  },
+  {
+   "id": "gear-1",
+   "project": "Study Decks",
+   "text": "Study Decks: fold its gear tray (palette, mute, map, fullscreen, chameleon controls) into the kit tray. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
+   "kind": "fix",
+   "priority": true,
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-19T23:00:04-06:00"
+  },
   {
    "created": "2026-10-19T16:10:00-06:00",
    "kind": "idea",

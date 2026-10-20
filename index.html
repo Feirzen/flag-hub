@@ -91,6 +91,11 @@ details summary{cursor:pointer;color:var(--ink3);font-size:13px}
 :focus-visible{outline:2px solid var(--flag);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 [hidden]{display:none!important}
+.tag.pri{background:var(--flagBg);border-color:transparent;color:var(--flag)}
+.item.is-pri .txt{font-weight:500}
+.ic.pri-on{background:var(--flag);color:var(--flagInk);border-color:var(--flag)}
+.prirow{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--ink2);cursor:pointer}
+.prirow input{accent-color:var(--flag);width:18px;height:18px}
 .digest{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:10px}
 .digest .dl{display:flex;gap:8px;align-items:baseline;font-size:14px;color:var(--ink2)}
 .digest .dk{flex:none;font:600 11px var(--fm);text-transform:uppercase;letter-spacing:.04em;padding:2px 6px;border-radius:6px;background:var(--card2);color:var(--ink3)}
@@ -154,6 +159,7 @@ footer button{background:none;border:0;color:var(--ink3);text-decoration:underli
     <div class="chips" id="projChips" role="group" aria-label="Project"></div>
     <div class="row" id="newProjRow" hidden><input type="text" id="newProj" placeholder="Project name, like Claude OS" maxlength="40"><button class="btn sm" id="addProj">Add</button></div>
     <textarea id="flagText" placeholder="What did you notice, or what's the idea?" maxlength="1500"></textarea>
+    <label class="prirow"><input type="checkbox" id="flagPri"> Priority: fit this in as soon as possible</label>
     <p class="err" id="flagErr"></p>
     <div class="row" style="justify-content:space-between"><span class="note">Small stuff gets fixed overnight. Big stuff comes back as a proposal.</span><button class="btn" id="send">Raise flag</button></div>
   </section>
@@ -207,6 +213,7 @@ function renderChips() {
   $("#filters").querySelectorAll("[data-f]").forEach(b => b.onclick = () => { S.filter = b.dataset.f; renderChips(); renderFlags(); });
 }
 const ICON = {
+  bolt: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
   done: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>',
   del: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
   undo: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>',
@@ -215,14 +222,16 @@ function flagRow(f, doneView) {
   const src = f.source === "reminders" ? "from Reminders" : f.source === "app" ? "sent from the app" : "";
   const kind = f.kind === "you" ? '<span class="tag kind-you">needs you</span>' : f.kind === "idea" ? '<span class="tag kind-idea">idea</span>' : "";
   const st = f.status === "proposed" ? '<span class="tag prop">proposal sent</span>' : f.status === "doing" ? '<span class="tag prop">in progress</span>' : "";
-  return `<div class="item" data-id="${f.id}"><div class="txt">${esc(f.text)}</div>
+  const pri = f.priority ? '<span class="tag pri">priority</span>' : "";
+  return `<div class="item ${f.priority && !doneView ? "is-pri" : ""}" data-id="${f.id}"><div class="txt">${esc(f.text)}</div>
     <div class="acts">${doneView
       ? `<button class="ic" data-a="reopen" aria-label="Reopen">${ICON.undo}</button>`
-      : `<button class="ic" data-a="done" aria-label="Mark done">${ICON.done}</button><button class="ic ${S.sure === f.id ? "sure" : ""}" data-a="del" aria-label="${S.sure === f.id ? "Tap again to delete" : "Delete"}">${ICON.del}</button>`}</div>
-    <div class="meta"><span class="tag">${esc(f.project)}</span>${kind}${st}${src ? `<span>${src}</span>` : ""}<span>${ago(doneView ? f.resolvedAt : f.created)}</span>${f.resolution ? `<span>· ${esc(f.resolution)}</span>` : ""}</div></div>`;
+      : `<button class="ic ${f.priority ? "pri-on" : ""}" data-a="pri" aria-label="${f.priority ? "Remove priority" : "Make priority"}" title="${f.priority ? "Priority: do this first" : "Do this first"}">${ICON.bolt}</button><button class="ic" data-a="done" aria-label="Mark done">${ICON.done}</button><button class="ic ${S.sure === f.id ? "sure" : ""}" data-a="del" aria-label="${S.sure === f.id ? "Tap again to delete" : "Delete"}">${ICON.del}</button>`}</div>
+    <div class="meta"><span class="tag">${esc(f.project)}</span>${pri}${kind}${st}${src ? `<span>${src}</span>` : ""}<span>${ago(doneView ? f.resolvedAt : f.created)}</span>${f.resolution ? `<span>· ${esc(f.resolution)}</span>` : ""}</div></div>`;
 }
 function renderFlags() {
-  const open = S.flags.filter(f => f.status !== "done" && f.status !== "dismissed" && (S.filter === "all" || f.project === S.filter));
+  const open = S.flags.filter(f => f.status !== "done" && f.status !== "dismissed" && (S.filter === "all" || f.project === S.filter))
+    .sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0));
   $("#openN").textContent = open.length ? open.length : "";
   $("#flags").innerHTML = open.length ? open.map(f => flagRow(f, false)).join("") : `<p class="empty">No open flags${S.filter === "all" ? "" : " for " + esc(S.filter)}. Raise one above, or plant one from any app's gear menu.</p>`;
   const done = S.flags.filter(f => f.status === "done" || f.status === "dismissed").sort((a, b) => (b.resolvedAt || "").localeCompare(a.resolvedAt || "")).slice(0, 15);
@@ -274,8 +283,9 @@ async function sendFlag() {
   if (!text) { err.textContent = "Type what you noticed first."; $("#flagText").focus(); return; }
   $("#send").disabled = true; $("#send").textContent = "Saving…";
   const f = { id: "f" + Date.now().toString(36), project: S.pick, text, kind: "fix", status: "open", source: "hub", created: new Date().toISOString() };
+  if ($("#flagPri").checked) f.priority = true;
   const ok = await save(d => { d.flags = d.flags || []; d.flags.unshift(f); }, "Flag: " + S.pick);
-  if (ok) { $("#flagText").value = ""; err.textContent = ""; $("#send").textContent = "Raised"; setTimeout(() => $("#send").textContent = "Raise flag", 1400); }
+  if (ok) { $("#flagText").value = ""; $("#flagPri").checked = false; err.textContent = ""; $("#send").textContent = "Raised"; setTimeout(() => $("#send").textContent = "Raise flag", 1400); }
   else { $("#send").textContent = "Raise flag"; if (store.token()) err.textContent = "That flag didn't save. Try again in a moment."; }
   $("#send").disabled = false;
 }
@@ -292,7 +302,8 @@ document.addEventListener("click", async e => {
   const row = b.closest("[data-id]"); const id = row && row.dataset.id; const a = b.dataset.a;
   const now = new Date().toISOString();
   const edit = (coll, fn) => d => { const it = (d[coll] || []).find(x => x.id === id); if (it) fn(it, d); };
-  if (a === "done") save(edit("flags", f => { f.status = "done"; f.resolvedAt = now; f.resolution = "marked done by you"; }), "Flag done");
+  if (a === "pri") save(edit("flags", f => { if (f.priority) delete f.priority; else f.priority = true; }), "Flag priority");
+  else if (a === "done") save(edit("flags", f => { f.status = "done"; f.resolvedAt = now; f.resolution = "marked done by you"; }), "Flag done");
   else if (a === "reopen") save(edit("flags", f => { f.status = "open"; delete f.resolvedAt; delete f.resolution; }), "Flag reopened");
   else if (a === "del") {
     if (S.sure !== id) { S.sure = id; renderFlags(); setTimeout(() => { if (S.sure === id) { S.sure = null; renderFlags(); } }, 3000); return; }
