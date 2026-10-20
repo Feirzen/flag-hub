@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvgbkz0b",
+   "project": "Flag Hub",
+   "text": "Maybe make me another flag hub widget that is large on scriptable, and allows me to see previews of the flags. Basically had the same info as the medium one, but that info is consolidated to the top and the other 3/4 of the bigger space can be a list of the flags, sorted by priority and then secondly more recent first. Not the whole blurb, but like the first line of them? Make sense?",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-20T06:46:15.611Z"
+  },
+  {
    "id": "fmvg8fsw2",
    "project": "Flag Hub",
    "text": "Another idea, some flags aren’t current and could be resolved, or become so old it’s worth reviewing if they should stick around. Maybe make a needs review mechanism or sum for flags to come back around so I can resolve them and this never become too massively cluttered?",
