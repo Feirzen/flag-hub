@@ -23,6 +23,23 @@
  ],
  "flags": [
   {
+   "id": "fmvg85dez",
+   "project": "Flag Hub",
+   "text": "The Apple icon of this repo won’t render correctly, if I add it to the home screen it just shows a white background with black text over it.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-20T05:10:08.940Z",
+   "where": {
+    "app": "flag-hub",
+    "page": "https://feirzen.github.io/flag-hub/",
+    "element": null,
+    "says": null,
+    "screen": "366x655 phone",
+    "look": "dark"
+   }
+  },
+  {
    "id": "gear-4",
    "project": "Trip Board",
    "text": "Trip Board: add a gear top-right that fits the masthead. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
