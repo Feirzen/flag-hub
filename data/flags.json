@@ -199,12 +199,14 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
+   "kind": "you",
    "project": "3DS Setup",
    "source": "reminders",
    "status": "open",
    "text": "Set up GB emulators. Open_gba_firm? Can be played natively or emulated: native is faster, emulated has lots of perks.",
-   "id": "rem-02"
+   "id": "rem-02",
+   "prevKind": "idea",
+   "reviewedAt": "2026-10-21T19:46:00.228Z"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
