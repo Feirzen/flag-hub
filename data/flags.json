@@ -583,13 +583,14 @@
     "previews/p1a15c1f380a/after.png",
     "previews/p1a15c1f380a/after-2.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-21T01:41:52Z",
    "flagIds": [
     "fmvg8cu7o",
     "fmvgbmklu",
     "fmvg8fsw2"
-   ]
+   ],
+   "decidedAt": "2026-10-21T06:25:58.417Z"
   }
  ],
  "runs": [
