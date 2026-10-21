@@ -23,6 +23,16 @@
  ],
  "flags": [
   {
+   "id": "fmviiv2nk",
+   "project": "Flag Hub",
+   "text": "Make each section on here (Raise a flag, Open flags, etc) able to collapse up. I'm tired of scrolling past the massive waiting on you section that I already reviewed.\n\nAlso, make each existing flag editable with a little pencil, so I can update what says before your next run.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-21T19:45:36.560Z",
+   "priority": true
+  },
+  {
    "id": "fmvibf6x6",
    "project": "RetroBat",
    "text": "So I am starting to expand into games that I don’t really like, but I know friends like, but they are either rated M or just feel like they should be. The whole purpose of this is to inspire connection and fun between friends, but then there’s the other purpose of playing classic games. In an effort to play classic games, I have decided to include some of these gory or scary games, and I want to turn on a filter on the wizard that hides M rated games or any other games that I choose to add into the list. Effectively a family friendly filter? Compile a list of games for me and I’ll approve it.",
