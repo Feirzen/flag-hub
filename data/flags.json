@@ -541,9 +541,11 @@
    "kind": "idea",
    "project": "RetroBat Wizard",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "The online library on the website",
-   "id": "rem-41"
+   "id": "rem-41",
+   "resolvedAt": "2026-10-21T19:33:35.996Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
