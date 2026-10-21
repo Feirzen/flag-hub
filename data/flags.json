@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvio9zbk",
+   "project": "RetroBat Wizard",
+   "text": "So the upload speed on admin additions to the online library is abysmal. I’m clocking 3.5-4 MB/s. When I move a file onto the HDD from the computer I get 100 MB/s, and the upload speed on a ookla speed test in my browser is 39 MB/s. Why is it so low? It should be way closer to 40, right? Can we make it more efficient somehow? Also, maybe notify me and tell me- what happens if I close the wizard mid upload? Can you make it so it keeps uploading, or even just prompts you with a “are you sure?, you’ve got some files still uploading!” Or sum like that? Like can I have it sit in the background instead of closing when I open Retrobat with it only when uploading files? Idk, I would love for it to be faster, and not be worried about closing it and cutting off the upload you know?",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-21T22:17:10.160Z"
+  },
+  {
    "id": "fmviki81c",
    "project": "RetroBat",
    "text": "Breath of the wild still runs very very poorly even on the PC. Any way you can make it work? I've already run the set up breath of the wild button, and it either wasnt enough or didnt work at all.",
