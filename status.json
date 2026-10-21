@@ -1,10 +1,10 @@
 {
  "mode": "off",
- "openFlags": 51,
- "waiting": 1,
+ "openFlags": 52,
+ "waiting": 0,
  "lastRun": {
-  "at": "2026-10-21T01:41:52Z",
-  "summary": "Manual run on the Flag Hub's own flags: 3 fixed, 1 proposal waiting on you."
+  "at": "2026-10-21T07:53:39Z",
+  "summary": "Skipped: night shift is off"
  },
- "updated": "2026-10-21T01:41:52Z"
+ "updated": "2026-10-21T07:53:39Z"
 }
