@@ -35,11 +35,13 @@
    "id": "fmvhqinpj",
    "project": "Flag Hub",
    "text": "Okay so I approved your proposal, but I had some feedback on it- leading me to two conclusions. #1: the feedback- I like the “still need these” one, but go 21 days first, and then the next time maybe go 40-50 or sum? Or let me pick? Idk, just I know have had the 3Ds project pending for months already and I won’t want it always popping up. I like the rest. #2, it’s not as simple as approve / deny, although I like having a yes/no act on it button. So let’s leave the approve / deny, but add a space for feedback? So just a space where I say exactly what I like or don’t and approve you to act, or give you feedback on why I don’t like what you did so you can do it differently the next try?",
-   "kind": "fix",
+   "kind": "you",
    "status": "proposed",
    "source": "hub",
    "created": "2026-10-21T06:32:08.072Z",
-   "priority": true
+   "priority": true,
+   "prevKind": "fix",
+   "reviewedAt": "2026-10-21T19:33:02.524Z"
   },
   {
    "id": "fmvgct0to",
