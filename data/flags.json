@@ -243,12 +243,14 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
+   "kind": "you",
    "project": "3DS Setup",
    "source": "reminders",
    "status": "open",
    "text": "Connect to Pretendo online?",
-   "id": "rem-06"
+   "id": "rem-06",
+   "prevKind": "idea",
+   "reviewedAt": "2026-10-21T19:46:12.535Z"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
