@@ -623,11 +623,12 @@
     "previews/p1a15f4d3ece/after.png",
     "previews/p1a15f4d3ece/after-2.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-21T16:31:00Z",
    "flagIds": [
     "gear-3"
-   ]
+   ],
+   "decidedAt": "2026-10-21T19:29:00.852Z"
   },
   {
    "id": "p1a15f4d3ecf",
