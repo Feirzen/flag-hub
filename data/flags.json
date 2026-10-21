@@ -502,9 +502,11 @@
    "kind": "idea",
    "project": "RetroBat Wizard",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Controller alerts: default to the Xbox/Pro controller. When a game needs mouse, Wii remotes, or something else, show a Wii U style window to pick how to play, with the ideal way suggested. Skip NAND launch for Wii games that work with Pro. Mention couch mouse for point-and-clicks. Maybe tie into custom keybinds per game, or just a warning page with a back button.",
-   "id": "rem-33"
+   "id": "rem-33",
+   "resolvedAt": "2026-10-21T19:52:02.112Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
