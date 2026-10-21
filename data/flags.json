@@ -188,12 +188,14 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
+   "kind": "you",
    "project": "3DS Setup",
    "source": "reminders",
    "status": "open",
    "text": "Inject game titles to 3DS main page?",
-   "id": "rem-01"
+   "id": "rem-01",
+   "prevKind": "idea",
+   "reviewedAt": "2026-10-21T19:45:57.384Z"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
