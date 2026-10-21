@@ -439,12 +439,14 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
+   "kind": "you",
    "project": "RetroBat",
    "source": "reminders",
    "status": "open",
    "text": "Streaming online: Sunshine + Moonlight plus Tailscale, maybe a custom ping that gives people access. Wii remotes won't work.",
-   "id": "rem-30"
+   "id": "rem-30",
+   "prevKind": "idea",
+   "reviewedAt": "2026-10-21T19:45:14.221Z"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
