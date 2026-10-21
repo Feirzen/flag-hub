@@ -565,9 +565,11 @@
    "kind": "idea",
    "project": "RetroBat Wizard",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Uploading games via admin tab: show speed and estimated time, and let me edit the queue (remove or reorder games)",
-   "id": "rem-40"
+   "id": "rem-40",
+   "resolvedAt": "2026-10-21T19:50:22.260Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
