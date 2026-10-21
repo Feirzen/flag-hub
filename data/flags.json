@@ -607,9 +607,11 @@
    "kind": "fix",
    "project": "RetroBat Wizard",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Drive health light: cut the green '7 checks passed' button on the Home screen since it's in the bottom banner now, and swap the Home screen controller icon for the one from the tab header",
-   "id": "rem-44"
+   "id": "rem-44",
+   "resolvedAt": "2026-10-21T19:50:58.825Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
