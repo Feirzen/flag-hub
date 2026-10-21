@@ -232,12 +232,14 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
+   "kind": "you",
    "project": "3DS Setup",
    "source": "reminders",
    "status": "open",
    "text": "Make sure save states are backed up and don't get lost",
-   "id": "rem-05"
+   "id": "rem-05",
+   "prevKind": "idea",
+   "reviewedAt": "2026-10-21T19:46:10.276Z"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
