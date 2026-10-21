@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmviki81c",
+   "project": "RetroBat",
+   "text": "Breath of the wild still runs very very poorly even on the PC. Any way you can make it work? I've already run the set up breath of the wild button, and it either wasnt enough or didnt work at all.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-21T20:31:36.240Z"
+  },
+  {
    "id": "fmvij0mpl",
    "project": "Flag Hub",
    "text": "I'd love one last thing on the flag hub- there are flags for me and for claude, and let's add \"Flag an idea\" still unique to the hub, not anywhere else, but I can add and look through concepts and cool ideas unrelated to the projects that are actually happening. You know what I mean? Maybe make it a dotted outline of a flag.\n\nAlso, these labels on all my flags? I'd love more ability to edit. So basically add the ability to change what a flag is labelled with, and a way somewhere to edit labels (maybe under settings?) whee I can change the color, name, and delete or create new labels. Yeah?",
