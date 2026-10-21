@@ -596,9 +596,11 @@
    "kind": "idea",
    "project": "RetroBat Wizard",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Controller button: a custom controllers window, easier to read than Windows', that pings controllers, shows which is assigned where, and explains how RetroBat and other games use them",
-   "id": "rem-43"
+   "id": "rem-43",
+   "resolvedAt": "2026-10-21T19:50:42.790Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
