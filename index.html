@@ -146,6 +146,12 @@ textarea.teal:focus{border-color:var(--teal)}
 .review .item{border-top-color:color-mix(in srgb,var(--warn) 25%,var(--line))}
 .ic.keep{color:var(--warn)}
 .age{color:var(--warn)}
+.keeps{grid-column:1/-1;display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--ink2);animation:in .25s ease}
+.keeps .chip{padding:4px 10px;font-size:12.5px;border-color:color-mix(in srgb,var(--warn) 50%,var(--line));color:var(--warn)}
+.pnote{min-height:64px;font-size:14px}
+.pnote:focus{border-color:var(--warn)}
+.state.redo{background:var(--warnBg);color:var(--warn)}
+.said{font-style:italic;font-size:13px!important;color:var(--ink3)!important}
 .tag.kind-idea{background:transparent}
 </style>
 </head>
@@ -219,12 +225,15 @@ textarea.teal:focus{border-color:var(--teal)}
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ago = t => { if (!t) return ""; const m = Math.round((Date.now() - new Date(t)) / 60000); if (m < 1) return "just now"; if (m < 60) return m + "m ago"; const h = Math.round(m / 60); if (h < 24) return h + "h ago"; const d = Math.round(h / 24); return d < 30 ? d + "d ago" : new Date(t).toLocaleDateString(); };
-const S = { mode: "light", projects: [], flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude" };
-const REVIEW_DAYS = 21;
+const S = { keeping: null, notes: {}, mode: "light", projects: [], flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude" };
+const FIRST_REVIEW = 21, NEXT_REVIEW = 45;
+const KEEP_OPTS = [[21, "3 wks"], [45, "6 wks"], [90, "3 mo"]];
 const isMine = f => f.kind === "you";
 const isOpen = f => f.status !== "done" && f.status !== "dismissed";
 const touched = f => f.reviewedAt || f.created || "";
-const isStale = f => isOpen(f) && f.status === "open" && touched(f) && (Date.now() - new Date(touched(f))) > REVIEW_DAYS * 864e5;
+/* first check-in after 21 days; after that, whatever you picked when you kept it (6 weeks if you didn't pick) */
+const reviewGap = f => f.reviewedAt ? (f.reviewEvery || NEXT_REVIEW) : FIRST_REVIEW;
+const isStale = f => isOpen(f) && f.status === "open" && touched(f) && (Date.now() - new Date(touched(f))) > reviewGap(f) * 864e5;
 /* each project gets its own color (skips orange and teal, which mean Claude and you) */
 const PAL = ["#f2b544", "#9bd35a", "#4fb3ff", "#7c8cff", "#a77bff", "#ff6fae", "#e58f6b", "#d6c35a", "#5fd38a", "#c792ea", "#6ca0ff", "#ff8f8f"];
 function pc(name) {
@@ -301,11 +310,11 @@ function flagRow(f, doneView, reviewView) {
   const delBtn = `<button class="ic ${S.sure === f.id ? "sure" : ""}" data-a="del" aria-label="${S.sure === f.id ? "Tap again to delete" : "Delete"}">${ICON.del}</button>`;
   const doneBtn = `<button class="ic" data-a="done" aria-label="Mark done">${ICON.done}</button>`;
   const acts = doneView ? `<button class="ic" data-a="reopen" aria-label="Reopen">${ICON.undo}</button>`
-    : reviewView ? `<button class="ic keep" data-a="keep" aria-label="Keep it" title="Keep it (asks again in 3 weeks)">${ICON.keep}</button>${doneBtn}${delBtn}`
+    : reviewView ? `<button class="ic keep" data-a="keepask" aria-label="Keep it" title="Keep it">${ICON.keep}</button>${doneBtn}${delBtn}`
     : `<button class="ic" data-a="swap" aria-label="${isMine(f) ? "Hand to Claude" : "Move to my flags"}" title="${isMine(f) ? "Hand to Claude" : "Move to my flags"}">${ICON.swap}</button><button class="ic ${f.priority ? "pri-on" : ""}" data-a="pri" aria-label="${f.priority ? "Remove priority" : "Make priority"}" title="${f.priority ? "Priority: do this first" : "Do this first"}">${ICON.bolt}</button>${doneBtn}${delBtn}`;
   return `<div class="item ${f.priority && !doneView ? "is-pri" : ""} ${isMine(f) ? "mine" : ""}" data-id="${f.id}"><div class="txt">${esc(f.text)}</div>
     <div class="acts">${acts}</div>
-    <div class="meta"><span class="fg">${FLAGI}</span><span class="tag proj" style="${pc(f.project)}">${esc(f.project)}</span>${pri}${kind}${st}${src && !reviewView ? `<span>${src}</span>` : ""}${reviewView ? `<span class="age">${days}d untouched</span>` : `<span>${ago(doneView ? f.resolvedAt : f.created)}</span>`}${f.resolution ? `<span>· ${esc(f.resolution)}</span>` : ""}</div></div>`;
+    <div class="meta"><span class="fg">${FLAGI}</span><span class="tag proj" style="${pc(f.project)}">${esc(f.project)}</span>${pri}${kind}${st}${src && !reviewView ? `<span>${src}</span>` : ""}${reviewView ? `<span class="age">${days}d untouched</span>` : `<span>${ago(doneView ? f.resolvedAt : f.created)}</span>`}${f.resolution ? `<span>· ${esc(f.resolution)}</span>` : ""}</div>${reviewView && S.keeping === f.id ? `<div class="keeps"><span>Ask again in</span>${KEEP_OPTS.map(([d, t]) => `<button class="chip" data-a="keep" data-days="${d}">${t}</button>`).join("")}</div>` : ""}</div>`;
 }
 function renderFlags() {
   const fresh = S.flags.filter(f => isOpen(f) && !isStale(f));
@@ -314,7 +323,7 @@ function renderFlags() {
   const stale = S.flags.filter(isStale).sort((a, b) => touched(a).localeCompare(touched(b)));
   const rv = $("#review"); rv.hidden = !stale.length;
   rv.innerHTML = stale.length ? `<h3>Still need these? <span class="n" style="font:500 12px var(--fm);color:var(--warn)">${stale.length}</span></h3>
-    <p class="note">Flags nobody has touched in ${REVIEW_DAYS} days. Keep one and it checks in again in ${REVIEW_DAYS} days.</p>
+    <p class="note">Flags that have sat untouched for a while. Keep one and pick when it checks in next.</p>
     <div class="list">${stale.slice(0, 3).map(f => flagRow(f, false, true)).join("")}</div>${stale.length > 3 ? `<p class="note">${stale.length - 3} more after these.</p>` : ""}` : "";
   const open = fresh.filter(f => (S.who === "you") === isMine(f) && (S.filter === "all" || f.project === S.filter))
     .sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0));
@@ -325,7 +334,9 @@ function renderFlags() {
   $("#doneBox").hidden = !done.length;
   $("#done").innerHTML = done.map(f => flagRow(f, true)).join("");
 }
+const STATE_TXT = { approved: "Approved. Ships on the next night shift.", shipped: "Shipped", denied: "Denied", redo: "Sent back. Claude will rework it with your notes." };
 function renderProps() {
+  const a = document.activeElement; if (a && a.classList && a.classList.contains("pnote")) return; /* don't wipe a note mid-typing */
   const list = [...S.props].sort((a, b) => (a.status === "waiting" ? 0 : 1) - (b.status === "waiting" ? 0 : 1) || (b.created || "").localeCompare(a.created || "")).slice(0, 12);
   const w = S.props.filter(p => p.status === "waiting").length;
   $("#propN").textContent = w ? w : "";
@@ -335,8 +346,9 @@ function renderProps() {
       ${(p.images || []).length ? `<div class="shots">${p.images.map((src, k) => `<figure><a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" alt="${k ? "After" : "Before"}" loading="lazy"></a><figcaption>${k ? "after" : "before"}</figcaption></figure>`).join("")}</div>` : ""}
       ${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">See the before and after</a>` : ""}
       ${p.status === "waiting"
-        ? `<div class="row"><button class="btn sm" data-a="approve">Approve</button><button class="btn sm ghost" data-a="deny">Deny</button></div>`
-        : `<span class="state ${p.status}">${p.status === "approved" ? "Approved. Ships on the next night shift." : p.status === "shipped" ? "Shipped" : "Denied"}</span>`}
+        ? `<textarea class="pnote" data-note="${p.id}" placeholder="Notes for Claude (optional): what you like, what to change" maxlength="1500">${esc(S.notes[p.id] || "")}</textarea>
+           <div class="row"><button class="btn sm" data-a="approve">${S.notes[p.id] ? "Approve with notes" : "Approve"}</button><button class="btn sm ghost" data-a="deny">${S.notes[p.id] ? "Redo with notes" : "Deny"}</button></div>`
+        : `<span class="state ${p.status}">${STATE_TXT[p.status] || "Denied"}</span>${p.feedback ? `<p class="said">“${esc(p.feedback)}”</p>` : ""}`}
     </div>`).join("") : `<p class="empty">Nothing waiting. Proposals from the night shift land here for a quick yes or no.</p>`;
 }
 function renderApp() {
@@ -398,7 +410,8 @@ document.addEventListener("click", async e => {
   const now = new Date().toISOString();
   const edit = (coll, fn) => d => { const it = (d[coll] || []).find(x => x.id === id); if (it) fn(it, d); };
   if (a === "pri") save(edit("flags", f => { if (f.priority) delete f.priority; else f.priority = true; f.reviewedAt = now; }), "Flag priority");
-  else if (a === "keep") save(edit("flags", f => { f.reviewedAt = now; }), "Flag kept");
+  else if (a === "keepask") { S.keeping = S.keeping === id ? null : id; renderFlags(); }
+  else if (a === "keep") { const d = +b.dataset.days || NEXT_REVIEW; S.keeping = null; save(edit("flags", f => { f.reviewedAt = now; f.reviewEvery = d; }), "Flag kept"); }
   else if (a === "swap") save(edit("flags", f => { if (f.kind === "you") { f.kind = f.prevKind || "fix"; delete f.prevKind; } else { f.prevKind = f.kind; f.kind = "you"; } f.reviewedAt = now; }), "Flag moved");
   else if (a === "done") save(edit("flags", f => { f.status = "done"; f.resolvedAt = now; f.resolution = "marked done by you"; }), "Flag done");
   else if (a === "reopen") save(edit("flags", f => { f.status = "open"; delete f.resolvedAt; delete f.resolution; }), "Flag reopened");
@@ -406,7 +419,19 @@ document.addEventListener("click", async e => {
     if (S.sure !== id) { S.sure = id; renderFlags(); setTimeout(() => { if (S.sure === id) { S.sure = null; renderFlags(); } }, 3000); return; }
     S.sure = null; save(d => { d.flags = (d.flags || []).filter(f => f.id !== id); }, "Flag deleted");
   }
-  else if (a === "approve" || a === "deny") save(edit("proposals", p => { p.status = a === "approve" ? "approved" : "denied"; p.decidedAt = now; }), a === "approve" ? "Proposal approved" : "Proposal denied");
+  else if (a === "approve" || a === "deny") {
+    const note = (S.notes[id] || "").trim();
+    const status = a === "approve" ? "approved" : note ? "redo" : "denied";
+    const ok = await save(edit("proposals", p => { p.status = status; p.decidedAt = now; if (note) { p.feedback = note; (p.history = p.history || []).push({ at: now, status, feedback: note }); } }), { approved: "Proposal approved", redo: "Proposal sent back with notes", denied: "Proposal denied" }[status]);
+    if (ok) { delete S.notes[id]; renderProps(); }
+  }
+});
+document.addEventListener("input", e => {
+  const t = e.target; if (!t.classList || !t.classList.contains("pnote")) return;
+  S.notes[t.dataset.note] = t.value;
+  const card = t.closest(".prop"), has = !!t.value.trim();
+  card.querySelector('[data-a="approve"]').textContent = has ? "Approve with notes" : "Approve";
+  card.querySelector('[data-a="deny"]').textContent = has ? "Redo with notes" : "Deny";
 });
 $("#send").onclick = sendFlag;
 $("#addProj").onclick = addProject;
