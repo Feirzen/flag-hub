@@ -210,12 +210,14 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
+   "kind": "you",
    "project": "3DS Setup",
    "source": "reminders",
    "status": "open",
    "text": "Set up DS emulator (TWiLight Menu)",
-   "id": "rem-03"
+   "id": "rem-03",
+   "prevKind": "idea",
+   "reviewedAt": "2026-10-21T19:46:04.380Z"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
