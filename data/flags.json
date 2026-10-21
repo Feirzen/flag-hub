@@ -23,6 +23,25 @@
  ],
  "flags": [
   {
+   "id": "fmvibf6x6",
+   "project": "RetroBat",
+   "text": "So I am starting to expand into games that I don’t really like, but I know friends like, but they are either rated M or just feel like they should be. The whole purpose of this is to inspire connection and fun between friends, but then there’s the other purpose of playing classic games. In an effort to play classic games, I have decided to include some of these gory or scary games, and I want to turn on a filter on the wizard that hides M rated games or any other games that I choose to add into the list. Effectively a family friendly filter? Compile a list of games for me and I’ll approve it.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-21T16:17:18.283Z"
+  },
+  {
+   "id": "fmvhqinpj",
+   "project": "Flag Hub",
+   "text": "Okay so I approved your proposal, but I had some feedback on it- leading me to two conclusions. #1: the feedback- I like the “still need these” one, but go 21 days first, and then the next time maybe go 40-50 or sum? Or let me pick? Idk, just I know have had the 3Ds project pending for months already and I won’t want it always popping up. I like the rest. #2, it’s not as simple as approve / deny, although I like having a yes/no act on it button. So let’s leave the approve / deny, but add a space for feedback? So just a space where I say exactly what I like or don’t and approve you to act, or give you feedback on why I don’t like what you did so you can do it differently the next try?",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-21T06:32:08.072Z",
+   "priority": true
+  },
+  {
    "id": "fmvgct0to",
    "project": "Claude OS",
    "text": "Claude OS (kiosk)\nYou're right, the artifact frame is the problem. The fix:\n• Host it on GitHub Pages and add it to the iPhone Home Screen as a web app. That opens fullscreen with no Safari bars at all.\n• Turn on Guided Access to lock the phone to it, and set Auto-Lock to Never.\n• Live control: the page checks a small settings file in the repo every 30 seconds or so. You tell me \"alarm at 6:30\" or \"show something funi from any chat, I edit the file, and the phone updates within a minute or two, no reloading. One catch:\n¡OS needs a single tap after launch before it'll play sound.\nLet’s do this sooner than later, just not quite priority",
@@ -36,7 +55,7 @@
    "project": "Flag Hub",
    "text": "These descriptions take up half this flag’s space, and the rest is empty cause little icons take that entire space, even through they’re little. Want to adjust so the space is better used? Let the text go all the way to the right and make those icons sit above maybe?",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-10-20T06:48:57.025Z",
    "where": {
@@ -46,14 +65,16 @@
     "says": "A lot of the flags here are ones requiring action from me not you, maybe we should add seperate colored flags for me? No",
     "screen": "366x655 phone",
     "look": "chameleon"
-   }
+   },
+   "resolvedAt": "2026-10-21T01:41:52Z",
+   "resolution": "Flag text now runs the full width, with the buttons on the top line next to the tags."
   },
   {
    "id": "fmvgbmklu",
    "project": "Flag Hub",
    "text": "All of these little tags I can add, I’d prefer a drop down of maybe a scrolling list like you have down below. Also I wouldn’t mind more color on this whole website instead of like 2 total. Some more colors wouldn’t go wrong fs.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "app",
    "created": "2026-10-20T06:47:30.259Z",
    "where": {
@@ -70,16 +91,18 @@
    "project": "Flag Hub",
    "text": "Maybe make me another flag hub widget that is large on scriptable, and allows me to see previews of the flags. Basically had the same info as the medium one, but that info is consolidated to the top and the other 3/4 of the bigger space can be a list of the flags, sorted by priority and then secondly more recent first. Not the whole blurb, but like the first line of them? Make sense?",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-20T06:46:15.611Z"
+   "created": "2026-10-20T06:46:15.611Z",
+   "resolvedAt": "2026-10-21T01:41:52Z",
+   "resolution": "Added scriptable/flag-hub-large-widget.js: counts up top, then your top 10 flags (priority first, newest next)."
   },
   {
    "id": "fmvg8fsw2",
    "project": "Flag Hub",
    "text": "Another idea, some flags aren’t current and could be resolved, or become so old it’s worth reviewing if they should stick around. Maybe make a needs review mechanism or sum for flags to come back around so I can resolve them and this never become too massively cluttered?",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-20T05:18:15.554Z"
   },
@@ -88,7 +111,7 @@
    "project": "Flag Hub",
    "text": "A lot of the flags here are ones requiring action from me not you, maybe we should add seperate colored flags for me? Not anything that show on the different web apps, but instead only shows within this app- the for claude flags can be an orange like now, and for me flags are teal seafoam green. Then you don’t have to sift through a ton of flags that are really just reminders for me. I can just add them here directly, you don’t need to add a way to input teal flags on any apps.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-20T05:15:57.300Z",
    "priority": true
@@ -98,7 +121,7 @@
    "project": "Flag Hub",
    "text": "The Apple icon of this repo won’t render correctly, if I add it to the home screen it just shows a white background with black text over it.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-10-20T05:10:08.940Z",
    "where": {
@@ -108,7 +131,9 @@
     "says": null,
     "screen": "366x655 phone",
     "look": "dark"
-   }
+   },
+   "resolvedAt": "2026-10-21T01:41:52Z",
+   "resolution": "Rebuilt the home screen icon (the old files were broken), plus the favicon and share banner. Remove and re-add the Hub to your home screen to see it."
   },
   {
    "id": "gear-4",
@@ -565,7 +590,28 @@
    "id": "rem-46"
   }
  ],
- "proposals": [],
+ "proposals": [
+  {
+   "id": "p1a15c1f380a",
+   "project": "Flag Hub",
+   "title": "Hub upgrade: for-me flags, project colors, old-flag check-in",
+   "summary": "Teal For me flags get their own tab and the night shift skips them, with a swap button to move flags between lists. Projects become one colorful scrolling row, and flags untouched for 21 days come back in a Still need these? box (the old flags in the after shots are aged on purpose to show it).",
+   "link": "https://github.com/Feirzen/flag-hub/pull/5",
+   "images": [
+    "previews/p1a15c1f380a/before.png",
+    "previews/p1a15c1f380a/after.png",
+    "previews/p1a15c1f380a/after-2.png"
+   ],
+   "status": "approved",
+   "created": "2026-10-21T01:41:52Z",
+   "flagIds": [
+    "fmvg8cu7o",
+    "fmvgbmklu",
+    "fmvg8fsw2"
+   ],
+   "decidedAt": "2026-10-21T06:25:58.417Z"
+  }
+ ],
  "runs": [
   {
    "at": "2026-10-19T22:40:44Z",
@@ -578,6 +624,40 @@
    "mode": "off",
    "summary": "Skipped: night shift is off",
    "items": []
+  },
+  {
+   "at": "2026-10-21T01:41:52Z",
+   "mode": "manual",
+   "summary": "Manual run on the Flag Hub's own flags: 3 fixed, 1 proposal waiting on you.",
+   "items": [
+    {
+     "kind": "fixed",
+     "project": "Flag Hub",
+     "text": "Home screen icon fixed (the icon files were broken)."
+    },
+    {
+     "kind": "fixed",
+     "project": "Flag Hub",
+     "text": "Flag text now uses the full width, buttons moved to the top line."
+    },
+    {
+     "kind": "fixed",
+     "project": "Flag Hub",
+     "text": "New large Scriptable widget with flag previews."
+    },
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "For me flags, project colors, and an old-flag check-in."
+    }
+   ]
+  },
+  {
+   "at": "2026-10-21T07:53:39Z",
+   "mode": "off",
+   "summary": "Skipped: night shift is off",
+   "items": []
   }
- ]
+ ],
+ "digestAt": "2026-10-21T01:41:52Z"
 }
