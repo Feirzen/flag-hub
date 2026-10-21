@@ -27,7 +27,7 @@
    "project": "RetroBat",
    "text": "So I am starting to expand into games that I don’t really like, but I know friends like, but they are either rated M or just feel like they should be. The whole purpose of this is to inspire connection and fun between friends, but then there’s the other purpose of playing classic games. In an effort to play classic games, I have decided to include some of these gory or scary games, and I want to turn on a filter on the wizard that hides M rated games or any other games that I choose to add into the list. Effectively a family friendly filter? Compile a list of games for me and I’ll approve it.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-21T16:17:18.283Z"
   },
@@ -36,7 +36,7 @@
    "project": "Flag Hub",
    "text": "Okay so I approved your proposal, but I had some feedback on it- leading me to two conclusions. #1: the feedback- I like the “still need these” one, but go 21 days first, and then the next time maybe go 40-50 or sum? Or let me pick? Idk, just I know have had the 3Ds project pending for months already and I won’t want it always popping up. I like the rest. #2, it’s not as simple as approve / deny, although I like having a yes/no act on it button. So let’s leave the approve / deny, but add a space for feedback? So just a space where I say exactly what I like or don’t and approve you to act, or give you feedback on why I don’t like what you did so you can do it differently the next try?",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-21T06:32:08.072Z",
    "priority": true
@@ -141,7 +141,7 @@
    "text": "Trip Board: add a gear top-right that fits the masthead. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
    "kind": "fix",
    "priority": true,
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-19T23:00:04-06:00"
   },
@@ -151,7 +151,7 @@
    "text": "Interview Prep: turn the theme button into the gear. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
    "kind": "fix",
    "priority": true,
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-19T23:00:04-06:00"
   },
@@ -595,7 +595,7 @@
    "id": "p1a15c1f380a",
    "project": "Flag Hub",
    "title": "Hub upgrade: for-me flags, project colors, old-flag check-in",
-   "summary": "Teal For me flags get their own tab and the night shift skips them, with a swap button to move flags between lists. Projects become one colorful scrolling row, and flags untouched for 21 days come back in a Still need these? box (the old flags in the after shots are aged on purpose to show it).",
+   "summary": "Approved, plus your notes are built in: check-ins start at 21 days and then you pick 3 weeks, 6 weeks, or 3 months, and every proposal now has a notes box. Ready to merge on GitHub.",
    "link": "https://github.com/Feirzen/flag-hub/pull/5",
    "images": [
     "previews/p1a15c1f380a/before.png",
@@ -607,9 +607,57 @@
    "flagIds": [
     "fmvg8cu7o",
     "fmvgbmklu",
-    "fmvg8fsw2"
+    "fmvg8fsw2",
+    "fmvhqinpj"
    ],
    "decidedAt": "2026-10-21T06:25:58.417Z"
+  },
+  {
+   "id": "p1a15f4d3ece",
+   "project": "Interview Prep",
+   "title": "Shared settings gear (replaces the theme button)",
+   "summary": "The palette button becomes the gear and rolls out Look and Flag like your other apps. Same four looks, and Chameleon gets tone and lock.",
+   "link": "https://github.com/Feirzen/interview-prep/pull/1",
+   "images": [
+    "previews/p1a15f4d3ece/before.png",
+    "previews/p1a15f4d3ece/after.png",
+    "previews/p1a15f4d3ece/after-2.png"
+   ],
+   "status": "waiting",
+   "created": "2026-10-21T16:31:00Z",
+   "flagIds": [
+    "gear-3"
+   ]
+  },
+  {
+   "id": "p1a15f4d3ecf",
+   "project": "Trip Board",
+   "title": "Masthead gear + four looks",
+   "summary": "A gold gear in the navy masthead rolls out Look and Flag. Trip Board gets Navy (the original), Paper, Sepia, and Chameleon, and the old flag link at the bottom goes away.",
+   "link": "https://github.com/Feirzen/Trip-Board/pull/1",
+   "images": [
+    "previews/p1a15f4d3ecf/before.png",
+    "previews/p1a15f4d3ecf/after.png",
+    "previews/p1a15f4d3ecf/after-2.png"
+   ],
+   "status": "waiting",
+   "created": "2026-10-21T16:31:00Z",
+   "flagIds": [
+    "gear-4"
+   ]
+  },
+  {
+   "id": "p1a15f4758e9",
+   "project": "RetroBat",
+   "title": "Family filter: which games to hide",
+   "summary": "None of your 168 games are rated M yet, so I sorted the Teen-rated ones into suggest hiding (GoldenEye, Morrowind), your call, and keep showing. Approve or add notes, and tell me which M games you're adding.",
+   "link": "https://github.com/Feirzen/flag-hub/blob/main/previews/p1a15f4758e9/family-filter.md",
+   "images": [],
+   "status": "waiting",
+   "created": "2026-10-21T16:31:00Z",
+   "flagIds": [
+    "fmvibf6x6"
+   ]
   }
  ],
  "runs": [
@@ -657,7 +705,39 @@
    "mode": "off",
    "summary": "Skipped: night shift is off",
    "items": []
+  },
+  {
+   "at": "2026-10-21T16:31:00Z",
+   "mode": "big",
+   "summary": "Manual Go Big run: Hub upgrade ready to merge with your notes built in, night shift taught to read notes, 3 new proposals.",
+   "items": [
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "Reworked: your approved upgrade now has notes on proposals and pick-your-interval check-ins. Ready to merge."
+    },
+    {
+     "kind": "fixed",
+     "project": "Flag Hub",
+     "text": "Night shift tasks now read your notes: approve with notes ships the tweaks, redo with notes gets rebuilt."
+    },
+    {
+     "kind": "proposed",
+     "project": "Interview Prep",
+     "text": "Theme button becomes the shared gear."
+    },
+    {
+     "kind": "proposed",
+     "project": "Trip Board",
+     "text": "Masthead gear plus four looks."
+    },
+    {
+     "kind": "proposed",
+     "project": "RetroBat",
+     "text": "Family filter game list ready for your yes or notes."
+    }
+   ]
   }
  ],
- "digestAt": "2026-10-21T01:41:52Z"
+ "digestAt": "2026-10-21T16:31:00Z"
 }
