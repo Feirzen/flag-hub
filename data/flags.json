@@ -663,10 +663,19 @@
    "summary": "None of your 168 games are rated M yet, so I sorted the Teen-rated ones into suggest hiding (GoldenEye, Morrowind), your call, and keep showing. Approve or add notes, and tell me which M games you're adding.",
    "link": "https://github.com/Feirzen/flag-hub/blob/main/previews/p1a15f4758e9/family-filter.md",
    "images": [],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-21T16:31:00Z",
    "flagIds": [
     "fmvibf6x6"
+   ],
+   "decidedAt": "2026-10-21T19:32:44.968Z",
+   "feedback": "The complete list is still rolling out, so create a running list that we can add to in the future, take a look now because I have added a solid amount of games and I liked your top suggestions but not your middle suggestions. For example, Ace attorney is silly and all of the ones he grouped with that.  But yeah, morrowwind and golden eye, plus take a look because I added a couple for example GTA",
+   "history": [
+    {
+     "at": "2026-10-21T19:32:44.968Z",
+     "status": "approved",
+     "feedback": "The complete list is still rolling out, so create a running list that we can add to in the future, take a look now because I have added a solid amount of games and I liked your top suggestions but not your middle suggestions. For example, Ace attorney is silly and all of the ones he grouped with that.  But yeah, morrowwind and golden eye, plus take a look because I added a couple for example GTA"
+    }
    ]
   }
  ],
