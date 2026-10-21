@@ -23,6 +23,16 @@
  ],
  "flags": [
   {
+   "id": "fmvhqinpj",
+   "project": "Flag Hub",
+   "text": "Okay so I approved your proposal, but I had some feedback on it- leading me to two conclusions. #1: the feedback- I like the “still need these” one, but go 21 days first, and then the next time maybe go 40-50 or sum? Or let me pick? Idk, just I know have had the 3Ds project pending for months already and I won’t want it always popping up. I like the rest. #2, it’s not as simple as approve / deny, although I like having a yes/no act on it button. So let’s leave the approve / deny, but add a space for feedback? So just a space where I say exactly what I like or don’t and approve you to act, or give you feedback on why I don’t like what you did so you can do it differently the next try?",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-21T06:32:08.072Z",
+   "priority": true
+  },
+  {
    "id": "fmvgct0to",
    "project": "Claude OS",
    "text": "Claude OS (kiosk)\nYou're right, the artifact frame is the problem. The fix:\n• Host it on GitHub Pages and add it to the iPhone Home Screen as a web app. That opens fullscreen with no Safari bars at all.\n• Turn on Guided Access to lock the phone to it, and set Auto-Lock to Never.\n• Live control: the page checks a small settings file in the repo every 30 seconds or so. You tell me \"alarm at 6:30\" or \"show something funi from any chat, I edit the file, and the phone updates within a minute or two, no reloading. One catch:\n¡OS needs a single tap after launch before it'll play sound.\nLet’s do this sooner than later, just not quite priority",
