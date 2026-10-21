@@ -641,10 +641,19 @@
     "previews/p1a15f4d3ecf/after.png",
     "previews/p1a15f4d3ecf/after-2.png"
    ],
-   "status": "waiting",
+   "status": "redo",
    "created": "2026-10-21T16:31:00Z",
    "flagIds": [
     "gear-4"
+   ],
+   "decidedAt": "2026-10-21T19:29:40.907Z",
+   "feedback": "The trip board isn’t archived but it’s inactive. Ignore it in the future",
+   "history": [
+    {
+     "at": "2026-10-21T19:29:40.907Z",
+     "status": "redo",
+     "feedback": "The trip board isn’t archived but it’s inactive. Ignore it in the future"
+    }
    ]
   },
   {
