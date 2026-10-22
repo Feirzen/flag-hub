@@ -151,6 +151,7 @@ textarea.teal:focus{border-color:var(--teal)}
 .pnote{min-height:64px;font-size:14px}
 .pnote:focus{border-color:var(--warn)}
 .state.redo{background:var(--warnBg);color:var(--warn)}
+.state.ready{background:var(--warnBg);color:var(--warn)}
 .said{font-style:italic;font-size:13px!important;color:var(--ink3)!important}
 .tag.kind-idea{background:transparent}
 </style>
@@ -334,11 +335,12 @@ function renderFlags() {
   $("#doneBox").hidden = !done.length;
   $("#done").innerHTML = done.map(f => flagRow(f, true)).join("");
 }
-const STATE_TXT = { approved: "Approved. Ships on the next night shift.", shipped: "Shipped", denied: "Denied", redo: "Sent back. Claude will rework it with your notes." };
+const STATE_TXT = { approved: "Approved. Claude gets it ready to merge tonight.", ready: "Ready to merge. Merge it on GitHub, then tap Merged.", shipped: "Shipped", denied: "Denied", redo: "Sent back. Claude will rework it with your notes." };
 function renderProps() {
   const a = document.activeElement; if (a && a.classList && a.classList.contains("pnote")) return; /* don't wipe a note mid-typing */
-  const list = [...S.props].sort((a, b) => (a.status === "waiting" ? 0 : 1) - (b.status === "waiting" ? 0 : 1) || (b.created || "").localeCompare(a.created || "")).slice(0, 12);
-  const w = S.props.filter(p => p.status === "waiting").length;
+  const rank = p => p.status === "waiting" ? 0 : p.status === "ready" ? 1 : 2;
+  const list = [...S.props].sort((a, b) => rank(a) - rank(b) || (b.created || "").localeCompare(a.created || "")).slice(0, 12);
+  const w = S.props.filter(p => p.status === "waiting" || p.status === "ready").length;
   $("#propN").textContent = w ? w : "";
   $("#props").innerHTML = list.length ? list.map(p => `<div class="prop" data-id="${p.id}">
       <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.created)}</span></div>
@@ -348,7 +350,7 @@ function renderProps() {
       ${p.status === "waiting"
         ? `<textarea class="pnote" data-note="${p.id}" placeholder="Notes for Claude (optional): what you like, what to change" maxlength="1500">${esc(S.notes[p.id] || "")}</textarea>
            <div class="row"><button class="btn sm" data-a="approve">${S.notes[p.id] ? "Approve with notes" : "Approve"}</button><button class="btn sm ghost" data-a="deny">${S.notes[p.id] ? "Redo with notes" : "Deny"}</button></div>`
-        : `<span class="state ${p.status}">${STATE_TXT[p.status] || "Denied"}</span>${p.feedback ? `<p class="said">“${esc(p.feedback)}”</p>` : ""}`}
+        : `<span class="state ${p.status}">${STATE_TXT[p.status] || "Denied"}</span>${p.feedback ? `<p class="said">“${esc(p.feedback)}”</p>` : ""}${p.status === "ready" || p.status === "approved" ? `<div class="row"><button class="btn sm" data-a="merged">Merged and resolved</button></div>` : ""}`}
     </div>`).join("") : `<p class="empty">Nothing waiting. Proposals from the night shift land here for a quick yes or no.</p>`;
 }
 function renderApp() {
@@ -418,6 +420,11 @@ document.addEventListener("click", async e => {
   else if (a === "del") {
     if (S.sure !== id) { S.sure = id; renderFlags(); setTimeout(() => { if (S.sure === id) { S.sure = null; renderFlags(); } }, 3000); return; }
     S.sure = null; save(d => { d.flags = (d.flags || []).filter(f => f.id !== id); }, "Flag deleted");
+  }
+  else if (a === "merged") {
+    const ok = await save(d => { const p = (d.proposals || []).find(x => x.id === id); if (!p) return; p.status = "shipped"; p.shippedAt = now; p.mergedBy = "you";
+      (d.flags || []).forEach(f => { if ((p.flagIds || []).includes(f.id) && f.status !== "done") { f.status = "done"; f.resolvedAt = now; f.resolution = "Shipped: " + p.title; } }); }, "Proposal merged");
+    if (ok) renderAll();
   }
   else if (a === "approve" || a === "deny") {
     const note = (S.notes[id] || "").trim();
