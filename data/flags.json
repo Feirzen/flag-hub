@@ -82,11 +82,13 @@
    "project": "Flag Hub",
    "text": "Okay so I approved your proposal, but I had some feedback on it- leading me to two conclusions. #1: the feedback- I like the “still need these” one, but go 21 days first, and then the next time maybe go 40-50 or sum? Or let me pick? Idk, just I know have had the 3Ds project pending for months already and I won’t want it always popping up. I like the rest. #2, it’s not as simple as approve / deny, although I like having a yes/no act on it button. So let’s leave the approve / deny, but add a space for feedback? So just a space where I say exactly what I like or don’t and approve you to act, or give you feedback on why I don’t like what you did so you can do it differently the next try?",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-21T06:32:08.072Z",
    "priority": true,
-   "reviewedAt": "2026-10-21T19:33:09.664Z"
+   "reviewedAt": "2026-10-21T19:33:09.664Z",
+   "resolvedAt": "2026-10-22T07:58:39Z",
+   "resolution": "Shipped with the Hub upgrade: your notes (check-in intervals, proposal notes box) are in."
   },
   {
    "id": "fmvgct0to",
@@ -121,7 +123,7 @@
    "project": "Flag Hub",
    "text": "All of these little tags I can add, I’d prefer a drop down of maybe a scrolling list like you have down below. Also I wouldn’t mind more color on this whole website instead of like 2 total. Some more colors wouldn’t go wrong fs.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-10-20T06:47:30.259Z",
    "where": {
@@ -131,7 +133,9 @@
     "says": "Study Decks",
     "screen": "366x655 phone",
     "look": "chameleon"
-   }
+   },
+   "resolvedAt": "2026-10-22T07:58:39Z",
+   "resolution": "Shipped with the Hub upgrade: projects are a scrolling picker with colors."
   },
   {
    "id": "fmvgbkz0b",
@@ -149,19 +153,23 @@
    "project": "Flag Hub",
    "text": "Another idea, some flags aren’t current and could be resolved, or become so old it’s worth reviewing if they should stick around. Maybe make a needs review mechanism or sum for flags to come back around so I can resolve them and this never become too massively cluttered?",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-20T05:18:15.554Z"
+   "created": "2026-10-20T05:18:15.554Z",
+   "resolvedAt": "2026-10-22T07:58:39Z",
+   "resolution": "Shipped with the Hub upgrade: old flags show up in a Still need these? check-in."
   },
   {
    "id": "fmvg8cu7o",
    "project": "Flag Hub",
    "text": "A lot of the flags here are ones requiring action from me not you, maybe we should add seperate colored flags for me? Not anything that show on the different web apps, but instead only shows within this app- the for claude flags can be an orange like now, and for me flags are teal seafoam green. Then you don’t have to sift through a ton of flags that are really just reminders for me. I can just add them here directly, you don’t need to add a way to input teal flags on any apps.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-20T05:15:57.300Z",
-   "priority": true
+   "priority": true,
+   "resolvedAt": "2026-10-22T07:58:39Z",
+   "resolution": "Shipped with the Hub upgrade: For me flags have their own teal tab."
   },
   {
    "id": "fmvg85dez",
@@ -198,9 +206,11 @@
    "text": "Interview Prep: turn the theme button into the gear. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
    "kind": "fix",
    "priority": true,
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-19T23:00:04-06:00"
+   "created": "2026-10-19T23:00:04-06:00",
+   "resolvedAt": "2026-10-22T07:58:39Z",
+   "resolution": "Interview Prep now uses the shared settings gear."
   },
   {
    "id": "gear-2",
@@ -670,7 +680,7 @@
     "previews/p1a15c1f380a/after.png",
     "previews/p1a15c1f380a/after-2.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-21T01:41:52Z",
    "flagIds": [
     "fmvg8cu7o",
@@ -678,7 +688,8 @@
     "fmvg8fsw2",
     "fmvhqinpj"
    ],
-   "decidedAt": "2026-10-21T06:25:58.417Z"
+   "decidedAt": "2026-10-21T06:25:58.417Z",
+   "shippedAt": "2026-10-22T07:58:39Z"
   },
   {
    "id": "p1a15f4d3ece",
@@ -691,12 +702,13 @@
     "previews/p1a15f4d3ece/after.png",
     "previews/p1a15f4d3ece/after-2.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-21T16:31:00Z",
    "flagIds": [
     "gear-3"
    ],
-   "decidedAt": "2026-10-21T19:29:00.852Z"
+   "decidedAt": "2026-10-21T19:29:00.852Z",
+   "shippedAt": "2026-10-22T07:58:39Z"
   },
   {
    "id": "p1a15f4d3ecf",
@@ -709,7 +721,7 @@
     "previews/p1a15f4d3ecf/after.png",
     "previews/p1a15f4d3ecf/after-2.png"
    ],
-   "status": "redo",
+   "status": "denied",
    "created": "2026-10-21T16:31:00Z",
    "flagIds": [
     "gear-4"
@@ -721,6 +733,11 @@
      "at": "2026-10-21T19:29:40.907Z",
      "status": "redo",
      "feedback": "The trip board isn’t archived but it’s inactive. Ignore it in the future"
+    },
+    {
+     "at": "2026-10-22T07:58:39Z",
+     "status": "denied",
+     "feedback": "Night shift: per your note, Trip Board is inactive, so this was dropped instead of reworked."
     }
    ]
   },
@@ -824,7 +841,34 @@
      "text": "Family filter game list ready for your yes or notes."
     }
    ]
+  },
+  {
+   "at": "2026-10-22T07:58:39Z",
+   "mode": "big",
+   "summary": "Shipped the Interview Prep gear and logged the Hub upgrade, then got blocked from GitHub before starting the priority proposals.",
+   "items": [
+    {
+     "kind": "shipped",
+     "project": "Interview Prep",
+     "text": "The theme button is now the shared settings gear."
+    },
+    {
+     "kind": "shipped",
+     "project": "Flag Hub",
+     "text": "Hub upgrade marked shipped (you merged it yourself), its 4 flags are done."
+    },
+    {
+     "kind": "fixed",
+     "project": "Trip Board",
+     "text": "Dropped the Trip Board gear proposal since you said Trip Board is inactive."
+    },
+    {
+     "kind": "failed",
+     "project": "Study Decks",
+     "text": "Gear proposals for Study Decks and Bulk Manager, plus the collapsible Hub sections, did not start: this run lost permission to sync with GitHub partway through."
+    }
+   ]
   }
  ],
- "digestAt": "2026-10-21T16:31:00Z"
+ "digestAt": "2026-10-22T07:58:39Z"
 }
