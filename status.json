@@ -1,10 +1,10 @@
 {
- "mode": "off",
- "openFlags": 49,
- "waiting": 3,
+ "mode": "big",
+ "openFlags": 46,
+ "waiting": 0,
  "lastRun": {
   "at": "2026-10-21T16:31:00Z",
   "summary": "Manual Go Big run: Hub upgrade ready to merge with your notes built in, night shift taught to read notes, 3 new proposals."
  },
- "updated": "2026-10-21T16:31:00Z"
+ "updated": "2026-10-22T06:05:07.718Z"
 }
