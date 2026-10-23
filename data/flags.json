@@ -66,19 +66,23 @@
    "project": "Flag Hub",
    "text": "I'd love one last thing on the flag hub- there are flags for me and for claude, and let's add \"Flag an idea\" still unique to the hub, not anywhere else, but I can add and look through concepts and cool ideas unrelated to the projects that are actually happening. You know what I mean? Maybe make it a dotted outline of a flag.\n\nAlso, these labels on all my flags? I'd love more ability to edit. So basically add the ability to change what a flag is labelled with, and a way somewhere to edit labels (maybe under settings?) whee I can change the color, name, and delete or create new labels. Yeah?",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-21T19:49:55.833Z"
+   "created": "2026-10-21T19:49:55.833Z",
+   "resolvedAt": "2026-10-23T07:54:08Z",
+   "resolution": "Shipped: sections fold, flags have a pencil, ideas have their own tab, and labels can be edited."
   },
   {
    "id": "fmviiv2nk",
    "project": "Flag Hub",
    "text": "Make each section on here (Raise a flag, Open flags, etc) able to collapse up. I'm tired of scrolling past the massive waiting on you section that I already reviewed.\n\nAlso, make each existing flag editable with a little pencil, so I can update what says before your next run.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-21T19:45:36.560Z",
-   "priority": true
+   "priority": true,
+   "resolvedAt": "2026-10-23T07:54:08Z",
+   "resolution": "Shipped: sections fold, flags have a pencil, ideas have their own tab, and labels can be edited."
   },
   {
    "id": "fmvibf6x6",
@@ -232,9 +236,11 @@
    "text": "Bulk Manager: turn the theme dot into the gear; keep the bottom tabs clear; covers index, nutrition, and workout pages. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
    "kind": "fix",
    "priority": true,
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-19T23:00:04-06:00"
+   "created": "2026-10-19T23:00:04-06:00",
+   "resolvedAt": "2026-10-23T07:54:08Z",
+   "resolution": "Shipped: Bulk Manager's theme dot is now the shared gear."
   },
   {
    "id": "gear-1",
@@ -242,9 +248,11 @@
    "text": "Study Decks: fold its gear tray (palette, mute, map, fullscreen, chameleon controls) into the kit tray. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
    "kind": "fix",
    "priority": true,
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-19T23:00:04-06:00"
+   "created": "2026-10-19T23:00:04-06:00",
+   "resolvedAt": "2026-10-23T07:54:08Z",
+   "resolution": "Shipped: Study Decks now uses the shared settings gear."
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
@@ -701,9 +709,10 @@
     "fmviiv2nk",
     "fmvij0mpl"
    ],
-   "status": "waiting",
+   "status": "shipped",
    "created": "2026-10-23T02:45:46Z",
-   "source": "manual run"
+   "source": "manual run",
+   "shippedAt": "2026-10-23T07:54:08Z"
   },
   {
    "id": "p1a16sdgr",
@@ -719,9 +728,10 @@
    "flagIds": [
     "gear-1"
    ],
-   "status": "waiting",
+   "status": "shipped",
    "created": "2026-10-23T02:45:46Z",
-   "source": "manual run"
+   "source": "manual run",
+   "shippedAt": "2026-10-23T07:54:08Z"
   },
   {
    "id": "p1a16bmgr",
@@ -737,9 +747,10 @@
    "flagIds": [
     "gear-2"
    ],
-   "status": "waiting",
+   "status": "shipped",
    "created": "2026-10-23T02:45:46Z",
-   "source": "manual run"
+   "source": "manual run",
+   "shippedAt": "2026-10-23T07:54:08Z"
   },
   {
    "id": "p1a16rbup",
@@ -1037,7 +1048,29 @@
      "text": "Gear proposals for Study Decks and Bulk Manager, plus the collapsible Hub sections, did not start: this run lost permission to sync with GitHub partway through."
     }
    ]
+  },
+  {
+   "at": "2026-10-23T07:54:08Z",
+   "mode": "big",
+   "summary": "Nothing new tonight: you merged the Hub, Study Decks, and Bulk Manager proposals, so those are marked shipped, and the open flags left all need the PC.",
+   "items": [
+    {
+     "kind": "shipped",
+     "project": "Flag Hub",
+     "text": "You merged the Hub upgrade (fold sections, pencil edits, Ideas tab, labels), so its 2 flags are done."
+    },
+    {
+     "kind": "shipped",
+     "project": "Study Decks",
+     "text": "You merged the shared gear for Study Decks, so its flag is done."
+    },
+    {
+     "kind": "shipped",
+     "project": "Bulk Manager",
+     "text": "You merged the shared gear for Bulk Manager, so its flag is done."
+    }
+   ]
   }
  ],
- "digestAt": "2026-10-22T07:58:39Z"
+ "digestAt": "2026-10-23T07:54:21Z"
 }

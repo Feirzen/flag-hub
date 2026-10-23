@@ -1,10 +1,10 @@
 {
  "mode": "big",
- "openFlags": 41,
- "waiting": 4,
+ "openFlags": 42,
+ "waiting": 1,
  "lastRun": {
-  "at": "2026-10-23T02:45:46Z",
-  "summary": "Manual run: 4 proposals waiting on you, the family filter list updated, and answers on 4 flags."
+  "at": "2026-10-23T07:54:08Z",
+  "summary": "Nothing new tonight: you merged the Hub, Study Decks, and Bulk Manager proposals, so those are marked shipped, and the open flags left all need the PC."
  },
- "updated": "2026-10-23T02:45:46Z"
+ "updated": "2026-10-23T07:54:08Z"
 }
