@@ -154,6 +154,37 @@ textarea.teal:focus{border-color:var(--teal)}
 .state.ready{background:var(--warnBg);color:var(--warn)}
 .said{font-style:italic;font-size:13px!important;color:var(--ink3)!important}
 .tag.kind-idea{background:transparent}
+/* folding sections: tap a heading to fold it, the Hub remembers */
+h2.fold{cursor:pointer;user-select:none;-webkit-user-select:none}
+h2.fold .ht::after{content:"";width:7px;height:7px;border-right:1.8px solid var(--ink3);border-bottom:1.8px solid var(--ink3);transform:translateY(-2px) rotate(45deg);transition:transform .25s;margin-left:2px}
+section.shut h2.fold .ht::after{transform:translateY(1px) rotate(-45deg)}
+section.shut>:not(h2){display:none!important}
+section.shut{gap:0}
+/* ideas: dotted outline flag, kept apart from the work */
+.who{grid-template-columns:repeat(3,1fr)}
+.who button[aria-pressed="true"][data-k="idea"]{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink3) 70%,transparent)}
+.item.idea .fg{color:var(--ink2)}
+.btn.idea{background:var(--ink);color:var(--bg)}
+textarea.idea:focus{border-color:var(--ink2)}
+/* Claude's note on a flag */
+.cnote{grid-column:1/-1;font-size:13.5px;color:var(--ink2);background:var(--card2);border:1px solid var(--line);border-left:3px solid var(--flag);border-radius:8px;padding:7px 10px;white-space:pre-line}
+.cnote b{font-weight:600;color:var(--ink)}
+/* edit a flag in place */
+.fedit{grid-area:txt;display:flex;flex-direction:column;gap:8px;animation:in .25s ease}
+.who button{white-space:nowrap}
+.pen{display:inline-flex;vertical-align:-3px;margin-left:6px;padding:2px;border:0;background:none;color:var(--ink3);cursor:pointer;border-radius:6px}
+.pen svg{width:15px;height:15px}
+.pen:hover{color:var(--ink)}
+.fedit .ftext{min-height:110px}
+.fedit select{border:1px solid var(--line);background:var(--card2);color:var(--ink);border-radius:10px;padding:8px 10px;font:14px var(--fb);max-width:100%}
+.fedit .chip{padding:4px 10px;font-size:12.5px}
+/* labels */
+.lab{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:8px;align-items:center}
+.lab input[type=color]{width:32px;height:32px;border:1px solid var(--line);border-radius:10px;background:var(--card2);padding:3px;cursor:pointer}
+.lab input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.lab input[type=color]::-webkit-color-swatch{border:0;border-radius:6px}
+.lab input[type=text]{padding:7px 10px;font-size:14px;border-radius:10px}
+.lab .ln{font:500 11.5px var(--fm);color:var(--ink3);min-width:2.5em;text-align:right}
 </style>
 </head>
 <body>
@@ -215,6 +246,13 @@ textarea.teal:focus{border-color:var(--teal)}
     <details id="doneBox"><summary>Recently resolved</summary><div id="done" class="list" style="margin-top:8px"></div></details>
   </section>
 
+  <section aria-labelledby="lb" id="labelBox">
+    <h2 id="lb"><span class="ht"><i class="hd" style="--c:var(--ink3)"></i>Labels</span> <span class="n" id="labN"></span></h2>
+    <p class="note">Tap a color to change it, or edit a name and press Enter. Deleting a label moves its flags to Unsorted. The night shift finds each app's code by its label (Study Decks, Music Space, and so on), so keep those names as they are.</p>
+    <div id="labs" class="list" style="gap:8px"></div>
+    <div class="row"><input type="text" id="newLab" placeholder="New label" maxlength="40"><button class="btn sm" id="addLab">Add</button></div>
+  </section>
+
   <section aria-labelledby="af" id="appBox" hidden>
     <h2 id="af"><span class="ht"><i class="hd" style="--c:var(--ink3)"></i>Sent through GitHub</span> <span class="n" id="appN"></span></h2>
     <div id="appFlags" class="list"></div>
@@ -226,10 +264,13 @@ textarea.teal:focus{border-color:var(--teal)}
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ago = t => { if (!t) return ""; const m = Math.round((Date.now() - new Date(t)) / 60000); if (m < 1) return "just now"; if (m < 60) return m + "m ago"; const h = Math.round(m / 60); if (h < 24) return h + "h ago"; const d = Math.round(h / 24); return d < 30 ? d + "d ago" : new Date(t).toLocaleDateString(); };
-const S = { keeping: null, notes: {}, mode: "light", projects: [], flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude" };
+const S = { keeping: null, notes: {}, mode: "light", projects: [], colors: {}, flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude", editing: null, draft: null, labSure: null };
 const FIRST_REVIEW = 21, NEXT_REVIEW = 45;
 const KEEP_OPTS = [[21, "3 wks"], [45, "6 wks"], [90, "3 mo"]];
+const IDEA_HOME = "Big ideas"; /* where an idea goes when no label is picked */
 const isMine = f => f.kind === "you";
+const isIdea = f => f.kind === "idea";
+const tabOf = f => isMine(f) ? "you" : isIdea(f) ? "idea" : "claude";
 const isOpen = f => f.status !== "done" && f.status !== "dismissed";
 const touched = f => f.reviewedAt || f.created || "";
 /* first check-in after 21 days; after that, whatever you picked when you kept it (6 weeks if you didn't pick) */
@@ -237,12 +278,14 @@ const reviewGap = f => f.reviewedAt ? (f.reviewEvery || NEXT_REVIEW) : FIRST_REV
 const isStale = f => isOpen(f) && f.status === "open" && touched(f) && (Date.now() - new Date(touched(f))) > reviewGap(f) * 864e5;
 /* each project gets its own color (skips orange and teal, which mean Claude and you) */
 const PAL = ["#f2b544", "#9bd35a", "#4fb3ff", "#7c8cff", "#a77bff", "#ff6fae", "#e58f6b", "#d6c35a", "#5fd38a", "#c792ea", "#6ca0ff", "#ff8f8f"];
+function autoColor(name) { let h = 0; for (const ch of String(name)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return PAL[h % PAL.length]; }
 function pc(name) {
-  let h = 0; for (const ch of String(name)) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  const c = PAL[h % PAL.length];
+  const set = S.colors[name], c = /^#[0-9a-f]{6}$/i.test(set || "") ? set : autoColor(name);
   return `--pc:${c};--pBg:color-mix(in srgb,${c} 16%,var(--card));--pInk:color-mix(in srgb,${c} 72%,var(--ink))`;
 }
 const FLAGI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 3h12l-2.5 4.5L17 12H5" fill="currentColor"/></svg>';
+const IDEAI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3" stroke-dasharray="2.2 3"/><path d="M5 3h12l-2.5 4.5L17 12H5" stroke-dasharray="2.2 2.6"/></svg>';
+const iconFor = k => k === "idea" ? IDEAI : FLAGI;
 const store = Kit.store;
 let busy = false;
 
@@ -252,9 +295,9 @@ function renderMode() {
 }
 function renderTally() {
   const open = S.flags.filter(f => f.status === "open");
-  const mine = open.filter(isMine).length, theirs = open.length - mine + S.appFlags.length;
+  const mine = open.filter(isMine).length, ideas = open.filter(isIdea).length, theirs = open.length - mine - ideas + S.appFlags.length;
   const wait = S.props.filter(p => p.status === "waiting").length;
-  $("#tally").innerHTML = `<b style="color:var(--flag)">${theirs}</b> for Claude · <b style="color:var(--tealInk)">${mine}</b> for you · <b>${wait}</b> waiting`;
+  $("#tally").innerHTML = `<b style="color:var(--flag)">${theirs}</b> for Claude · <b style="color:var(--tealInk)">${mine}</b> for you · <b>${ideas}</b> ideas · <b>${wait}</b> waiting`;
 }
 function renderRuns() {
   const r = S.runs[0];
@@ -265,18 +308,23 @@ function renderRuns() {
   d.innerHTML = items.map(i => `<div class="dl"><span class="dk ${esc(i.kind)}">${esc(i.kind)}</span><span><b style="font-weight:600;color:var(--ink)">${esc(i.project)}</b> ${esc(i.text)}</span></div>`).join("");
 }
 function whoBtns(box, cur, counts) {
-  box.innerHTML = [["claude", "For Claude"], ["you", "For me"]].map(([k, t]) =>
-    `<button data-k="${k}" aria-pressed="${cur === k}">${FLAGI}${t}${counts ? ` <span class="wn">${counts[k]}</span>` : ""}</button>`).join("");
+  /* the tab row carries counts, so it uses the short names to fit a phone */
+  box.innerHTML = (counts ? [["claude", "Claude"], ["you", "Me"], ["idea", "Ideas"]] : [["claude", "For Claude"], ["you", "For me"], ["idea", "Idea"]]).map(([k, t]) =>
+    `<button data-k="${k}" aria-pressed="${cur === k}">${iconFor(k)}${t}${counts ? ` <span class="wn">${counts[k]}</span>` : ""}</button>`).join("");
 }
+const SEND_TXT = { claude: "Raise flag", you: "Add for me", idea: "Add idea" };
 function renderWho() {
   whoBtns($("#newWho"), S.newWho);
-  const you = S.newWho === "you";
-  $("#rfMark").style.setProperty("--c", you ? "var(--teal)" : "var(--flag)");
-  $("#send").classList.toggle("teal", you); $("#flagPri").classList.toggle("teal", you); $("#flagText").classList.toggle("teal", you);
-  $("#send").textContent = you ? "Add for me" : "Raise flag";
-  $("#priTxt").textContent = you ? "Priority: keep it at the top" : "Priority: fit this in as soon as possible";
-  $("#sendNote").textContent = you ? "Just a reminder for you. The night shift skips these." : "Small stuff gets fixed overnight. Big stuff comes back as a proposal.";
-  $("#flagText").placeholder = you ? "What do you need to do?" : "What did you notice, or what's the idea?";
+  const k = S.newWho, you = k === "you", idea = k === "idea";
+  $("#rfMark").style.setProperty("--c", you ? "var(--teal)" : idea ? "var(--ink2)" : "var(--flag)");
+  ["teal", "idea"].forEach(c => { const on = c === "teal" ? you : idea; $("#send").classList.toggle(c, on); $("#flagText").classList.toggle(c, on); });
+  $("#flagPri").classList.toggle("teal", you);
+  $("#send").textContent = SEND_TXT[k];
+  $("#priTxt").textContent = k === "claude" ? "Priority: fit this in as soon as possible" : "Priority: keep it at the top";
+  $("#sendNote").textContent = you ? "Just a reminder for you. The night shift skips these."
+    : idea ? `Concepts and someday ideas, kept apart from the work. No label needed (it goes in ${IDEA_HOME}).`
+    : "Small stuff gets fixed overnight. Big stuff comes back as a proposal.";
+  $("#flagText").placeholder = you ? "What do you need to do?" : idea ? "What's the idea?" : "What did you notice?";
 }
 function lastUsed() {
   const m = {}; S.flags.forEach(f => { if ((f.created || "") > (m[f.project] || "")) m[f.project] = f.created; }); return m;
@@ -287,7 +335,7 @@ function renderChips() {
   box.innerHTML = `<button class="chip add" id="addChip">+ New</button>` + order.map(p => `<button class="chip" style="${pc(p)}" aria-pressed="${S.pick === p}" data-p="${esc(p)}"><i class="pd"></i>${esc(p)}</button>`).join("");
   box.querySelectorAll("[data-p]").forEach(b => b.onclick = () => { S.pick = S.pick === b.dataset.p ? null : b.dataset.p; $("#flagErr").textContent = ""; renderChips(); });
   $("#addChip").onclick = () => { const r = $("#newProjRow"); r.hidden = !r.hidden; if (!r.hidden) $("#newProj").focus(); };
-  const inTab = S.flags.filter(f => isOpen(f) && !isStale(f) && (S.who === "you") === isMine(f));
+  const inTab = S.flags.filter(f => isOpen(f) && !isStale(f) && tabOf(f) === S.who);
   const fs = ["all", ...new Set(inTab.map(f => f.project))];
   if (!fs.includes(S.filter)) S.filter = "all";
   $("#filters").innerHTML = fs.length > 2 ? fs.map(p => p === "all" ? `<button class="chip" aria-pressed="${S.filter === p}" data-f="all">All</button>`
@@ -301,35 +349,54 @@ const ICON = {
   swap: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h13"/><path d="m17 20 4-4-4-4"/><path d="M21 16H8"/></svg>',
   keep: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 8v4l3 2"/></svg>',
   undo: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>',
+  pen: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>',
 };
+/* the pencil: change the words, the label, or who it's for, right in the list */
+function editor(f) {
+  const d = S.draft || { text: f.text, project: f.project, who: tabOf(f) };
+  const projs = S.projects.includes(d.project) ? S.projects : [d.project, ...S.projects];
+  return `<div class="fedit">
+    <textarea class="ftext" maxlength="1500" aria-label="Flag text">${esc(d.text)}</textarea>
+    <div class="row" style="flex-wrap:wrap">
+      <select class="fproj" aria-label="Label">${projs.map(p => `<option ${p === d.project ? "selected" : ""}>${esc(p)}</option>`).join("")}</select>
+      <div class="chips" role="group" aria-label="Who is this for">${[["claude", "For Claude"], ["you", "For me"], ["idea", "Idea"]].map(([k, t]) => `<button class="chip" data-a="ewho" data-k="${k}" aria-pressed="${d.who === k}">${t}</button>`).join("")}</div>
+    </div>
+    <div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="ecancel">Cancel</button><button class="btn sm" data-a="esave">Save</button></div>
+  </div>`;
+}
 function flagRow(f, doneView, reviewView) {
   const src = f.source === "reminders" ? "from Reminders" : f.source === "app" ? "sent from the app" : "";
-  const kind = isMine(f) ? (reviewView || doneView ? '<span class="tag kind-you">for you</span>' : "") : f.kind === "idea" ? '<span class="tag kind-idea">idea</span>' : "";
+  const kind = isMine(f) ? (reviewView || doneView ? '<span class="tag kind-you">for you</span>' : "") : isIdea(f) && (reviewView || doneView) ? '<span class="tag kind-idea">idea</span>' : "";
   const days = Math.round((Date.now() - new Date(touched(f))) / 864e5);
   const st = f.status === "proposed" ? '<span class="tag prop">proposal sent</span>' : f.status === "doing" ? '<span class="tag prop">in progress</span>' : "";
   const pri = f.priority ? '<span class="tag pri">priority</span>' : "";
   const delBtn = `<button class="ic ${S.sure === f.id ? "sure" : ""}" data-a="del" aria-label="${S.sure === f.id ? "Tap again to delete" : "Delete"}">${ICON.del}</button>`;
   const doneBtn = `<button class="ic" data-a="done" aria-label="Mark done">${ICON.done}</button>`;
+  const swapTo = isMine(f) || isIdea(f) ? "Hand to Claude" : "Move to my flags";
+  const editing = !doneView && !reviewView && S.editing === f.id;
   const acts = doneView ? `<button class="ic" data-a="reopen" aria-label="Reopen">${ICON.undo}</button>`
     : reviewView ? `<button class="ic keep" data-a="keepask" aria-label="Keep it" title="Keep it">${ICON.keep}</button>${doneBtn}${delBtn}`
-    : `<button class="ic" data-a="swap" aria-label="${isMine(f) ? "Hand to Claude" : "Move to my flags"}" title="${isMine(f) ? "Hand to Claude" : "Move to my flags"}">${ICON.swap}</button><button class="ic ${f.priority ? "pri-on" : ""}" data-a="pri" aria-label="${f.priority ? "Remove priority" : "Make priority"}" title="${f.priority ? "Priority: do this first" : "Do this first"}">${ICON.bolt}</button>${doneBtn}${delBtn}`;
-  return `<div class="item ${f.priority && !doneView ? "is-pri" : ""} ${isMine(f) ? "mine" : ""}" data-id="${f.id}"><div class="txt">${esc(f.text)}</div>
-    <div class="acts">${acts}</div>
-    <div class="meta"><span class="fg">${FLAGI}</span><span class="tag proj" style="${pc(f.project)}">${esc(f.project)}</span>${pri}${kind}${st}${src && !reviewView ? `<span>${src}</span>` : ""}${reviewView ? `<span class="age">${days}d untouched</span>` : `<span>${ago(doneView ? f.resolvedAt : f.created)}</span>`}${f.resolution ? `<span>· ${esc(f.resolution)}</span>` : ""}</div>${reviewView && S.keeping === f.id ? `<div class="keeps"><span>Ask again in</span>${KEEP_OPTS.map(([d, t]) => `<button class="chip" data-a="keep" data-days="${d}">${t}</button>`).join("")}</div>` : ""}</div>`;
+    : editing ? ""
+    : `<button class="ic" data-a="swap" aria-label="${swapTo}" title="${swapTo}">${ICON.swap}</button><button class="ic ${f.priority ? "pri-on" : ""}" data-a="pri" aria-label="${f.priority ? "Remove priority" : "Make priority"}" title="${f.priority ? "Priority: do this first" : "Do this first"}">${ICON.bolt}</button>${doneBtn}${delBtn}`;
+  const note = f.note && !editing ? `<div class="cnote"><b>Claude:</b> ${esc(f.note)}</div>` : "";
+  return `<div class="item ${f.priority && !doneView ? "is-pri" : ""} ${isMine(f) ? "mine" : ""} ${isIdea(f) ? "idea" : ""}" data-id="${f.id}">${editing ? editor(f) : `<div class="txt">${esc(f.text)}${!doneView && !reviewView ? `<button class="pen" data-a="edit" aria-label="Edit this flag" title="Edit">${ICON.pen}</button>` : ""}</div>`}
+    <div class="acts">${acts}</div>${note}
+    <div class="meta"><span class="fg">${iconFor(tabOf(f))}</span><span class="tag proj" style="${pc(f.project)}">${esc(f.project)}</span>${pri}${kind}${st}${src && !reviewView ? `<span>${src}</span>` : ""}${reviewView ? `<span class="age">${days}d untouched</span>` : `<span>${ago(doneView ? f.resolvedAt : f.created)}</span>`}${f.resolution ? `<span>· ${esc(f.resolution)}</span>` : ""}</div>${reviewView && S.keeping === f.id ? `<div class="keeps"><span>Ask again in</span>${KEEP_OPTS.map(([d, t]) => `<button class="chip" data-a="keep" data-days="${d}">${t}</button>`).join("")}</div>` : ""}</div>`;
 }
 function renderFlags() {
+  const ae = document.activeElement; if (S.editing && ae && ae.closest && ae.closest(".fedit")) return; /* don't wipe an edit mid-typing */
   const fresh = S.flags.filter(f => isOpen(f) && !isStale(f));
-  const counts = { claude: fresh.filter(f => !isMine(f)).length, you: fresh.filter(isMine).length };
+  const counts = { claude: 0, you: 0, idea: 0 }; fresh.forEach(f => counts[tabOf(f)]++);
   whoBtns($("#tabWho"), S.who, counts);
   const stale = S.flags.filter(isStale).sort((a, b) => touched(a).localeCompare(touched(b)));
   const rv = $("#review"); rv.hidden = !stale.length;
   rv.innerHTML = stale.length ? `<h3>Still need these? <span class="n" style="font:500 12px var(--fm);color:var(--warn)">${stale.length}</span></h3>
     <p class="note">Flags that have sat untouched for a while. Keep one and pick when it checks in next.</p>
     <div class="list">${stale.slice(0, 3).map(f => flagRow(f, false, true)).join("")}</div>${stale.length > 3 ? `<p class="note">${stale.length - 3} more after these.</p>` : ""}` : "";
-  const open = fresh.filter(f => (S.who === "you") === isMine(f) && (S.filter === "all" || f.project === S.filter))
+  const open = fresh.filter(f => tabOf(f) === S.who && (S.filter === "all" || f.project === S.filter))
     .sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0));
   $("#openN").textContent = fresh.length + stale.length || "";
-  const none = S.who === "you" ? "Nothing on your list. Add one above with For me picked." : "No open flags. Raise one above, or plant one from any app's gear menu.";
+  const none = S.who === "you" ? "Nothing on your list. Add one above with For me picked." : S.who === "idea" ? "No ideas yet. Add one above with Idea picked." : "No open flags. Raise one above, or plant one from any app's gear menu.";
   $("#flags").innerHTML = open.length ? open.map(f => flagRow(f, false)).join("") : `<p class="empty">${S.filter === "all" ? none : "Nothing here for " + esc(S.filter) + "."}</p>`;
   const done = S.flags.filter(f => f.status === "done" || f.status === "dismissed").sort((a, b) => (b.resolvedAt || "").localeCompare(a.resolvedAt || "")).slice(0, 15);
   $("#doneBox").hidden = !done.length;
@@ -358,7 +425,17 @@ function renderApp() {
   if (!S.appFlags.length) return;
   $("#appFlags").innerHTML = S.appFlags.map(i => `<div class="item"><div class="txt">${esc(i.title.replace(/^\[[^\]]+\]\s*/, ""))}</div><div class="acts"><a class="ic" href="${esc(i.url)}" target="_blank" rel="noopener" aria-label="Open on GitHub"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></div><div class="meta"><span class="tag app">${esc((i.title.match(/^\[([^\]]+)\]/) || [, "app"])[1])}</span><span>${ago(i.created)}</span></div></div>`).join("");
 }
-function renderAll() { renderMode(); renderTally(); renderRuns(); renderWho(); renderChips(); renderFlags(); renderProps(); renderApp(); }
+function renderLabels() {
+  const ae = document.activeElement; if (ae && ae.closest && ae.closest("#labs") && ae.type === "text") return;
+  const n = {}; S.flags.filter(isOpen).forEach(f => n[f.project] = (n[f.project] || 0) + 1);
+  $("#labN").textContent = S.projects.length || "";
+  $("#labs").innerHTML = S.projects.map(p => {
+    const c = /^#[0-9a-f]{6}$/i.test(S.colors[p] || "") ? S.colors[p] : autoColor(p), sure = S.labSure === p;
+    return `<div class="lab" data-lab="${esc(p)}"><input type="color" value="${c}" aria-label="Color for ${esc(p)}"><input type="text" value="${esc(p)}" maxlength="40" aria-label="Name"><span class="ln" title="open flags">${n[p] || 0}</span>${p === "Unsorted" ? `<span class="ic" style="visibility:hidden"></span>`
+      : `<button class="ic ${sure ? "sure" : ""}" data-lab-del aria-label="${sure ? "Tap again to delete" : "Delete label"}">${ICON.del}</button>`}</div>`;
+  }).join("");
+}
+function renderAll() { renderMode(); renderTally(); renderRuns(); renderWho(); renderChips(); renderFlags(); renderProps(); renderApp(); renderLabels(); }
 
 /* ---------- actions ---------- */
 async function setMode(m) {
@@ -380,15 +457,16 @@ async function save(fn, msg) {
 }
 async function sendFlag() {
   const text = $("#flagText").value.trim(), err = $("#flagErr");
-  if (!S.pick) { err.textContent = "Pick a project first."; return; }
+  const k = S.newWho, you = k === "you";
+  const project = S.pick || (k === "idea" ? IDEA_HOME : "");
+  if (!project) { err.textContent = "Pick a label first."; return; }
   if (!text) { err.textContent = "Type what you noticed first."; $("#flagText").focus(); return; }
   $("#send").disabled = true; $("#send").textContent = "Saving…";
-  const you = S.newWho === "you";
-  const f = { id: "f" + Date.now().toString(36), project: S.pick, text, kind: you ? "you" : "fix", status: "open", source: "hub", created: new Date().toISOString() };
+  const f = { id: "f" + Date.now().toString(36), project, text, kind: k === "claude" ? "fix" : k, status: "open", source: "hub", created: new Date().toISOString() };
   if ($("#flagPri").checked) f.priority = true;
-  const ok = await save(d => { d.flags = d.flags || []; d.flags.unshift(f); }, "Flag: " + S.pick);
-  const label = you ? "Add for me" : "Raise flag";
-  if (ok) { $("#flagText").value = ""; $("#flagPri").checked = false; err.textContent = ""; $("#send").textContent = you ? "Added" : "Raised"; setTimeout(() => $("#send").textContent = S.newWho === "you" ? "Add for me" : "Raise flag", 1400); if (S.who !== S.newWho) { S.who = S.newWho; S.filter = "all"; renderChips(); renderFlags(); } }
+  const ok = await save(d => { d.flags = d.flags || []; d.flags.unshift(f); d.projects = d.projects || []; if (!d.projects.includes(project)) d.projects.push(project); }, (k === "idea" ? "Idea: " : "Flag: ") + project);
+  const label = SEND_TXT[k];
+  if (ok) { $("#flagText").value = ""; $("#flagPri").checked = false; err.textContent = ""; $("#send").textContent = k === "claude" ? "Raised" : "Added"; setTimeout(() => $("#send").textContent = SEND_TXT[S.newWho], 1400); if (S.who !== S.newWho) { S.who = S.newWho; S.filter = "all"; renderChips(); renderFlags(); } }
   else { $("#send").textContent = label; if (store.token()) err.textContent = "That flag didn't save. Try again in a moment."; }
   $("#send").disabled = false;
 }
@@ -414,6 +492,20 @@ document.addEventListener("click", async e => {
   if (a === "pri") save(edit("flags", f => { if (f.priority) delete f.priority; else f.priority = true; f.reviewedAt = now; }), "Flag priority");
   else if (a === "keepask") { S.keeping = S.keeping === id ? null : id; renderFlags(); }
   else if (a === "keep") { const d = +b.dataset.days || NEXT_REVIEW; S.keeping = null; save(edit("flags", f => { f.reviewedAt = now; f.reviewEvery = d; }), "Flag kept"); }
+  else if (a === "edit") { const f = S.flags.find(x => x.id === id); if (!f) return; S.editing = id; S.draft = { text: f.text, project: f.project, who: tabOf(f) }; renderFlags(); const t = document.querySelector(`#flags [data-id="${id}"] .ftext`); if (t) { t.style.height = Math.min(t.scrollHeight + 4, 360) + "px"; t.focus(); t.setSelectionRange(t.value.length, t.value.length); } }
+  else if (a === "ewho") { S.draft.who = b.dataset.k; b.parentElement.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b)); }
+  else if (a === "ecancel") { S.editing = null; S.draft = null; b.blur(); renderFlags(); }
+  else if (a === "esave") {
+    const d = S.draft, text = (d.text || "").trim(); if (!text) { row.querySelector(".ftext").focus(); return; }
+    b.disabled = true; b.textContent = "Saving…";
+    const ok = await save(edit("flags", f => {
+      f.text = text; f.project = d.project; f.editedAt = now; f.reviewedAt = now;
+      if (d.who !== tabOf(f)) { f.kind = d.who === "claude" ? (f.prevKind && f.prevKind !== "you" && f.prevKind !== "idea" ? f.prevKind : "fix") : d.who; delete f.prevKind; }
+    }), "Flag edited");
+    if (ok) { S.editing = null; S.draft = null; document.activeElement && document.activeElement.blur(); renderAll(); }
+    else { b.disabled = false; b.textContent = "Save"; }
+  }
+  else if (a === "swap" && isIdea(S.flags.find(x => x.id === id) || {})) save(edit("flags", f => { f.kind = "fix"; delete f.prevKind; f.reviewedAt = now; }), "Idea handed to Claude");
   else if (a === "swap") save(edit("flags", f => { if (f.kind === "you") { f.kind = f.prevKind || "fix"; delete f.prevKind; } else { f.prevKind = f.kind; f.kind = "you"; } f.reviewedAt = now; }), "Flag moved");
   else if (a === "done") save(edit("flags", f => { f.status = "done"; f.resolvedAt = now; f.resolution = "marked done by you"; }), "Flag done");
   else if (a === "reopen") save(edit("flags", f => { f.status = "open"; delete f.resolvedAt; delete f.resolution; }), "Flag reopened");
@@ -434,11 +526,71 @@ document.addEventListener("click", async e => {
   }
 });
 document.addEventListener("input", e => {
-  const t = e.target; if (!t.classList || !t.classList.contains("pnote")) return;
+  const t = e.target;
+  if (t.classList && t.classList.contains("ftext") && S.draft) { S.draft.text = t.value; return; }
+  if (!t.classList || !t.classList.contains("pnote")) return;
   S.notes[t.dataset.note] = t.value;
   const card = t.closest(".prop"), has = !!t.value.trim();
   card.querySelector('[data-a="approve"]').textContent = has ? "Approve with notes" : "Approve";
   card.querySelector('[data-a="deny"]').textContent = has ? "Redo with notes" : "Deny";
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.classList.contains("fproj") && S.draft) { S.draft.project = t.value; return; }
+  const lab = t.closest("[data-lab]"); if (!lab) return;
+  const name = lab.dataset.lab;
+  if (t.type === "color") { S.colors[name] = t.value; renderChips(); renderFlags(); save(d => { d.colors = d.colors || {}; d.colors[name] = t.value; }, "Label color: " + name); }
+  else if (t.type === "text") renameLabel(name, t.value.trim(), t);
+});
+/* ---------- labels ---------- */
+function renameLabel(old, nu, input) {
+  if (!nu || nu === old) { input.value = old; return; }
+  const move = p => p === old ? nu : p;
+  if (S.pick === old) S.pick = nu;
+  if (S.filter === old) S.filter = nu;
+  input.blur();
+  save(d => {
+    d.projects = [...new Set((d.projects || []).map(move))];
+    (d.flags || []).forEach(f => f.project = move(f.project));
+    (d.proposals || []).forEach(p => p.project = move(p.project));
+    if (d.colors && d.colors[old]) { if (!d.colors[nu]) d.colors[nu] = d.colors[old]; delete d.colors[old]; }
+  }, `Label renamed: ${old} to ${nu}`);
+}
+function deleteLabel(name) {
+  if (S.labSure !== name) { S.labSure = name; renderLabels(); setTimeout(() => { if (S.labSure === name) { S.labSure = null; renderLabels(); } }, 3000); return; }
+  S.labSure = null; if (S.pick === name) S.pick = null; if (S.filter === name) S.filter = "all";
+  save(d => {
+    const moved = (d.flags || []).filter(f => f.project === name);
+    moved.forEach(f => f.project = "Unsorted");
+    d.projects = (d.projects || []).filter(p => p !== name);
+    if (moved.length && !d.projects.includes("Unsorted")) d.projects.push("Unsorted");
+    if (d.colors) delete d.colors[name];
+  }, "Label deleted: " + name);
+}
+function addLabel() {
+  const name = $("#newLab").value.trim(); if (!name) { $("#newLab").focus(); return; }
+  $("#newLab").value = "";
+  if (S.projects.includes(name)) return;
+  S.projects = [...S.projects, name]; renderLabels(); renderChips();
+  save(d => { d.projects = d.projects || []; if (!d.projects.includes(name)) d.projects.push(name); }, "Add label: " + name);
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-lab-del]"); if (b) deleteLabel(b.closest("[data-lab]").dataset.lab); });
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.closest && e.target.closest("[data-lab]") && e.target.type === "text") e.target.blur(); }); /* blur fires change */
+$("#addLab").onclick = addLabel;
+$("#newLab").addEventListener("keydown", e => { if (e.key === "Enter") addLabel(); });
+
+/* ---------- folding sections ---------- */
+const FOLD_KEY = "fh.folded";
+let folded; try { folded = JSON.parse(localStorage.getItem(FOLD_KEY)); } catch (e) {}
+if (!Array.isArray(folded)) folded = ["lb"]; /* labels start folded */
+document.querySelectorAll("section > h2[id]").forEach(h => {
+  if (h.id === "cn") return; /* the connect box stays open */
+  h.classList.add("fold"); h.setAttribute("role", "button"); h.tabIndex = 0;
+  const sec = h.parentElement, set = shut => { sec.classList.toggle("shut", shut); h.setAttribute("aria-expanded", !shut); };
+  set(folded.includes(h.id));
+  const flip = () => { const shut = !sec.classList.contains("shut"); set(shut); folded = shut ? [...new Set([...folded, h.id])] : folded.filter(x => x !== h.id); try { localStorage.setItem(FOLD_KEY, JSON.stringify(folded)); } catch (e) {} };
+  h.addEventListener("click", flip);
+  h.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
 });
 $("#send").onclick = sendFlag;
 $("#addProj").onclick = addProject;
@@ -448,6 +600,7 @@ $("#flagText").addEventListener("input", () => $("#flagErr").textContent = "");
 /* ---------- data ---------- */
 function apply(d) {
   S.projects = d.projects || [];
+  S.colors = d.colors || {};
   S.flags = (d.flags || []).slice().sort((a, b) => (b.created || "").localeCompare(a.created || ""));
   S.props = d.proposals || [];
   S.runs = (d.runs || []).slice().sort((a, b) => (b.at || "").localeCompare(a.at || ""));

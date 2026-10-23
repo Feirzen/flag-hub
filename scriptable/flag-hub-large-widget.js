@@ -44,7 +44,7 @@ const data = await getJSON("data/flags.json");
 const mode = MODES[(status && status.mode) || "light"] || MODES.light;
 const flags = data ? (data.flags || []).filter(f => f.status === "open") : [];
 const forYou = flags.filter(f => f.kind === "you");
-const forClaude = flags.filter(f => f.kind !== "you");
+const forClaude = flags.filter(f => f.kind !== "you" && f.kind !== "idea"); // ideas live in their own tab in the Hub
 const waiting = data ? (data.proposals || []).filter(p => p.status === "waiting") : [];
 const runs = data ? (data.runs || []).slice().sort((a, b) => (b.at || "").localeCompare(a.at || "")) : [];
 const last = runs[0] || (status && status.lastRun);
