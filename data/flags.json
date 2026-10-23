@@ -29,16 +29,18 @@
    "kind": "fix",
    "status": "open",
    "source": "hub",
-   "created": "2026-10-21T22:48:24.707Z"
+   "created": "2026-10-21T22:48:24.707Z",
+   "note": "This one needs your drive, so it's left for the RetroBat night shift on your PC (next run Saturday night). It can compare the roms folders against what RetroBat lists and say why each missing game isn't showing."
   },
   {
    "id": "fmvio9zbk",
    "project": "RetroBat Wizard",
    "text": "So the upload speed on admin additions to the online library is abysmal. I’m clocking 3.5-4 MB/s. When I move a file onto the HDD from the computer I get 100 MB/s, and the upload speed on a ookla speed test in my browser is 39 MB/s. Why is it so low? It should be way closer to 40, right? Can we make it more efficient somehow? Also, maybe notify me and tell me- what happens if I close the wizard mid upload? Can you make it so it keeps uploading, or even just prompts you with a “are you sure?, you’ve got some files still uploading!” Or sum like that? Like can I have it sit in the background instead of closing when I open Retrobat with it only when uploading files? Idk, I would love for it to be faster, and not be worried about closing it and cutting off the upload you know?",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
-   "created": "2026-10-21T22:17:10.160Z"
+   "created": "2026-10-21T22:17:10.160Z",
+   "note": "Speed: speed tests show megabits, file copies show megabytes. 39 Mbps is about 4.9 MB/s, so 3.5 to 4 MB/s is already close to the most your connection can send, and the wizard's upload code is already lean. Closing mid-upload used to kill it silently (PLAY closes the wizard too). The proposal fixes that: it asks, and can keep uploading from the taskbar while you play."
   },
   {
    "id": "fmviki81c",
@@ -47,14 +49,15 @@
    "kind": "fix",
    "status": "open",
    "source": "hub",
-   "created": "2026-10-21T20:31:36.240Z"
+   "created": "2026-10-21T20:31:36.240Z",
+   "note": "Most BotW stutter on PC is Cemu building its shader cache: it's worst the first time you see each area and gets smoother the more you play. Other things to try: in Cemu, use Vulkan with async shader compile on; after pressing Set up Breath of the Wild, drop this computer to LOW at the top of that same page. The RetroBat night shift on your PC can check those Cemu settings directly, since I can't see the drive from here."
   },
   {
    "id": "fmvij0mpl",
    "project": "Flag Hub",
    "text": "I'd love one last thing on the flag hub- there are flags for me and for claude, and let's add \"Flag an idea\" still unique to the hub, not anywhere else, but I can add and look through concepts and cool ideas unrelated to the projects that are actually happening. You know what I mean? Maybe make it a dotted outline of a flag.\n\nAlso, these labels on all my flags? I'd love more ability to edit. So basically add the ability to change what a flag is labelled with, and a way somewhere to edit labels (maybe under settings?) whee I can change the color, name, and delete or create new labels. Yeah?",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-21T19:49:55.833Z"
   },
@@ -63,7 +66,7 @@
    "project": "Flag Hub",
    "text": "Make each section on here (Raise a flag, Open flags, etc) able to collapse up. I'm tired of scrolling past the massive waiting on you section that I already reviewed.\n\nAlso, make each existing flag editable with a little pencil, so I can update what says before your next run.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-21T19:45:36.560Z",
    "priority": true
@@ -196,9 +199,11 @@
    "text": "Trip Board: add a gear top-right that fits the masthead. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
    "kind": "fix",
    "priority": true,
-   "status": "proposed",
+   "status": "dismissed",
    "source": "hub",
-   "created": "2026-10-19T23:00:04-06:00"
+   "created": "2026-10-19T23:00:04-06:00",
+   "resolvedAt": "2026-10-23T02:45:46Z",
+   "resolution": "Dropped: Trip Board is inactive, per your note"
   },
   {
    "id": "gear-3",
@@ -218,7 +223,7 @@
    "text": "Bulk Manager: turn the theme dot into the gear; keep the bottom tabs clear; covers index, nutrition, and workout pages. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
    "kind": "fix",
    "priority": true,
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-19T23:00:04-06:00"
   },
@@ -228,7 +233,7 @@
    "text": "Study Decks: fold its gear tray (palette, mute, map, fullscreen, chameleon controls) into the kit tray. Move this app onto the shared settings gear, like Music Space and Panic Button: its own top-right settings button rolls out the kit tray (KitConfig in Feirzen/flag-hub kit/kit.js: gear anchor, look adapter so the app keeps painting its own looks, a Sound slider item if the app has sounds, and 'more' opening its full settings page). Remove the duplicate theme picker and the old flag entry. Build it as a proposal for approval.",
    "kind": "fix",
    "priority": true,
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-19T23:00:04-06:00"
   },
@@ -390,12 +395,14 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "fix",
-   "project": "Unsorted",
+   "kind": "you",
+   "project": "Bulk Manager",
    "source": "reminders",
    "status": "open",
    "text": "Daily activity not tracking? Or at least not showing",
-   "id": "rem-17"
+   "id": "rem-17",
+   "note": "Found it: Health Sync only landed on Oct 2, 7, 8, 14, 15, and 21, so the phone shortcut isn't running every day. Check Shortcuts > Automation > the app-open automation for Sync Health: pick a few apps you open daily, set Run Immediately, and turn Notify When Run off. Then open one and see if today's file shows up.",
+   "prevKind": "fix"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
@@ -404,7 +411,8 @@
    "source": "reminders",
    "status": "open",
    "text": "Tell me how to add my GitHub websites to allowed on my phone at night",
-   "id": "rem-18"
+   "id": "rem-18",
+   "note": "Downtime can't allow single websites, only apps. Try this first: open the site in Safari, Share, Add to Home Screen, then check if it opens during Downtime. If it's blocked, the reliable fix is a second browser (like DuckDuckGo) added to Always Allowed that you only use for your GitHub sites."
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
@@ -670,6 +678,75 @@
  ],
  "proposals": [
   {
+   "id": "p1a16hub6",
+   "project": "Flag Hub",
+   "title": "Fold sections, edit flags, Ideas tab, label editor",
+   "summary": "Tap any section heading to fold it, a pencil on every flag edits its words, label, or who it's for, and ideas get their own tab with a dotted flag. A Labels section lets you recolor, rename, add, or delete labels.",
+   "link": "https://github.com/Feirzen/flag-hub/pull/6",
+   "images": [
+    "previews/p1a16hub6/before.png",
+    "previews/p1a16hub6/after.png",
+    "previews/p1a16hub6/after-2.png"
+   ],
+   "flagIds": [
+    "fmviiv2nk",
+    "fmvij0mpl"
+   ],
+   "status": "waiting",
+   "created": "2026-10-23T02:45:46Z",
+   "source": "manual run"
+  },
+  {
+   "id": "p1a16sdgr",
+   "project": "Study Decks",
+   "title": "Shared settings gear",
+   "summary": "Same gear, same spot, now rolling out Look, Flag, Sound, Map, and Fullscreen like your other apps. The palette menu, lizard, and padlock fold into the shared Look panel and gecko.",
+   "link": "https://github.com/Feirzen/study-decks/pull/2",
+   "images": [
+    "previews/p1a16sdgr/before.png",
+    "previews/p1a16sdgr/after.png",
+    "previews/p1a16sdgr/after-2.png"
+   ],
+   "flagIds": [
+    "gear-1"
+   ],
+   "status": "waiting",
+   "created": "2026-10-23T02:45:46Z",
+   "source": "manual run"
+  },
+  {
+   "id": "p1a16bmgr",
+   "project": "Bulk Manager",
+   "title": "Theme dot becomes the shared gear",
+   "summary": "The rainbow dot by the date is now a gear with Look and Flag, on Review, Workout, and Nutrition. Gecko gets a tone and a freeze, and nothing new sits near the bottom tabs.",
+   "link": "https://github.com/Feirzen/bulk-manager/pull/1",
+   "images": [
+    "previews/p1a16bmgr/before.png",
+    "previews/p1a16bmgr/after.png",
+    "previews/p1a16bmgr/after-2.png"
+   ],
+   "flagIds": [
+    "gear-2"
+   ],
+   "status": "waiting",
+   "created": "2026-10-23T02:45:46Z",
+   "source": "manual run"
+  },
+  {
+   "id": "p1a16rbup",
+   "project": "RetroBat Wizard",
+   "title": "Keep uploads going when the wizard closes",
+   "summary": "Closing the wizard or pressing PLAY mid-upload now asks first, and Keep uploading parks the wizard in the taskbar so the upload finishes while you play. Built on the 3.1 dev branch; needs one try on the drive before it's published.",
+   "link": "https://github.com/Feirzen/retrobat-wizard/pull/1",
+   "images": [],
+   "flagIds": [
+    "fmvio9zbk"
+   ],
+   "status": "waiting",
+   "created": "2026-10-23T02:45:46Z",
+   "source": "manual run"
+  },
+  {
    "id": "p1a15c1f380a",
    "project": "Flag Hub",
    "title": "Hub upgrade: for-me flags, project colors, old-flag check-in",
@@ -745,7 +822,7 @@
    "id": "p1a15f4758e9",
    "project": "RetroBat",
    "title": "Family filter: which games to hide",
-   "summary": "None of your 168 games are rated M yet, so I sorted the Teen-rated ones into suggest hiding (GoldenEye, Morrowind), your call, and keep showing. Approve or add notes, and tell me which M games you're adding.",
+   "summary": "Your notes are in: the list now hides Black Ops II, any GTA, GoldenEye, and Morrowind, and everything you called fine stays visible. It's a running list you can add to with a RetroBat flag; the RetroBat night shift on your PC builds the switch next.",
    "link": "https://github.com/Feirzen/flag-hub/blob/main/previews/p1a15f4758e9/family-filter.md",
    "images": [],
    "status": "approved",
@@ -761,10 +838,60 @@
      "status": "approved",
      "feedback": "The complete list is still rolling out, so create a running list that we can add to in the future, take a look now because I have added a solid amount of games and I liked your top suggestions but not your middle suggestions. For example, Ace attorney is silly and all of the ones he grouped with that.  But yeah, morrowwind and golden eye, plus take a look because I added a couple for example GTA"
     }
-   ]
+   ],
+   "hide": [
+    "Call of Duty: Black Ops II",
+    "Grand Theft Auto (any)",
+    "GoldenEye 007",
+    "The Elder Scrolls III: Morrowind"
+   ],
+   "hideRatedM": true,
+   "listUpdatedAt": "2026-10-23T02:45:46Z"
   }
  ],
  "runs": [
+  {
+   "at": "2026-10-23T02:45:46Z",
+   "mode": "manual",
+   "summary": "Manual run: 4 proposals waiting on you, the family filter list updated, and answers on 4 flags.",
+   "items": [
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "Fold sections, a pencil to edit flags, an Ideas tab, and a label editor."
+    },
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Its gear now rolls out the shared tray."
+    },
+    {
+     "kind": "proposed",
+     "project": "Bulk Manager",
+     "text": "The theme dot is now the shared gear."
+    },
+    {
+     "kind": "proposed",
+     "project": "RetroBat Wizard",
+     "text": "Uploads keep going if you close the wizard or press PLAY."
+    },
+    {
+     "kind": "fixed",
+     "project": "RetroBat",
+     "text": "Family filter list rebuilt with your notes: Black Ops II, GTA, GoldenEye, Morrowind hidden."
+    },
+    {
+     "kind": "fixed",
+     "project": "Flag Hub",
+     "text": "Answers left on the upload speed, BotW, Screen Time, and daily activity flags."
+    },
+    {
+     "kind": "fixed",
+     "project": "Trip Board",
+     "text": "Closed the old Trip Board gear flag since it's inactive."
+    }
+   ]
+  },
   {
    "at": "2026-10-19T22:40:44Z",
    "mode": "light",
