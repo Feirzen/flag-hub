@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "f672294fe",
+   "project": "RetroBat Wizard",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-23T05:01:22Z",
+   "text": "Family filter, in the wizard: a box where I type a game name and it searches the games on the drive. If it finds it, I can add it to the screened list. If nothing matches, it says so and lets me add the name anyway, for a game I haven't collected yet. Build it on the PC first, then send it to the website. Uses the running list in previews/p1a15f4758e9/family-filter.md, plus anything rated M."
+  },
+  {
    "id": "fmvipe5qa",
    "project": "RetroBat",
    "text": "I’m realizing there are multiple games that aren’t showing on the actual games list of Retrobat when I look through my games, even though I’ve collected them and added the file. Can you look through the files under roms and check the game files, and then check which ones are actually on the screen when I go to play? If that’s possible? Or lmk how to do that if you can’t. I want to know which aren’t showing and figure out why and fix them so they will.",
@@ -736,15 +745,16 @@
    "id": "p1a16rbup",
    "project": "RetroBat Wizard",
    "title": "Keep uploads going when the wizard closes",
-   "summary": "Closing the wizard or pressing PLAY mid-upload now asks first, and Keep uploading parks the wizard in the taskbar so the upload finishes while you play. Built on the 3.1 dev branch; needs one try on the drive before it's published.",
-   "link": "https://github.com/Feirzen/retrobat-wizard/pull/1",
+   "summary": "For the PC, not GitHub: closing the wizard or pressing PLAY mid-upload now asks first, and Keep uploading parks it in the taskbar so the upload finishes while you play. Apply it into 3.1 on the PC with the step-by-step note, then publish 3.1 from there.",
+   "link": "https://github.com/Feirzen/retrobat-wizard/blob/claude/tender-babbage-yk92p3/FOR-THE-PC/2026-10-23-upload-keepalive.md",
    "images": [],
    "flagIds": [
     "fmvio9zbk"
    ],
    "status": "waiting",
    "created": "2026-10-23T02:45:46Z",
-   "source": "manual run"
+   "source": "manual run",
+   "applyOn": "pc"
   },
   {
    "id": "p1a15c1f380a",
@@ -822,7 +832,7 @@
    "id": "p1a15f4758e9",
    "project": "RetroBat",
    "title": "Family filter: which games to hide",
-   "summary": "Your notes are in: the list now hides Black Ops II, any GTA, GoldenEye, and Morrowind, and everything you called fine stays visible. It's a running list you can add to with a RetroBat flag; the RetroBat night shift on your PC builds the switch next.",
+   "summary": "Your notes are in, plus every M-rated game from your RetroBat Wishlist, so 36 games are on the hide list now. It's a running list; the RetroBat night shift on your PC builds the switch next.",
    "link": "https://github.com/Feirzen/flag-hub/blob/main/previews/p1a15f4758e9/family-filter.md",
    "images": [],
    "status": "approved",
@@ -843,10 +853,42 @@
     "Call of Duty: Black Ops II",
     "Grand Theft Auto (any)",
     "GoldenEye 007",
-    "The Elder Scrolls III: Morrowind"
+    "The Elder Scrolls III: Morrowind",
+    "Mortal Kombat II",
+    "Conker's Bad Fur Day",
+    "Def Jam: Fight for NY",
+    "Resident Evil 2",
+    "Call of Duty: Black Ops",
+    "The House of the Dead 2 & 3 Return",
+    "Bayonetta 2",
+    "Mortal Kombat: Shaolin Monks",
+    "Grand Theft Auto: San Andreas",
+    "God of War",
+    "The Last of Us",
+    "Demon's Souls",
+    "Ninja Gaiden Black",
+    "Left 4 Dead 2",
+    "Call of Duty: World at War",
+    "Call of Duty: Modern Warfare 2",
+    "Gears of War",
+    "Gears of War 2",
+    "Gears of War 3",
+    "Borderlands",
+    "Borderlands 2",
+    "Red Dead Redemption",
+    "Perfect Dark",
+    "TimeSplitters: Future Perfect",
+    "Fable",
+    "Jade Empire",
+    "Brute Force",
+    "Splinter Cell: Chaos Theory",
+    "Rainbow Six 3",
+    "Dead or Alive Ultimate",
+    "Fable II",
+    "Black Ops III: Zombies Chronicles"
    ],
    "hideRatedM": true,
-   "listUpdatedAt": "2026-10-23T02:45:46Z"
+   "listUpdatedAt": "2026-10-23T05:01:22Z"
   }
  ],
  "runs": [
