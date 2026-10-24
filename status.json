@@ -3,8 +3,8 @@
  "openFlags": 42,
  "waiting": 1,
  "lastRun": {
-  "at": "2026-10-23T07:54:08Z",
-  "summary": "Nothing new tonight: you merged the Hub, Study Decks, and Bulk Manager proposals, so those are marked shipped, and the open flags left all need the PC."
+  "at": "2026-10-24T07:53:38Z",
+  "summary": "Nothing new tonight: the open flags for the apps I can reach are either ideas for the PC side (wizard installer, icons) or need your drive, so they're left for the RetroBat night shift."
  },
- "updated": "2026-10-23T07:54:08Z"
+ "updated": "2026-10-24T07:53:38Z"
 }
