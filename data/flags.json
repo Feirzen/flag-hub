@@ -929,11 +929,13 @@
     "previews/p1025rbgear/before.png",
     "previews/p1025rbgear/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
    "flagIds": [],
-   "decidedAt": "2026-10-25T16:35:58.722Z"
+   "decidedAt": "2026-10-25T16:35:58.722Z",
+   "shippedAt": "2026-10-25T16:36:25.282Z",
+   "mergedBy": "you"
   },
   {
    "id": "p1025rbfind",
