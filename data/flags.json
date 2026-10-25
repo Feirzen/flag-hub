@@ -554,15 +554,6 @@
    "kind": "idea",
    "project": "RetroBat Wizard",
    "source": "reminders",
-   "status": "open",
-   "text": "Redo the icons: concept art with multiple options to choose from, plus new profile picture icons and console icons",
-   "id": "rem-34"
-  },
-  {
-   "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
-   "project": "RetroBat Wizard",
-   "source": "reminders",
    "status": "done",
    "text": "Add a game request button to the online Library section. Collapsible headers by company (Nintendo, Xbox, PlayStation) on both wizard and website, and an expanded view with game details in the wizard.",
    "id": "rem-35",
