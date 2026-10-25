@@ -331,12 +331,13 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
+   "kind": "fix",
    "project": "Spotify",
    "source": "reminders",
    "status": "open",
    "text": "Add all the concerts we've been to as playlists: OneRepublic, YSA Together in Christ, Yoke Lore, Owl City, Andy Grammer YSA. Claude on laptop has the chat with the setlists.",
-   "id": "rem-08"
+   "id": "rem-08",
+   "reviewedAt": "2026-10-25T05:24:01.162Z"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
