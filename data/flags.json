@@ -886,6 +886,66 @@
    ],
    "hideRatedM": true,
    "listUpdatedAt": "2026-10-23T05:01:22Z"
+  },
+  {
+   "id": "p1025pbtimer",
+   "project": "Panic Button",
+   "title": "Calmer timer screen",
+   "summary": "Every timer gets a slow ring that empties as it counts down and turns green when it's done. Box breathing becomes a square that fills as you breathe in and empties as you breathe out, with the step and a 4-3-2-1 count inside it.",
+   "link": "https://github.com/Feirzen/panicbutton/pull/1",
+   "images": [
+    "previews/p1025pbtimer/before.png",
+    "previews/p1025pbtimer/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-10-25T07:31:00Z",
+   "source": "weekly polish",
+   "flagIds": []
+  },
+  {
+   "id": "p1025pblist",
+   "project": "Panic Button",
+   "title": "Smoother list: progress line and gentle checks",
+   "summary": "A thin \"2 of 14 done\" line fills in as you go, and checking things off no longer jumps the page, just a soft pop and a tiny tap. The bottom buttons get a solid background so the list doesn't show through, and the home button becomes a clean house icon that matches the gear.",
+   "link": "https://github.com/Feirzen/panicbutton/pull/2",
+   "images": [
+    "previews/p1025pblist/before.png",
+    "previews/p1025pblist/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-10-25T07:31:00Z",
+   "source": "weekly polish",
+   "flagIds": []
+  },
+  {
+   "id": "p1025rbgear",
+   "project": "RetroBat Wizard",
+   "title": "Website: one shared settings gear",
+   "summary": "Right now the Flag Hub gear covers the website's theme button, so its four looks can't be reached. This makes that button the one shared gear with Look and Flag, like Panic Button and Music Space.",
+   "link": "https://github.com/Feirzen/retrobat-wizard/pull/2",
+   "images": [
+    "previews/p1025rbgear/before.png",
+    "previews/p1025rbgear/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-10-25T07:31:00Z",
+   "source": "weekly polish",
+   "flagIds": []
+  },
+  {
+   "id": "p1025rbfind",
+   "project": "RetroBat Wizard",
+   "title": "Website: find a game box",
+   "summary": "With about 190 games, the Games page gets a search box that opens the right consoles and highlights the matches as you type. Also fixes \"1 players\" and gives the Xbox sections proper names.",
+   "link": "https://github.com/Feirzen/retrobat-wizard/pull/3",
+   "images": [
+    "previews/p1025rbfind/before.png",
+    "previews/p1025rbfind/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-10-25T07:31:00Z",
+   "source": "weekly polish",
+   "flagIds": []
   }
  ],
  "runs": [
@@ -1074,7 +1134,44 @@
      "text": "Couldn't reach the RetroBat drive."
     }
    ]
+  },
+  {
+   "at": "2026-10-25T07:31:00Z",
+   "mode": "big",
+   "summary": "Weekly polish: 2 proposals for Panic Button and 2 for the RetroBat Wizard website, each built on its own branch with a pull request waiting for you.",
+   "items": [
+    {
+     "kind": "proposed",
+     "project": "Panic Button",
+     "text": "A calmer timer with a progress ring and a breathing square that fills and empties."
+    },
+    {
+     "kind": "proposed",
+     "project": "Panic Button",
+     "text": "A smoother list with a progress line and checks that don't jump the page."
+    },
+    {
+     "kind": "proposed",
+     "project": "RetroBat Wizard",
+     "text": "The website's theme button becomes the shared gear, so its looks work again."
+    },
+    {
+     "kind": "proposed",
+     "project": "RetroBat Wizard",
+     "text": "A find-a-game box on the website's Games page."
+    }
+   ]
   }
  ],
- "digestAt": "2026-10-23T07:54:21Z"
+ "digestAt": "2026-10-23T07:54:21Z",
+ "polish": [
+  {
+   "app": "panicbutton",
+   "at": "2026-10-25T07:31:00Z"
+  },
+  {
+   "app": "retrobat-wizard",
+   "at": "2026-10-25T07:31:00Z"
+  }
+ ]
 }
