@@ -341,12 +341,13 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
+   "kind": "fix",
    "project": "Claude OS",
    "source": "reminders",
    "status": "open",
    "text": "A little dynamic desk clock, like an Echo Show I can program: show Claude animations, interact with study stuff, set timers visually, scale to the room and integrate with everything.",
-   "id": "rem-09"
+   "id": "rem-09",
+   "reviewedAt": "2026-10-25T05:24:05.534Z"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
