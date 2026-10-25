@@ -748,10 +748,19 @@
    "flagIds": [
     "fmvio9zbk"
    ],
-   "status": "waiting",
+   "status": "redo",
    "created": "2026-10-23T02:45:46Z",
    "source": "manual run",
-   "applyOn": "pc"
+   "applyOn": "pc",
+   "decidedAt": "2026-10-25T19:42:07.810Z",
+   "feedback": "Absolutely yes for this, im all for it, but let me finish updating retrobat to 3.1 first, and this will be a part of it- I’ll handle it. Thanks though",
+   "history": [
+    {
+     "at": "2026-10-25T19:42:07.810Z",
+     "status": "redo",
+     "feedback": "Absolutely yes for this, im all for it, but let me finish updating retrobat to 3.1 first, and this will be a part of it- I’ll handle it. Thanks though"
+    }
+   ]
   },
   {
    "id": "p1a15c1f380a",
