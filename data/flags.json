@@ -913,10 +913,11 @@
     "previews/p1025pblist/before.png",
     "previews/p1025pblist/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
-   "flagIds": []
+   "flagIds": [],
+   "decidedAt": "2026-10-25T16:35:41.462Z"
   },
   {
    "id": "p1025rbgear",
