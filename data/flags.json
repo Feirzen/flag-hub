@@ -417,11 +417,13 @@
    "kind": "you",
    "project": "Bulk Manager",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Daily activity not tracking? Or at least not showing",
    "id": "rem-17",
    "note": "Found it: Health Sync only landed on Oct 2, 7, 8, 14, 15, and 21, so the phone shortcut isn't running every day. Check Shortcuts > Automation > the app-open automation for Sync Health: pick a few apps you open daily, set Run Immediately, and turn Notify When Run off. Then open one and see if today's file shows up.",
-   "prevKind": "fix"
+   "prevKind": "fix",
+   "resolvedAt": "2026-10-25T05:25:18.548Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
