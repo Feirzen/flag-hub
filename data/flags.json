@@ -565,9 +565,11 @@
    "kind": "idea",
    "project": "RetroBat",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Find a legit mod or add-on for Wii Play Tanks: multiplayer, more maps",
-   "id": "rem-36"
+   "id": "rem-36",
+   "resolvedAt": "2026-10-25T05:24:46.455Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
