@@ -573,12 +573,13 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
+   "kind": "fix",
    "project": "RetroBat Wizard",
    "source": "reminders",
    "status": "open",
    "text": "Install process notes: mention install location (default C:\\RetroBat is fine, pick the drive if you want it on one) and the 'Windows protected your PC' window; step 3 should find RetroBat automatically and say so if it can't; the .bat never closed or said done; install took 20-30 min after showing 242/242, so speed it up and add a real progress bar; add a back button in advanced setup; don't assume an external drive (only ask drive rename/extra machines if it IS one, change 'this drive' wording to 'this setup'); profile image zoom/crop; 2GB+ games don't stay on 'downloading' and should verify against the library; admin uploads should verify too; first-run defaults: front-end music off, only collections with games plus 2/4 player and all games on; auto scraper login; apply my customizations as defaults on first run only.",
-   "id": "rem-37"
+   "id": "rem-37",
+   "reviewedAt": "2026-10-25T05:24:58.610Z"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
