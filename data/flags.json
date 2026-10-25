@@ -897,10 +897,11 @@
     "previews/p1025pbtimer/before.png",
     "previews/p1025pbtimer/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
-   "flagIds": []
+   "flagIds": [],
+   "decidedAt": "2026-10-25T16:35:29.615Z"
   },
   {
    "id": "p1025pblist",
