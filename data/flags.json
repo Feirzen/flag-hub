@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvo8katu",
+   "project": "RetroBat Wizard",
+   "text": "My custom (and most) psx games are folders. A couple of the other ones are too. I can’t publish them to the online library cause the uploaded doesn’t allow folders or whatever. Will you fix that so I can upload games for any console? Idk how that works but whatever.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-25T19:43:54.834Z"
+  },
+  {
    "id": "f672294fe",
    "project": "RetroBat Wizard",
    "kind": "fix",
