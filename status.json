@@ -1,10 +1,10 @@
 {
  "mode": "big",
- "openFlags": 42,
+ "openFlags": 38,
  "waiting": 1,
  "lastRun": {
-  "at": "2026-10-24T07:53:38Z",
-  "summary": "Nothing new tonight: the open flags for the apps I can reach are either ideas for the PC side (wizard installer, icons) or need your drive, so they're left for the RetroBat night shift."
+  "at": "2026-10-25T05:35:00Z",
+  "summary": "RetroBat drive not reachable"
  },
- "updated": "2026-10-24T07:53:38Z"
+ "updated": "2026-10-25T05:35:00Z"
 }
