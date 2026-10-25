@@ -530,12 +530,13 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
+   "kind": "fix",
    "project": "RetroBat",
    "source": "reminders",
    "status": "open",
    "text": "Flash games: some use the keyboard. Custom key bindings per game?",
-   "id": "rem-32"
+   "id": "rem-32",
+   "reviewedAt": "2026-10-25T05:24:35.115Z"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
