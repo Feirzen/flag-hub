@@ -430,10 +430,12 @@
    "kind": "fix",
    "project": "Screen Time",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Tell me how to add my GitHub websites to allowed on my phone at night",
    "id": "rem-18",
-   "note": "Downtime can't allow single websites, only apps. Try this first: open the site in Safari, Share, Add to Home Screen, then check if it opens during Downtime. If it's blocked, the reliable fix is a second browser (like DuckDuckGo) added to Always Allowed that you only use for your GitHub sites."
+   "note": "Downtime can't allow single websites, only apps. Try this first: open the site in Safari, Share, Add to Home Screen, then check if it opens during Downtime. If it's blocked, the reliable fix is a second browser (like DuckDuckGo) added to Always Allowed that you only use for your GitHub sites.",
+   "resolvedAt": "2026-10-25T05:25:41.934Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
