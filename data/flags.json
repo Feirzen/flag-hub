@@ -435,12 +435,13 @@
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
-   "kind": "idea",
+   "kind": "fix",
    "project": "Jellyfin",
    "source": "reminders",
    "status": "open",
    "text": "Jellyfin (ARR stack?): stream ripped DVDs to Roku. Ideas: FAST channels (Pluto, Tubi), IPTV m3u live TV, plugins for live TV, intro/credit skipping, trailers.",
-   "id": "rem-19"
+   "id": "rem-19",
+   "reviewedAt": "2026-10-25T05:24:17.688Z"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
