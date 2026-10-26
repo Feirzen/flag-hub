@@ -23,6 +23,23 @@
  ],
  "flags": [
   {
+   "id": "fmvpafizk",
+   "project": "RetroBat Wizard",
+   "text": "When I viewing a game as a pop up like this, I'd love to have arrows left and right to explore the rest of the games in this system's list.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-26T13:23:57.536Z",
+   "where": {
+    "app": "retrobat-wizard",
+    "page": "https://feirzen.github.io/retrobat-wizard/#library",
+    "element": "div#gameModal",
+    "says": "X The Oregon Trail 1 players · 128.0 MB Become a pioneer and make the famous crossing across America! Travel with fellow",
+    "screen": "1920x911 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmvoyxbj2",
    "project": "Unsorted",
    "text": "Possibly add another github account to my junk mail, entirely to serve as just a backup of all my repo work? I've done a lot, and I'd HATE to lose it all somehow. Or maybe a local backup if that's easy to automate?",
