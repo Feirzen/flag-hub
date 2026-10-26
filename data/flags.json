@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvoiduns",
+   "project": "Flag Hub",
+   "text": "ok so here on the hub, if I approve, deny, or leave comments on something, and then see something else and change my mind, could we allow me to edit it since it's just sitting pending claude's move? Also, I would like a Waiting for Claude section, since I already approved and did everything for it to stop waiting on me, but it still populates that section. Lastly, the screenshots for me to review are awesome, like really. But I would like them to be tiny, or even just show a photos icon for me to tap and THEN bring them up. They take up SO much space as it stands rn.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-26T00:18:50.104Z"
+  },
+  {
    "id": "fmvo8katu",
    "project": "RetroBat Wizard",
    "text": "My custom (and most) psx games are folders. A couple of the other ones are too. I can’t publish them to the online library cause the uploaded doesn’t allow folders or whatever. Will you fix that so I can upload games for any console? Idk how that works but whatever.",
