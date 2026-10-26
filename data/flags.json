@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvoyxbj2",
+   "project": "RetroBat",
+   "text": "Possibly add another github account to my junk mail, entirely to serve as just a backup of all my repo work? I've done a lot, and I'd HATE to lose it all somehow. Or maybe a local backup if that's easy to automate?",
+   "kind": "idea",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-26T08:01:52.286Z"
+  },
+  {
    "id": "fmvoxv2di",
    "project": "RetroBat",
    "text": "I added lots of ISO discs to the Scummvm folder of my retrobat, is that format not accepted? Any help there? Do I need to dump the games differently ig?",
