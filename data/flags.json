@@ -23,6 +23,23 @@
  ],
  "flags": [
   {
+   "id": "fmvov80k5",
+   "project": "RetroBat Wizard",
+   "text": "I'd love to add videos to each of the games! So basically, every game I've uploaded has a scraped video with it on my retrobat setup. When I upload one, let's include the video. Here in the compact list, only show a video icon just to the right of this title I clicked on. In the big view, same deal, just to the right of each title, a little video icon, that when you click it pulls up a pop up window with the scraped video or whatever there for viewing.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-26T06:18:12.821Z",
+   "where": {
+    "app": "retrobat-wizard",
+    "page": "https://feirzen.github.io/retrobat-wizard/#library",
+    "element": "div#modalBody > div.game > div.body:nth-of-type(2) > b",
+    "says": "Galaga : Demons of Death",
+    "screen": "1536x695 computer",
+    "look": "light"
+   }
+  },
+  {
    "id": "fmvov4xcf",
    "project": "RetroBat Wizard",
    "text": "Honestly let's just remove this line from each game.",
