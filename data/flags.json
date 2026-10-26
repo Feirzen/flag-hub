@@ -23,6 +23,23 @@
  ],
  "flags": [
   {
+   "id": "fmvpl8yqi",
+   "project": "RetroBat Wizard",
+   "text": "Both this start icon and the Games icon are gone! Although I would be down to replace the Start icon with the spinning globe from the wizard, and also include it on the page. Then update the chest icon to match the chest from the wizard for the games tab?",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-26T18:26:47.130Z",
+   "where": {
+    "app": "retrobat-wizard",
+    "page": "https://feirzen.github.io/retrobat-wizard/#start",
+    "element": "div#site > nav.rail > a.on:nth-of-type(2) > img",
+    "says": "",
+    "screen": "1536x695 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmvpl5e5v",
    "project": "RetroBat Wizard",
    "text": "when I hit the right or left arrows, it adjusts the sizing or sum of everything, and scroll bars appear on the right and bottom of this popout. It's jarring, and I'd love for the arrows to only switch the games, not make scroll bars appear on it.",
