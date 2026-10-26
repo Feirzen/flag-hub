@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvoxf8cx",
+   "project": "RetroBat",
+   "text": "Update the Retrobat wishlist on Claude to include a good list of flash games to track down. I want to track down each BTD, fancy pants, N+, etc. and also all the ones in the video it says. Basically, have claude find all the most popular Flash games especially older ones, and add them to the retrobat wishlist. Then, figure how the heck to add the artwork... lol",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-26T07:19:48.753Z"
+  },
+  {
    "id": "fmvovcxl8",
    "project": "RetroBat Wizard",
    "text": "So I know in the 3.2.0 update these instructions are going to change slightly, but I'd love to make the instructions clearer. For now, wait for 3.2.0 to publish, and then make each indiivdual step a bullet or numbered list or sum. I want this to be so so easy to read, and doable for someone who doesnt even know what a zip file is. No black coding windows, or confusing steps, just very clear intsructions for exactly what to do where, with offramps if someone knows what they're doing (for example on step 4 advanced setup allows you to customize ... is a good way to flag down people who know the terms or know that they want those things, but everyone else will just go with quick setup). Also, this isn't for me. No need to tell people something has a back button. Good for me to know since I specifically told you to add it, but noone else really needs to know that.",
