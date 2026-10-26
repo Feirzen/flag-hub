@@ -34,11 +34,13 @@
   {
    "id": "fmvoxf8cx",
    "project": "RetroBat",
-   "text": "Update the Retrobat wishlist on Claude to include a good list of flash games to track down. I want to track down each BTD, fancy pants, N+, etc. and also all the ones in the video it says. Basically, have claude find all the most popular Flash games especially older ones, and add them to the retrobat wishlist. Then, figure how the heck to add the artwork... lol",
+   "text": "Update the Retrobat wishlist on Claude to include a good list of flash games to track down. I want to track down each BTD, fancy pants, N+, etc. and also all the ones in the video it says. Basically, have claude find all the most popular Flash games especially older ones, and add them to the retrobat wishlist. Then, figure how the heck to add the artwork... lol\nAlso help me figure out how the heck to get those broswer games working! Also, I dont like them living under \"windows\" and I'd love to get them somewhere else if I can. Any ideas? If none, that's fine, but maybe we create a custom browser Games list. idk. Also, they have had a hard time from day one, and there's not many that live there. I'd love to make them work well, and add plenty more, or just get rid of them. Help me with that call. \nLastly, I want to update the wihslist with a couple more games. I feel like some of the classics arent there, so double check on some of those consoles. Also, I don't have like any sports ones on the more modern consoles, maybe help me add a couple to the mix? Idk. You tell me, but I think we can get a more rounded out collection.",
    "kind": "fix",
    "status": "open",
    "source": "hub",
-   "created": "2026-10-26T07:19:48.753Z"
+   "created": "2026-10-26T07:19:48.753Z",
+   "editedAt": "2026-10-26T08:00:42.736Z",
+   "reviewedAt": "2026-10-26T08:00:42.736Z"
   },
   {
    "id": "fmvovcxl8",
