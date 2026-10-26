@@ -23,6 +23,23 @@
  ],
  "flags": [
   {
+   "id": "fmvpl5e5v",
+   "project": "RetroBat Wizard",
+   "text": "when I hit the right or left arrows, it adjusts the sizing or sum of everything, and scroll bars appear on the right and bottom of this popout. It's jarring, and I'd love for the arrows to only switch the games, not make scroll bars appear on it.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-26T18:24:00.499Z",
+   "where": {
+    "app": "retrobat-wizard",
+    "page": "https://feirzen.github.io/retrobat-wizard/#library",
+    "element": "div#gameModal > div.modal-box",
+    "says": "X Donkey Kong Country 2 : Diddy's Kong Quest 1-2 players · 4.0 MB Donkey Kong has been kong-napped by the nasty K.Rool a",
+    "screen": "1536x695 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmvpafizk",
    "project": "RetroBat Wizard",
    "text": "When I viewing a game as a pop up like this, I'd love to have arrows left and right to explore the rest of the games in this system's list.",
