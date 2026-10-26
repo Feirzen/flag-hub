@@ -23,6 +23,23 @@
  ],
  "flags": [
   {
+   "id": "fmvovcxl8",
+   "project": "RetroBat Wizard",
+   "text": "So I know in the 3.2.0 update these instructions are going to change slightly, but I'd love to make the instructions clearer. For now, wait for 3.2.0 to publish, and then make each indiivdual step a bullet or numbered list or sum. I want this to be so so easy to read, and doable for someone who doesnt even know what a zip file is. No black coding windows, or confusing steps, just very clear intsructions for exactly what to do where, with offramps if someone knows what they're doing (for example on step 4 advanced setup allows you to customize ... is a good way to flag down people who know the terms or know that they want those things, but everyone else will just go with quick setup). Also, this isn't for me. No need to tell people something has a back button. Good for me to know since I specifically told you to add it, but noone else really needs to know that.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-26T06:22:02.252Z",
+   "where": {
+    "app": "retrobat-wizard",
+    "page": "https://feirzen.github.io/retrobat-wizard/#start",
+    "element": "section#p-start > div.card:nth-of-type(2) > ol.steps > li:nth-of-type(2)",
+    "says": "Install it and open it once. Run the file you downloaded. Windows protected your PC? Windows shows this blue box for pro",
+    "screen": "1536x695 computer",
+    "look": "light"
+   }
+  },
+  {
    "id": "fmvov80k5",
    "project": "RetroBat Wizard",
    "text": "I'd love to add videos to each of the games! So basically, every game I've uploaded has a scraped video with it on my retrobat setup. When I upload one, let's include the video. Here in the compact list, only show a video icon just to the right of this title I clicked on. In the big view, same deal, just to the right of each title, a little video icon, that when you click it pulls up a pop up window with the scraped video or whatever there for viewing.",
