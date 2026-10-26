@@ -27,7 +27,7 @@
    "project": "RetroBat Wizard",
    "text": "When I viewing a game as a pop up like this, I'd love to have arrows left and right to explore the rest of the games in this system's list.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-10-26T13:23:57.536Z",
    "where": {
@@ -38,7 +38,9 @@
     "screen": "1920x911 computer",
     "look": "sepia"
    },
-   "note": "Built for 3.2: arrows (and the keyboard's left/right) step through that console's games in the pop-up. Goes live with the 3.2 push."
+   "note": "Built for 3.2: arrows (and the keyboard's left/right) step through that console's games in the pop-up. Goes live with the 3.2 push.",
+   "resolvedAt": "2026-10-26T15:58:01.000Z",
+   "resolution": "shipped in wizard 3.2.0"
   },
   {
    "id": "fmvoyxbj2",
@@ -56,10 +58,12 @@
    "project": "RetroBat",
    "text": "I added lots of ISO discs to the Scummvm folder of my retrobat, is that format not accepted? Any help there? Do I need to dump the games differently ig?",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-26T07:32:07.494Z",
-   "note": "ISOs are fine for ScummVM, but each disc needs a small .scummvm file next to it naming the game. Drag each .iso onto _Wizard\\Buttons\\Add-ScummVM-Disc.bat and it makes one. The missing games finder now points this out."
+   "note": "ISOs are fine for ScummVM, but each disc needs a small .scummvm file next to it naming the game. Drag each .iso onto _Wizard\\Buttons\\Add-ScummVM-Disc.bat and it makes one. The missing games finder now points this out.",
+   "resolvedAt": "2026-10-26T15:58:01.000Z",
+   "resolution": "shipped in wizard 3.2.0"
   },
   {
    "id": "fmvoxf8cx",
@@ -77,7 +81,7 @@
    "project": "RetroBat Wizard",
    "text": "So I know in the 3.2.0 update these instructions are going to change slightly, but I'd love to make the instructions clearer. For now, wait for 3.2.0 to publish, and then make each indiivdual step a bullet or numbered list or sum. I want this to be so so easy to read, and doable for someone who doesnt even know what a zip file is. No black coding windows, or confusing steps, just very clear intsructions for exactly what to do where, with offramps if someone knows what they're doing (for example on step 4 advanced setup allows you to customize ... is a good way to flag down people who know the terms or know that they want those things, but everyone else will just go with quick setup). Also, this isn't for me. No need to tell people something has a back button. Good for me to know since I specifically told you to add it, but noone else really needs to know that.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-10-26T06:22:02.252Z",
    "where": {
@@ -88,14 +92,16 @@
     "screen": "1536x695 computer",
     "look": "light"
    },
-   "note": "Built: the Get started steps are rewritten as short numbered steps with plain bullets, an offramp for Advanced setup, no Back-button talk. Goes live with the 3.2 push."
+   "note": "Built: the Get started steps are rewritten as short numbered steps with plain bullets, an offramp for Advanced setup, no Back-button talk. Goes live with the 3.2 push.",
+   "resolvedAt": "2026-10-26T15:58:01.000Z",
+   "resolution": "shipped in wizard 3.2.0"
   },
   {
    "id": "fmvov80k5",
    "project": "RetroBat Wizard",
    "text": "I'd love to add videos to each of the games! So basically, every game I've uploaded has a scraped video with it on my retrobat setup. When I upload one, let's include the video. Here in the compact list, only show a video icon just to the right of this title I clicked on. In the big view, same deal, just to the right of each title, a little video icon, that when you click it pulls up a pop up window with the scraped video or whatever there for viewing.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-10-26T06:18:12.821Z",
    "where": {
@@ -106,14 +112,16 @@
     "screen": "1536x695 computer",
     "look": "light"
    },
-   "note": "Built: Publish now uploads each game's scraped video; republishing a game that is already up adds a missing video without resending the game. The website shows a film icon beside the title (compact and big view) that opens the video. Re-publish your games to fill them in."
+   "note": "Built: Publish now uploads each game's scraped video; republishing a game that is already up adds a missing video without resending the game. The website shows a film icon beside the title (compact and big view) that opens the video. Re-publish your games to fill them in.",
+   "resolvedAt": "2026-10-26T15:58:01.000Z",
+   "resolution": "shipped in wizard 3.2.0"
   },
   {
    "id": "fmvov4xcf",
    "project": "RetroBat Wizard",
    "text": "Honestly let's just remove this line from each game.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-10-26T06:15:48.687Z",
    "where": {
@@ -124,7 +132,9 @@
     "screen": "1536x695 computer",
     "look": "light"
    },
-   "note": "Built: the 'Get it in the wizard' line is gone from every game. Goes live with the 3.2 push."
+   "note": "Built: the 'Get it in the wizard' line is gone from every game. Goes live with the 3.2 push.",
+   "resolvedAt": "2026-10-26T15:58:01.000Z",
+   "resolution": "shipped in wizard 3.2.0"
   },
   {
    "id": "fmvov292k",
@@ -157,30 +167,36 @@
    "project": "RetroBat Wizard",
    "text": "My custom (and most) psx games are folders. A couple of the other ones are too. I can’t publish them to the online library cause the uploaded doesn’t allow folders or whatever. Will you fix that so I can upload games for any console? Idk how that works but whatever.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-25T19:43:54.834Z",
-   "note": "Built for 3.2: one Publish picker for files AND folder games (tick as many as you like). .cue/.gdi/.m3u games take their other files; folder games go up packed and unpack on download. Needs wizard 3.2 to download."
+   "note": "Built for 3.2: one Publish picker for files AND folder games (tick as many as you like). .cue/.gdi/.m3u games take their other files; folder games go up packed and unpack on download. Needs wizard 3.2 to download.",
+   "resolvedAt": "2026-10-26T15:58:01.000Z",
+   "resolution": "shipped in wizard 3.2.0"
   },
   {
    "id": "f672294fe",
    "project": "RetroBat Wizard",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-23T05:01:22Z",
    "text": "Family filter, in the wizard: a box where I type a game name and it searches the games on the drive. If it finds it, I can add it to the screened list. If nothing matches, it says so and lets me add the name anyway, for a game I haven't collected yet. Build it on the PC first, then send it to the website. Uses the running list in previews/p1a15f4758e9/family-filter.md, plus anything rated M.",
-   "note": "Built for 3.2: the family list has a search box over every game on the setup; pick one or add any name. Show the list now shows what is hidden right now too."
+   "note": "Built for 3.2: the family list has a search box over every game on the setup; pick one or add any name. Show the list now shows what is hidden right now too.",
+   "resolvedAt": "2026-10-26T15:58:01.000Z",
+   "resolution": "shipped in wizard 3.2.0"
   },
   {
    "id": "fmvipe5qa",
    "project": "RetroBat",
    "text": "I’m realizing there are multiple games that aren’t showing on the actual games list of Retrobat when I look through my games, even though I’ve collected them and added the file. Can you look through the files under roms and check the game files, and then check which ones are actually on the screen when I go to play? If that’s possible? Or lmk how to do that if you can’t. I want to know which aren’t showing and figure out why and fix them so they will.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-21T22:48:24.707Z",
-   "note": "Built for 3.2: Health page, Look for missing games. Second pass after your test: game data folders count once, family-hidden games are counted not listed, ScummVM discs get their own advice."
+   "note": "Built for 3.2: Health page, Look for missing games. Second pass after your test: game data folders count once, family-hidden games are counted not listed, ScummVM discs get their own advice.",
+   "resolvedAt": "2026-10-26T15:58:01.000Z",
+   "resolution": "shipped in wizard 3.2.0"
   },
   {
    "id": "fmvio9zbk",
@@ -197,10 +213,12 @@
    "project": "RetroBat",
    "text": "Breath of the wild still runs very very poorly even on the PC. Any way you can make it work? I've already run the set up breath of the wild button, and it either wasnt enough or didnt work at all.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-21T20:31:36.240Z",
-   "note": "3.2: Set up Breath of the Wild also sets the game itself to Vulkan with async shaders (they were already the console default). The rest is Cemu's shader cache: smoother the more you play."
+   "note": "3.2: Set up Breath of the Wild also sets the game itself to Vulkan with async shaders (they were already the console default). The rest is Cemu's shader cache: smoother the more you play.",
+   "resolvedAt": "2026-10-26T15:58:01.000Z",
+   "resolution": "shipped in wizard 3.2.0"
   },
   {
    "id": "fmvij0mpl",
@@ -230,10 +248,12 @@
    "project": "RetroBat",
    "text": "So I am starting to expand into games that I don’t really like, but I know friends like, but they are either rated M or just feel like they should be. The whole purpose of this is to inspire connection and fun between friends, but then there’s the other purpose of playing classic games. In an effort to play classic games, I have decided to include some of these gory or scary games, and I want to turn on a filter on the wizard that hides M rated games or any other games that I choose to add into the list. Effectively a family friendly filter? Compile a list of games for me and I’ll approve it.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-21T16:17:18.283Z",
-   "note": "Built: the shipped M-rated list now covers every M game on your setup (Metal Gear Solid, Mortal Kombat, Rainbow Six, Splinter Cell, Ninja Gaiden Black, Fable, DOA Ultimate, Jade Empire, Skyrim, Natural Selection 2 added). Ships in 3.2."
+   "note": "Built: the shipped M-rated list now covers every M game on your setup (Metal Gear Solid, Mortal Kombat, Rainbow Six, Splinter Cell, Ninja Gaiden Black, Fable, DOA Ultimate, Jade Empire, Skyrim, Natural Selection 2 added). Ships in 3.2.",
+   "resolvedAt": "2026-10-26T15:58:01.000Z",
+   "resolution": "shipped in wizard 3.2.0"
   },
   {
    "id": "fmvhqinpj",
