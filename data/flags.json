@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvoxv2di",
+   "project": "RetroBat",
+   "text": "I added lots of ISO discs to the Scummvm folder of my retrobat, is that format not accepted? Any help there? Do I need to dump the games differently ig?",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-26T07:32:07.494Z"
+  },
+  {
    "id": "fmvoxf8cx",
    "project": "RetroBat",
    "text": "Update the Retrobat wishlist on Claude to include a good list of flash games to track down. I want to track down each BTD, fancy pants, N+, etc. and also all the ones in the video it says. Basically, have claude find all the most popular Flash games especially older ones, and add them to the retrobat wishlist. Then, figure how the heck to add the artwork... lol",
