@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvq3wb7p",
+   "project": "RetroBat Wizard",
+   "text": "Okay I tried downloading it on another computer as a test. It actually worked really well this time and I was really happy about it. The three wizard loading bars was very functional, but I don’t want the wizard to ride the loading bar as much as I want him to stand at the end while it loads good idea though.\nAlso, on this new dummy set up it seems to be working pretty well, the downloader could use some work which I’ve already told you about. When I log into an account, it doesn’t seem to save my favorites, so on the social tab where I have my three favorites and then the recently played and all of that nothing was saved there, except for my profile picture. My hope was that I could save my favorites and maybe even total playtime and maybe even recently played and all of that info saves to the cloud and comes back down. I don’t know at least for sure. The three favorites need to save. Also, I tried inviting my other account from this dummy account and the invite was never received on my end. It says it was sent and it gave me a timer till it expired but it just never showed on the other end. Is there any way to make that work better or fix the thing? As another note, I would love to move the Steam on this computer from this computer and settings, and instead have it as a section of the online library. So basically there’s PlayStation Sega all of the different consoles add one more console under PC and more and include a pixelated steam icon I can upload later, and when you",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-27T03:08:49.480Z"
+  },
+  {
    "id": "fmvq3jdgp",
    "project": "RetroBat Wizard",
    "text": "For the retro bat wizard, I want to be notified on my phone from game requests and feedback and stuff, which is great and you have running well, but I think I want a little bit more detail when it pops up on my phone, for example I got a game request for sonic just now from myself cause I was testing, but I’d love to know what profile it’s from if any.",
