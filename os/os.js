@@ -2,7 +2,7 @@
    Swipe through panels (it loops forever). Live data comes from os/data (locked so only this
    phone can read it) and from Flag Hub. Timers, alarms and settings live on this device. */
 (() => {
-  const VERSION = "2.3"; /* bump together with os/version.json so the desk phone reloads */
+  const VERSION = "2.4"; /* bump together with os/version.json so the desk phone reloads */
   const RAW = "https://raw.githubusercontent.com/Feirzen/flag-hub/main/";
   const HUB = "https://feirzen.github.io/flag-hub/";
   const $ = s => document.querySelector(s);
@@ -22,6 +22,7 @@
     glance: { next: true, inbox: true, flags: true, blueprints: false, music: false, study: true, workout: true },
     music: [],
   }, load("settings", {}));
+  if (!S.v23) { S.glance = Object.assign({}, S.glance, { blueprints: true }); S.v23 = true; }
   ["panels", "glance"].forEach(k => S[k] = Object.assign(k === "panels" ? { focus: true } : { focus: false, study: true, workout: true }, S[k]));
   const saveS = () => save("settings", S);
   window.OSSettings = S;
@@ -375,7 +376,8 @@
     if (S.glance.inbox) cards.push(`<button class="g glass" data-go="inbox"><div><div class="k">Inbox</div><div class="v">${unread.length ? esc(unread[0].title) : "All caught up"}</div></div>${unread.length ? `<span class="n">${unread.length}</span>` : ""}</button>`);
     if (S.glance.flags && flagData && flagData.waiting) cards.push(`<button class="g glass" data-go="flags" data-fv="flags"><div><div class="k">Flags</div><div class="v">${flagData.waiting ? flagData.waiting + (flagData.waiting > 1 ? " proposals need" : " proposal needs") + " your OK" : `<span class="mut">${flagData.open} open for Claude · nothing on you</span>`}</div></div>${flagData.waiting ? `<span class="n">${flagData.waiting}</span>` : ""}</button>`);
     if (S.glance.focus || F.run) cards.unshift(`<button class="g glass" data-go="focus"><div><div class="k">Focus</div><div class="v">${F.run || F.left != null ? `${F.mode === "focus" ? "Focusing" : "Break"} · <span class="js-ftime2">${fmtDur(fLeft())}</span>` : "Start a focus session"}</div></div></button>`);
-    if (S.glance.blueprints) { const b = bp || {}; cards.push(`<button class="g glass" data-go="flags" data-fv="bp"><div><div class="k">Blueprints</div><div class="v">${bp ? `${b.followups && b.followups.length ? b.followups.length + " follow-ups due" : "No follow-ups due"}${b.newLeads ? " · " + b.newLeads + " new leads" : ""}` : "Waiting on first sync"}</div></div>${b.flags && b.flags.length ? `<span class="n teal">${b.flags.length}</span>` : ""}</button>`); }
+    if (S.glance.blueprints && bp) { const mine = (bp.flags || []).filter(f => f.status === "needs-ok" || f.status === "quote"), fu = bp.followups || [];
+      if (mine.length || fu.length) cards.push(`<button class="g glass" data-go="flags" data-fv="bp"><div><div class="k">Blueprints</div><div class="v">${[mine.length ? mine.length + (mine.length > 1 ? " site changes need" : " site change needs") + " your OK" : "", fu.length ? fu.length + " follow-up" + (fu.length > 1 ? "s" : "") + " due" : ""].filter(Boolean).join(" · ")}</div></div><span class="n teal">${mine.length + fu.length}</span></button>`); }
     if (S.glance.music) { const it = sp.st && sp.st.item, m = S.music[load("track", 0)] || S.music[0];
       cards.push(`<button class="g glass" data-go="music"><div><div class="k">${it ? (sp.st.is_playing ? "Now playing" : "Paused") : "Music"}</div><div class="v">${it ? `${esc(it.name)} <span class="mut">${esc((it.artists || []).map(a => a.name).join(", "))}</span>` : m ? esc(m.name) : Spot.on() ? "Nothing playing" : "Connect Spotify in Settings"}</div></div></button>`); }
     if (S.glance.study) { const ex = nextExam(), dd = ex ? daysTo(ex.date) : 0;
@@ -513,7 +515,7 @@
       return j;
     },
   };
-  let sp = { st: null, at: 0, lists: load("sp.lists", []), devs: [] }, musicShown = null;
+  let sp = { st: null, at: 0, lists: load("sp.lists", []), devs: [], noDev: false }, musicShown = null;
   const SPI = {
     prev: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9.5 12z"/></svg>',
     next: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg>',
@@ -523,7 +525,7 @@
   };
   async function pullSpotify() {
     if (!Spot.on()) return;
-    try { sp.st = await Spot.api("GET", "/me/player"); sp.at = Date.now(); if (!sp.st) sp.devs = ((await Spot.api("GET", "/me/player/devices")) || {}).devices || []; }
+    try { sp.st = await Spot.api("GET", "/me/player"); sp.at = Date.now(); sp.devs = ((await Spot.api("GET", "/me/player/devices")) || {}).devices || []; if (sp.devs.length) sp.noDev = false; }
     catch (e) { if (!Spot.on()) toast("Spotify disconnected. Connect again in Settings."); }
     if (!sp.lists.length) pullLists();
     renderMusic(); renderGlance(); syncClones();
@@ -531,16 +533,27 @@
   async function pullLists() { try { const j = await Spot.api("GET", "/me/playlists?limit=24"); sp.lists = (j.items || []).filter(Boolean).map(x => ({ name: x.name, uri: x.uri, img: (x.images && x.images.length && x.images[x.images.length - 1].url) || "" })); save("sp.lists", sp.lists); renderMusic(); } catch (e) {} }
   async function spDo(act, arg) {
     try {
-      const dev = sp.st && sp.st.device && sp.st.device.id;
-      if (act === "toggle") await Spot.api("PUT", sp.st && sp.st.is_playing ? "/me/player/pause" : "/me/player/play");
+      const live = sp.st && sp.st.device && sp.st.device.id;
+      if (act === "toggle" && sp.st && sp.st.is_playing) await Spot.api("PUT", "/me/player/pause");
+      else if (act === "toggle" || act === "play") {
+        /* nothing awake and playing? pick a device: the one he used last, then any active one, then a phone, then anything */
+        const id = live || await spTarget();
+        if (!id) { sp.noDev = true; musicShown = null; renderMusic(); return; }
+        sp.noDev = false; save("sp.dev", id);
+        await Spot.api("PUT", "/me/player/play?device_id=" + id, act === "play" ? { context_uri: arg } : undefined);
+      }
       if (act === "next") await Spot.api("POST", "/me/player/next");
       if (act === "prev") await Spot.api("POST", "/me/player/previous");
       if (act === "vol") await Spot.api("PUT", "/me/player/volume?volume_percent=" + Math.round(arg));
-      if (act === "play") await Spot.api("PUT", "/me/player/play" + (dev ? "?device_id=" + dev : ""), { context_uri: arg });
-      if (act === "device") await Spot.api("PUT", "/me/player", { device_ids: [arg], play: true });
+      if (act === "device") { save("sp.dev", arg); sp.noDev = false; await Spot.api("PUT", "/me/player", { device_ids: [arg], play: true }); }
       if (sp.st && act === "toggle") sp.st.is_playing = !sp.st.is_playing;
-    } catch (e) { toast(e.status === 404 ? "Open Spotify on a device first, then pick it here" : e.reason === "PREMIUM_REQUIRED" ? "That needs Spotify Premium" : e.message); }
+    } catch (e) { if (e.status === 404) { sp.noDev = true; musicShown = null; } else toast(e.reason === "PREMIUM_REQUIRED" ? "That needs Spotify Premium" : e.message); }
     renderMusic(); setTimeout(pullSpotify, 700);
+  }
+  async function spTarget() {
+    sp.devs = ((await Spot.api("GET", "/me/player/devices")) || {}).devices || [];
+    const pref = load("sp.dev", null), d = sp.devs.find(x => x.id === pref) || sp.devs.find(x => x.is_active) || sp.devs.find(x => x.type === "Smartphone") || sp.devs[0];
+    return d ? d.id : null;
   }
   const spPos = () => { const st = sp.st; if (!st || !st.item) return 0; const p = st.progress_ms + (st.is_playing ? Date.now() - sp.at : 0); return Math.min(1, p / st.item.duration_ms); };
   function tickMusic() { const f = spPos() * 100 + "%"; $$(".js-spbar").forEach(el => el.style.width = f); }
@@ -560,7 +573,7 @@
     const st = sp.st, it = st && st.item;
     const saved = S.music.map(m => ({ name: m.name, uri: linkURI(m.link), img: "" })).filter(x => x.uri);
     const lists = [...saved, ...sp.lists.filter(l => !saved.some(x => x.uri === l.uri))].slice(0, 24);
-    const sig = "remote" + JSON.stringify([it && it.id, st && st.is_playing, st && st.device && st.device.volume_percent, st && st.device && st.device.name, sp.devs.map(d => d.id), lists.map(l => l.uri)]);
+    const sig = "remote" + JSON.stringify([it && it.id, st && st.is_playing, st && st.device && st.device.volume_percent, st && st.device && st.device.name, sp.devs.map(d => d.id + d.is_active), lists.map(l => l.uri), sp.noDev]);
     if (sig === musicShown) return; musicShown = sig;
     el.querySelector(".js-mtabs").innerHTML = "";
     const art = it && it.album && it.album.images && it.album.images[0] ? it.album.images[0].url : "";
@@ -576,8 +589,9 @@
         </div>
       </div>`
       : `<div class="np idle"><div class="npi"><div class="h">Nothing playing</div>
-          ${sp.devs.length ? `<div class="mut" style="margin-bottom:8px">Play on:</div><div class="devs">${sp.devs.map(d => `<button class="mt" data-spdev="${esc(d.id)}">${esc(d.name)}</button>`).join("")}</div>` : `<div class="mut">Open Spotify on any device (this phone, your PC, a speaker), then it shows up here.</div>`}</div></div>`;
-    el.querySelector(".js-player").innerHTML = now + (lists.length ? `<div class="h" style="margin-top:12px">Play a playlist</div><div class="plist">${lists.map(l => `<button class="pl" data-spplay="${esc(l.uri)}">${l.img ? `<img src="${esc(l.img)}" alt="">` : `<span class="noimg"></span>`}<span>${esc(l.name)}</span></button>`).join("")}</div>` : "");
+          ${sp.devs.length ? `<div class="mut" style="margin-bottom:8px">Tap a playlist below, or start one of these:</div>` : `<div class="nodev">No Spotify app is awake right now, so there's nothing to play on. Open Spotify on this phone, your PC or a speaker, then tap a playlist here. <button class="link" data-sp="refresh">Check again</button></div>`}</div></div>`;
+    const devRow = sp.devs.length ? `<div class="devs" style="margin-top:10px"><span class="lbl2">Play on</span>${sp.devs.map(d => `<button class="mt ${d.is_active ? "on" : ""}" data-spdev="${esc(d.id)}">${esc(d.name)}</button>`).join("")}</div>` : "";
+    el.querySelector(".js-player").innerHTML = now + devRow + (lists.length ? `<div class="h" style="margin-top:12px">Play a playlist</div><div class="plist">${lists.map(l => `<button class="pl" data-spplay="${esc(l.uri)}">${l.img ? `<img src="${esc(l.img)}" alt="">` : `<span class="noimg"></span>`}<span>${esc(l.name)}</span></button>`).join("")}</div>` : "");
   }
   deck.addEventListener("change", e => { if (e.target.dataset && e.target.dataset.spvol) spDo("vol", +e.target.value); });
 
@@ -743,7 +757,7 @@
     const seg = (key, opts) => `<div class="seg" data-seg="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(S[key]) === String(v) ? "on" : ""}">${l}</button>`).join("")}</div>`;
     const sw = (key, obj = S) => `<button class="sw ${obj[key] ? "on" : ""}" data-sw="${key}" data-in="${obj === S ? "" : obj === S.panels ? "panels" : "glance"}"></button>`;
     const PN = { today: "Today", calendar: "Calendar", focus: "Focus", inbox: "Inbox", flags: "Flags + Blueprints", music: "Music" };
-    const GN = { next: "Next up", inbox: "Inbox", flags: "Flags (only when waiting on you)", blueprints: "Blueprints", music: "Music", focus: "Focus", study: "Study (next exam)", workout: "Workout" };
+    const GN = { next: "Next up", inbox: "Inbox", flags: "Flags (only when waiting on you)", blueprints: "Blueprints (only when waiting on you)", music: "Music", focus: "Focus", study: "Study (next exam)", workout: "Workout" };
     sheet("Settings", `
       <div class="h">Panels</div>
       <div class="tog">${Object.keys(PN).map(k => `<div class="row sp tight"><span>${PN[k]}</span>${sw(k, S.panels)}</div>`).join("")}</div>
@@ -751,7 +765,7 @@
       <div class="tog">${Object.keys(GN).map(k => `<div class="row sp tight"><span>${GN[k]}</span>${sw(k, S.glance)}</div>`).join("")}</div>
       <div class="h" style="margin-top:14px">Background</div>
       <div class="row" style="margin-top:4px">${seg("bg", [["rotate", "Rotate"], ["shards", "Shards"], ["caustics", "Caustics"], ["silk", "Silk"], ["fluted", "Fluted"], ["prism", "Prism"]])}</div>
-      <div class="tog"><div class="row sp tight"><span>Weather moods</span>${sw("moods")}</div><div class="row sp tight"><span>Winter snow</span>${sw("seasonal")}</div></div>
+      <div class="tog"><div class="row sp tight"><span>Weather moods</span>${sw("moods")}</div></div>
       <div class="row sp"><span>Rotate every</span>${seg("bgEvery", [[10, "10m"], [30, "30m"], [60, "1h"], [180, "3h"]])}</div>
       <div class="row sp"><span>Motion</span>${seg("motion", [["full", "Smooth"], ["calm", "Battery saver"]])}</div>
       <div class="h" style="margin-top:14px">Music</div>
@@ -775,7 +789,7 @@
       s.querySelectorAll("[data-sw]").forEach(b => b.onclick = () => {
         const obj = b.dataset.in === "panels" ? S.panels : b.dataset.in === "glance" ? S.glance : S, k = b.dataset.sw;
         obj[k] = !obj[k]; saveS(); b.classList.toggle("on");
-        if (k === "moods" || k === "seasonal") pickBg(true); if (b.dataset.in === "panels") buildDeck(); else { lastMin = -1; nightOn = null; tickClock(new Date()); renderGlance(); renderChips(); syncClones(); }
+        if (k === "moods") { save("moodSkip", null); pickBg(true); } if (b.dataset.in === "panels") buildDeck(); else { lastMin = -1; nightOn = null; tickClock(new Date()); renderGlance(); renderChips(); syncClones(); }
       });
       s.querySelectorAll("[data-seg]").forEach(g => g.querySelectorAll("button").forEach(b => b.onclick = () => {
         const k = g.dataset.seg, v = b.dataset.v; S[k] = isNaN(+v) ? v : +v; saveS();
@@ -800,11 +814,16 @@
   }
 
   /* ---------- background choice (rotate through the favorites) ---------- */
-  const ROTATE = ["shards", "caustics", "silk", "fluted"];
-  /* weather moods: rain and storms turn it into a pond in the rain, snow into glass snow */
-  function moodBg() { if (!S.moods) return null; const ic = today && today.weather && today.weather.icon; return ic === "rain" || ic === "storm" ? "pond" : ic === "snow" ? "snow" : null; }
-  /* seasonal: glass snow joins the rotation in winter */
-  function rotation() { const m = new Date().getMonth(); return S.seasonal && (m === 11 || m <= 1) ? [...ROTATE, "snow"] : ROTATE; }
+  const ROTATE = ["shards", "caustics", "silk", "fluted", "orbs"];
+  /* weather moods: rain and storms show the pond, snow shows glass snow. It stays put while the weather lasts.
+     If he swipes past it on purpose (the sparkle button), that choice sticks for the rest of the day. */
+  function weatherMood() { const ic = today && today.weather && today.weather.icon; return ic === "rain" || ic === "storm" ? "pond" : ic === "snow" ? "snow" : null; }
+  function moodBg() {
+    if (!S.moods) return null; const m = weatherMood(); if (!m) return null;
+    const skip = load("moodSkip", null); if (skip && skip.mood === m && skip.day === dayKey(new Date())) return null;
+    return m;
+  }
+  const rotation = () => ROTATE;
   let bgSince = load("bgSince", 0);
   function pickBg(force) {
     const mb = moodBg(); if (mb) { window.OSBG.show(mb); return; }
@@ -814,6 +833,7 @@
     if (Date.now() - bgSince > S.bgEvery * 60000) nextBg();
   }
   function nextBg() {
+    const m = moodBg(); if (m && window.OSBG.get() === m) save("moodSkip", { mood: m, day: dayKey(new Date()) });
     const list = S.bg === "rotate" ? rotation() : window.OSBG.list;
     const i = list.indexOf(window.OSBG.get()), nx = list[(i + 1) % list.length];
     if (S.bg !== "rotate") { S.bg = nx; saveS(); }
@@ -826,7 +846,7 @@
   /* ---------- taps anywhere on the panels ---------- */
   deck.addEventListener("click", e => {
     const t = e.target.closest("[data-go],[data-act],[data-msg],[data-fv],[data-calv],[data-track],[data-fplan],[data-sp],[data-spplay],[data-spdev],[data-spconnect]"); if (!t) return;
-    if (t.dataset.sp) { spDo(t.dataset.sp); return; } if (t.dataset.spplay) { spDo("play", t.dataset.spplay); return; } if (t.dataset.spdev) { spDo("device", t.dataset.spdev); return; } if (t.dataset.spconnect) { Spot.login(); return; }
+    if (t.dataset.sp === "refresh") { pullSpotify(); toast("Checking…"); return; } if (t.dataset.sp) { spDo(t.dataset.sp); return; } if (t.dataset.spplay) { spDo("play", t.dataset.spplay); return; } if (t.dataset.spdev) { spDo("device", t.dataset.spdev); return; } if (t.dataset.spconnect) { Spot.login(); return; }
     if (t.dataset.fplan) { S.focusPlan = t.dataset.fplan; saveS(); if (!F.run) F.left = null; renderFocus(); return; }
     if (t.dataset.fv && !t.dataset.go) { flagView = t.dataset.fv; save("flagView", flagView); renderFlags(); syncClones(); return; }
     if (t.dataset.go) { if (t.dataset.fv) { flagView = t.dataset.fv; save("flagView", flagView); renderFlags(); } goTo(t.dataset.go); return; }

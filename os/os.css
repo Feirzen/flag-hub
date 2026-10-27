@@ -330,3 +330,5 @@ body.nightmode .glass { -webkit-backdrop-filter: none; backdrop-filter: none; }
 .pl img, .pl .noimg { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; flex: none; background: color-mix(in srgb, var(--accent) 25%, transparent); }
 .pl span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .music .player { overflow-y: auto; scrollbar-width: none; } .music .player::-webkit-scrollbar { display: none; }
+.nodev { padding: 12px 14px; border-radius: 14px; background: color-mix(in srgb, var(--star) 12%, transparent); border: 1px solid color-mix(in srgb, var(--star) 30%, transparent); font-size: 14.5px; line-height: 1.45; }
+.devs { align-items: center; } .devs .lbl2 { margin-right: 4px; }
