@@ -701,6 +701,8 @@
   setInterval(() => { const d = new Date(); tickClock(d); tickTimers(); tickAlarms(d); }, 1000);
   setInterval(pullLocked, 60 * 1000);
   setInterval(pullFlags, 4 * 60 * 1000);
+  /* new version shipped? reload quietly so the desk phone never needs a hand refresh */
+  setInterval(async () => { try { const v = (await getJSON("os/version.json")).v; if (v && v !== VERSION && $("#ring").hidden && $("#sheetBack").hidden) location.reload(); } catch (e) {} }, 5 * 60 * 1000);
   setInterval(() => { if (idle) drift(); renderChips(); pickBg(false); }, 60 * 1000);
   tickClock(new Date());
 })();
