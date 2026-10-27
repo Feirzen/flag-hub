@@ -68,29 +68,42 @@ void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec2 w=vec2(0.);
 float flake(vec2 p,float s,float rot){ float r=length(p); float a=atan(p.y,p.x)+rot; float arm=abs(cos(3.*a));
   float body=smoothstep(s*(.3+.7*pow(arm,8.)),s*(.2+.5*pow(arm,8.)),r); float core=smoothstep(s*.28,s*.12,r);
   float ray=exp(-abs(sin(3.*a))*r/s*16.)*smoothstep(s,0.,r); return max(body*.45,max(core*.5,ray)); }
-void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec3 col=mix(vec3(.01,.015,.035),vec3(.02,.035,.07),uv.y+.5)+rays(uv)*.25;
-  for(int L=0;L<4;L++){ float fl=float(L); float sc=9.-fl*1.7, sp=.04+.035*fl;
-    vec2 q=uv*sc+vec2(sin(T*.07+fl)*.4+fl*3.7,T*sp*sc); vec2 id=floor(q), f=fract(q)-.5; vec2 hh=h2(id+fl*17.);
-    if(hh.x<.8){ vec2 pos=(hh-.5)*.45+vec2(sin(T*.4+hh.y*6.)*.07,0.); float s=.14+.13*hh.y;
-      float rot=T*(.15+hh.x*.35)*(hh.y>.5?1.:-1.); float v=flake(f-pos,s,rot);
-      float glint=pow(.5+.5*sin(T*(.7+hh.x)+hh.y*20.),14.);
-      vec3 tint=mix(vec3(.8,.9,1.),pal(hh.x+hh.y+T*.02)*1.4,glint);
-      col+=v*tint*(.18+.22*fl)*(1.+glint*2.); } }
+void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec3 col=mix(vec3(.01,.015,.035),vec3(.02,.035,.07),uv.y+.5)+rays(uv)*.2;
+  float la=T*.05; vec2 L=normalize(vec2(cos(la),sin(la)+.5));        /* the light slowly moving around the room */
+  vec2 span=vec2(R.x/R.y+.4,1.4);
+  for(int i=0;i<90;i++){ float fi=float(i); vec2 hh=h2(vec2(fi,4.1)), hg=h2(vec2(fi,9.7));
+    float depth=.35+.65*hg.x;
+    vec2 vel=vec2((hh.x-.5)*.05,-(.01+.016*hh.y))*depth;              /* each flake its own slow path */
+    vec2 drift=vec2(sin(T*(.12+hg.y*.18)+fi)*.07,cos(T*(.09+hh.x*.12)+fi*1.7)*.035);
+    vec2 pos=mod(hh*span+vel*T+drift+span*.5,span)-span*.5;
+    vec2 p=uv-pos; float s=(.018+.03*hg.y)*(.6+depth);
+    if(dot(p,p)>s*s*1.3) continue;
+    float rot=T*(.08+hh.y*.25)*(hg.x>.5?1.:-1.)+fi;
+    float v=flake(p,s,rot);
+    float a=atan(p.y,p.x)+rot, facet=pow(abs(cos(3.*a)),2.);
+    float glint=pow(max(0.,dot(normalize(p+1e-5),L)),3.)*facet;      /* the arm facing the light catches it */
+    float flash=pow(.5+.5*sin(rot*2.3+fi),14.);                       /* now and then the whole flake turns into the light */
+    col+=v*(vec3(.72,.83,1.)*(.3+.35*depth)+vec3(1.)*(glint*1.1+flash*.9)); }
   gl_FragColor=vec4(finish(col,uv),1.); }` },
     orbs: { scale: .6, src: `
+vec3 field(vec2 q){ float f=fbm(q*.9+T*.02); return pal(f*1.6+q.x*.2+T*.01)*(.04+.12*f); }
 vec3 lasers(vec2 q){ vec3 c=vec3(0.); for(int i=0;i<5;i++){ float fi=float(i); float a=fi*.9+sin(T*.05+fi)*.35; vec2 d=vec2(cos(a),sin(a));
   vec2 o=vec2(sin(fi*1.3+T*.04),cos(fi*2.1+T*.03))*.3; float k=dot(q-o,vec2(-d.y,d.x));
-  c+=pal(fi*.2+T*.02)*(exp(-k*k*6000.)*1.3+exp(-k*k*250.)*.1); } return c; }
-void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec2 q=uv; float rim=0., inside=0.; vec3 tint=vec3(1.);
+  c+=pal(fi*.2+T*.02)*(exp(-k*k*9000.)*.5+exp(-k*k*400.)*.035); } return c; }
+void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec2 q=uv; float rim=0., inside=0., spec=0., halo=0.;
   for(int i=0;i<6;i++){ float fi=float(i); vec2 c=vec2(sin(T*.04*(1.+fi*.15)+fi*2.4),cos(T*.035*(1.+fi*.1)+fi*1.9))*vec2(.55,.25);
     float r=.13+.09*h1(vec2(fi,7.)); vec2 p=uv-c; float d=length(p);
-    if(d<r){ float z=sqrt(1.-d*d/(r*r)); q-=p*(1.-z)*1.4; rim+=pow(1.-z,3.); inside+=1.; tint*=mix(vec3(1.),pal(fi*.2)*1.2,.12); } }
-  float disp=.004+rim*.02; vec3 col=vec3(lasers(q+vec2(disp,0.)).r,lasers(q).g,lasers(q-vec2(disp,0.)).b)*tint;
-  vec3 hit=lasers(uv); col+=dot(hit,vec3(.33))*rim*pal(rim+T*.05)*2.5;
-  col+=rim*.18*vec3(.8,.9,1.)+inside*.02+vec3(.01,.012,.03);
+    if(d<r){ float z=sqrt(1.-d*d/(r*r)); q-=p*(1.-z)*1.5; rim+=pow(1.-z,2.5); inside+=1.;
+      vec2 hl=p/r-vec2(-.35,.42); spec+=exp(-dot(hl,hl)*40.)*.9+exp(-dot(hl,hl)*5.)*.07; }
+    else halo+=exp(-(d-r)*45.)*.12; }
+  float disp=.003+rim*.018;
+  vec3 bg=vec3(field(q+vec2(disp,0.)).r,field(q).g,field(q-vec2(disp,0.)).b);
+  vec3 las=vec3(lasers(q+vec2(disp,0.)).r,lasers(q).g,lasers(q-vec2(disp,0.)).b);
+  float hit=dot(lasers(uv),vec3(.33));
+  vec3 col=bg*(1.+inside*1.4)+las*(.4+inside*1.1)+rim*.4*vec3(.85,.92,1.)+spec+hit*rim*pal(rim*2.+T*.05)*2.+halo*vec3(.7,.8,1.)+vec3(.01,.012,.03);
   gl_FragColor=vec4(finish(col,uv),1.); }` },
   };
-  const NAMES = { shards: "Shards", caustics: "Caustics", silk: "Silk", fluted: "Fluted glass", pond: "Rain on the pond", snow: "Glass snow", orbs: "Glass orbs (concept)", prism: "Prism" };
+  const NAMES = { shards: "Shards", caustics: "Caustics", silk: "Silk", fluted: "Fluted glass", pond: "Rain on the pond", snow: "Glass snow", orbs: "Glass orbs", prism: "Prism" };
 
   const cv = document.getElementById("gl");
   const gl = cv.getContext("webgl", { antialias: false, premultipliedAlpha: false, preserveDrawingBuffer: false });
@@ -152,5 +165,5 @@ void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec2 q=uv; float rim=0., inside
   /* mood: speed and brightness (focus slows and dims, breaks brighten); pause stops drawing (night mode) */
   function mood(speed, bright) { spdTo = speed; briTo = bright; }
   function pause(v) { paused = v; cv.style.visibility = v ? "hidden" : ""; if (v) { cancelAnimationFrame(raf); raf = 0; } else if (prog && !raf) raf = requestAnimationFrame(frame); if (window.OSPrism) window.OSPrism.run(!v && cur === "prism"); }
-  return { show, use, palette, mood, pause, names: NAMES, list: ["shards", "caustics", "silk", "fluted", "pond", "snow", "prism"], get: () => cur, setFps: f => fps = f, hasGL: !!gl };
+  return { show, use, palette, mood, pause, names: NAMES, list: ["shards", "caustics", "silk", "fluted", "orbs", "pond", "snow", "prism"], get: () => cur, setFps: f => fps = f, hasGL: !!gl };
 })();

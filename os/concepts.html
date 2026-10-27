@@ -21,7 +21,7 @@
 <canvas id="gl"></canvas>
 <div class="tip">Tap a button to flip through every background. "Mood" previews how Focus slows and dims it.</div>
 <div class="bar"><button id="next">Next</button><button id="mood">Mood: normal</button><button id="light">Light: off</button></div>
-<script src="bg.js?v=4"></script>
+<script src="bg.js?v=5"></script>
 <script>
   const B = window.OSBG, all = Object.keys(B.names).filter(k => k !== "prism"); let i = 0, m = 0, l = false;
   const label = () => document.getElementById("next").textContent = "Next  ·  now: " + B.names[all[i]];

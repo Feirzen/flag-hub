@@ -309,3 +309,24 @@ body.nightmode .ampm, body.nightmode .date { color: #ff8a5c; opacity: .22; text-
 body.nightmode .wx, body.nightmode .glance, body.nightmode .dock, body.nightmode #mini, body.nightmode #dots, body.nightmode #gear { opacity: 0 !important; pointer-events: none; }
 body.nightmode .glass { -webkit-backdrop-filter: none; backdrop-filter: none; }
 @media (orientation: portrait) { .focus .focus { grid-template-columns: 1fr; justify-items: center; } .fside { align-items: center; } }
+
+/* ---------- Spotify remote ---------- */
+.mt.connect { background: color-mix(in srgb, #1db954 30%, transparent); color: var(--text); }
+.np { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; }
+.np.idle { grid-template-columns: 1fr; }
+.np .art { width: min(36vh, 170px); aspect-ratio: 1; border-radius: 16px; background: color-mix(in srgb, var(--text) 6%, transparent); }
+.np .art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sptt { font-size: 20px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.spbar { height: 4px; border-radius: 2px; margin: 10px 0 12px; background: color-mix(in srgb, var(--text) 12%, transparent); overflow: hidden; }
+.spbar i { display: block; height: 100%; background: linear-gradient(90deg, #ff7a85, #ffd27a, #9dffc9, #7fd4ff, #b49bff); box-shadow: 0 0 8px #fff8; transition: width 1s linear; }
+.ctrl { display: flex; gap: 12px; align-items: center; }
+.ctrl .round svg { width: 20px; height: 20px; } .ctrl .big { width: 60px; height: 60px; } .ctrl .big svg { width: 26px; height: 26px; }
+.vol { display: flex; align-items: center; gap: 10px; margin-top: 12px; max-width: 320px; color: var(--muted); }
+.vol svg { width: 20px; height: 20px; flex: none; } .vol input { touch-action: none; }
+.devs { display: flex; gap: 6px; flex-wrap: wrap; }
+.plist { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.pl { display: flex; align-items: center; gap: 8px; padding: 5px; border-radius: 12px; background: color-mix(in srgb, var(--text) 6%, transparent); font-size: 13.5px; min-width: 0; transition: transform .3s var(--spring); }
+.pl:active { transform: scale(.96); }
+.pl img, .pl .noimg { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; flex: none; background: color-mix(in srgb, var(--accent) 25%, transparent); }
+.pl span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.music .player { overflow-y: auto; scrollbar-width: none; } .music .player::-webkit-scrollbar { display: none; }

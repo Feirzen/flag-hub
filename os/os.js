@@ -2,7 +2,7 @@
    Swipe through panels (it loops forever). Live data comes from os/data (locked so only this
    phone can read it) and from Flag Hub. Timers, alarms and settings live on this device. */
 (() => {
-  const VERSION = "2.2"; /* bump together with os/version.json so the desk phone reloads */
+  const VERSION = "2.3"; /* bump together with os/version.json so the desk phone reloads */
   const RAW = "https://raw.githubusercontent.com/Feirzen/flag-hub/main/";
   const HUB = "https://feirzen.github.io/flag-hub/";
   const $ = s => document.querySelector(s);
@@ -19,10 +19,10 @@
     bg: "rotate", bgEvery: 30, calView: 3, moods: true, seasonal: true,
     nightMode: true, nmFrom: "00:00", nmTo: "06:00", idleDim: 60, focusPlan: "25/5",
     panels: { today: true, calendar: true, focus: true, inbox: true, flags: true, music: true },
-    glance: { next: true, inbox: true, flags: true, blueprints: false, music: false },
+    glance: { next: true, inbox: true, flags: true, blueprints: false, music: false, study: true, workout: true },
     music: [],
   }, load("settings", {}));
-  ["panels", "glance"].forEach(k => S[k] = Object.assign({ focus: k === "panels" }, S[k]));
+  ["panels", "glance"].forEach(k => S[k] = Object.assign(k === "panels" ? { focus: true } : { focus: false, study: true, workout: true }, S[k]));
   const saveS = () => save("settings", S);
   window.OSSettings = S;
 
@@ -311,6 +311,24 @@
     return (d.events || []).filter(e => (e.end ? mins(e.end) : mins(e.start) + 60) > nn).sort((a, b) => mins(a.start) - mins(b.start));
   }
 
+  /* next exam on the calendar (from the morning update) */
+  function nextExam() {
+    const cal = today && today.calendar, tk = dayKey(new Date()); if (!cal) return null;
+    for (const d of cal.days || []) { if (d.date < tk) continue; const e = (d.events || []).find(e => /\b(exam|midterm|final|quiz|test)\b/i.test(e.title)); if (e) return { title: e.title, date: d.date }; }
+    return null;
+  }
+  const daysTo = ds => Math.round((parseDay(ds) - parseDay(dayKey(new Date()))) / 864e5);
+  /* workout schedule from Bulk Manager (public config) */
+  let sched = load("sched", null);
+  async function pullSched() { try { const r = await fetch("https://raw.githubusercontent.com/Feirzen/bulk-manager/main/config.json?t=" + Date.now(), { cache: "no-store" }); const j = await r.json(); sched = j.schedule || null; save("sched", sched); renderGlance(); } catch (e) {} }
+  function workoutToday() {
+    const DN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], d = new Date(), dn = DN[d.getDay()];
+    const kind = Object.keys(sched).find(k => Array.isArray(sched[k]) && sched[k].includes(dn));
+    if (kind === "lift") return "Lift day · just show up";
+    const nxt = [1, 2, 3, 4, 5, 6].map(k => DN[(d.getDay() + k) % 7]).find(x => (sched.lift || []).includes(x));
+    return ({ walk: "Walk day", flex: "Flex day", rest: "Rest day" }[kind] || "Off day") + (nxt ? ` · next lift ${nxt}` : "");
+  }
+
   function renderAll() { renderFocus(); renderToday(); renderGlance(); renderCal(); renderInbox(); renderFlags(); renderMusic(); renderChips(); syncClones(); }
 
   function renderToday() {
@@ -355,10 +373,15 @@
       cards.push(`<button class="g glass" data-go="${keys.includes("calendar") ? "today" : "today"}"><div><div class="k">Next up</div><div class="v">${v}</div></div>${up.length > 1 ? `<span class="n soft">+${up.length - 1}</span>` : ""}</button>`);
     }
     if (S.glance.inbox) cards.push(`<button class="g glass" data-go="inbox"><div><div class="k">Inbox</div><div class="v">${unread.length ? esc(unread[0].title) : "All caught up"}</div></div>${unread.length ? `<span class="n">${unread.length}</span>` : ""}</button>`);
-    if (S.glance.flags && flagData) cards.push(`<button class="g glass" data-go="flags" data-fv="flags"><div><div class="k">Flags</div><div class="v">${flagData.waiting ? flagData.waiting + (flagData.waiting > 1 ? " proposals need" : " proposal needs") + " your OK" : `<span class="mut">${flagData.open} open for Claude · nothing on you</span>`}</div></div>${flagData.waiting ? `<span class="n">${flagData.waiting}</span>` : ""}</button>`);
+    if (S.glance.flags && flagData && flagData.waiting) cards.push(`<button class="g glass" data-go="flags" data-fv="flags"><div><div class="k">Flags</div><div class="v">${flagData.waiting ? flagData.waiting + (flagData.waiting > 1 ? " proposals need" : " proposal needs") + " your OK" : `<span class="mut">${flagData.open} open for Claude · nothing on you</span>`}</div></div>${flagData.waiting ? `<span class="n">${flagData.waiting}</span>` : ""}</button>`);
     if (S.glance.focus || F.run) cards.unshift(`<button class="g glass" data-go="focus"><div><div class="k">Focus</div><div class="v">${F.run || F.left != null ? `${F.mode === "focus" ? "Focusing" : "Break"} · <span class="js-ftime2">${fmtDur(fLeft())}</span>` : "Start a focus session"}</div></div></button>`);
     if (S.glance.blueprints) { const b = bp || {}; cards.push(`<button class="g glass" data-go="flags" data-fv="bp"><div><div class="k">Blueprints</div><div class="v">${bp ? `${b.followups && b.followups.length ? b.followups.length + " follow-ups due" : "No follow-ups due"}${b.newLeads ? " · " + b.newLeads + " new leads" : ""}` : "Waiting on first sync"}</div></div>${b.flags && b.flags.length ? `<span class="n teal">${b.flags.length}</span>` : ""}</button>`); }
-    if (S.glance.music) { const m = S.music[load("track", 0)] || S.music[0]; cards.push(`<button class="g glass" data-go="music"><div><div class="k">Music</div><div class="v">${m ? esc(m.name) : "Add a playlist in Settings"}</div></div></button>`); }
+    if (S.glance.music) { const it = sp.st && sp.st.item, m = S.music[load("track", 0)] || S.music[0];
+      cards.push(`<button class="g glass" data-go="music"><div><div class="k">${it ? (sp.st.is_playing ? "Now playing" : "Paused") : "Music"}</div><div class="v">${it ? `${esc(it.name)} <span class="mut">${esc((it.artists || []).map(a => a.name).join(", "))}</span>` : m ? esc(m.name) : Spot.on() ? "Nothing playing" : "Connect Spotify in Settings"}</div></div></button>`); }
+    if (S.glance.study) { const ex = nextExam(), dd = ex ? daysTo(ex.date) : 0;
+      cards.push(`<button class="g glass" data-go="calendar"><div><div class="k">Study</div><div class="v">${ex ? `${esc(ex.title)} <span class="mut">${dd === 0 ? "today" : dd === 1 ? "tomorrow" : "in " + dd + " days"}</span>` : `<span class="mut">No exams in the next week</span>`}</div></div>${ex && dd <= 2 ? `<span class="n">${dd === 0 ? "!" : dd + "d"}</span>` : ""}</button>`); }
+    if (S.glance.workout && sched) { const w = workoutToday();
+      cards.push(`<button class="g glass" data-go="today"><div><div class="k">Workout</div><div class="v">${esc(w)}</div></div></button>`); }
     setAll(".js-glance", cards.join(""));
     $$(".js-glance").forEach(el => el.dataset.count = cards.length);
   }
@@ -451,20 +474,112 @@
       ${f.top.map(x => `<div class="fl"><span class="d ${x.you ? "teal" : ""}"></span><span class="x">${x.pr ? "⚡ " : ""}${esc(x.t)}</span><span class="p">${esc(x.p)}</span></div>`).join("")}`);
   }
 
-  /* ---------- Music (Spotify players) ---------- */
-  let musicShown = null;
+  /* ---------- Music: a remote for Spotify on any of your devices (needs Premium) ---------- */
+  const SP_ID = "f64eab8b137e41d8ab3eae8ba4a1446c";   /* Steven's Spotify developer app (a Client ID is public, not a password) */
+  const SP_SCOPES = "user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-read-private";
+  const spRedirect = () => location.origin + location.pathname.replace(/index\.html$/, "");
+  const b64url = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const Spot = {
+    tok: () => load("sp.tok", null),
+    on() { return !!this.tok(); },
+    async login() {
+      const ver = b64url(crypto.getRandomValues(new Uint8Array(48))), st = b64url(crypto.getRandomValues(new Uint8Array(12)));
+      const ch = b64url(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(ver)));
+      save("sp.ver", ver); save("sp.state", st);
+      location.href = "https://accounts.spotify.com/authorize?" + new URLSearchParams({ response_type: "code", client_id: SP_ID, scope: SP_SCOPES, redirect_uri: spRedirect(), code_challenge_method: "S256", code_challenge: ch, state: st });
+    },
+    /* Spotify sends you back here with ?code=… */
+    async finish() {
+      const p = new URLSearchParams(location.search); if (!p.has("code") && !p.has("error")) return;
+      history.replaceState(null, "", spRedirect());
+      if (p.get("error") || p.get("state") !== load("sp.state", "")) { setTimeout(() => toast("Spotify didn't connect. Try again from Settings."), 1500); return; }
+      try { await this.tokenCall({ grant_type: "authorization_code", code: p.get("code"), redirect_uri: spRedirect(), client_id: SP_ID, code_verifier: load("sp.ver", "") }); setTimeout(() => toast("Spotify connected"), 1500); }
+      catch (e) { setTimeout(() => toast(e.message), 1500); }
+    },
+    async tokenCall(form) {
+      const r = await fetch("https://accounts.spotify.com/api/token", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(form) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) { if (form.grant_type === "refresh_token") save("sp.tok", null); throw new Error(j.error_description ? "Spotify: " + j.error_description : "Spotify login failed"); }
+      const old = this.tok() || {};
+      save("sp.tok", { access: j.access_token, refresh: j.refresh_token || old.refresh, exp: Date.now() + (j.expires_in - 60) * 1000 });
+    },
+    async access() { const t = this.tok(); if (!t) throw new Error("Connect Spotify in Settings"); if (Date.now() < t.exp) return t.access; await this.tokenCall({ grant_type: "refresh_token", refresh_token: t.refresh, client_id: SP_ID }); return this.tok().access; },
+    async api(method, path, body, retry = true) {
+      const r = await fetch("https://api.spotify.com/v1" + path, { method, headers: { Authorization: "Bearer " + await this.access(), ...(body ? { "Content-Type": "application/json" } : {}) }, body: body ? JSON.stringify(body) : undefined });
+      if (r.status === 401 && retry) { const t = this.tok(); if (t) { t.exp = 0; save("sp.tok", t); } return this.api(method, path, body, false); }
+      if (r.status === 204 || r.status === 202) return null;
+      const j = await r.json().catch(() => null);
+      if (!r.ok) { const e = new Error((j && j.error && j.error.message) || "Spotify said " + r.status); e.status = r.status; e.reason = j && j.error && j.error.reason; throw e; }
+      return j;
+    },
+  };
+  let sp = { st: null, at: 0, lists: load("sp.lists", []), devs: [] }, musicShown = null;
+  const SPI = {
+    prev: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9.5 12z"/></svg>',
+    next: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg>',
+    play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12.5-7.5z"/></svg>',
+    pause: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 4.5h4v15h-4zM13.5 4.5h4v15h-4z"/></svg>',
+    vol: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
+  };
+  async function pullSpotify() {
+    if (!Spot.on()) return;
+    try { sp.st = await Spot.api("GET", "/me/player"); sp.at = Date.now(); if (!sp.st) sp.devs = ((await Spot.api("GET", "/me/player/devices")) || {}).devices || []; }
+    catch (e) { if (!Spot.on()) toast("Spotify disconnected. Connect again in Settings."); }
+    if (!sp.lists.length) pullLists();
+    renderMusic(); renderGlance(); syncClones();
+  }
+  async function pullLists() { try { const j = await Spot.api("GET", "/me/playlists?limit=24"); sp.lists = (j.items || []).filter(Boolean).map(x => ({ name: x.name, uri: x.uri, img: (x.images && x.images.length && x.images[x.images.length - 1].url) || "" })); save("sp.lists", sp.lists); renderMusic(); } catch (e) {} }
+  async function spDo(act, arg) {
+    try {
+      const dev = sp.st && sp.st.device && sp.st.device.id;
+      if (act === "toggle") await Spot.api("PUT", sp.st && sp.st.is_playing ? "/me/player/pause" : "/me/player/play");
+      if (act === "next") await Spot.api("POST", "/me/player/next");
+      if (act === "prev") await Spot.api("POST", "/me/player/previous");
+      if (act === "vol") await Spot.api("PUT", "/me/player/volume?volume_percent=" + Math.round(arg));
+      if (act === "play") await Spot.api("PUT", "/me/player/play" + (dev ? "?device_id=" + dev : ""), { context_uri: arg });
+      if (act === "device") await Spot.api("PUT", "/me/player", { device_ids: [arg], play: true });
+      if (sp.st && act === "toggle") sp.st.is_playing = !sp.st.is_playing;
+    } catch (e) { toast(e.status === 404 ? "Open Spotify on a device first, then pick it here" : e.reason === "PREMIUM_REQUIRED" ? "That needs Spotify Premium" : e.message); }
+    renderMusic(); setTimeout(pullSpotify, 700);
+  }
+  const spPos = () => { const st = sp.st; if (!st || !st.item) return 0; const p = st.progress_ms + (st.is_playing ? Date.now() - sp.at : 0); return Math.min(1, p / st.item.duration_ms); };
+  function tickMusic() { const f = spPos() * 100 + "%"; $$(".js-spbar").forEach(el => el.style.width = f); }
   const embedURL = link => { const m = String(link).match(/open\.spotify\.com\/(?:intl-[a-z]+\/)?(playlist|album|artist|track|show|episode)\/([A-Za-z0-9]+)/); return m ? `https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator&theme=0` : null; };
+  const linkURI = link => { const m = String(link).match(/open\.spotify\.com\/(?:intl-[a-z]+\/)?(playlist|album|artist|show)\/([A-Za-z0-9]+)/); return m ? `spotify:${m[1]}:${m[2]}` : null; };
   function renderMusic() {
     const el = deck.querySelector('.page:not(.clone)[data-key="music"]'); if (!el) return;
-    const cur = Math.min(load("track", 0), Math.max(0, S.music.length - 1));
-    const sig = JSON.stringify([S.music, cur]);
+    if (!Spot.on()) {
+      const cur = Math.min(load("track", 0), Math.max(0, S.music.length - 1)), sig = "embed" + JSON.stringify([S.music, cur]);
+      if (sig === musicShown) return; musicShown = sig;
+      el.querySelector(".js-mtabs").innerHTML = `${S.music.length > 1 ? S.music.map((m, i) => `<button class="mt ${i === cur ? "on" : ""}" data-track="${i}">${esc(m.name)}</button>`).join("") : `<div class="h">Music</div>`}<button class="mt connect" data-spconnect="1">Connect Spotify for full control</button>`;
+      const m = S.music[cur], url = m && embedURL(m.link);
+      el.querySelector(".js-player").innerHTML = url ? `<iframe src="${url}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify"></iframe>`
+        : `<div class="empty">Connect Spotify (button above) to control your music from here.</div>`;
+      return;
+    }
+    const st = sp.st, it = st && st.item;
+    const saved = S.music.map(m => ({ name: m.name, uri: linkURI(m.link), img: "" })).filter(x => x.uri);
+    const lists = [...saved, ...sp.lists.filter(l => !saved.some(x => x.uri === l.uri))].slice(0, 24);
+    const sig = "remote" + JSON.stringify([it && it.id, st && st.is_playing, st && st.device && st.device.volume_percent, st && st.device && st.device.name, sp.devs.map(d => d.id), lists.map(l => l.uri)]);
     if (sig === musicShown) return; musicShown = sig;
-    el.querySelector(".js-mtabs").innerHTML = S.music.length > 1 ? S.music.map((m, i) => `<button class="mt ${i === cur ? "on" : ""}" data-track="${i}">${esc(m.name)}</button>`).join("") : `<div class="h">Music</div>`;
-    const m = S.music[cur], url = m && embedURL(m.link);
-    el.querySelector(".js-player").innerHTML = url
-      ? `<iframe src="${url}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify"></iframe>`
-      : `<div class="empty">Add a Spotify playlist or album in Settings (gear, then …).<br><span class="mut">In the Spotify app: Share, then Copy link.</span></div>`;
+    el.querySelector(".js-mtabs").innerHTML = "";
+    const art = it && it.album && it.album.images && it.album.images[0] ? it.album.images[0].url : "";
+    const now = it ? `
+      <div class="np">
+        <div class="art glass">${art ? `<img src="${esc(art)}" alt="">` : ""}</div>
+        <div class="npi">
+          <div class="h">${st.is_playing ? "Now playing" : "Paused"} · ${esc(st.device ? st.device.name : "")}</div>
+          <div class="sptt">${esc(it.name)}</div><div class="mut">${esc((it.artists || []).map(a => a.name).join(", ") || (it.show && it.show.name) || "")}</div>
+          <div class="spbar"><i class="js-spbar" style="width:${spPos() * 100}%"></i></div>
+          <div class="ctrl"><button class="glass round" data-sp="prev" aria-label="Previous">${SPI.prev}</button><button class="glass round big" data-sp="toggle" aria-label="Play or pause">${st.is_playing ? SPI.pause : SPI.play}</button><button class="glass round" data-sp="next" aria-label="Next">${SPI.next}</button></div>
+          ${st.device && st.device.volume_percent != null ? `<div class="vol">${SPI.vol}<input type="range" min="0" max="100" step="2" value="${st.device.volume_percent}" data-spvol="1"></div>` : ""}
+        </div>
+      </div>`
+      : `<div class="np idle"><div class="npi"><div class="h">Nothing playing</div>
+          ${sp.devs.length ? `<div class="mut" style="margin-bottom:8px">Play on:</div><div class="devs">${sp.devs.map(d => `<button class="mt" data-spdev="${esc(d.id)}">${esc(d.name)}</button>`).join("")}</div>` : `<div class="mut">Open Spotify on any device (this phone, your PC, a speaker), then it shows up here.</div>`}</div></div>`;
+    el.querySelector(".js-player").innerHTML = now + (lists.length ? `<div class="h" style="margin-top:12px">Play a playlist</div><div class="plist">${lists.map(l => `<button class="pl" data-spplay="${esc(l.uri)}">${l.img ? `<img src="${esc(l.img)}" alt="">` : `<span class="noimg"></span>`}<span>${esc(l.name)}</span></button>`).join("")}</div>` : "");
   }
+  deck.addEventListener("change", e => { if (e.target.dataset && e.target.dataset.spvol) spDo("vol", +e.target.value); });
 
   /* =========================================================
      Focus (Pomodoro): the light slows and dims while you work, brightens on breaks
@@ -628,7 +743,7 @@
     const seg = (key, opts) => `<div class="seg" data-seg="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(S[key]) === String(v) ? "on" : ""}">${l}</button>`).join("")}</div>`;
     const sw = (key, obj = S) => `<button class="sw ${obj[key] ? "on" : ""}" data-sw="${key}" data-in="${obj === S ? "" : obj === S.panels ? "panels" : "glance"}"></button>`;
     const PN = { today: "Today", calendar: "Calendar", focus: "Focus", inbox: "Inbox", flags: "Flags + Blueprints", music: "Music" };
-    const GN = { next: "Next up", inbox: "Inbox", flags: "Flags", blueprints: "Blueprints", music: "Music", focus: "Focus" };
+    const GN = { next: "Next up", inbox: "Inbox", flags: "Flags (only when waiting on you)", blueprints: "Blueprints", music: "Music", focus: "Focus", study: "Study (next exam)", workout: "Workout" };
     sheet("Settings", `
       <div class="h">Panels</div>
       <div class="tog">${Object.keys(PN).map(k => `<div class="row sp tight"><span>${PN[k]}</span>${sw(k, S.panels)}</div>`).join("")}</div>
@@ -640,6 +755,8 @@
       <div class="row sp"><span>Rotate every</span>${seg("bgEvery", [[10, "10m"], [30, "30m"], [60, "1h"], [180, "3h"]])}</div>
       <div class="row sp"><span>Motion</span>${seg("motion", [["full", "Smooth"], ["calm", "Battery saver"]])}</div>
       <div class="h" style="margin-top:14px">Music</div>
+      <div class="row sp tight"><span>Spotify remote ${Spot.on() ? `<span class="mut">· connected</span>` : `<span class="mut">· needs Premium</span>`}</span>${Spot.on() ? `<button class="btn bad" id="spOut">Disconnect</button>` : `<button class="btn pri" id="spIn">Connect</button>`}</div>
+      <div class="lbl2" style="margin-top:6px">Saved links below show first in the playlist list.</div>
       ${S.music.map((m, i) => `<div class="row sp tight"><span>${esc(m.name)}</span><button class="btn bad" data-mdel="${i}">Remove</button></div>`).join("")}
       <div class="row"><input class="field" id="mName" placeholder="Name (like Focus)" maxlength="24" style="max-width:150px"><input class="field" id="mLink" placeholder="Spotify link"><button class="btn pri" id="mAdd">Add</button></div>
       <div class="h" style="margin-top:14px">Clock and screen</div>
@@ -666,6 +783,8 @@
         if (k === "bg" || k === "bgEvery") pickBg(true); if (k === "motion") window.OSBG.setFps(S.motion === "calm" ? 30 : 60);
       }));
       s.querySelectorAll("[data-mdel]").forEach(b => b.onclick = () => { S.music.splice(+b.dataset.mdel, 1); saveS(); renderMusic(); renderGlance(); openSettings(); });
+      if ($("#spIn")) $("#spIn").onclick = () => Spot.login();
+      if ($("#spOut")) $("#spOut").onclick = () => { save("sp.tok", null); sp.st = null; musicShown = null; renderMusic(); openSettings(); };
       $("#mAdd").onclick = () => { const link = $("#mLink").value.trim(); if (!embedURL(link)) { $("#mLink").classList.add("shake"); setTimeout(() => $("#mLink").classList.remove("shake"), 500); return; }
         S.music.push({ name: $("#mName").value.trim() || "Playlist " + (S.music.length + 1), link }); saveS(); renderMusic(); renderGlance(); openSettings(); };
       $("#nmFrom").onchange = e => { S.nmFrom = e.target.value; saveS(); };
@@ -706,7 +825,8 @@
 
   /* ---------- taps anywhere on the panels ---------- */
   deck.addEventListener("click", e => {
-    const t = e.target.closest("[data-go],[data-act],[data-msg],[data-fv],[data-calv],[data-track],[data-fplan]"); if (!t) return;
+    const t = e.target.closest("[data-go],[data-act],[data-msg],[data-fv],[data-calv],[data-track],[data-fplan],[data-sp],[data-spplay],[data-spdev],[data-spconnect]"); if (!t) return;
+    if (t.dataset.sp) { spDo(t.dataset.sp); return; } if (t.dataset.spplay) { spDo("play", t.dataset.spplay); return; } if (t.dataset.spdev) { spDo("device", t.dataset.spdev); return; } if (t.dataset.spconnect) { Spot.login(); return; }
     if (t.dataset.fplan) { S.focusPlan = t.dataset.fplan; saveS(); if (!F.run) F.left = null; renderFocus(); return; }
     if (t.dataset.fv && !t.dataset.go) { flagView = t.dataset.fv; save("flagView", flagView); renderFlags(); syncClones(); return; }
     if (t.dataset.go) { if (t.dataset.fv) { flagView = t.dataset.fv; save("flagView", flagView); renderFlags(); } goTo(t.dataset.go); return; }
@@ -767,11 +887,15 @@
   pickBg(true); fMood();
   here = Math.max(0, ORDER.filter(k => k === "home" || S.panels[k]).indexOf(load("panel", "home")));
   buildDeck();
+  Spot.finish().then(() => { pullSpotify(); });
   gate();
-  pullFlags();
-  setInterval(() => { const d = new Date(); tickClock(d); tickTimers(); tickAlarms(d); tickFocus(); }, 1000);
+  pullFlags(); pullSched();
+  setInterval(() => { if (Spot.on() && !nmOn && (keys[here] === "music" || S.glance.music)) pullSpotify(); }, 8000);
+  setInterval(() => { if (Spot.on()) pullLists(); }, 30 * 60 * 1000);
+  setInterval(() => { const d = new Date(); tickClock(d); tickTimers(); tickAlarms(d); tickFocus(); tickMusic(); }, 1000);
   setInterval(pullLocked, 60 * 1000);
   setInterval(pullFlags, 4 * 60 * 1000);
+  setInterval(pullSched, 60 * 60 * 1000);
   /* new version shipped? reload quietly so the desk phone never needs a hand refresh */
   setInterval(async () => { try { const v = (await getJSON("os/version.json")).v; if (v && v !== VERSION && $("#ring").hidden && $("#sheetBack").hidden) location.reload(); } catch (e) {} }, 5 * 60 * 1000);
   setInterval(() => { if (idle) drift(); renderChips(); pickBg(false); }, 60 * 1000);
