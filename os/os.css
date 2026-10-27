@@ -332,3 +332,23 @@ body.nightmode .glass { -webkit-backdrop-filter: none; backdrop-filter: none; }
 .music .player { overflow-y: auto; scrollbar-width: none; } .music .player::-webkit-scrollbar { display: none; }
 .nodev { padding: 12px 14px; border-radius: 14px; background: color-mix(in srgb, var(--star) 12%, transparent); border: 1px solid color-mix(in srgb, var(--star) 30%, transparent); font-size: 14.5px; line-height: 1.45; }
 .devs { align-items: center; } .devs .lbl2 { margin-right: 4px; }
+
+/* home music card with a time bar; Spotify search */
+.g.gm { align-items: center; }
+.gart { width: 46px; height: 46px; border-radius: 10px; overflow: hidden; flex: none; background: color-mix(in srgb, var(--text) 8%, transparent); box-shadow: 0 6px 18px -6px #000a; }
+.gart img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.spbar.gbar { margin: 7px 0 1px; height: 3px; }
+.spsearch { display: flex; gap: 8px; align-items: center; width: 100%; }
+.spsearch .field { padding: 9px 14px; border-radius: 999px; }
+.spres:not(:empty) { margin-top: 10px; flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; width: 100%; }
+.music:has(.spres:not(:empty)) .player { display: none; }
+.music:has(.spres:not(:empty)) .mtabs { flex: 1; min-height: 0; }
+.spres::-webkit-scrollbar { display: none; }
+.srg { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 6px; margin-bottom: 10px; }
+.sr { display: flex; align-items: center; gap: 10px; padding: 5px; border-radius: 12px; background: color-mix(in srgb, var(--text) 6%, transparent); min-width: 0; transition: transform .3s var(--spring); }
+.sr:active { transform: scale(.97); }
+.sr img, .sr .noimg { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; flex: none; background: color-mix(in srgb, var(--accent) 25%, transparent); }
+.sr .rd { border-radius: 50%; }
+.srt { display: flex; flex-direction: column; min-width: 0; font-size: 13.5px; line-height: 1.3; }
+.srt b, .srt .mut { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; } .srt .mut { font-size: 12px; font-weight: 400; }
+.mtabs:has(.spsearch) { flex-direction: column; flex-wrap: nowrap; }

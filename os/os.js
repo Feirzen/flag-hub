@@ -2,7 +2,7 @@
    Swipe through panels (it loops forever). Live data comes from os/data (locked so only this
    phone can read it) and from Flag Hub. Timers, alarms and settings live on this device. */
 (() => {
-  const VERSION = "2.4"; /* bump together with os/version.json so the desk phone reloads */
+  const VERSION = "2.5"; /* bump together with os/version.json so the desk phone reloads */
   const RAW = "https://raw.githubusercontent.com/Feirzen/flag-hub/main/";
   const HUB = "https://feirzen.github.io/flag-hub/";
   const $ = s => document.querySelector(s);
@@ -379,7 +379,8 @@
     if (S.glance.blueprints && bp) { const mine = (bp.flags || []).filter(f => f.status === "needs-ok" || f.status === "quote"), fu = bp.followups || [];
       if (mine.length || fu.length) cards.push(`<button class="g glass" data-go="flags" data-fv="bp"><div><div class="k">Blueprints</div><div class="v">${[mine.length ? mine.length + (mine.length > 1 ? " site changes need" : " site change needs") + " your OK" : "", fu.length ? fu.length + " follow-up" + (fu.length > 1 ? "s" : "") + " due" : ""].filter(Boolean).join(" · ")}</div></div><span class="n teal">${mine.length + fu.length}</span></button>`); }
     if (S.glance.music) { const it = sp.st && sp.st.item, m = S.music[load("track", 0)] || S.music[0];
-      cards.push(`<button class="g glass" data-go="music"><div><div class="k">${it ? (sp.st.is_playing ? "Now playing" : "Paused") : "Music"}</div><div class="v">${it ? `${esc(it.name)} <span class="mut">${esc((it.artists || []).map(a => a.name).join(", "))}</span>` : m ? esc(m.name) : Spot.on() ? "Nothing playing" : "Connect Spotify in Settings"}</div></div></button>`); }
+      const imgs = it && it.album && it.album.images || [], art = imgs.length ? imgs[imgs.length - 1].url : "";
+      cards.push(`<button class="g glass gm" data-go="music">${it ? `<span class="gart">${art ? `<img src="${esc(art)}" alt="">` : ""}</span>` : ""}<div><div class="k">${it ? (sp.st.is_playing ? "Now playing" : "Paused") : "Music"}</div><div class="v">${it ? `${esc(it.name)} <span class="mut">${esc((it.artists || []).map(a => a.name).join(", "))}</span>` : m ? esc(m.name) : Spot.on() ? "Nothing playing" : "Connect Spotify in Settings"}</div>${it ? `<div class="spbar gbar"><i class="js-spbar" style="width:${spPos() * 100}%"></i></div>` : ""}</div></button>`); }
     if (S.glance.study) { const ex = nextExam(), dd = ex ? daysTo(ex.date) : 0;
       cards.push(`<button class="g glass" data-go="calendar"><div><div class="k">Study</div><div class="v">${ex ? `${esc(ex.title)} <span class="mut">${dd === 0 ? "today" : dd === 1 ? "tomorrow" : "in " + dd + " days"}</span>` : `<span class="mut">No exams in the next week</span>`}</div></div>${ex && dd <= 2 ? `<span class="n">${dd === 0 ? "!" : dd + "d"}</span>` : ""}</button>`); }
     if (S.glance.workout && sched) { const w = workoutToday();
@@ -540,7 +541,7 @@
         const id = live || await spTarget();
         if (!id) { sp.noDev = true; musicShown = null; renderMusic(); return; }
         sp.noDev = false; save("sp.dev", id);
-        await Spot.api("PUT", "/me/player/play?device_id=" + id, act === "play" ? { context_uri: arg } : undefined);
+        await Spot.api("PUT", "/me/player/play?device_id=" + id, act === "play" ? (/^spotify:(track|episode):/.test(arg) ? { uris: [arg] } : { context_uri: arg }) : undefined);
       }
       if (act === "next") await Spot.api("POST", "/me/player/next");
       if (act === "prev") await Spot.api("POST", "/me/player/previous");
@@ -575,7 +576,8 @@
     const lists = [...saved, ...sp.lists.filter(l => !saved.some(x => x.uri === l.uri))].slice(0, 24);
     const sig = "remote" + JSON.stringify([it && it.id, st && st.is_playing, st && st.device && st.device.volume_percent, st && st.device && st.device.name, sp.devs.map(d => d.id + d.is_active), lists.map(l => l.uri), sp.noDev]);
     if (sig === musicShown) return; musicShown = sig;
-    el.querySelector(".js-mtabs").innerHTML = "";
+    const tabs = el.querySelector(".js-mtabs");
+    if (!tabs.querySelector(".js-spq")) tabs.innerHTML = `<div class="spsearch"><input class="field js-spq" type="search" placeholder="Search songs, artists, albums, playlists" autocomplete="off" autocorrect="off" enterkeyhint="search"><button class="mt" data-sp="clear" hidden>Clear</button></div><div class="spres js-spres"></div>`;
     const art = it && it.album && it.album.images && it.album.images[0] ? it.album.images[0].url : "";
     const now = it ? `
       <div class="np">
@@ -594,6 +596,28 @@
     el.querySelector(".js-player").innerHTML = now + devRow + (lists.length ? `<div class="h" style="margin-top:12px">Play a playlist</div><div class="plist">${lists.map(l => `<button class="pl" data-spplay="${esc(l.uri)}">${l.img ? `<img src="${esc(l.img)}" alt="">` : `<span class="noimg"></span>`}<span>${esc(l.name)}</span></button>`).join("")}</div>` : "");
   }
   deck.addEventListener("change", e => { if (e.target.dataset && e.target.dataset.spvol) spDo("vol", +e.target.value); });
+  /* search Spotify as you type */
+  let spQT = 0, spQN = 0;
+  deck.addEventListener("input", e => { if (!e.target.classList.contains("js-spq")) return; clearTimeout(spQT); const v = e.target.value; spQT = setTimeout(() => spSearch(v), 350); });
+  deck.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.classList.contains("js-spq")) { clearTimeout(spQT); spSearch(e.target.value); e.target.blur(); } });
+  async function spSearch(q) {
+    const box = deck.querySelector('.page:not(.clone)[data-key="music"] .js-spres'), clr = deck.querySelector('.page:not(.clone)[data-key="music"] [data-sp="clear"]'); if (!box) return;
+    q = q.trim(); if (clr) clr.hidden = !q;
+    if (!q) { box.innerHTML = ""; return; }
+    const my = ++spQN;
+    try {
+      const j = await Spot.api("GET", "/search?" + new URLSearchParams({ q, type: "track,playlist,album,artist", limit: 6 }));
+      if (my !== spQN) return;
+      const img = a => { const x = (a || []).filter(Boolean); return x.length ? x[x.length - 1].url : ""; };
+      const row = (uri, pic, name, sub, round) => `<button class="sr" data-spplay="${esc(uri)}">${pic ? `<img src="${esc(pic)}" alt=""${round ? ' class="rd"' : ""}>` : `<span class="noimg${round ? " rd" : ""}"></span>`}<span class="srt"><b>${esc(name)}</b><span class="mut">${esc(sub)}</span></span></button>`;
+      const g = (title, items) => items.length ? `<div class="h">${title}</div><div class="srg">${items.join("")}</div>` : "";
+      const tr = ((j.tracks || {}).items || []).filter(Boolean).slice(0, 6).map(t => row(t.uri, img(t.album && t.album.images), t.name, (t.artists || []).map(a => a.name).join(", "), false));
+      const pl = ((j.playlists || {}).items || []).filter(Boolean).slice(0, 4).map(x => row(x.uri, img(x.images), x.name, "Playlist" + (x.owner && x.owner.display_name ? " · " + x.owner.display_name : ""), false));
+      const al = ((j.albums || {}).items || []).filter(Boolean).slice(0, 4).map(x => row(x.uri, img(x.images), x.name, "Album · " + (x.artists || []).map(a => a.name).join(", "), false));
+      const ar = ((j.artists || {}).items || []).filter(Boolean).slice(0, 4).map(x => row(x.uri, img(x.images), x.name, "Artist", true));
+      box.innerHTML = (g("Songs", tr) + g("Artists", ar) + g("Playlists", pl) + g("Albums", al)) || `<div class="empty sm">Nothing found for "${esc(q)}".</div>`;
+    } catch (e) { if (my === spQN) box.innerHTML = `<div class="empty sm">${esc(e.message)}</div>`; }
+  }
 
   /* =========================================================
      Focus (Pomodoro): the light slows and dims while you work, brightens on breaks
@@ -846,6 +870,7 @@
   /* ---------- taps anywhere on the panels ---------- */
   deck.addEventListener("click", e => {
     const t = e.target.closest("[data-go],[data-act],[data-msg],[data-fv],[data-calv],[data-track],[data-fplan],[data-sp],[data-spplay],[data-spdev],[data-spconnect]"); if (!t) return;
+    if (t.dataset.sp === "clear") { const q = t.parentNode.querySelector(".js-spq"); q.value = ""; spSearch(""); return; }
     if (t.dataset.sp === "refresh") { pullSpotify(); toast("Checking…"); return; } if (t.dataset.sp) { spDo(t.dataset.sp); return; } if (t.dataset.spplay) { spDo("play", t.dataset.spplay); return; } if (t.dataset.spdev) { spDo("device", t.dataset.spdev); return; } if (t.dataset.spconnect) { Spot.login(); return; }
     if (t.dataset.fplan) { S.focusPlan = t.dataset.fplan; saveS(); if (!F.run) F.left = null; renderFocus(); return; }
     if (t.dataset.fv && !t.dataset.go) { flagView = t.dataset.fv; save("flagView", flagView); renderFlags(); syncClones(); return; }
