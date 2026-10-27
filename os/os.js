@@ -2,7 +2,7 @@
    Swipe through panels (it loops forever). Live data comes from os/data (locked so only this
    phone can read it) and from Flag Hub. Timers, alarms and settings live on this device. */
 (() => {
-  const VERSION = "2.5"; /* bump together with os/version.json so the desk phone reloads */
+  const VERSION = "2.6"; /* bump together with os/version.json so the desk phone reloads */
   const RAW = "https://raw.githubusercontent.com/Feirzen/flag-hub/main/";
   const HUB = "https://feirzen.github.io/flag-hub/";
   const $ = s => document.querySelector(s);
@@ -223,18 +223,26 @@
       $("#mini").innerHTML = `${(S.h24 ? pad(h) : ((h % 12) || 12)) + ":" + pad(m)}<small>${S.h24 ? "" : (h < 12 ? "AM" : "PM")} · ${d.toLocaleDateString(undefined, { weekday: "short" })}</small>`;
       renderToday(); renderGlance(); renderCal(); drift(); syncClones();
     }
+    nightTick(d);
+  }
+  /* night mode and night dimming only apply when he isn't using it: a tap brings everything back,
+     and it fades back down after 3 quiet minutes */
+  const AWAKE = 3 * 60000;
+  const awake = () => Date.now() - lastTouch < AWAKE;
+  function nightTick(d) {
     nightOn = isNight(d);
-    const nm = S.nightMode && inWin(d, S.nmFrom, S.nmTo) && Date.now() > nmWake && $("#ring").hidden;
+    const nm = S.nightMode && inWin(d, S.nmFrom, S.nmTo) && !awake() && $("#ring").hidden;
     if (nm !== nmOn) { nmOn = nm; document.body.classList.toggle("nightmode", nm); window.OSBG.pause(nm); if (nm) setIdle(true); }
     dimNow();
   }
   /* night mode: everything off but a dim warm clock (saves the screen); a tap wakes it for 2 minutes */
-  let nmOn = false, nmWake = 0;
+  let nmOn = false;
   const inWin = (d, a, b) => { const n = nowMins(d), x = mins(a), y = mins(b); return x > y ? (n >= x || n < y) : (n >= x && n < y); };
   function dimNow() {
     const quiet = S.idleDim && Date.now() - lastTouch > S.idleDim * 60000 && !F.run;
-    const v = nmOn ? 0 : Math.max(nightOn ? (idle ? Math.min(.85, S.nightLevel + .15) : S.nightLevel) : 0, quiet ? .6 : 0);
-    const el = $("#dim"); if (el.style.opacity !== String(v)) el.style.opacity = v;
+    const v = nmOn || awake() ? 0 : Math.max(nightOn ? (idle ? Math.min(.85, S.nightLevel + .15) : S.nightLevel) : 0, quiet ? .6 : 0);
+    const el = $("#dim"), was = parseFloat(el.style.opacity || 0);
+    if (was !== v) { el.style.transition = v < was ? "opacity .5s ease" : "opacity 3s ease"; el.style.opacity = v; }
   }
 
   /* =========================================================
@@ -254,7 +262,7 @@
     if (!idle) { L.style.transform = ""; return; }
     L.style.transform = `translate(${Math.random() * 22}px, ${(Math.random() - .5) * 18}px)`;
   }
-  ["pointerdown", "keydown"].forEach(ev => addEventListener(ev, () => { lastTouch = Date.now(); Sound.unlock(); if (nmOn) nmWake = Date.now() + 120000; if (idle) setIdle(false); }, true));
+  ["pointerdown", "keydown"].forEach(ev => addEventListener(ev, () => { lastTouch = Date.now(); Sound.unlock(); if (idle) setIdle(false); nightTick(new Date()); }, true));
   setInterval(() => {
     const quiet = Date.now() - lastTouch, free = $("#sheetBack").hidden && $("#ring").hidden;
     if (S.idleAfter && !idle && free && quiet > S.idleAfter * 1000) setIdle(true);
