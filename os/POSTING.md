@@ -10,6 +10,7 @@ Two files, both in `os/data/`:
 |---|---|---|
 | `today.json` | Weather + the day ahead. Replaced each time. | The "Claude OS: morning update" scheduled task |
 | `inbox.json` | Message board. Newest 40 kept. | Any scheduled task or chat that wants to tell Steven something |
+| `blueprints.json` | Bilingual Blueprints summary (site flags, follow-ups, leads). Replaced each time. | The morning update |
 
 The phone checks every minute (GitHub can take up to ~5 minutes to show a change).
 
@@ -42,9 +43,20 @@ Keep messages short and only send ones worth his attention. No message is better
                "summary": "One plain sentence.", "sunrise": "07:58", "sunset": "18:21" },
   "day": { "headline": "One line, shown under the clock", "summary": "Two or three plain sentences about the day.",
            "events": [{ "start": "09:00", "end": "10:00", "title": "Dentist", "where": "Lehi" }], "allDay": ["Riana's birthday"] },
+  "calendar": { "days": [ { "date": "2026-10-27", "events": [
+      { "start": "09:00", "end": "10:15", "title": "Organic Chem", "kind": "routine" },
+      { "start": "14:00", "end": "14:30", "title": "Stop by the TA", "kind": "key" },
+      { "allDay": true, "title": "Riana's mom's birthday", "kind": "key" } ] } ] },
   "extra": { "spanish": { "word": "madrugar", "meaning": "to get up really early" } }
 }
 ```
+
+- `weather.days`: next 4 days, `[{ "date", "icon", "high", "low", "precip" }]`.
+- `day.tags`: what kind of day it is, like `["School day"]` or `["Work day"]`. `day.events`: only the events that make today different (not routine ones).
+- `calendar.days`: today plus the next 6 days, every event. `kind` is `routine` (wake up, bedtime, daily habits, regular classes, regular work shifts; shown faded), `key` (the things that make a day unique; shown glowing) or `normal`.
+
+`blueprints.json` (locked with `node seal.mjs file bp.json > blueprints.json`):
+`{ "updatedAt", "flags": [{ "note", "site", "status" }], "followups": [{ "business", "stage", "due" }], "newLeads": 0, "clients": 0 }`
 
 `icon` is one of: `clear, partly, cloudy, rain, storm, snow, fog, wind`. Times are 24-hour `HH:MM`, local (America/Denver).
 

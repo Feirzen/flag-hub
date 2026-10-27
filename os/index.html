@@ -20,51 +20,27 @@
 <meta property="og:image" content="https://feirzen.github.io/flag-hub/os/icons/og-image.png?v=1">
 <meta property="og:url" content="https://feirzen.github.io/flag-hub/os/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="os.css?v=1">
+<link rel="stylesheet" href="os.css?v=2">
 </head>
 <body>
-<canvas id="scene" aria-hidden="true"></canvas>
+<canvas id="gl" aria-hidden="true"></canvas>
+<canvas id="prism" aria-hidden="true"></canvas>
 <div id="dim" aria-hidden="true"></div>
 
-<main id="ui">
-  <section id="left">
-    <div id="clock" aria-live="off"><span id="hm">--:--</span><span id="ampm"></span></div>
-    <div id="date"></div>
-    <button id="wx" class="glass pill" hidden>
-      <span id="wxIcon"></span><span id="wxTemp"></span><span id="wxCond"></span><span id="wxHL"></span>
-    </button>
-    <div id="headline"></div>
-    <div id="dock">
-      <button class="glass round" id="btnTimer" aria-label="Timer"></button>
-      <button class="glass round" id="btnAlarm" aria-label="Alarms"></button>
-      <button class="glass round" id="btnSleep" aria-label="Screensaver"></button>
-      <div id="chips"></div>
-    </div>
-  </section>
-
-  <section id="right">
-    <nav id="tabs" class="glass">
-      <span id="lens"></span>
-      <button data-tab="today" class="on">Today</button>
-      <button data-tab="inbox">Inbox<i id="badge" hidden></i></button>
-      <button data-tab="flags">Flags</button>
-    </nav>
-    <div id="card" class="glass">
-      <div class="pane on" id="pane-today"></div>
-      <div class="pane" id="pane-inbox"></div>
-      <div class="pane" id="pane-flags"></div>
-    </div>
-  </section>
-
-  <button id="gear" class="glass round" aria-label="Settings"></button>
-  <div id="net" hidden>offline</div>
-</main>
+<div id="mini" class="glass"></div>
+<main id="deck"></main>
+<div id="dots"></div>
+<button id="gear" class="glass round" aria-label="Settings"></button>
+<div id="toast" class="glass"></div>
+<div id="net" hidden>offline</div>
 
 <div id="sheetBack" hidden><div id="sheet" class="glass" role="dialog" aria-modal="true"></div></div>
 <div id="ring" hidden></div>
 <div id="gate"></div>
 
-<script src="os.js?v=1"></script>
+<script src="bg.js?v=2"></script>
+<script src="prism.js?v=2"></script>
+<script src="os.js?v=2"></script>
 <script src="https://feirzen.github.io/flag-hub/kit/kit.js" data-app="claude-os" data-name="Claude OS" data-longpress="off" defer></script>
 </body>
 </html>

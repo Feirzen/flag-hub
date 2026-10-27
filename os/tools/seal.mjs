@@ -4,6 +4,7 @@
 //
 //   node seal.mjs today   today-payload.json              > today.json
 //   node seal.mjs message message.json [current-inbox.json] > inbox.json
+//   node seal.mjs file   anything.json                   > locked.json   (same as "today", for other files like blueprints.json)
 //
 // "today" replaces the whole Today file (weather + day). "message" adds one message to the
 // inbox, keeps the newest 40, and drops ones past their "expires" date.
@@ -27,14 +28,14 @@ async function seal(obj) {
 }
 
 const [mode, file, inboxFile] = process.argv.slice(2);
-if (!["today", "message"].includes(mode) || !file) {
+if (!["today", "file", "message"].includes(mode) || !file) {
   console.error("Usage: node seal.mjs today payload.json  |  node seal.mjs message msg.json [inbox.json]");
   process.exit(1);
 }
 const data = readJSON(file);
 const now = new Date().toISOString();
 
-if (mode === "today") {
+if (mode === "today" || mode === "file") {
   data.updatedAt = data.updatedAt || now;
   console.log(JSON.stringify({ v: 1, at: now, ...(await seal(data)) }));
 } else {
