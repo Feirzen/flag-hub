@@ -2,7 +2,7 @@
    Swipe through panels (it loops forever). Live data comes from os/data (locked so only this
    phone can read it) and from Flag Hub. Timers, alarms and settings live on this device. */
 (() => {
-  const VERSION = "2.1"; /* bump together with os/version.json so the desk phone reloads */
+  const VERSION = "2.2"; /* bump together with os/version.json so the desk phone reloads */
   const RAW = "https://raw.githubusercontent.com/Feirzen/flag-hub/main/";
   const HUB = "https://feirzen.github.io/flag-hub/";
   const $ = s => document.querySelector(s);
@@ -16,11 +16,13 @@
 
   const S = Object.assign({
     h24: false, idleAfter: 90, night: true, nightFrom: "22:00", nightTo: "06:30", nightLevel: 0.55, vol: 0.6, msgChime: true, motion: "full",
-    bg: "rotate", bgEvery: 30, calView: 3,
-    panels: { today: true, calendar: true, inbox: true, flags: true, music: true },
+    bg: "rotate", bgEvery: 30, calView: 3, moods: true, seasonal: true,
+    nightMode: true, nmFrom: "00:00", nmTo: "06:00", idleDim: 60, focusPlan: "25/5",
+    panels: { today: true, calendar: true, focus: true, inbox: true, flags: true, music: true },
     glance: { next: true, inbox: true, flags: true, blueprints: false, music: false },
     music: [],
   }, load("settings", {}));
+  ["panels", "glance"].forEach(k => S[k] = Object.assign({ focus: k === "panels" }, S[k]));
   const saveS = () => save("settings", S);
   window.OSSettings = S;
 
@@ -151,9 +153,16 @@
         <div class="calbody js-cal"></div></div>`,
     inbox: () => `<div class="rowhead"><div class="h">Inbox</div><button class="link" data-act="readall">Mark all read</button></div><div class="inboxgrid js-inbox"></div>`,
     flags: () => `<div class="rowhead"><div class="seg glass"><button data-fv="flags">Flags</button><button data-fv="bp">Blueprints</button></div><a class="link" href="${HUB}" target="_blank" rel="noopener">Flag Hub</a></div><div class="card glass js-flags"></div>`,
+    focus: () => `<div class="focus">
+        <div class="fring js-fring"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" class="ftrack"/><circle cx="100" cy="100" r="92" class="fprog js-fprog"/></svg>
+          <div class="orb"><i></i><i></i><i></i><b></b><em></em></div><div class="ftime js-ftime">25:00</div></div>
+        <div class="fside"><div class="fstate js-fstate">Focus</div><div class="mut js-fcount"></div>
+          <div class="seg js-fplan"><button data-fplan="25/5">25 / 5</button><button data-fplan="50/10">50 / 10</button><button data-fplan="15/3">15 / 3</button></div>
+          <div class="row"><button class="btn pri js-fgo" data-act="fgo">Start</button><button class="btn" data-act="fskip">Skip</button><button class="btn" data-act="freset">Reset</button></div></div>
+      </div>`,
     music: () => `<div class="card glass music"><div class="mtabs js-mtabs"></div><div class="player js-player"></div></div>`,
   };
-  const ORDER = ["home", "today", "calendar", "inbox", "flags", "music"];
+  const ORDER = ["home", "today", "calendar", "focus", "inbox", "flags", "music"];
   const deck = $("#deck");
   let keys = [], n = 0, here = 0, flagView = load("flagView", "flags"), settleT = 0;
 
@@ -213,10 +222,19 @@
       $("#mini").innerHTML = `${(S.h24 ? pad(h) : ((h % 12) || 12)) + ":" + pad(m)}<small>${S.h24 ? "" : (h < 12 ? "AM" : "PM")} · ${d.toLocaleDateString(undefined, { weekday: "short" })}</small>`;
       renderToday(); renderGlance(); renderCal(); drift(); syncClones();
     }
-    const nn = isNight(d);
-    if (nn !== nightOn) { nightOn = nn; dimNow(); }
+    nightOn = isNight(d);
+    const nm = S.nightMode && inWin(d, S.nmFrom, S.nmTo) && Date.now() > nmWake && $("#ring").hidden;
+    if (nm !== nmOn) { nmOn = nm; document.body.classList.toggle("nightmode", nm); window.OSBG.pause(nm); if (nm) setIdle(true); }
+    dimNow();
   }
-  function dimNow() { $("#dim").style.opacity = nightOn ? (idle ? Math.min(.85, S.nightLevel + .15) : S.nightLevel) : 0; }
+  /* night mode: everything off but a dim warm clock (saves the screen); a tap wakes it for 2 minutes */
+  let nmOn = false, nmWake = 0;
+  const inWin = (d, a, b) => { const n = nowMins(d), x = mins(a), y = mins(b); return x > y ? (n >= x || n < y) : (n >= x && n < y); };
+  function dimNow() {
+    const quiet = S.idleDim && Date.now() - lastTouch > S.idleDim * 60000 && !F.run;
+    const v = nmOn ? 0 : Math.max(nightOn ? (idle ? Math.min(.85, S.nightLevel + .15) : S.nightLevel) : 0, quiet ? .6 : 0);
+    const el = $("#dim"); if (el.style.opacity !== String(v)) el.style.opacity = v;
+  }
 
   /* =========================================================
      Screensaver: back to Home, cards fade, the clock wanders a little, the light takes over
@@ -224,7 +242,7 @@
   let idle = false, lastTouch = Date.now();
   function setIdle(on) {
     if (on === idle) return; idle = on;
-    if (on) goTo("home", false);
+    if (on && !F.run) goTo("home", false);
     document.body.classList.toggle("idle", on);
     window.OSPrism && window.OSPrism.setEnergy(on ? 1.25 : 1);
     if (window.Kit) on ? window.Kit.hide() : window.Kit.show();
@@ -235,7 +253,7 @@
     if (!idle) { L.style.transform = ""; return; }
     L.style.transform = `translate(${Math.random() * 22}px, ${(Math.random() - .5) * 18}px)`;
   }
-  ["pointerdown", "keydown"].forEach(ev => addEventListener(ev, () => { lastTouch = Date.now(); Sound.unlock(); if (idle) setIdle(false); }, true));
+  ["pointerdown", "keydown"].forEach(ev => addEventListener(ev, () => { lastTouch = Date.now(); Sound.unlock(); if (nmOn) nmWake = Date.now() + 120000; if (idle) setIdle(false); }, true));
   setInterval(() => {
     const quiet = Date.now() - lastTouch, free = $("#sheetBack").hidden && $("#ring").hidden;
     if (S.idleAfter && !idle && free && quiet > S.idleAfter * 1000) setIdle(true);
@@ -271,7 +289,7 @@
       firstInbox = false; setNet(true);
     } catch (e) { setNet(false); }
     try { bp = await Vault.open(await getJSON("os/data/blueprints.json")); save("bp", bp); } catch (e) {}
-    renderAll();
+    renderAll(); pickBg(false);
   }
   function setNet(ok) { online = ok; $("#net").hidden = ok; }
   function applyAction(m) {
@@ -293,7 +311,7 @@
     return (d.events || []).filter(e => (e.end ? mins(e.end) : mins(e.start) + 60) > nn).sort((a, b) => mins(a.start) - mins(b.start));
   }
 
-  function renderAll() { renderToday(); renderGlance(); renderCal(); renderInbox(); renderFlags(); renderMusic(); renderChips(); syncClones(); }
+  function renderAll() { renderFocus(); renderToday(); renderGlance(); renderCal(); renderInbox(); renderFlags(); renderMusic(); renderChips(); syncClones(); }
 
   function renderToday() {
     const w = today && today.weather, d = today && today.day;
@@ -337,7 +355,8 @@
       cards.push(`<button class="g glass" data-go="${keys.includes("calendar") ? "today" : "today"}"><div><div class="k">Next up</div><div class="v">${v}</div></div>${up.length > 1 ? `<span class="n soft">+${up.length - 1}</span>` : ""}</button>`);
     }
     if (S.glance.inbox) cards.push(`<button class="g glass" data-go="inbox"><div><div class="k">Inbox</div><div class="v">${unread.length ? esc(unread[0].title) : "All caught up"}</div></div>${unread.length ? `<span class="n">${unread.length}</span>` : ""}</button>`);
-    if (S.glance.flags && flagData) cards.push(`<button class="g glass" data-go="flags" data-fv="flags"><div><div class="k">Flags</div><div class="v">${flagData.top[0] ? (flagData.top[0].pr ? "⚡ " : "") + esc(flagData.top[0].t) : "No open flags"}</div></div><span class="n red">${flagData.open}</span></button>`);
+    if (S.glance.flags && flagData) cards.push(`<button class="g glass" data-go="flags" data-fv="flags"><div><div class="k">Flags</div><div class="v">${flagData.waiting ? flagData.waiting + (flagData.waiting > 1 ? " proposals need" : " proposal needs") + " your OK" : `<span class="mut">${flagData.open} open for Claude · nothing on you</span>`}</div></div>${flagData.waiting ? `<span class="n">${flagData.waiting}</span>` : ""}</button>`);
+    if (S.glance.focus || F.run) cards.unshift(`<button class="g glass" data-go="focus"><div><div class="k">Focus</div><div class="v">${F.run || F.left != null ? `${F.mode === "focus" ? "Focusing" : "Break"} · <span class="js-ftime2">${fmtDur(fLeft())}</span>` : "Start a focus session"}</div></div></button>`);
     if (S.glance.blueprints) { const b = bp || {}; cards.push(`<button class="g glass" data-go="flags" data-fv="bp"><div><div class="k">Blueprints</div><div class="v">${bp ? `${b.followups && b.followups.length ? b.followups.length + " follow-ups due" : "No follow-ups due"}${b.newLeads ? " · " + b.newLeads + " new leads" : ""}` : "Waiting on first sync"}</div></div>${b.flags && b.flags.length ? `<span class="n teal">${b.flags.length}</span>` : ""}</button>`); }
     if (S.glance.music) { const m = S.music[load("track", 0)] || S.music[0]; cards.push(`<button class="g glass" data-go="music"><div><div class="k">Music</div><div class="v">${m ? esc(m.name) : "Add a playlist in Settings"}</div></div></button>`); }
     setAll(".js-glance", cards.join(""));
@@ -445,6 +464,43 @@
     el.querySelector(".js-player").innerHTML = url
       ? `<iframe src="${url}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify"></iframe>`
       : `<div class="empty">Add a Spotify playlist or album in Settings (gear, then …).<br><span class="mut">In the Spotify app: Share, then Copy link.</span></div>`;
+  }
+
+  /* =========================================================
+     Focus (Pomodoro): the light slows and dims while you work, brightens on breaks
+     ========================================================= */
+  let F = Object.assign({ mode: "focus", run: false, end: 0, left: null, round: 1 }, load("focus", {}));
+  const plan = () => String(S.focusPlan || "25/5").split("/").map(Number);
+  const fDur = () => (F.mode === "focus" ? plan()[0] : (F.round % 4 === 0 ? plan()[1] * 3 : plan()[1])) * 60000;
+  const fLeft = () => F.run ? Math.max(0, F.end - Date.now()) : (F.left != null ? F.left : fDur());
+  const fSave = () => save("focus", F);
+  function fMood() { const B = window.OSBG; if (!F.run) B.mood(1, 1); else if (F.mode === "focus") B.mood(.3, .55); else B.mood(1.7, 1.12); }
+  function fStart() {
+    if (F.run) { F.left = F.end - Date.now(); F.run = false; }
+    else { F.end = Date.now() + (F.left != null ? F.left : fDur()); F.left = null; F.run = true; }
+    fSave(); fMood(); renderFocus(); renderGlance(); syncClones();
+  }
+  function fNext(auto) {
+    if (F.mode === "focus") F.mode = "break"; else { F.mode = "focus"; F.round++; }
+    F.left = null; F.end = Date.now() + fDur(); F.run = true; fSave(); fMood();
+    if (auto) { Sound.play(F.mode === "focus" ? "timer" : "msg"); if (idle) setIdle(false); }
+    toast(F.mode === "focus" ? "Back to focus" : (F.round % 4 === 0 ? "Long break" : "Break time"));
+    renderFocus(); renderGlance(); syncClones();
+  }
+  function fReset() { F = { mode: "focus", run: false, end: 0, left: null, round: 1 }; fSave(); fMood(); renderFocus(); renderGlance(); syncClones(); }
+  function fRing() { const c = 2 * Math.PI * 92, f = Math.min(1, 1 - fLeft() / fDur()); $$(".js-fprog").forEach(el => { el.style.strokeDasharray = c; el.style.strokeDashoffset = c * (1 - f); }); }
+  function renderFocus() {
+    setAll(".js-ftime", fmtDur(fLeft())); setAll(".js-ftime2", fmtDur(fLeft()));
+    setAll(".js-fstate", F.mode === "focus" ? "Focus" : (F.round % 4 === 0 ? "Long break" : "Break"));
+    setAll(".js-fcount", `Round ${F.round} · ${plan()[0]} min focus, ${plan()[1]} min breaks`);
+    setAll(".js-fgo", F.run ? "Pause" : (F.left != null ? "Resume" : "Start"));
+    $$(".js-fring").forEach(el => { el.classList.toggle("run", F.run); el.classList.toggle("brk", F.mode === "break"); });
+    $$("[data-fplan]").forEach(b => b.classList.toggle("on", b.dataset.fplan === S.focusPlan));
+    fRing();
+  }
+  function tickFocus() {
+    if (F.run && Date.now() >= F.end) fNext(true);
+    if (F.run) { setAll(".js-ftime", fmtDur(fLeft())); setAll(".js-ftime2", fmtDur(fLeft())); fRing(); }
   }
 
   /* =========================================================
@@ -571,15 +627,16 @@
   function openSettings() {
     const seg = (key, opts) => `<div class="seg" data-seg="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(S[key]) === String(v) ? "on" : ""}">${l}</button>`).join("")}</div>`;
     const sw = (key, obj = S) => `<button class="sw ${obj[key] ? "on" : ""}" data-sw="${key}" data-in="${obj === S ? "" : obj === S.panels ? "panels" : "glance"}"></button>`;
-    const PN = { today: "Today", calendar: "Calendar", inbox: "Inbox", flags: "Flags + Blueprints", music: "Music" };
-    const GN = { next: "Next up", inbox: "Inbox", flags: "Flags", blueprints: "Blueprints", music: "Music" };
+    const PN = { today: "Today", calendar: "Calendar", focus: "Focus", inbox: "Inbox", flags: "Flags + Blueprints", music: "Music" };
+    const GN = { next: "Next up", inbox: "Inbox", flags: "Flags", blueprints: "Blueprints", music: "Music", focus: "Focus" };
     sheet("Settings", `
       <div class="h">Panels</div>
       <div class="tog">${Object.keys(PN).map(k => `<div class="row sp tight"><span>${PN[k]}</span>${sw(k, S.panels)}</div>`).join("")}</div>
       <div class="h" style="margin-top:14px">Home cards <span class="mut">(3 fit best)</span></div>
       <div class="tog">${Object.keys(GN).map(k => `<div class="row sp tight"><span>${GN[k]}</span>${sw(k, S.glance)}</div>`).join("")}</div>
       <div class="h" style="margin-top:14px">Background</div>
-      <div class="row" style="margin-top:4px">${seg("bg", [["rotate", "Rotate"], ["shards", "Shards"], ["caustics", "Caustics"], ["silk", "Silk"], ["prism", "Prism"]])}</div>
+      <div class="row" style="margin-top:4px">${seg("bg", [["rotate", "Rotate"], ["shards", "Shards"], ["caustics", "Caustics"], ["silk", "Silk"], ["fluted", "Fluted"], ["prism", "Prism"]])}</div>
+      <div class="tog"><div class="row sp tight"><span>Weather moods</span>${sw("moods")}</div><div class="row sp tight"><span>Winter snow</span>${sw("seasonal")}</div></div>
       <div class="row sp"><span>Rotate every</span>${seg("bgEvery", [[10, "10m"], [30, "30m"], [60, "1h"], [180, "3h"]])}</div>
       <div class="row sp"><span>Motion</span>${seg("motion", [["full", "Smooth"], ["calm", "Battery saver"]])}</div>
       <div class="h" style="margin-top:14px">Music</div>
@@ -588,6 +645,9 @@
       <div class="h" style="margin-top:14px">Clock and screen</div>
       <div class="row sp tight"><span>24-hour clock</span>${sw("h24")}</div>
       <div class="row sp"><span>Screensaver after</span>${seg("idleAfter", [[30, "30s"], [90, "90s"], [300, "5m"], [0, "Never"]])}</div>
+      <div class="row sp tight"><span>Night mode <span class="mut">(just a dim clock)</span></span>${sw("nightMode")}</div>
+      <div class="row"><input type="time" class="field" id="nmFrom" value="${S.nmFrom}"><span class="lbl2">to</span><input type="time" class="field" id="nmTo" value="${S.nmTo}"></div>
+      <div class="row sp"><span>Dim when untouched</span>${seg("idleDim", [[30, "30m"], [60, "1h"], [0, "Never"]])}</div>
       <div class="row sp tight"><span>Dim at night</span>${sw("night")}</div>
       <div class="row"><input type="time" class="field" id="nFrom" value="${S.nightFrom}"><span class="lbl2">to</span><input type="time" class="field" id="nTo" value="${S.nightTo}"></div>
       <div class="row"><span class="lbl2">Night dimness</span><input type="range" id="nLvl" min="0.2" max="0.85" step="0.05" value="${S.nightLevel}"></div>
@@ -598,7 +658,7 @@
       s.querySelectorAll("[data-sw]").forEach(b => b.onclick = () => {
         const obj = b.dataset.in === "panels" ? S.panels : b.dataset.in === "glance" ? S.glance : S, k = b.dataset.sw;
         obj[k] = !obj[k]; saveS(); b.classList.toggle("on");
-        if (b.dataset.in === "panels") buildDeck(); else { lastMin = -1; nightOn = null; tickClock(new Date()); renderGlance(); renderChips(); syncClones(); }
+        if (k === "moods" || k === "seasonal") pickBg(true); if (b.dataset.in === "panels") buildDeck(); else { lastMin = -1; nightOn = null; tickClock(new Date()); renderGlance(); renderChips(); syncClones(); }
       });
       s.querySelectorAll("[data-seg]").forEach(g => g.querySelectorAll("button").forEach(b => b.onclick = () => {
         const k = g.dataset.seg, v = b.dataset.v; S[k] = isNaN(+v) ? v : +v; saveS();
@@ -608,6 +668,8 @@
       s.querySelectorAll("[data-mdel]").forEach(b => b.onclick = () => { S.music.splice(+b.dataset.mdel, 1); saveS(); renderMusic(); renderGlance(); openSettings(); });
       $("#mAdd").onclick = () => { const link = $("#mLink").value.trim(); if (!embedURL(link)) { $("#mLink").classList.add("shake"); setTimeout(() => $("#mLink").classList.remove("shake"), 500); return; }
         S.music.push({ name: $("#mName").value.trim() || "Playlist " + (S.music.length + 1), link }); saveS(); renderMusic(); renderGlance(); openSettings(); };
+      $("#nmFrom").onchange = e => { S.nmFrom = e.target.value; saveS(); };
+      $("#nmTo").onchange = e => { S.nmTo = e.target.value; saveS(); };
       $("#nFrom").onchange = e => { S.nightFrom = e.target.value; saveS(); nightOn = null; };
       $("#nTo").onchange = e => { S.nightTo = e.target.value; saveS(); nightOn = null; };
       $("#nLvl").oninput = e => { S.nightLevel = +e.target.value; saveS(); nightOn = null; };
@@ -619,16 +681,21 @@
   }
 
   /* ---------- background choice (rotate through the favorites) ---------- */
-  const ROTATE = ["shards", "caustics", "silk"];
+  const ROTATE = ["shards", "caustics", "silk", "fluted"];
+  /* weather moods: rain and storms turn it into a pond in the rain, snow into glass snow */
+  function moodBg() { if (!S.moods) return null; const ic = today && today.weather && today.weather.icon; return ic === "rain" || ic === "storm" ? "pond" : ic === "snow" ? "snow" : null; }
+  /* seasonal: glass snow joins the rotation in winter */
+  function rotation() { const m = new Date().getMonth(); return S.seasonal && (m === 11 || m <= 1) ? [...ROTATE, "snow"] : ROTATE; }
   let bgSince = load("bgSince", 0);
   function pickBg(force) {
+    const mb = moodBg(); if (mb) { window.OSBG.show(mb); return; }
     if (S.bg !== "rotate") { window.OSBG.show(S.bg); return; }
-    const curBg = load("bgCur", "shards");
-    if (force || !window.OSBG.get()) { window.OSBG.show(ROTATE.includes(curBg) ? curBg : "shards"); if (!bgSince) { bgSince = Date.now(); save("bgSince", bgSince); } }
+    const list = rotation(), curBg = load("bgCur", "shards");
+    if (force || !list.includes(window.OSBG.get())) { window.OSBG.show(list.includes(curBg) ? curBg : list[0]); if (!bgSince) { bgSince = Date.now(); save("bgSince", bgSince); } }
     if (Date.now() - bgSince > S.bgEvery * 60000) nextBg();
   }
   function nextBg() {
-    const list = S.bg === "rotate" ? ROTATE : window.OSBG.list;
+    const list = S.bg === "rotate" ? rotation() : window.OSBG.list;
     const i = list.indexOf(window.OSBG.get()), nx = list[(i + 1) % list.length];
     if (S.bg !== "rotate") { S.bg = nx; saveS(); }
     save("bgCur", nx); bgSince = Date.now(); save("bgSince", bgSince); window.OSBG.show(nx);
@@ -639,7 +706,8 @@
 
   /* ---------- taps anywhere on the panels ---------- */
   deck.addEventListener("click", e => {
-    const t = e.target.closest("[data-go],[data-act],[data-msg],[data-fv],[data-calv],[data-track]"); if (!t) return;
+    const t = e.target.closest("[data-go],[data-act],[data-msg],[data-fv],[data-calv],[data-track],[data-fplan]"); if (!t) return;
+    if (t.dataset.fplan) { S.focusPlan = t.dataset.fplan; saveS(); if (!F.run) F.left = null; renderFocus(); return; }
     if (t.dataset.fv && !t.dataset.go) { flagView = t.dataset.fv; save("flagView", flagView); renderFlags(); syncClones(); return; }
     if (t.dataset.go) { if (t.dataset.fv) { flagView = t.dataset.fv; save("flagView", flagView); renderFlags(); } goTo(t.dataset.go); return; }
     if (t.dataset.calv) { S.calView = +t.dataset.calv; saveS(); renderCal(); return; }
@@ -649,6 +717,7 @@
     if (a === "clock") openClock(); else if (a === "timer") openClock("timer"); else if (a === "alarms") openClock("alarms");
     else if (a === "sleep") setTimeout(() => setIdle(true), 50);
     else if (a === "bg") nextBg();
+    else if (a === "fgo") fStart(); else if (a === "fskip") fNext(false); else if (a === "freset") fReset();
     else if (a === "readall") { inbox.forEach(m => readIds.add(m.id)); save("read", [...readIds].slice(-300)); renderInbox(); renderGlance(); syncClones(); }
   });
 
@@ -695,12 +764,12 @@
   $("#gear").innerHTML = I.gear;
   $("#mini").onclick = () => goTo("home");
   window.OSBG.setFps(S.motion === "calm" ? 30 : 60);
-  pickBg(true);
+  pickBg(true); fMood();
   here = Math.max(0, ORDER.filter(k => k === "home" || S.panels[k]).indexOf(load("panel", "home")));
   buildDeck();
   gate();
   pullFlags();
-  setInterval(() => { const d = new Date(); tickClock(d); tickTimers(); tickAlarms(d); }, 1000);
+  setInterval(() => { const d = new Date(); tickClock(d); tickTimers(); tickAlarms(d); tickFocus(); }, 1000);
   setInterval(pullLocked, 60 * 1000);
   setInterval(pullFlags, 4 * 60 * 1000);
   /* new version shipped? reload quietly so the desk phone never needs a hand refresh */

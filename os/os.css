@@ -282,3 +282,30 @@ input[type="range"] { flex: 1; accent-color: var(--accent); min-width: 120px; }
 }
 @media (prefers-reduced-motion: reduce) { .glass::before, .hm { animation: none; } }
 :root[data-mode="light"] .wi svg, :root[data-mode="light"] .fi svg { filter: brightness(.5) saturate(1.8); }
+
+/* ---------- focus ---------- */
+.read.focus { display: block; }
+.focus .focus { height: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 34px; align-items: center; padding: 0 20px; }
+.fring { position: relative; width: min(64vh, 300px); aspect-ratio: 1; display: grid; place-items: center; }
+.fring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+.ftrack { fill: none; stroke: color-mix(in srgb, var(--text) 10%, transparent); stroke-width: 5; }
+.fprog { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; filter: drop-shadow(0 0 8px var(--accent)); transition: stroke-dashoffset 1s linear, stroke .8s; }
+.fring.brk .fprog { stroke: var(--ok); filter: drop-shadow(0 0 8px var(--ok)); }
+.fring .orb { position: absolute; inset: 14%; width: auto; margin: 0; opacity: .35; transition: opacity 1.2s var(--ease); }
+.fring .orb i, .fring .orb b { animation-play-state: paused; }
+.fring.run .orb { opacity: .5; } .fring.run .orb i, .fring.run .orb b { animation-play-state: running; }
+.fring.run .orb b { animation-duration: 14s, 5s; } .fring.brk.run .orb b { animation-duration: 5s, 2s; }
+.ftime { position: relative; font-size: min(15vh, 64px); font-weight: 200; font-variant-numeric: tabular-nums; letter-spacing: -.03em; text-shadow: 0 0 18px var(--bg), 0 0 4px var(--bg); }
+.fside { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.fstate { font-size: 30px; font-weight: 300; }
+.fside .row { margin-top: 6px; }
+.fside .btn { min-width: 88px; }
+
+/* ---------- night mode: just a dim, warm clock ---------- */
+body.nightmode { background: #000; }
+body.nightmode #gl, body.nightmode #prism { opacity: 0; }
+body.nightmode .hm { background: none; color: #ff8a5c; filter: none; opacity: .32; animation: none; }
+body.nightmode .ampm, body.nightmode .date { color: #ff8a5c; opacity: .22; text-shadow: none; }
+body.nightmode .wx, body.nightmode .glance, body.nightmode .dock, body.nightmode #mini, body.nightmode #dots, body.nightmode #gear { opacity: 0 !important; pointer-events: none; }
+body.nightmode .glass { -webkit-backdrop-filter: none; backdrop-filter: none; }
+@media (orientation: portrait) { .focus .focus { grid-template-columns: 1fr; justify-items: center; } .fside { align-items: center; } }
