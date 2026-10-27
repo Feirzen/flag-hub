@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvq3damh",
+   "project": "RetroBat Wizard",
+   "text": "When downloading games on the retro bat wizard the download progress jump jumped from 0 to 42 to 85 but it still took forever to do. It waited like 30 seconds between jumping and updating. Make it update more quickly and when I download a game, I want to be able to add games to the queue. Maybe a more similar set up to the publish games from admin? So basically I want to be able to download multiple at once control what order they download and see an amount of time that it’s gonna take to do it etc.. also it freezes up a lot on that screen when I go to download games so that could be improved on for sure. For both publishing and downloading I think I have mentioned this before, but I think I want the banner on the top that says downloading or uploading to include the details and if possible, have an actual progress bar instead of just a scrolling bar. Also, if it can match the aesthetic in general, that would be a win. Honestly, I would be down to have that happen for all of the times that banner pops up, not just here.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-27T02:54:02.251Z"
+  },
+  {
    "id": "fmvpl8yqi",
    "project": "RetroBat Wizard",
    "text": "Both this start icon and the Games icon are gone! Although I would be down to replace the Start icon with the spinning globe from the wizard, and also include it on the page. Then update the chest icon to match the chest from the wizard for the games tab?",
