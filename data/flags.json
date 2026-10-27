@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvq3jdgp",
+   "project": "RetroBat Wizard",
+   "text": "For the retro bat wizard, I want to be notified on my phone from game requests and feedback and stuff, which is great and you have running well, but I think I want a little bit more detail when it pops up on my phone, for example I got a game request for sonic just now from myself cause I was testing, but I’d love to know what profile it’s from if any.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-27T02:58:45.865Z"
+  },
+  {
    "id": "fmvq3damh",
    "project": "RetroBat Wizard",
    "text": "When downloading games on the retro bat wizard the download progress jump jumped from 0 to 42 to 85 but it still took forever to do. It waited like 30 seconds between jumping and updating. Make it update more quickly and when I download a game, I want to be able to add games to the queue. Maybe a more similar set up to the publish games from admin? So basically I want to be able to download multiple at once control what order they download and see an amount of time that it’s gonna take to do it etc.. also it freezes up a lot on that screen when I go to download games so that could be improved on for sure. For both publishing and downloading I think I have mentioned this before, but I think I want the banner on the top that says downloading or uploading to include the details and if possible, have an actual progress bar instead of just a scrolling bar. Also, if it can match the aesthetic in general, that would be a win. Honestly, I would be down to have that happen for all of the times that banner pops up, not just here.",
