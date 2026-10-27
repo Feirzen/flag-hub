@@ -1,0 +1,15 @@
+{
+ "v": 1,
+ "publicKey": {
+  "kty": "EC",
+  "crv": "P-256",
+  "x": "RxxvAmTd-eJn0vPO4L9ppbhysVwpIYUhiE-c_YlNezE",
+  "y": "NupxgDxarDvuHDIt_EKULv80fgFV0lYFYUtjsClvrRQ"
+ },
+ "wrapped": {
+  "iter": 310000,
+  "salt": "tISDxxZd0l3jVhKzeCHFtQ==",
+  "iv": "h1ShzXg0wMj7lkBR",
+  "ct": "EUwHd4vmm9NKpYGjcPH548e7b1P+I7SLqwm2SKsmeG7SlHKEXsUyS4SrwJNVui6icVdUgBX432I09hF348TRp2sLi87s337UMAtR9F7SQTRUF4AoCcHIB9p8v4qHEPXkFGNAHTPMBUNKBqIIhvjQ9E6OPsvXG8sloMsbUu5g3tEN1SuXvhMRBMpUlSDdULgWcem7PxpUr3J/kpO+UD7KGZh+rll0GYbPFW0JrrEsIL1WAIB+p5/D1uSFxgW8Us1P"
+ }
+}

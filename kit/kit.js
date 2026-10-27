@@ -291,7 +291,8 @@
     renderTray();
     syncUI();
     if (HIDE_WHEN) {
-      const check = () => setHidden("auto", !!document.querySelector(HIDE_WHEN));
+      let was = null; /* only act on a real change, or the observer re-triggers itself forever */
+      const check = () => { const on = !!document.querySelector(HIDE_WHEN); if (on !== was) { was = on; setHidden("auto", on); } };
       new MutationObserver(check).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "hidden"] });
       check();
     }

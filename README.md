@@ -6,6 +6,7 @@ Home base for flags across every app and project, plus the shared kit every app 
 - **data/flags.json:** every flag, proposal, and night shift run. The Hub, the kit, and the night shift all read and write this file.
 - **App flags:** with the device connected (key saved once in the Hub), flags from any app go straight into data/flags.json. Without it, they open a filled-in GitHub Issue labeled `flag`.
 - **status.json:** what the Scriptable widget and Claude OS read (mode, open flags, waiting proposals, last run).
+- **Claude OS:** https://feirzen.github.io/flag-hub/os/ (desk display on the old iPhone: clock, weather, the day, timers, alarms, flags, and a message board). Personal data in `os/data/` is locked so only the phone can read it. Tasks post to it with `os/POSTING.md`.
 
 ## The kit (`kit/kit.js`)
 
