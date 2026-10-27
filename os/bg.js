@@ -11,7 +11,10 @@ float fbm(vec2 p){ float v=0.,a=.5; for(int i=0;i<5;i++){ v+=a*nz(p); p=p*2.03+v
 vec3 rays(vec2 uv){ vec3 s=vec3(0.); for(int i=0;i<6;i++){ float fi=float(i); float a=fi*1.05+T*.025*(mod(fi,2.)*2.-1.); vec2 d=vec2(cos(a),sin(a));
   vec2 o=vec2(sin(fi*2.3+T*.05),cos(fi*1.7+T*.04))*.45; float dd=dot(uv-o,vec2(-d.y,d.x)); s+=pal(fi/6.+T*.01)*exp(-dd*dd*70.)*(.07+.05*sin(T*.3+fi)); } return s; }
 vec3 finish(vec3 c, vec2 uv){ c*=1.-.35*dot(uv,uv); c=1.-exp(-c*1.6); c=pow(c,vec3(.95));
-  return mix(c, vec3(.93,.93,.96)*(1.-c*.45)+c*.38, LM); }
+  /* light looks: the same light, but as color washes on pearl glass instead of glow on black */
+  float m=max(max(c.r,c.g),c.b); vec3 hue=c/(m+.001);
+  vec3 lt=mix(vec3(.92,.925,.95), hue*.78+.12, clamp(m*1.5,0.,.85)) - vec3(.05)*dot(uv,uv);
+  return mix(c, lt, LM); }
 `;
   const FX = {
     shards: { scale: .8, src: `

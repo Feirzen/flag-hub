@@ -2,7 +2,7 @@
    Swipe through panels (it loops forever). Live data comes from os/data (locked so only this
    phone can read it) and from Flag Hub. Timers, alarms and settings live on this device. */
 (() => {
-  const VERSION = "2.0";
+  const VERSION = "2.1"; /* bump together with os/version.json so the desk phone reloads */
   const RAW = "https://raw.githubusercontent.com/Feirzen/flag-hub/main/";
   const HUB = "https://feirzen.github.io/flag-hub/";
   const $ = s => document.querySelector(s);
@@ -64,6 +64,7 @@
   const Sound = (() => {
     let ctx = null, master = null;
     function unlock() {
+      try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {} /* play even when the ringer switch is on silent */
       try {
         if (!ctx) {
           ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -309,7 +310,7 @@
     }).join("");
     const tags = [...(d && d.tags || []), ...(d && d.allDay || [])].map(x => `<span class="tag">${esc(x)}</span>`).join("");
     setAll(".js-today-main", `
-      <div class="h">Today${stale ? " · from yesterday" : ""}</div>
+      <div class="h">${d && d.date && d.date !== dayKey(new Date()) ? esc(parseDay(d.date).toLocaleDateString(undefined, { weekday: "long" })) + " · not today" : "Today" + (stale ? " · from yesterday" : "")}</div>
       ${d && d.summary ? `<p class="sum">${esc(d.summary)}</p>` : ""}
       ${tags ? `<div class="tags">${tags}</div>` : ""}
       <div class="h" style="margin-top:12px">What makes today different</div>
@@ -692,6 +693,7 @@
   });
 
   $("#gear").innerHTML = I.gear;
+  $("#mini").onclick = () => goTo("home");
   window.OSBG.setFps(S.motion === "calm" ? 30 : 60);
   pickBg(true);
   here = Math.max(0, ORDER.filter(k => k === "home" || S.panels[k]).indexOf(load("panel", "home")));

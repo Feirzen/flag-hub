@@ -60,7 +60,8 @@ body.bg-swap #gl, body.bg-swap #prism { opacity: 0; }
 #mini { position: fixed; z-index: 20; top: var(--padT); left: var(--padL); padding: 6px 14px; border-radius: 999px; font-size: 19px; font-weight: 300; font-variant-numeric: tabular-nums;
   opacity: 0; transform: translateY(-8px) scale(.96); transition: .5s var(--ease); pointer-events: none; }
 #mini small { font-size: 11.5px; color: var(--muted); margin-left: 6px; letter-spacing: .02em; }
-body.reading #mini { opacity: 1; transform: none; }
+body.reading #mini { opacity: 1; transform: none; pointer-events: auto; cursor: pointer; }
+#mini:active { transform: scale(.94); }
 #gear { position: fixed; top: var(--padT); right: var(--padR); width: 40px; height: 40px; z-index: 30; transition: opacity .9s var(--ease); }
 #gear svg { width: 20px; height: 20px; }
 #toast { position: fixed; z-index: 45; left: 50%; top: 40%; transform: translate(-50%, -50%) scale(.9); padding: 10px 20px; border-radius: 999px; font-size: 15px; opacity: 0; pointer-events: none; transition: .5s var(--spring); }
@@ -280,3 +281,4 @@ input[type="range"] { flex: 1; accent-color: var(--accent); min-width: 120px; }
   .round { width: 46px; height: 46px; }
 }
 @media (prefers-reduced-motion: reduce) { .glass::before, .hm { animation: none; } }
+:root[data-mode="light"] .wi svg, :root[data-mode="light"] .fi svg { filter: brightness(.5) saturate(1.8); }

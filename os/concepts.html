@@ -117,7 +117,7 @@ button { font:inherit; color:inherit; background:none; border:0; padding:0; curs
   </section>
 </div>
 <div class="dots" id="dots"></div>
-<button id="bgName" class="glass"><span>✨</span><span id="bgLabel">A · Shards</span></button>
+<button id="bgName" class="glass"><span>✨</span><span id="bgLabel">E · Spinning shards</span></button>
 
 <script>
 /* ---------- swipe pages ---------- */
@@ -143,38 +143,49 @@ vec3 rays(vec2 uv){ vec3 s=vec3(0.); for(int i=0;i<6;i++){ float fi=float(i); fl
 vec3 finish(vec3 c, vec2 uv){ c*=1.-.35*dot(uv,uv); c=1.-exp(-c*1.6); return pow(c,vec3(.95)); }
 `;
 const FX = {
-"A · Shards": `
-vec3 vor(vec2 x){ vec2 n=floor(x),f=fract(x),mg=vec2(0.),mr=vec2(0.); float md=8.;
-  for(int j=-1;j<=1;j++) for(int i=-1;i<=1;i++){ vec2 g=vec2(float(i),float(j)); vec2 o=h2(n+g); o=.5+.4*sin(T*.1+6.2831*o); vec2 r=g+o-f; float d=dot(r,r); if(d<md){md=d;mr=r;mg=g;} }
-  md=8.; for(int j=-2;j<=2;j++) for(int i=-2;i<=2;i++){ vec2 g=mg+vec2(float(i),float(j)); vec2 o=h2(n+g); o=.5+.4*sin(T*.1+6.2831*o); vec2 r=g+o-f;
-    if(dot(mr-r,mr-r)>.00001) md=min(md,dot(.5*(mr+r),normalize(r-mr))); }
-  return vec3(md,h2(n+mg)); }
-vec3 shard(vec2 uv,vec2 L){ vec3 v=vor(uv*2.6); float ang=v.y*6.2831+T*.04; vec2 nr=vec2(cos(ang),sin(ang));
-  float face=pow(max(0.,dot(nr,L)),5.); float sweep=.5+.5*sin(dot(uv,L)*2.5-T*.5+v.z*6.);
-  float edge=smoothstep(.04,0.,v.x); float g=face*(.3+.7*sweep);
-  return pal(v.y+v.z*.4+T*.012)*g*1.1+edge*(.12+g*1.4)+vec3(.015,.02,.04)*(1.-v.x); }
-void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; float la=T*.06; vec2 L=vec2(cos(la),sin(la)); vec2 o=vec2(-L.y,L.x)*.012;
-  vec3 c=vec3(shard(uv+o,L).r,shard(uv,L).g,shard(uv-o,L).b)+rays(uv); gl_FragColor=vec4(finish(c,uv),1.); }`,
-"B · Caustics": `
-float caus(vec2 p,float tt){ vec2 i=p; float c=1.,inten=.005; for(int n=0;n<5;n++){ float t2=tt*(1.-(3.5/float(n+1)));
-  i=p+vec2(cos(t2-i.x)+sin(t2+i.y),sin(t2-i.y)+cos(t2+i.x)); c+=1./length(vec2(p.x/(sin(i.x+t2)/inten),p.y/(cos(i.y+t2)/inten))); }
-  c/=5.; c=1.17-pow(c,1.4); return pow(abs(c),8.); }
-void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec2 p=uv*3.4-vec2(250.); float tt=T*.22+23.; vec2 d=vec2(.035,.01);
-  vec3 c=vec3(caus(p+d,tt),caus(p,tt),caus(p-d,tt)); vec3 tint=pal(uv.x*.25+uv.y*.15+T*.02);
-  vec3 col=vec3(.01,.015,.035)+clamp(c,0.,1.2)*mix(vec3(.9),tint*1.5,.6)*.7+tint*.05+rays(uv)*.6; gl_FragColor=vec4(finish(col,uv),1.); }`,
-"C · Silk": `
-void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec2 q=uv*1.3; float w=fbm(q+vec2(T*.03,-T*.02)); float v=fbm(q*1.2+w*1.9+T*.015);
-  float b=sin(v*26.+T*.35); float lines=pow(1.-abs(b),22.)*.9+pow(1.-abs(b),4.)*.1;
-  vec3 c=pal(v*1.3+T*.02+uv.x*.12)*lines*(.35+v*1.1)+vec3(.012,.014,.03)+pal(v+.5)*.04*v+rays(uv)*.5; gl_FragColor=vec4(finish(c,uv),1.); }`,
-"D · Crystal": `
-void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; float ra=T*.025; vec2 p=mat2(cos(ra),-sin(ra),sin(ra),cos(ra))*uv;
-  float a=atan(p.y,p.x),r=length(p),N=6.; a=mod(a,6.2831/N); a=abs(a-3.14159/N); p=r*vec2(cos(a),sin(a));
-  vec3 col=vec3(.01,.012,.03);
-  for(int k=0;k<3;k++){ float fk=float(k); vec2 g=p*(3.+fk*1.7)+vec2(T*.04*(fk+1.),0.);
-    float l1=abs(fract(g.x)-.5),l2=abs(fract(dot(g,vec2(.5,.866)))-.5),l3=abs(fract(dot(g,vec2(-.5,.866)))-.5);
-    float e=min(l1,min(l2,l3)); float glow=pow(smoothstep(.1,0.,e),2.)*(.5+.5*sin(T*.4+fk*2.+r*6.));
-    col+=pal(r*.7-T*.04+fk*.25)*glow*(.55/(1.+fk)); }
-  col*=smoothstep(1.5,.05,r); col+=pow(max(0.,1.-r*1.6),3.)*.3*pal(T*.03); col+=rays(uv)*.6; gl_FragColor=vec4(finish(col,uv),1.); }`,
+"E · Spinning shards": `
+float sdTri(vec2 p,float r){ const float k=1.7320508; p.x=abs(p.x)-r; p.y=p.y+r/k; if(p.x+k*p.y>0.) p=vec2(p.x-k*p.y,-k*p.x-p.y)/2.; p.x-=clamp(p.x,-2.*r,0.); return -length(p)*sign(p.y); }
+void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec3 col=vec3(.012,.014,.03);
+  for(int i=0;i<8;i++){ float fi=float(i);
+    vec2 c=vec2(sin(fi*2.1+T*.03),cos(fi*1.7+T*.025))*vec2(.78,.4);
+    float a=T*(.06+.02*fi)+fi, spin=cos(T*(.11+.017*fi)+fi*1.3);
+    vec2 q=uv-c, p=mat2(cos(a),-sin(a),sin(a),cos(a))*q; p.x/=max(abs(spin),.06);
+    float r=.09+.07*h1(vec2(fi,2.)), d=sdTri(p,r);
+    float inside=smoothstep(.004,-.004,d*abs(spin)), flash=pow(abs(spin),7.);
+    vec3 tint=pal(fi*.13+p.y*1.8+T*.02);
+    col+=inside*(tint*.1+tint*flash*.55+vec3(.03))+exp(-abs(d)*abs(spin)*120.)*mix(vec3(1.),tint,.5)*(.25+.6*flash);
+    float ang=atan(q.y,q.x), fan=.5+.5*cos((ang-a*1.4-fi)*3.);
+    col+=pal(ang*.25+fi*.2+T*.03)*pow(fan,40.)*exp(-length(q)*2.2)*flash*.6;
+  }
+  col+=rays(uv)*.35; gl_FragColor=vec4(finish(col,uv),1.); }`,
+"F · Fluted glass": `
+vec3 blobs(vec2 q){ vec3 c=vec3(0.); for(int i=0;i<6;i++){ float fi=float(i);
+  vec2 b=vec2(sin(T*.06*(1.+fi*.3)+fi*2.),cos(T*.045*(1.+fi*.2)+fi*1.3))*vec2(.75,.38);
+  float d=length(q-b); c+=pal(fi*.17+T*.015)*exp(-d*d*7.)*.6; } return c; }
+void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; float k=uv.x*48.+sin(uv.y*1.5+T*.05)*.6;
+  float fl=sin(k), sh=.5+.5*cos(k); vec2 o=vec2(fl*.045,0.);
+  vec3 c=vec3(blobs(uv+o*1.15).r,blobs(uv+o).g,blobs(uv+o*.85).b);
+  c*=.7+.45*sh; c+=pow(sh,24.)*.07*vec3(1.); c+=vec3(.012,.013,.03)+rays(uv)*.25;
+  gl_FragColor=vec4(finish(c,uv),1.); }`,
+"G · Glass orbs": `
+vec3 back(vec2 q){ float b=sin((q.x*1.2+q.y*.7)*9.+T*.2); return pal(q.x*.35+q.y*.25+T*.02)*(.05+.18*pow(.5+.5*b,6.)); }
+void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec3 col=back(uv)+vec3(.01,.012,.025);
+  for(int i=0;i<6;i++){ float fi=float(i);
+    vec2 c=vec2(sin(T*.05*(1.+fi*.15)+fi*2.4),cos(T*.04*(1.+fi*.1)+fi*1.9))*vec2(.72,.33);
+    float r=.08+.08*h1(vec2(fi,7.)); vec2 p=uv-c; float d=length(p);
+    float ring=exp(-pow((d-r*1.55)*38.,2.)); col+=pal(atan(p.y,p.x)*.16+fi*.2+T*.04)*ring*.35;
+    if(d<r){ float z=sqrt(1.-d*d/(r*r)); vec2 rr=c-p*(1.6-z);
+      col=vec3(back(rr+vec2(.006,0.)).r,back(rr).g,back(rr-vec2(.006,0.)).b)*2.2+pal(fi*.2+d*4.)*.06*(1.-z);
+      col+=exp(-pow((d-r*.97)*55./r*.06,2.))*.0; col+=pow(1.-z,3.)*.35*mix(vec3(1.),pal(fi*.3),.5);
+      col+=exp(-length(p-vec2(-.35,.35)*r)/(r*.12))*.6; }
+  }
+  col+=rays(uv)*.3; gl_FragColor=vec4(finish(col,uv),1.); }`,
+"H · Soap film": `
+void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec2 q=uv*1.1;
+  float w=fbm(q*1.4+vec2(T*.025,-T*.02)); float th=fbm(q*1.8+w*2.2+vec2(-T*.015,T*.018));
+  vec3 film=pal(th*2.4+T*.01); float bands=.55+.45*sin(th*30.+w*6.-T*.25);
+  vec3 c=film*(.12+.75*pow(th,1.6))*bands; c+=pow(max(0.,bands-.85)*6.,2.)*.08*vec3(1.);
+  c+=vec3(.01,.012,.028)+rays(uv)*.3; gl_FragColor=vec4(finish(c,uv),1.); }`,
 };
 const cv = document.getElementById("bg"), gl = cv.getContext("webgl", { antialias: false, premultipliedAlpha: false });
 const SCALE = .6; let prog, U = {}, which = 0, names = Object.keys(FX), K = [0.6, 0.5, 1.0], C = 0, Cto = 0;
