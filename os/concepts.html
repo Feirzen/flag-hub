@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Claude OS Concepts</title>
+<meta name="robots" content="noindex">
+<style>
+:root { --bg:#06070d; --text:#f2f3fa; --dim:#b9bdd3; --muted:#7b809c; --accent:#9d8cff; --hi:rgba(255,255,255,.22); --ease:cubic-bezier(.22,.8,.24,1); --spring:cubic-bezier(.34,1.4,.5,1); }
+* { box-sizing:border-box; } html,body { height:100%; margin:0; background:var(--bg); color:var(--text); overflow:hidden;
+  font:15px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",system-ui,sans-serif; -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
+button { font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; }
+#bg { position:fixed; inset:0; width:100%; height:100%; }
+.glass { position:relative; isolation:isolate; overflow:hidden; border-radius:22px;
+  background:rgba(22,24,38,.32); -webkit-backdrop-filter:blur(24px) saturate(180%); backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid rgba(255,255,255,.13); box-shadow:inset 0 1px 0 var(--hi), 0 18px 50px -20px rgba(0,0,0,.6); }
+.glass::before { content:""; position:absolute; inset:-40% -60%; z-index:-1; pointer-events:none;
+  background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.08) 50%,transparent 58%); transform:translateX(-60%); animation:glint 11s var(--ease) infinite; }
+@keyframes glint { 0%,55% { transform:translateX(-60%); } 100% { transform:translateX(60%); } }
+.round { width:50px; height:50px; border-radius:50%; display:grid; place-items:center; flex:none; transition:transform .35s var(--spring); }
+.round:active { transform:scale(.9); } .round svg { width:23px; height:23px; }
+
+#pages { position:fixed; inset:0; display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; scroll-behavior:smooth; }
+#pages::-webkit-scrollbar { display:none; }
+.page { flex:0 0 100vw; height:100%; scroll-snap-align:start; position:relative;
+  padding:max(16px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(30px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left)); }
+
+/* home */
+.home { display:grid; grid-template-columns:1.25fr 1fr; gap:20px; align-items:center; }
+.clock { font-weight:200; letter-spacing:-.045em; line-height:.88; font-size:min(19vw,40vh); font-variant-numeric:tabular-nums; white-space:nowrap; display:flex; gap:.1em; }
+.clock b { font-weight:200; background:linear-gradient(100deg,var(--text) 38%,#ff7a85 44%,#ffd27a 47%,#9dffc9 50%,#7fd4ff 53%,#b49bff 56%,var(--text) 62%); background-size:320% 100%;
+  -webkit-background-clip:text; background-clip:text; color:transparent; animation:sheen 16s linear infinite; }
+@keyframes sheen { 0% { background-position:100% 0; } 45%,100% { background-position:0 0; } }
+.clock i { font-style:normal; font-size:.2em; color:var(--dim); margin-top:.5em; letter-spacing:.06em; font-weight:400; }
+.date { margin-top:10px; font-size:min(3.4vw,6vh); color:var(--dim); }
+.pill { margin-top:12px; display:inline-flex; gap:10px; align-items:center; padding:8px 16px; border-radius:999px; }
+.glance { display:flex; flex-direction:column; gap:10px; }
+.g { display:flex; gap:12px; align-items:center; padding:12px 14px; }
+.g .k { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+.g .v { font-size:16px; }
+.g .n { margin-left:auto; min-width:26px; height:26px; border-radius:13px; display:grid; place-items:center; font-size:13px; font-weight:600; background:var(--accent); color:var(--bg); box-shadow:0 0 14px var(--accent); }
+.dock { position:absolute; left:max(20px,env(safe-area-inset-left)); bottom:max(28px,env(safe-area-inset-bottom)); display:flex; gap:10px; }
+
+/* reading pages */
+.mini { position:fixed; top:max(14px,env(safe-area-inset-top)); left:max(20px,env(safe-area-inset-left)); font-weight:300; font-size:22px; letter-spacing:-.02em; opacity:0; transform:translateY(-6px); transition:.5s var(--ease); z-index:5; }
+.mini small { font-size:12px; color:var(--muted); margin-left:6px; }
+.mini.on { opacity:1; transform:none; }
+.read { padding-top:max(52px,env(safe-area-inset-top)); display:grid; gap:14px; }
+.today { grid-template-columns:1.4fr 1fr; }
+.card { padding:14px 16px; height:100%; overflow:auto; scrollbar-width:none; }
+.h { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 8px; }
+.ev { display:grid; grid-template-columns:84px 1fr; gap:10px; padding:8px 0; border-top:1px solid rgba(255,255,255,.07); }
+.ev:first-of-type { border:0; } .ev .t { color:var(--dim); font-variant-numeric:tabular-nums; } .ev.past { opacity:.4; } .ev.nx .t { color:var(--accent); }
+.fc { display:flex; justify-content:space-between; padding:6px 0; color:var(--dim); font-size:14px; }
+.inbox { grid-template-columns:1fr 1fr; align-content:start; overflow:auto; }
+.msg { padding:12px 14px 12px 28px; }
+.msg::after { content:""; position:absolute; left:12px; top:18px; width:7px; height:7px; border-radius:50%; background:var(--c,var(--accent)); box-shadow:0 0 10px var(--c,var(--accent)); }
+.msg .tt { font-weight:600; } .msg .bd { color:var(--dim); font-size:14px; margin-top:2px; } .msg .m { color:var(--muted); font-size:12px; margin-top:4px; }
+.seg { display:inline-flex; padding:3px; border-radius:999px; margin-bottom:10px; }
+.seg button { padding:6px 16px; border-radius:999px; color:var(--dim); font-size:14px; } .seg button.on { background:rgba(255,255,255,.14); color:var(--text); }
+.fl { display:flex; gap:10px; padding:9px 0; border-top:1px solid rgba(255,255,255,.07); font-size:14px; } .fl span:last-child { margin-left:auto; color:var(--muted); font-size:12px; white-space:nowrap; }
+.dots { position:fixed; bottom:max(10px,env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:5; }
+.dots i { width:6px; height:6px; border-radius:3px; background:rgba(255,255,255,.25); transition:.4s var(--spring); }
+.dots i.on { width:18px; background:#fff; box-shadow:0 0 10px rgba(255,255,255,.7); }
+#bgName { position:fixed; right:max(20px,env(safe-area-inset-right)); bottom:max(26px,env(safe-area-inset-bottom)); padding:9px 16px; border-radius:999px; z-index:6; font-size:14px; display:flex; gap:10px; align-items:center; }
+#cham { position:fixed; right:max(20px,env(safe-area-inset-right)); top:max(14px,env(safe-area-inset-top)); padding:8px 14px; border-radius:999px; z-index:6; font-size:13px; }
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="mini" id="mini">6:42<small>PM · Mon</small></div>
+<button id="cham" class="glass">Chameleon: off</button>
+
+<div id="pages">
+  <section class="page home">
+    <div>
+      <div class="clock"><b>6:42</b><i>PM</i></div>
+      <div class="date">Monday, October 26</div>
+      <div class="pill glass">☀️ <b style="font-size:19px;font-weight:500">48°</b> <span style="color:var(--dim)">Clear</span> <span style="color:var(--muted);font-size:13px">H 55° L 36°</span></div>
+    </div>
+    <div class="glance">
+      <div class="g glass"><div><div class="k">Next up</div><div class="v">Dentist at 2:00</div></div></div>
+      <div class="g glass"><div><div class="k">Inbox</div><div class="v">Night shift fixed 2 things</div></div><span class="n">2</span></div>
+      <div class="g glass"><div><div class="k">Flags</div><div class="v">⚡ Wizard start icon missing</div></div><span class="n" style="background:#ff5a3c;box-shadow:0 0 14px #ff5a3c">5</span></div>
+    </div>
+    <div class="dock">
+      <button class="glass round" title="Timers and alarms"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="13" r="7.5"/><path d="M12 9v4l2.6 1.6M9.5 2.8h5M4.5 5.5l2-2M19.5 5.5l-2-2"/></svg></button>
+      <button class="glass round" title="Screensaver"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10Z"/></svg></button>
+    </div>
+  </section>
+
+  <section class="page read today">
+    <div class="card glass"><div class="h">Today · busy morning, open afternoon</div>
+      <p style="margin:0 0 10px;font-size:16px">Three things before noon, then nothing until dinner. Good window for the RetroBat stuff.</p>
+      <div class="ev past"><span class="t">8:00 AM</span><span>Shift huddle</span></div>
+      <div class="ev nx"><span class="t">10:30 AM</span><span>Emory follow-up call</span></div>
+      <div class="ev"><span class="t">11:45 AM</span><span>Lunch with Riana</span></div>
+      <div class="ev"><span class="t">6:30 PM</span><span>Ward activity</span></div>
+    </div>
+    <div class="card glass"><div class="h">Lehi weather</div>
+      <div style="font-size:44px;font-weight:200">48°</div><div style="color:var(--dim);margin-bottom:8px">Clear, light jacket till noon</div>
+      <div class="fc"><span>Tue</span><span>☀️</span><span>58° / 36°</span></div><div class="fc"><span>Wed</span><span>⛅</span><span>54° / 33°</span></div><div class="fc"><span>Thu</span><span>🌧️</span><span>47° / 31°</span></div>
+      <div style="margin-top:10px;padding:9px 11px;border-radius:12px;background:rgba(157,140,255,.12);font-size:14px">Palabra del día: <b>madrugar</b>, to get up really early</div>
+    </div>
+  </section>
+
+  <section class="page read inbox">
+    <div class="msg glass" style="--c:#5fd7a4"><div class="tt">Night shift: 2 fixed</div><div class="bd">Study Decks spacing and the Music Space play button. Both live now.</div><div class="m">Night shift · 6h ago</div></div>
+    <div class="msg glass" style="--c:#f5c35a"><div class="tt">Chase bonus deadline in 6 days</div><div class="bd">Need one more direct deposit before Nov 2 to lock the $900.</div><div class="m">Money check · 1d ago</div></div>
+    <div class="msg glass"><div class="tt">Oura Ring 5 Gold: $399 at Best Buy</div><div class="bd">$100 off, size 9 in stock. Strike now, ends Sunday.</div><div class="m">Deal watch · 2d ago</div></div>
+    <div class="msg glass"><div class="tt">Weekly polish ready</div><div class="bd">Two proposals for Bulk Manager are waiting in the Hub.</div><div class="m">Weekly polish · 3d ago</div></div>
+  </section>
+
+  <section class="page read" style="grid-template-rows:auto 1fr">
+    <div><div class="seg glass"><button class="on" data-s="f">Flags</button><button data-s="b">Blueprints</button></div></div>
+    <div class="card glass" id="flagList"></div>
+  </section>
+</div>
+<div class="dots" id="dots"></div>
+<button id="bgName" class="glass"><span>✨</span><span id="bgLabel">A · Shards</span></button>
+
+<script>
+/* ---------- swipe pages ---------- */
+const pages = document.getElementById("pages"), dots = document.getElementById("dots");
+const n = pages.children.length; dots.innerHTML = "<i></i>".repeat(n);
+const sync = () => { const i = Math.round(pages.scrollLeft / innerWidth); [...dots.children].forEach((d, k) => d.classList.toggle("on", k === i)); document.getElementById("mini").classList.toggle("on", i > 0); };
+pages.addEventListener("scroll", sync, { passive: true }); sync();
+const FL = { f: [["⚡ Wizard start icon and Games icon are gone", "RetroBat Wizard"], ["Left and right arrows skip a page", "RetroBat Wizard"], ["Add another GitHub account?", "Unsorted"], ["Update the RetroBat wishlist", "RetroBat"], ["Claude OS: swipe panels", "Claude OS"]],
+  b: [["Lesson 4 example blueprint needs audio", "Blueprints"], ["Spanish voice too fast on intro", "Blueprints"], ["Pricing page draft", "Blueprints"]] };
+const showFl = k => { document.getElementById("flagList").innerHTML = `<div class="h">${k === "f" ? "39 open · 0 waiting · night shift off" : "Blueprints · 3 open"}</div>` + FL[k].map(([t, p]) => `<div class="fl"><span style="color:${k === "f" ? "#ff5a3c" : "#2bb5a0"}">●</span><span>${t}</span><span>${p}</span></div>`).join(""); };
+document.querySelectorAll("[data-s]").forEach(b => b.onclick = () => { document.querySelectorAll("[data-s]").forEach(x => x.classList.toggle("on", x === b)); showFl(b.dataset.s); }); showFl("f");
+
+/* ---------- backgrounds (WebGL) ---------- */
+const COMMON = `precision highp float; uniform vec2 R; uniform float T; uniform vec3 K; uniform float C;
+vec3 spec(float x){ return .5+.5*cos(6.28318*(x+vec3(0.,.33,.67))); }
+vec3 pal(float x){ vec3 s=spec(x); return mix(s, K*(.35+.9*spec(x*.7).g), C); }
+vec2 h2(vec2 p){ p=vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))); return fract(sin(p)*43758.5453); }
+float h1(vec2 p){ return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453); }
+float nz(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f); return mix(mix(h1(i),h1(i+vec2(1,0)),f.x),mix(h1(i+vec2(0,1)),h1(i+vec2(1,1)),f.x),f.y); }
+float fbm(vec2 p){ float v=0.,a=.5; for(int i=0;i<5;i++){ v+=a*nz(p); p=p*2.03+vec2(1.7,9.2); a*=.5; } return v; }
+vec3 rays(vec2 uv){ vec3 s=vec3(0.); for(int i=0;i<6;i++){ float fi=float(i); float a=fi*1.05+T*.025*(mod(fi,2.)*2.-1.); vec2 d=vec2(cos(a),sin(a));
+  vec2 o=vec2(sin(fi*2.3+T*.05),cos(fi*1.7+T*.04))*.45; float dd=dot(uv-o,vec2(-d.y,d.x)); s+=pal(fi/6.+T*.01)*exp(-dd*dd*70.)*(.07+.05*sin(T*.3+fi)); } return s; }
+vec3 finish(vec3 c, vec2 uv){ c*=1.-.35*dot(uv,uv); c=1.-exp(-c*1.6); return pow(c,vec3(.95)); }
+`;
+const FX = {
+"A · Shards": `
+vec3 vor(vec2 x){ vec2 n=floor(x),f=fract(x),mg=vec2(0.),mr=vec2(0.); float md=8.;
+  for(int j=-1;j<=1;j++) for(int i=-1;i<=1;i++){ vec2 g=vec2(float(i),float(j)); vec2 o=h2(n+g); o=.5+.4*sin(T*.1+6.2831*o); vec2 r=g+o-f; float d=dot(r,r); if(d<md){md=d;mr=r;mg=g;} }
+  md=8.; for(int j=-2;j<=2;j++) for(int i=-2;i<=2;i++){ vec2 g=mg+vec2(float(i),float(j)); vec2 o=h2(n+g); o=.5+.4*sin(T*.1+6.2831*o); vec2 r=g+o-f;
+    if(dot(mr-r,mr-r)>.00001) md=min(md,dot(.5*(mr+r),normalize(r-mr))); }
+  return vec3(md,h2(n+mg)); }
+vec3 shard(vec2 uv,vec2 L){ vec3 v=vor(uv*2.6); float ang=v.y*6.2831+T*.04; vec2 nr=vec2(cos(ang),sin(ang));
+  float face=pow(max(0.,dot(nr,L)),5.); float sweep=.5+.5*sin(dot(uv,L)*2.5-T*.5+v.z*6.);
+  float edge=smoothstep(.04,0.,v.x); float g=face*(.3+.7*sweep);
+  return pal(v.y+v.z*.4+T*.012)*g*1.1+edge*(.12+g*1.4)+vec3(.015,.02,.04)*(1.-v.x); }
+void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; float la=T*.06; vec2 L=vec2(cos(la),sin(la)); vec2 o=vec2(-L.y,L.x)*.012;
+  vec3 c=vec3(shard(uv+o,L).r,shard(uv,L).g,shard(uv-o,L).b)+rays(uv); gl_FragColor=vec4(finish(c,uv),1.); }`,
+"B · Caustics": `
+float caus(vec2 p,float tt){ vec2 i=p; float c=1.,inten=.005; for(int n=0;n<5;n++){ float t2=tt*(1.-(3.5/float(n+1)));
+  i=p+vec2(cos(t2-i.x)+sin(t2+i.y),sin(t2-i.y)+cos(t2+i.x)); c+=1./length(vec2(p.x/(sin(i.x+t2)/inten),p.y/(cos(i.y+t2)/inten))); }
+  c/=5.; c=1.17-pow(c,1.4); return pow(abs(c),8.); }
+void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec2 p=uv*3.4-vec2(250.); float tt=T*.22+23.; vec2 d=vec2(.035,.01);
+  vec3 c=vec3(caus(p+d,tt),caus(p,tt),caus(p-d,tt)); vec3 tint=pal(uv.x*.25+uv.y*.15+T*.02);
+  vec3 col=vec3(.01,.015,.035)+clamp(c,0.,1.2)*mix(vec3(.9),tint*1.5,.6)*.7+tint*.05+rays(uv)*.6; gl_FragColor=vec4(finish(col,uv),1.); }`,
+"C · Silk": `
+void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; vec2 q=uv*1.3; float w=fbm(q+vec2(T*.03,-T*.02)); float v=fbm(q*1.2+w*1.9+T*.015);
+  float b=sin(v*26.+T*.35); float lines=pow(1.-abs(b),22.)*.9+pow(1.-abs(b),4.)*.1;
+  vec3 c=pal(v*1.3+T*.02+uv.x*.12)*lines*(.35+v*1.1)+vec3(.012,.014,.03)+pal(v+.5)*.04*v+rays(uv)*.5; gl_FragColor=vec4(finish(c,uv),1.); }`,
+"D · Crystal": `
+void main(){ vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; float ra=T*.025; vec2 p=mat2(cos(ra),-sin(ra),sin(ra),cos(ra))*uv;
+  float a=atan(p.y,p.x),r=length(p),N=6.; a=mod(a,6.2831/N); a=abs(a-3.14159/N); p=r*vec2(cos(a),sin(a));
+  vec3 col=vec3(.01,.012,.03);
+  for(int k=0;k<3;k++){ float fk=float(k); vec2 g=p*(3.+fk*1.7)+vec2(T*.04*(fk+1.),0.);
+    float l1=abs(fract(g.x)-.5),l2=abs(fract(dot(g,vec2(.5,.866)))-.5),l3=abs(fract(dot(g,vec2(-.5,.866)))-.5);
+    float e=min(l1,min(l2,l3)); float glow=pow(smoothstep(.1,0.,e),2.)*(.5+.5*sin(T*.4+fk*2.+r*6.));
+    col+=pal(r*.7-T*.04+fk*.25)*glow*(.55/(1.+fk)); }
+  col*=smoothstep(1.5,.05,r); col+=pow(max(0.,1.-r*1.6),3.)*.3*pal(T*.03); col+=rays(uv)*.6; gl_FragColor=vec4(finish(col,uv),1.); }`,
+};
+const cv = document.getElementById("bg"), gl = cv.getContext("webgl", { antialias: false, premultipliedAlpha: false });
+const SCALE = .6; let prog, U = {}, which = 0, names = Object.keys(FX), K = [0.6, 0.5, 1.0], C = 0, Cto = 0;
+const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+function build(name) {
+  const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) console.error(name, gl.getShaderInfoLog(s)); return s; };
+  const p = gl.createProgram(); gl.attachShader(p, sh(gl.VERTEX_SHADER, "attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}")); gl.attachShader(p, sh(gl.FRAGMENT_SHADER, COMMON + FX[name])); gl.linkProgram(p);
+  if (prog) gl.deleteProgram(prog); prog = p; gl.useProgram(p);
+  const loc = gl.getAttribLocation(p, "a"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  ["R", "T", "K", "C"].forEach(k => U[k] = gl.getUniformLocation(p, k)); document.getElementById("bgLabel").textContent = name;
+}
+function size() { cv.width = Math.round(innerWidth * SCALE * Math.min(devicePixelRatio, 2) / 1.4); cv.height = Math.round(innerHeight * SCALE * Math.min(devicePixelRatio, 2) / 1.4); gl.viewport(0, 0, cv.width, cv.height); }
+addEventListener("resize", size); size(); build(names[0]);
+(function loop(ts) { requestAnimationFrame(loop); C += (Cto - C) * .03; gl.uniform2f(U.R, cv.width, cv.height); gl.uniform1f(U.T, ts / 1000 + 40); gl.uniform3f(U.K, ...K); gl.uniform1f(U.C, C); gl.drawArrays(gl.TRIANGLES, 0, 3); })(0);
+document.getElementById("bgName").onclick = () => { which = (which + 1) % names.length; build(names[which]); };
+document.getElementById("cham").onclick = e => { if (Cto && Math.random() < .5) { Cto = 0; e.target.textContent = "Chameleon: off"; return; }
+  const h = Math.random() * 6.283; K = [.5 + .5 * Math.cos(h), .5 + .5 * Math.cos(h + 2.1), .5 + .5 * Math.cos(h + 4.2)]; Cto = 1; e.target.textContent = "Chameleon: on (tap for new)"; };
+</script>
+</body>
+</html>
