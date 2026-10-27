@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvq4bwdf",
+   "project": "RetroBat Wizard",
+   "text": "continued x2 …. can be opened, and lives under the “what the wizard is” box.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-27T03:20:56.739Z"
+  },
+  {
    "id": "fmvq49pjn",
    "project": "RetroBat Wizard",
    "text": "…continued when you click on it it will open up the section that already exists under this computer, “Steam on this computer”. Not as a pop out, but on that page. \nAnother thing, under the admin tab I have shared my scraper login before, in fact when I look now, it says, share it again, but there’s nowhere on anyone else else’s wizard to import that login. If possible, I would love to make it so that’s not even a necessary step. On that note, is it possible to make the scraper scrape for games missing all media every time it’s opened? So for example, I could add a new Health stat showing the number of games missing all media, and then let it scrape every time? It can only be for games, missing all media, and give very basic instructions in the description underneath on how to manually scrape individual games or all games. If the login can’t automatically be shared, maybe just add a button there to click that will offer to import the login.\nLastly, under the help tab: move set this computer up again to the settings>this computer page. Also move, add a shortcut to a game to the features page, and then move make this drive R: to settings>this computer> advanced: using this setup on more than one computer dropdown. Also the Rename this button can be deleted entirely. Lastly, the “how this setup works” text really needs to be updated so that it explains the current setup, and maybe have a blurb for coding nerds or sum. And move that whole text to a out window that can be opened",
