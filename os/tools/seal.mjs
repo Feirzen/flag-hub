@@ -9,7 +9,7 @@
 // inbox, keeps the newest 40, and drops ones past their "expires" date.
 import { readFileSync, existsSync } from "node:fs";
 
-const PUBLIC_KEY = { kty: "EC", crv: "P-256", x: "RxxvAmTd-eJn0vPO4L9ppbhysVwpIYUhiE-c_YlNezE", y: "NupxgDxarDvuHDIt_EKULv80fgFV0lYFYUtjsClvrRQ" };
+const PUBLIC_KEY = { kty: "EC", crv: "P-256", x: "xsZPtfqUKpIjJoJUe6KJY_5V_ZWYCL4brXHKRHERs5I", y: "eOagZTTrUj6uIvHth4UTb3bs0_iV4kpIlIoW4gwDScs" };
 const KEEP = 40;
 
 const { subtle } = globalThis.crypto;
