@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvsrnlgf",
+   "project": "RetroBat Wizard",
+   "text": "On my profile on the social, it says the time played- does Retrobat track time played on steam games? I want them listed as most played if they can be tracked too. I also want playtime tracker per account- it’s something we’ve mentioned before, is there any existing infrastructure for that? Would you make it so the playtime is tracked per account and ALL the games there tracked and potentially listed as recent or most played? Also make sure if I log in somewhere else it displays all that info still, not just my favorites or profile pic.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-28T23:49:25.984Z"
+  },
+  {
    "id": "fmvq4bwdf",
    "project": "RetroBat Wizard",
    "text": "continued x2 …. can be opened, and lives under the “what the wizard is” box.",
