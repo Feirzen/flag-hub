@@ -1,10 +1,10 @@
 {
- "mode": "off",
+ "mode": "light",
  "openFlags": 44,
  "waiting": 0,
  "lastRun": {
   "at": "2026-10-27T07:55:06Z",
   "summary": "Skipped: night shift is off"
  },
- "updated": "2026-10-27T07:55:06Z"
+ "updated": "2026-10-28T05:13:17.909Z"
 }
