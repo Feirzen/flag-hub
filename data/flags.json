@@ -1149,11 +1149,12 @@
     "previews/p1025pbtimer/before.png",
     "previews/p1025pbtimer/after.png"
    ],
-   "status": "approved",
+   "status": "ready",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
    "flagIds": [],
-   "decidedAt": "2026-10-25T16:35:29.615Z"
+   "decidedAt": "2026-10-25T16:35:29.615Z",
+   "readyAt": "2026-10-28T07:56:46Z"
   },
   {
    "id": "p1025pblist",
@@ -1199,11 +1200,12 @@
     "previews/p1025rbfind/before.png",
     "previews/p1025rbfind/after.png"
    ],
-   "status": "approved",
+   "status": "ready",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
    "flagIds": [],
-   "decidedAt": "2026-10-25T16:36:50.100Z"
+   "decidedAt": "2026-10-25T16:36:50.100Z",
+   "readyAt": "2026-10-28T07:56:46Z"
   }
  ],
  "runs": [
@@ -1437,9 +1439,26 @@
    "mode": "off",
    "summary": "Skipped: night shift is off",
    "items": []
+  },
+  {
+   "at": "2026-10-28T07:56:46Z",
+   "mode": "light",
+   "summary": "Got two approved proposals ready to merge; the smoother Panic Button list waits a night so it doesn't clash with the timer.",
+   "items": [
+    {
+     "kind": "ready",
+     "project": "RetroBat Wizard",
+     "text": "Find a game box on the website is ready to merge (I merged in the new console groups and video icons so it fits cleanly)."
+    },
+    {
+     "kind": "ready",
+     "project": "Panic Button",
+     "text": "Calmer timer screen is ready to merge."
+    }
+   ]
   }
  ],
- "digestAt": "2026-10-25T07:54:15Z",
+ "digestAt": "2026-10-28T07:56:46Z",
  "polish": [
   {
    "app": "panicbutton",

@@ -1,10 +1,10 @@
 {
  "mode": "light",
  "openFlags": 44,
- "waiting": 0,
+ "waiting": 2,
  "lastRun": {
-  "at": "2026-10-27T07:55:06Z",
-  "summary": "Skipped: night shift is off"
+  "at": "2026-10-28T07:56:46Z",
+  "summary": "Got two approved proposals ready to merge; the smoother Panic Button list waits a night so it doesn't clash with the timer."
  },
- "updated": "2026-10-28T05:13:17.909Z"
+ "updated": "2026-10-28T07:56:46Z"
 }
