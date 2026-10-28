@@ -697,9 +697,11 @@
    "kind": "you",
    "project": "Money Hacking",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Connect the Monarch MCP if it ever opens",
-   "id": "rem-21"
+   "id": "rem-21",
+   "resolvedAt": "2026-10-28T13:14:04.909Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
