@@ -23,6 +23,23 @@
  ],
  "flags": [
   {
+   "id": "fmvu47ilb",
+   "project": "Flag Hub",
+   "text": "I appreciate having the toggle with the off, light, or go jig, but we can delete this last rin report on the ideas section specifically. Similar to how the PC shows PC runs, Ideas has no specific runs, so it can just not show last runs on this section",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-29T22:28:36.960Z",
+   "where": {
+    "app": "flag-hub",
+    "page": "https://feirzen.github.io/flag-hub/",
+    "element": "p#lastrun",
+    "says": "Last run 1h ago: Reworked your priority Hub proposal with your notes and left it ready to merge, and built the no-long-p",
+    "screen": "366x655 phone",
+    "look": "chameleon"
+   }
+  },
+  {
    "id": "fmvtq7qj5",
    "project": "Flag Hub",
    "text": "Now that you have created the “aim” feature for flags, and because it’s sitting in the settings toolbar most of the time, I think I want you to eliminate the right-click or long click on mobile to plant a flag. It has gotten in the way more often than it’s been helpful. I’m marking this as flag hub, but it applies to almost all my repos and apps",
