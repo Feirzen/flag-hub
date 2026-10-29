@@ -106,9 +106,38 @@ details summary{cursor:pointer;color:var(--ink3);font-size:13px}
 .digest .dk.proposed{background:var(--warnBg);color:var(--warn)}
 .digest .dk.failed{background:var(--flagBg);color:var(--flag)}
 .shots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.pics{align-self:flex-start;display:inline-flex;align-items:center;gap:6px}
+.pics{display:inline-flex;align-items:center;gap:4px;width:auto;padding:0 9px;font:500 12px var(--fm)}
 .pics svg{flex:none}
-#pastBox{margin-top:4px}
+/* whose turn is it: one plain line on every proposal */
+.turn{display:flex;gap:8px;align-items:flex-start;font:600 14px/1.35 var(--fb);color:var(--ink)}
+.turn i{width:9px;height:9px;border-radius:50%;flex:none;margin-top:5px;background:var(--c)}
+.turn small{display:block;font:400 12.5px/1.4 var(--fb);color:var(--ink3);margin-top:2px}
+.prop .links{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.prop .links a{font-size:13px;color:var(--ink3)}
+.prop.claude{gap:6px}
+.said.clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+a.btn{text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+/* archive: merged and denied, one short line each, folded away */
+#archBox{margin-top:2px}
+.arow{display:flex;gap:8px;align-items:center;padding:7px 0;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink2)}
+.arow:first-child{border-top:0}
+.arow .at{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arow .at a{color:inherit}
+.arow .state{flex:none;font-size:11px;padding:2px 6px}
+.arow .btn{flex:none;padding:4px 9px;font-size:12px}
+.state.shipped{background:var(--okBg);color:var(--okc)}
+/* screenshot viewer: opens on tap, glowing ring shows where the change is */
+.sv{position:fixed;inset:0;z-index:2147483000;background:rgba(8,8,12,.97);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;gap:10px;padding:calc(14px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));overflow-y:auto;animation:in .2s ease}
+.sv .bar{width:100%;max-width:520px;display:flex;gap:8px;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2}
+.sv .seg{display:flex;gap:4px;background:#1b1b22;border:1px solid #2c2c36;border-radius:12px;padding:4px}
+.sv .seg button{border:0;background:transparent;color:#b9b9c4;border-radius:9px;padding:7px 14px;font:600 14px var(--fb);cursor:pointer}
+.sv .seg button[aria-pressed="true"]{background:#ececf1;color:#0f0f13}
+.sv .x{width:38px;height:38px;border-radius:12px;border:1px solid #2c2c36;background:#1b1b22;color:#ececf1;font:600 20px/1 var(--fb);cursor:pointer}
+.sv .hint{font-size:12.5px;color:#b9b9c4;margin:0;text-align:center}
+.sv .pic{position:relative;width:100%;max-width:520px;flex:none}
+.sv .pic img{width:100%;display:block;border-radius:12px;background:#18181f}
+.spot{position:absolute;border-radius:50%;border:3px solid #ffd23f;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 0 0 3px rgba(255,210,63,.3),0 0 22px 6px rgba(255,210,63,.55),inset 0 0 14px rgba(255,210,63,.35);animation:glow 1.5s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 6px rgba(255,210,63,.18),0 0 34px 12px rgba(255,210,63,.75),inset 0 0 18px rgba(255,210,63,.45)}}
 .shots figure{margin:0;display:flex;flex-direction:column;gap:4px}
 .shots img{width:100%;border-radius:10px;border:1px solid var(--line);display:block;background:var(--card)}
 .shots figcaption{font:500 11px var(--fm);color:var(--ink3)}
@@ -230,9 +259,9 @@ textarea.idea:focus{border-color:var(--ink2)}
   </section>
 
   <section aria-labelledby="wc">
-    <h2 id="wc"><span class="ht"><i class="hd" style="--c:var(--okc)"></i>Waiting for Claude</span> <span class="n" id="clN"></span></h2>
-    <div id="cprops" class="list"><p class="empty">Nothing queued. Proposals you approve or send back wait here until the night shift picks them up.</p></div>
-    <details id="pastBox" hidden><summary>Past proposals</summary><div id="past" class="list" style="margin-top:8px"></div></details>
+    <h2 id="wc"><span class="ht"><i class="hd" style="--c:var(--okc)"></i>Waiting on Claude</span> <span class="n" id="clN"></span></h2>
+    <div id="cprops" class="list"><p class="empty">Nothing here. Once you approve or send something back, it waits here until the night shift handles it.</p></div>
+    <details id="archBox" hidden><summary id="archSum">Archive</summary><div id="arch" style="margin-top:6px"></div></details>
   </section>
 
   <section aria-labelledby="rf">
@@ -273,7 +302,7 @@ textarea.idea:focus{border-color:var(--ink2)}
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ago = t => { if (!t) return ""; const m = Math.round((Date.now() - new Date(t)) / 60000); if (m < 1) return "just now"; if (m < 60) return m + "m ago"; const h = Math.round(m / 60); if (h < 24) return h + "h ago"; const d = Math.round(h / 24); return d < 30 ? d + "d ago" : new Date(t).toLocaleDateString(); };
-const S = { keeping: null, notes: {}, shots: new Set(), mode: "light", projects: [], colors: {}, flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude", editing: null, draft: null, labSure: null };
+const S = { keeping: null, notes: {}, mode: "light", projects: [], colors: {}, flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude", editing: null, draft: null, labSure: null };
 const FIRST_REVIEW = 21, NEXT_REVIEW = 45;
 const KEEP_OPTS = [[21, "3 wks"], [45, "6 wks"], [90, "3 mo"]];
 const IDEA_HOME = "Big ideas"; /* where an idea goes when no label is picked */
@@ -305,8 +334,8 @@ function renderMode() {
 function renderTally() {
   const open = S.flags.filter(f => f.status === "open");
   const mine = open.filter(isMine).length, ideas = open.filter(isIdea).length, theirs = open.length - mine - ideas + S.appFlags.length;
-  const wait = S.props.filter(p => p.status === "waiting").length;
-  $("#tally").innerHTML = `<b style="color:var(--flag)">${theirs}</b> for Claude · <b style="color:var(--tealInk)">${mine}</b> for you · <b>${ideas}</b> ideas · <b>${wait}</b> waiting`;
+  const wait = S.props.filter(p => p.status === "waiting" || p.status === "ready").length;
+  $("#tally").innerHTML = `<b style="color:var(--flag)">${theirs}</b> for Claude · <b style="color:var(--tealInk)">${mine}</b> for you · <b>${ideas}</b> ideas · <b${wait ? ' style="color:var(--warn)"' : ""}>${wait}</b> on you`;
 }
 function renderRuns() {
   const r = S.runs[0];
@@ -411,35 +440,78 @@ function renderFlags() {
   $("#doneBox").hidden = !done.length;
   $("#done").innerHTML = done.map(f => flagRow(f, true)).join("");
 }
-const STATE_TXT = { approved: "Approved. Claude gets it ready to merge tonight.", ready: "Ready to merge. Merge it on GitHub, then tap Merged.", shipped: "Shipped", denied: "Denied", redo: "Sent back. Claude will rework it with your notes." };
-const PICI = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/></svg>';
+const PICI = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/></svg>';
 const CAN_UNDO = ["approved", "redo", "denied"]; /* decided, but Claude hasn't acted yet */
+const isPR = p => /\/pull\/\d+/.test(p.link || "");
+/* one plain line per card that answers "who has the ball, and what happens next" */
+function turnLine(p) {
+  const T = (c, big, small) => `<div class="turn"><i style="--c:${c}"></i><span>${big}${small ? `<small>${small}</small>` : ""}</span></div>`;
+  if (p.status === "waiting") return T("var(--warn)", "Your turn: approve, add notes, or deny", "Approving doesn't merge it yet. Claude gets it ready tonight, then it comes back here with a Merge button.");
+  if (p.status === "ready") return isPR(p) ? T("var(--flag)", "Your turn: merge it on GitHub", "It's built and checked. Only you can merge (Claude isn't allowed to). Tap Merge on GitHub, then the green Merge button there.")
+    : T("var(--flag)", "Your turn: it's ready for you", "Open it and follow the steps, then tap Done.");
+  if (p.status === "approved") return T("var(--okc)", "Claude's turn: getting it ready tonight", "Nothing for you to do. It comes back up top when it's ready to merge.");
+  if (p.status === "redo") return T("var(--okc)", "Claude's turn: reworking it with your notes", "Nothing for you to do. The new version comes back up top for a look.");
+  return "";
+}
+function picsBtn(p) {
+  const n = (p.images || []).length;
+  return n ? `<button class="ic pics" data-a="shots" aria-label="See ${n} screenshots" title="Screenshots">${PICI}${n}</button>` : "";
+}
 function propCard(p) {
-  const imgs = p.images || [], open = S.shots.has(p.id);
-  return `<div class="prop" data-id="${p.id}">
-      <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.created)}</span></div>
-      <h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p>
-      ${imgs.length ? `<button class="btn sm ghost pics" data-a="shots" aria-expanded="${open}">${PICI}${open ? "Hide screenshots" : "See screenshots"}</button>` : ""}
-      ${imgs.length && open ? `<div class="shots">${imgs.map((src, k) => `<figure><a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" alt="${k ? "After" : "Before"}" loading="lazy"></a><figcaption>${k ? "after" : "before"}</figcaption></figure>`).join("")}</div>` : ""}
-      ${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">See the full change</a>` : ""}
-      ${p.status === "waiting"
-        ? `<textarea class="pnote" data-note="${p.id}" placeholder="Notes for Claude (optional): what you like, what to change" maxlength="1500">${esc(S.notes[p.id] || "")}</textarea>
-           <div class="row"><button class="btn sm" data-a="approve">${S.notes[p.id] ? "Approve with notes" : "Approve"}</button><button class="btn sm ghost" data-a="deny">${S.notes[p.id] ? "Redo with notes" : "Deny"}</button></div>`
-        : `<span class="state ${p.status}">${STATE_TXT[p.status] || "Denied"}</span>${p.feedback ? `<p class="said">“${esc(p.feedback)}”</p>` : ""}${p.status === "ready" || p.status === "approved" || CAN_UNDO.includes(p.status) ? `<div class="row">${p.status === "ready" || p.status === "approved" ? `<button class="btn sm" data-a="merged">Merged and resolved</button>` : ""}${CAN_UNDO.includes(p.status) ? `<button class="btn sm ghost" data-a="undo">Change my mind</button>` : ""}</div>` : ""}`}
+  if (p.status === "approved" || p.status === "redo") return `<div class="prop claude" data-id="${p.id}">
+      <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.decidedAt || p.created)}</span></div>
+      <h3>${esc(p.title)}</h3>${turnLine(p)}
+      ${p.feedback ? `<p class="said clamp" data-a="unclamp">Your notes: “${esc(p.feedback)}”</p>` : ""}
+      <div class="row"><button class="btn sm ghost" data-a="undo">Change my mind</button></div>
     </div>`;
+  const ready = p.status === "ready";
+  return `<div class="prop" data-id="${p.id}">
+      <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(ready ? p.readyAt || p.created : p.created)}</span>${p.revision ? `<span>· version ${p.revision}</span>` : ""}</div>
+      <h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p>
+      <div class="links">${picsBtn(p)}${p.link && !ready ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">See the full change</a>` : ""}</div>
+      ${turnLine(p)}
+      ${ready
+        ? `<div class="row" style="flex-wrap:wrap">${p.link ? `<a class="btn sm" href="${esc(p.link)}" target="_blank" rel="noopener">${isPR(p) ? "Merge on GitHub" : "Open it"}</a>` : ""}<button class="btn sm ghost" data-a="merged">${isPR(p) ? "I merged it" : "Done"}</button></div>${isPR(p) ? `<p class="note">Forgot to tap I merged it? No problem, the night shift notices on its own.</p>` : ""}`
+        : `<textarea class="pnote" data-note="${p.id}" placeholder="Notes for Claude (optional): what you like, what to change" maxlength="1500">${esc(S.notes[p.id] || "")}</textarea>
+           <div class="row"><button class="btn sm" data-a="approve">${S.notes[p.id] ? "Approve with notes" : "Approve"}</button><button class="btn sm ghost" data-a="deny">${S.notes[p.id] ? "Redo with notes" : "Deny"}</button></div>`}
+    </div>`;
+}
+function archRow(p) {
+  const st = p.status === "shipped" ? '<span class="state shipped">Merged</span>' : '<span class="state denied">Denied</span>';
+  return `<div class="arow" data-id="${p.id}">${st}<span class="at">${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.title)}</a>` : esc(p.title)}</span>${p.status === "denied" ? `<button class="btn sm ghost" data-a="undo">Reopen</button>` : ""}</div>`;
 }
 function renderProps() {
   const a = document.activeElement; if (a && a.classList && a.classList.contains("pnote")) return; /* don't wipe a note mid-typing */
   const newest = (a, b) => (b.decidedAt || b.created || "").localeCompare(a.decidedAt || a.created || "");
-  const mine = S.props.filter(p => p.status === "waiting" || p.status === "ready").sort((a, b) => (a.status === "waiting" ? 0 : 1) - (b.status === "waiting" ? 0 : 1) || (b.created || "").localeCompare(a.created || ""));
+  /* ready to merge sits on top: it's the one that's fully done except for your tap */
+  const mine = S.props.filter(p => p.status === "waiting" || p.status === "ready").sort((a, b) => (a.status === "ready" ? 0 : 1) - (b.status === "ready" ? 0 : 1) || (b.created || "").localeCompare(a.created || ""));
   const claude = S.props.filter(p => p.status === "approved" || p.status === "redo").sort(newest);
-  const past = S.props.filter(p => p.status === "shipped" || p.status === "denied").sort((a, b) => (b.shippedAt || b.decidedAt || b.created || "").localeCompare(a.shippedAt || a.decidedAt || a.created || "")).slice(0, 8);
+  const arch = S.props.filter(p => p.status === "shipped" || p.status === "denied").sort((a, b) => (b.shippedAt || b.decidedAt || b.created || "").localeCompare(a.shippedAt || a.decidedAt || a.created || "")).slice(0, 25);
   $("#propN").textContent = mine.length ? mine.length : "";
   $("#clN").textContent = claude.length ? claude.length : "";
-  $("#props").innerHTML = mine.length ? mine.map(propCard).join("") : `<p class="empty">Nothing waiting. Proposals from the night shift land here for a quick yes or no.</p>`;
-  $("#cprops").innerHTML = claude.length ? claude.map(propCard).join("") : `<p class="empty">Nothing queued. Proposals you approve or send back wait here until the night shift picks them up.</p>`;
-  $("#pastBox").hidden = !past.length;
-  $("#past").innerHTML = past.map(propCard).join("");
+  $("#props").innerHTML = mine.length ? mine.map(propCard).join("") : `<p class="empty">Nothing needs you. New proposals and anything ready to merge show up here.</p>`;
+  $("#cprops").innerHTML = claude.length ? claude.map(propCard).join("") : `<p class="empty">Nothing here. Once you approve or send something back, it waits here until the night shift handles it.</p>`;
+  $("#archBox").hidden = !arch.length;
+  $("#archSum").textContent = `Archive (${arch.length}${arch.length === 25 ? "+" : ""} merged or denied)`;
+  $("#arch").innerHTML = arch.map(archRow).join("");
+}
+/* screenshots open full size on tap; a glowing ring marks the spot when the proposal says where (p.spots) */
+function openShots(p, start) {
+  const imgs = p.images || []; if (!imgs.length) return;
+  const label = k => imgs.length === 2 ? (k ? "After" : "Before") : "Shot " + (k + 1);
+  const spots = (p.spots || []).filter(s => s && isFinite(s.x) && isFinite(s.y));
+  let cur = start != null ? start : imgs.length - 1;
+  const v = document.createElement("div"); v.className = "sv"; v.setAttribute("role", "dialog"); v.setAttribute("aria-label", "Screenshots: " + p.title);
+  const draw = () => {
+    v.innerHTML = `<div class="bar"><div class="seg">${imgs.map((_, k) => `<button data-k="${k}" aria-pressed="${k === cur}">${label(k)}</button>`).join("")}</div><button class="x" aria-label="Close">×</button></div>
+      ${spots.length ? `<p class="hint">The glowing ring shows where to look.</p>` : ""}
+      <div class="pic"><img src="${esc(imgs[cur])}" alt="${label(cur)}">${spots.map(s => `<span class="spot" style="left:${s.x * 100}%;top:${s.y * 100}%;width:${(s.r || .12) * 200}%;aspect-ratio:1"></span>`).join("")}</div>`;
+  };
+  const close = () => { v.remove(); document.removeEventListener("keydown", key); };
+  const key = e => { if (e.key === "Escape") close(); else if (e.key === "ArrowLeft" || e.key === "ArrowRight") { cur = (cur + (e.key === "ArrowRight" ? 1 : imgs.length - 1)) % imgs.length; draw(); } };
+  v.addEventListener("click", e => { const k = e.target.closest("[data-k]"); if (k) { cur = +k.dataset.k; draw(); return; } if (e.target === v || e.target.closest(".x")) close(); });
+  document.addEventListener("keydown", key);
+  draw(); document.body.appendChild(v); v.querySelector(".x").focus();
 }
 function renderApp() {
   $("#appN").textContent = S.appFlags.length ? S.appFlags.length : "";
@@ -539,7 +611,8 @@ document.addEventListener("click", async e => {
       (d.flags || []).forEach(f => { if ((p.flagIds || []).includes(f.id) && f.status !== "done") { f.status = "done"; f.resolvedAt = now; f.resolution = "Shipped: " + p.title; } }); }, "Proposal merged");
     if (ok) renderAll();
   }
-  else if (a === "shots") { S.shots.has(id) ? S.shots.delete(id) : S.shots.add(id); renderProps(); }
+  else if (a === "shots") { const p = S.props.find(x => x.id === id); if (p) openShots(p); }
+  else if (a === "unclamp") b.classList.toggle("clamp");
   else if (a === "undo") {
     const was = S.props.find(x => x.id === id); let moved = false;
     const ok = await save(edit("proposals", p => { if (!CAN_UNDO.includes(p.status)) return; moved = true; (p.history = p.history || []).push({ at: now, status: "reopened", from: p.status }); p.status = "waiting"; delete p.feedback; delete p.decidedAt; }), "Proposal reopened");
