@@ -899,10 +899,12 @@
    "kind": "fix",
    "project": "RetroBat",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Make the shared RetroBat have the intro videos for each console, and add the NAND thing to Wii",
    "id": "rem-39",
-   "reviewedAt": "2026-10-25T05:25:03.909Z"
+   "reviewedAt": "2026-10-25T05:25:03.909Z",
+   "resolvedAt": "2026-10-29T22:30:51.074Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
