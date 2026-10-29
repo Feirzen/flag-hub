@@ -257,7 +257,7 @@
    "project": "Flag Hub",
    "text": "ok so here on the hub, if I approve, deny, or leave comments on something, and then see something else and change my mind, could we allow me to edit it since it's just sitting pending claude's move? Also, I would like a Waiting for Claude section, since I already approved and did everything for it to stop waiting on me, but it still populates that section. Lastly, the screenshots for me to review are awesome, like really. But I would like them to be tiny, or even just show a photos icon for me to tap and THEN bring them up. They take up SO much space as it stands rn.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-26T00:18:50.104Z",
    "reviewedAt": "2026-10-28T13:13:52.676Z",
@@ -1171,12 +1171,13 @@
     "previews/p1025pbtimer/before.png",
     "previews/p1025pbtimer/after.png"
    ],
-   "status": "ready",
+   "status": "shipped",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
    "flagIds": [],
    "decidedAt": "2026-10-25T16:35:29.615Z",
-   "readyAt": "2026-10-28T07:56:46Z"
+   "readyAt": "2026-10-28T07:56:46Z",
+   "shippedAt": "2026-10-29T07:57:25Z"
   },
   {
    "id": "p1025pblist",
@@ -1188,11 +1189,12 @@
     "previews/p1025pblist/before.png",
     "previews/p1025pblist/after.png"
    ],
-   "status": "approved",
+   "status": "ready",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
    "flagIds": [],
-   "decidedAt": "2026-10-25T16:35:41.462Z"
+   "decidedAt": "2026-10-25T16:35:41.462Z",
+   "readyAt": "2026-10-29T07:57:25Z"
   },
   {
    "id": "p1025rbgear",
@@ -1222,12 +1224,30 @@
     "previews/p1025rbfind/before.png",
     "previews/p1025rbfind/after.png"
    ],
-   "status": "ready",
+   "status": "shipped",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
    "flagIds": [],
    "decidedAt": "2026-10-25T16:36:50.100Z",
-   "readyAt": "2026-10-28T07:56:46Z"
+   "readyAt": "2026-10-28T07:56:46Z",
+   "shippedAt": "2026-10-29T07:57:25Z"
+  },
+  {
+   "id": "p1029hubmind",
+   "project": "Flag Hub",
+   "title": "Change your mind, Waiting for Claude, tucked-away screenshots",
+   "summary": "Anything you approved, sent back, or denied gets a Change my mind button until Claude acts on it, and approved or sent-back proposals move to a new Waiting for Claude section. Screenshots now hide behind a small See screenshots button so cards stay short.",
+   "link": "https://github.com/Feirzen/flag-hub/pull/7",
+   "images": [
+    "previews/p1029hubmind/before.png",
+    "previews/p1029hubmind/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-10-29T07:57:25Z",
+   "flagIds": [
+    "fmvoiduns"
+   ],
+   "source": "night shift"
   }
  ],
  "runs": [
@@ -1478,9 +1498,26 @@
      "text": "Calmer timer screen is ready to merge."
     }
    ]
+  },
+  {
+   "at": "2026-10-29T07:57:25Z",
+   "mode": "light",
+   "summary": "Got the smoother Panic Button list ready to merge and built your priority Hub flag as a proposal.",
+   "items": [
+    {
+     "kind": "ready",
+     "project": "Panic Button",
+     "text": "Smoother list (progress line and gentle checks) is ready to merge."
+    },
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "Built your priority Hub flag: change your mind on decisions, a Waiting for Claude section, and screenshots behind a button."
+    }
+   ]
   }
  ],
- "digestAt": "2026-10-28T07:56:46Z",
+ "digestAt": "2026-10-29T07:57:50Z",
  "polish": [
   {
    "app": "panicbutton",
