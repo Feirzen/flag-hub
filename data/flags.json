@@ -405,9 +405,11 @@
    "project": "Claude OS",
    "text": "Claude OS (kiosk)\nYou're right, the artifact frame is the problem. The fix:\n• Host it on GitHub Pages and add it to the iPhone Home Screen as a web app. That opens fullscreen with no Safari bars at all.\n• Turn on Guided Access to lock the phone to it, and set Auto-Lock to Never.\n• Live control: the page checks a small settings file in the repo every 30 seconds or so. You tell me \"alarm at 6:30\" or \"show something funi from any chat, I edit the file, and the phone updates within a minute or two, no reloading. One catch:\n¡OS needs a single tap after launch before it'll play sound.\nLet’s do this sooner than later, just not quite priority",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-20T07:20:30.830Z"
+   "created": "2026-10-20T07:20:30.830Z",
+   "resolvedAt": "2026-10-29T22:29:59.774Z",
+   "resolution": "marked done by you"
   },
   {
    "id": "fmvgbofk1",
