@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvtq7qj5",
+   "project": "Flag Hub",
+   "text": "Now that you have created the “aim” feature for flags, and because it’s sitting in the settings toolbar most of the time, I think I want you to eliminate the right-click or long click on mobile to plant a flag. It has gotten in the way more often than it’s been helpful. I’m marking this as flag hub, but it applies to almost all my repos and apps",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-29T15:56:52.625Z"
+  },
+  {
    "id": "fmvstd7u3",
    "project": "Study Decks",
    "text": "The particle effects on the map of study decks are the same for every version of the Storey and I would love for them to have a couple different options that can move between, like, instead of always just particles, floating up in the ground some could be like a steam or vapor or fog, all animated the same way the particle effect can stay or a third option, being grass or lines from the ground, swinging around and moving.",
@@ -257,7 +266,7 @@
    "project": "Flag Hub",
    "text": "ok so here on the hub, if I approve, deny, or leave comments on something, and then see something else and change my mind, could we allow me to edit it since it's just sitting pending claude's move? Also, I would like a Waiting for Claude section, since I already approved and did everything for it to stop waiting on me, but it still populates that section. Lastly, the screenshots for me to review are awesome, like really. But I would like them to be tiny, or even just show a photos icon for me to tap and THEN bring them up. They take up SO much space as it stands rn.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-26T00:18:50.104Z",
    "reviewedAt": "2026-10-28T13:13:52.676Z",
@@ -1171,12 +1180,13 @@
     "previews/p1025pbtimer/before.png",
     "previews/p1025pbtimer/after.png"
    ],
-   "status": "ready",
+   "status": "shipped",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
    "flagIds": [],
    "decidedAt": "2026-10-25T16:35:29.615Z",
-   "readyAt": "2026-10-28T07:56:46Z"
+   "readyAt": "2026-10-28T07:56:46Z",
+   "shippedAt": "2026-10-29T07:57:25Z"
   },
   {
    "id": "p1025pblist",
@@ -1188,11 +1198,14 @@
     "previews/p1025pblist/before.png",
     "previews/p1025pblist/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
    "flagIds": [],
-   "decidedAt": "2026-10-25T16:35:41.462Z"
+   "decidedAt": "2026-10-25T16:35:41.462Z",
+   "readyAt": "2026-10-29T07:57:25Z",
+   "shippedAt": "2026-10-29T15:40:00.063Z",
+   "mergedBy": "you"
   },
   {
    "id": "p1025rbgear",
@@ -1222,12 +1235,39 @@
     "previews/p1025rbfind/before.png",
     "previews/p1025rbfind/after.png"
    ],
-   "status": "ready",
+   "status": "shipped",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
    "flagIds": [],
    "decidedAt": "2026-10-25T16:36:50.100Z",
-   "readyAt": "2026-10-28T07:56:46Z"
+   "readyAt": "2026-10-28T07:56:46Z",
+   "shippedAt": "2026-10-29T07:57:25Z"
+  },
+  {
+   "id": "p1029hubmind",
+   "project": "Flag Hub",
+   "title": "Change your mind, Waiting for Claude, tucked-away screenshots",
+   "summary": "Anything you approved, sent back, or denied gets a Change my mind button until Claude acts on it, and approved or sent-back proposals move to a new Waiting for Claude section. Screenshots now hide behind a small See screenshots button so cards stay short.",
+   "link": "https://github.com/Feirzen/flag-hub/pull/7",
+   "images": [
+    "previews/p1029hubmind/before.png",
+    "previews/p1029hubmind/after.png"
+   ],
+   "status": "redo",
+   "created": "2026-10-29T07:57:25Z",
+   "flagIds": [
+    "fmvoiduns"
+   ],
+   "source": "night shift",
+   "decidedAt": "2026-10-29T15:54:45.363Z",
+   "feedback": "I think that looks good! I really need it to be simple though, Straightforward and easy for me to see, like did you leave it for me to merge? Did me clicking approve merge it, or do I have to open GitHub? I also don’t want the history of past ones on there anymore, like if it got merged and is in effect, we can just through that in an archive or sum, I really don’t want it filling my screen. And while you’re at it, I’d like the screenshots to take up less of the screen. Sure let me tap and see them bigger but maybe just a photo icon that I can tap for them, not big ones chilling there. Lastly, when differences are small, I’d appreciate a glowing yellow circle or somehow add an indicator to know where to look for the fix. I’m going to mark this as redo, not because you’re suggestion was bad but because I want more done that just that. Don’t come back for another approval, just go ahead and fix, update, and merge it for me! I just really need this process to be smoother, there’s a lot of grey area here in the middle, and I need to know if something is actually waiting on me or on you or is merged or if I have to merge or what. I’d like to be able to say approve and you can merge it for me. Or just merge with the approve button idk.",
+   "history": [
+    {
+     "at": "2026-10-29T15:54:45.363Z",
+     "status": "redo",
+     "feedback": "I think that looks good! I really need it to be simple though, Straightforward and easy for me to see, like did you leave it for me to merge? Did me clicking approve merge it, or do I have to open GitHub? I also don’t want the history of past ones on there anymore, like if it got merged and is in effect, we can just through that in an archive or sum, I really don’t want it filling my screen. And while you’re at it, I’d like the screenshots to take up less of the screen. Sure let me tap and see them bigger but maybe just a photo icon that I can tap for them, not big ones chilling there. Lastly, when differences are small, I’d appreciate a glowing yellow circle or somehow add an indicator to know where to look for the fix. I’m going to mark this as redo, not because you’re suggestion was bad but because I want more done that just that. Don’t come back for another approval, just go ahead and fix, update, and merge it for me! I just really need this process to be smoother, there’s a lot of grey area here in the middle, and I need to know if something is actually waiting on me or on you or is merged or if I have to merge or what. I’d like to be able to say approve and you can merge it for me. Or just merge with the approve button idk."
+    }
+   ]
   }
  ],
  "runs": [
@@ -1478,9 +1518,26 @@
      "text": "Calmer timer screen is ready to merge."
     }
    ]
+  },
+  {
+   "at": "2026-10-29T07:57:25Z",
+   "mode": "light",
+   "summary": "Got the smoother Panic Button list ready to merge and built your priority Hub flag as a proposal.",
+   "items": [
+    {
+     "kind": "ready",
+     "project": "Panic Button",
+     "text": "Smoother list (progress line and gentle checks) is ready to merge."
+    },
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "Built your priority Hub flag: change your mind on decisions, a Waiting for Claude section, and screenshots behind a button."
+    }
+   ]
   }
  ],
- "digestAt": "2026-10-28T07:56:46Z",
+ "digestAt": "2026-10-29T07:57:50Z",
  "polish": [
   {
    "app": "panicbutton",
