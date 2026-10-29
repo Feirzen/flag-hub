@@ -1300,12 +1300,13 @@
      "r": 0.22
     }
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-29T21:04:32Z",
    "flagIds": [
     "fmvtq7qj5"
    ],
-   "source": "night shift"
+   "source": "night shift",
+   "decidedAt": "2026-10-29T21:07:28.817Z"
   }
  ],
  "runs": [
