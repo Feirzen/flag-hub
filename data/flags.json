@@ -1189,12 +1189,14 @@
     "previews/p1025pblist/before.png",
     "previews/p1025pblist/after.png"
    ],
-   "status": "ready",
+   "status": "shipped",
    "created": "2026-10-25T07:31:00Z",
    "source": "weekly polish",
    "flagIds": [],
    "decidedAt": "2026-10-25T16:35:41.462Z",
-   "readyAt": "2026-10-29T07:57:25Z"
+   "readyAt": "2026-10-29T07:57:25Z",
+   "shippedAt": "2026-10-29T15:40:00.063Z",
+   "mergedBy": "you"
   },
   {
    "id": "p1025rbgear",
