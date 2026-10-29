@@ -1,7 +1,7 @@
 {
  "mode": "light",
- "openFlags": 44,
- "waiting": 1,
+ "openFlags": 45,
+ "waiting": 0,
  "lastRun": {
   "at": "2026-10-29T21:04:32Z",
   "summary": "Reworked your priority Hub proposal with your notes and left it ready to merge, and built the no-long-press kit change as a proposal."

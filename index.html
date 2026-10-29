@@ -217,16 +217,36 @@ textarea.idea:focus{border-color:var(--ink2)}
 .lab input[type=color]::-webkit-color-swatch{border:0;border-radius:6px}
 .lab input[type=text]{padding:7px 10px;font-size:14px;border-radius:10px}
 .lab .ln{font:500 11.5px var(--fm);color:var(--ink3);min-width:2.5em;text-align:right}
+/* three lanes: Cloud runs, PC runs, Ideas */
+header{padding-left:58px}
+.raise{position:fixed;z-index:50;top:calc(14px + env(safe-area-inset-top,0px));left:max(14px,env(safe-area-inset-left,0px));width:46px;height:46px;border-radius:15px;border:0;background:var(--flag);color:var(--flagInk);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 18px color-mix(in srgb,var(--flag) 35%,transparent);transition:transform .12s}
+.raise:active{transform:scale(.94)}
+.lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px;position:sticky;top:calc(6px + env(safe-area-inset-top,0px));z-index:40}
+.lanes button{border:0;background:transparent;color:var(--ink3);border-radius:10px;padding:9px 6px;font:600 15px var(--fd);cursor:pointer;display:flex;gap:6px;align-items:center;justify-content:center;position:relative;transition:background .2s,color .2s}
+.lanes button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.lanes .wn{font:500 12px var(--fm);opacity:.7}
+.lanes .ping{position:absolute;top:6px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--warn)}
+.who.two{grid-template-columns:1fr 1fr}
+.sheetbg{position:fixed;inset:0;z-index:2147482000;background:rgba(8,8,12,.6);display:flex;align-items:flex-start;justify-content:center;padding:calc(72px + env(safe-area-inset-top,0px)) 12px 12px;overflow-y:auto;animation:in .2s ease}
+.sheet{width:100%;max-width:560px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.sheet h2{cursor:default}
+.sheet .x{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--ink2);font:600 18px/1 var(--fb);cursor:pointer}
+.lab{grid-template-columns:auto minmax(0,1fr) auto auto auto}
+.lab select{border:1px solid var(--line);background:var(--card2);color:var(--ink2);border-radius:10px;padding:6px 4px;font:13px var(--fb)}
+.who button[data-nl][aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink3)}
+.fedit .lanerow{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--ink3)}
 </style>
 </head>
 <body>
 <script src="kit/kit.js" data-app="flag-hub" data-name="Flag Hub"></script>
 
+<button class="raise" id="raiseBtn" aria-label="Raise a flag" title="Raise a flag"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 3h12l-2.5 4.5L17 12H5" fill="currentColor"/></svg></button>
 <div class="wrap">
   <header>
-    <h1><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 3h12l-2.5 4.5L17 12H5" fill="currentColor"/></svg>Flag Hub</h1>
+    <h1>Flag Hub</h1>
     <div class="tally" id="tally">loading…</div>
   </header>
+  <div class="lanes" id="laneTabs" role="tablist" aria-label="Show"></div>
 
   <section class="connect" id="connect" aria-labelledby="cn" hidden>
     <h2 id="cn">Connect this device</h2>
@@ -246,47 +266,37 @@ textarea.idea:focus{border-color:var(--ink2)}
     <h2 id="ns"><span class="ht"><i class="hd" style="--c:var(--big)"></i>Night shift</span> <span class="n" id="modeSaved"></span></h2>
     <div class="modes" role="group" aria-label="Night shift mode">
       <button class="mode" data-m="off" aria-pressed="false"><span class="dot"></span>Off<small>Skip tonight</small></button>
-      <button class="mode" data-m="light" aria-pressed="true"><span class="dot"></span>Light<small>2 small fixes or 1 proposal</small></button>
-      <button class="mode" data-m="big" aria-pressed="false"><span class="dot"></span>Go Big<small>Bigger builds, more flags</small></button>
+      <button class="mode" data-m="light" aria-pressed="true"><span class="dot"></span>Light<small>About 2 things a night</small></button>
+      <button class="mode" data-m="big" aria-pressed="false"><span class="dot"></span>Go Big<small>About 5 things a night</small></button>
     </div>
+    <p class="note">One switch for both the cloud run (every night) and the PC run (Wed and Sat).</p>
     <p class="lastrun" id="lastrun">No night shift runs yet.</p>
     <div class="digest" id="digest" hidden></div>
   </section>
 
-  <section aria-labelledby="wy">
+  <section aria-labelledby="wy" id="wyBox">
     <h2 id="wy"><span class="ht"><i class="hd" style="--c:var(--warn)"></i>Waiting on you</span> <span class="n" id="propN"></span></h2>
     <div id="props" class="list"><p class="empty">Nothing waiting. Proposals from the night shift land here for a quick yes or no.</p></div>
   </section>
 
-  <section aria-labelledby="wc">
+  <section aria-labelledby="wc" id="wcBox">
     <h2 id="wc"><span class="ht"><i class="hd" style="--c:var(--okc)"></i>Waiting on Claude</span> <span class="n" id="clN"></span></h2>
     <div id="cprops" class="list"><p class="empty">Nothing here. Once you approve or send something back, it waits here until the night shift handles it.</p></div>
     <details id="archBox" hidden><summary id="archSum">Archive</summary><div id="arch" style="margin-top:6px"></div></details>
   </section>
 
-  <section aria-labelledby="rf">
-    <h2 id="rf"><span class="ht"><i class="hd" style="--c:var(--flag)" id="rfMark"></i>Raise a flag</span></h2>
-    <div class="who" id="newWho" role="group" aria-label="Who is this flag for"></div>
-    <div class="chips scroll" id="projChips" role="group" aria-label="Project"></div>
-    <div class="row" id="newProjRow" hidden><input type="text" id="newProj" placeholder="Project name, like Claude OS" maxlength="40"><button class="btn sm" id="addProj">Add</button></div>
-    <textarea id="flagText" placeholder="What did you notice, or what's the idea?" maxlength="1500"></textarea>
-    <label class="prirow"><input type="checkbox" id="flagPri"> <span id="priTxt">Priority: fit this in as soon as possible</span></label>
-    <p class="err" id="flagErr"></p>
-    <div class="row" style="justify-content:space-between"><span class="note" id="sendNote">Small stuff gets fixed overnight. Big stuff comes back as a proposal.</span><button class="btn" id="send">Raise flag</button></div>
-  </section>
-
   <section aria-labelledby="of">
-    <h2 id="of"><span class="ht"><i class="hd" style="--c:var(--okc)"></i>Open flags</span> <span class="n" id="openN"></span></h2>
+    <h2 id="of"><span class="ht"><i class="hd" style="--c:var(--okc)"></i><span id="ofT">Open flags</span></span> <span class="n" id="openN"></span></h2>
     <div class="review" id="review" hidden></div>
     <div class="who" id="tabWho" role="group" aria-label="Show flags for"></div>
     <div class="filters" id="filters"></div>
-    <div id="flags" class="list"><p class="empty">No open flags yet. Raise one above, or plant one from any app's gear menu.</p></div>
+    <div id="flags" class="list"><p class="empty">No open flags yet. Tap the flag button, or plant one from any app's gear menu.</p></div>
     <details id="doneBox"><summary>Recently resolved</summary><div id="done" class="list" style="margin-top:8px"></div></details>
   </section>
 
   <section aria-labelledby="lb" id="labelBox">
     <h2 id="lb"><span class="ht"><i class="hd" style="--c:var(--ink3)"></i>Labels</span> <span class="n" id="labN"></span></h2>
-    <p class="note">Tap a color to change it, or edit a name and press Enter. Deleting a label moves its flags to Unsorted. The night shift finds each app's code by its label (Study Decks, Music Space, and so on), so keep those names as they are.</p>
+    <p class="note">Tap a color to change it, or edit a name and press Enter. Deleting a label moves its flags to Unsorted. The menu on each label sets where it lives: Cloud, PC, or Ideas. The night shift finds each app's code by its label (Study Decks, Music Space, and so on), so keep those names as they are.</p>
     <div id="labs" class="list" style="gap:8px"></div>
     <div class="row"><input type="text" id="newLab" placeholder="New label" maxlength="40"><button class="btn sm" id="addLab">Add</button></div>
   </section>
@@ -295,6 +305,19 @@ textarea.idea:focus{border-color:var(--ink2)}
     <h2 id="af"><span class="ht"><i class="hd" style="--c:var(--ink3)"></i>Sent through GitHub</span> <span class="n" id="appN"></span></h2>
     <div id="appFlags" class="list"></div>
   </section>
+  <div class="sheetbg" id="raiseSheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rf">
+    <h2 id="rf"><span class="ht"><i class="hd" style="--c:var(--flag)" id="rfMark"></i>Raise a flag</span><button class="x" id="raiseX" aria-label="Close">×</button></h2>
+    <div class="who" id="newWho" role="group" aria-label="Who is this flag for"></div>
+    <div class="who two" id="newLane" role="group" aria-label="Where it runs"></div>
+    <div class="chips scroll" id="projChips" role="group" aria-label="Project"></div>
+    <div class="row" id="newProjRow" hidden><input type="text" id="newProj" placeholder="Project name, like Claude OS" maxlength="40"><button class="btn sm" id="addProj">Add</button></div>
+    <textarea id="flagText" placeholder="What did you notice, or what's the idea?" maxlength="1500"></textarea>
+    <label class="prirow"><input type="checkbox" id="flagPri"> <span id="priTxt">Priority: fit this in as soon as possible</span></label>
+    <p class="err" id="flagErr"></p>
+    <div class="row" style="justify-content:space-between"><span class="note" id="sendNote">Small stuff gets fixed overnight. Big stuff comes back as a proposal.</span><button class="btn" id="send">Raise flag</button></div>
+  </div>
+  </div>
   <footer><span id="syncNote">Not synced yet</span><button id="disconnect" hidden>Disconnect this device</button></footer>
 </div>
 
@@ -302,7 +325,8 @@ textarea.idea:focus{border-color:var(--ink2)}
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ago = t => { if (!t) return ""; const m = Math.round((Date.now() - new Date(t)) / 60000); if (m < 1) return "just now"; if (m < 60) return m + "m ago"; const h = Math.round(m / 60); if (h < 24) return h + "h ago"; const d = Math.round(h / 24); return d < 30 ? d + "d ago" : new Date(t).toLocaleDateString(); };
-const S = { keeping: null, notes: {}, mode: "light", projects: [], colors: {}, flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude", editing: null, draft: null, labSure: null };
+const S = { keeping: null, notes: {}, mode: "light", projects: [], colors: {}, flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude", editing: null, draft: null, labSure: null, lanes: {}, lane: "cloud", newLane: "cloud" };
+try { const l = localStorage.getItem("fh.lane"); if (["cloud", "pc", "idea"].includes(l)) S.lane = l; } catch (e) {}
 const FIRST_REVIEW = 21, NEXT_REVIEW = 45;
 const KEEP_OPTS = [[21, "3 wks"], [45, "6 wks"], [90, "3 mo"]];
 const IDEA_HOME = "Big ideas"; /* where an idea goes when no label is picked */
@@ -324,6 +348,14 @@ function pc(name) {
 const FLAGI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 3h12l-2.5 4.5L17 12H5" fill="currentColor"/></svg>';
 const IDEAI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3" stroke-dasharray="2.2 3"/><path d="M5 3h12l-2.5 4.5L17 12H5" stroke-dasharray="2.2 2.6"/></svg>';
 const iconFor = k => k === "idea" ? IDEAI : FLAGI;
+/* lanes: every label lives in Cloud (the nightly run can reach it), PC (only the PC run can), or Ideas. A flag can override its label's lane. */
+const LANE_NAMES = { cloud: "Cloud", pc: "PC", idea: "Ideas" };
+const labLane = p => ["pc", "idea"].includes(S.lanes[p]) ? S.lanes[p] : "cloud";
+const workLane = p => labLane(p) === "pc" ? "pc" : "cloud"; /* where a work flag with this label goes by default */
+const laneOf = f => isIdea(f) ? "idea" : f.lane === "pc" || f.lane === "cloud" ? f.lane : workLane(f.project);
+const propLane = p => p.lane === "pc" || p.lane === "cloud" ? p.lane : p.applyOn === "pc" ? "pc" : workLane(p.project);
+const runLane = r => r.lane || (/^RetroBat/i.test(r.summary || "") ? "pc" : "cloud");
+const inLane = f => laneOf(f) === S.lane;
 const store = Kit.store;
 let busy = false;
 
@@ -333,26 +365,40 @@ function renderMode() {
 }
 function renderTally() {
   const open = S.flags.filter(f => f.status === "open");
-  const mine = open.filter(isMine).length, ideas = open.filter(isIdea).length, theirs = open.length - mine - ideas + S.appFlags.length;
-  const wait = S.props.filter(p => p.status === "waiting" || p.status === "ready").length;
-  $("#tally").innerHTML = `<b style="color:var(--flag)">${theirs}</b> for Claude · <b style="color:var(--tealInk)">${mine}</b> for you · <b>${ideas}</b> ideas · <b${wait ? ' style="color:var(--warn)"' : ""}>${wait}</b> on you`;
+  if (S.lane === "idea") { $("#tally").innerHTML = `<b>${open.filter(isIdea).length}</b> ideas · Claude only gets to these when the cloud flags run out`; return; }
+  const here = open.filter(inLane), mine = here.filter(isMine).length, theirs = here.length - mine + (S.lane === "cloud" ? S.appFlags.length : 0);
+  const wait = S.props.filter(p => p.status === "waiting" && propLane(p) === S.lane).length;
+  $("#tally").innerHTML = `<b style="color:var(--flag)">${theirs}</b> for Claude · <b style="color:var(--tealInk)">${mine}</b> for you · <b${wait ? ' style="color:var(--warn)"' : ""}>${wait}</b> on you`;
 }
 function renderRuns() {
-  const r = S.runs[0];
-  $("#lastrun").textContent = r ? `Last run ${ago(r.at)}: ${r.summary}` : "No night shift runs yet. The first one runs tonight.";
+  const want = S.lane === "pc" ? "pc" : "cloud", r = S.runs.find(x => runLane(x) === want);
+  $("#lastrun").textContent = r ? `Last run ${ago(r.at)}: ${r.summary}` : `No ${want === "pc" ? "PC" : "cloud"} runs yet.`;
   const since = Date.now() - 30 * 3600 * 1000;
-  const items = S.runs.filter(x => new Date(x.at) > since).flatMap(x => x.items || []);
+  const items = S.runs.filter(x => new Date(x.at) > since && runLane(x) === want).flatMap(x => x.items || []);
   const d = $("#digest"); d.hidden = !items.length;
   d.innerHTML = items.map(i => `<div class="dl"><span class="dk ${esc(i.kind)}">${esc(i.kind)}</span><span><b style="font-weight:600;color:var(--ink)">${esc(i.project)}</b> ${esc(i.text)}</span></div>`).join("");
 }
+function renderLanes() {
+  const n = { cloud: 0, pc: 0, idea: 0 }, ping = {};
+  S.flags.filter(f => f.status === "open").forEach(f => n[laneOf(f)]++);
+  n.cloud += S.appFlags.length;
+  S.props.filter(p => p.status === "waiting").forEach(p => ping[propLane(p)] = 1);
+  $("#laneTabs").innerHTML = Object.entries(LANE_NAMES).map(([k, t]) => `<button role="tab" data-lane="${k}" aria-selected="${S.lane === k}">${t} <span class="wn">${n[k]}</span>${ping[k] ? '<i class="ping" title="Something is waiting on you"></i>' : ""}</button>`).join("");
+  const work = S.lane !== "idea";
+  $("#wyBox").hidden = !work; $("#wcBox").hidden = !work;
+  $("#appBox").hidden = S.lane !== "cloud" || !S.appFlags.length;
+  $("#ofT").textContent = work ? "Open flags" : "Ideas";
+}
 function whoBtns(box, cur, counts) {
   /* the tab row carries counts, so it uses the short names to fit a phone */
-  box.innerHTML = (counts ? [["claude", "Claude"], ["you", "Me"], ["idea", "Ideas"]] : [["claude", "For Claude"], ["you", "For me"], ["idea", "Idea"]]).map(([k, t]) =>
+  box.innerHTML = (counts ? [["claude", "Claude"], ["you", "Me"]] : [["claude", "For Claude"], ["you", "For me"], ["idea", "Idea"]]).map(([k, t]) =>
     `<button data-k="${k}" aria-pressed="${cur === k}">${iconFor(k)}${t}${counts ? ` <span class="wn">${counts[k]}</span>` : ""}</button>`).join("");
 }
 const SEND_TXT = { claude: "Raise flag", you: "Add for me", idea: "Add idea" };
 function renderWho() {
   whoBtns($("#newWho"), S.newWho);
+  const nl = $("#newLane"); nl.hidden = S.newWho === "idea";
+  nl.innerHTML = [["cloud", "Cloud run"], ["pc", "PC run"]].map(([k, t]) => `<button data-nl="${k}" aria-pressed="${S.newLane === k}">${t}</button>`).join("");
   const k = S.newWho, you = k === "you", idea = k === "idea";
   $("#rfMark").style.setProperty("--c", you ? "var(--teal)" : idea ? "var(--ink2)" : "var(--flag)");
   ["teal", "idea"].forEach(c => { const on = c === "teal" ? you : idea; $("#send").classList.toggle(c, on); $("#flagText").classList.toggle(c, on); });
@@ -369,11 +415,12 @@ function lastUsed() {
 }
 function renderChips() {
   const box = $("#projChips"), used = lastUsed();
-  const order = S.projects.map((p, i) => [p, i]).sort((a, b) => (used[b[0]] || "").localeCompare(used[a[0]] || "") || a[1] - b[1]).map(x => x[0]);
+  const sheetLane = S.newWho === "idea" ? "idea" : S.newLane;
+  const order = S.projects.filter(p => labLane(p) === sheetLane || p === S.pick).map((p, i) => [p, i]).sort((a, b) => (used[b[0]] || "").localeCompare(used[a[0]] || "") || a[1] - b[1]).map(x => x[0]);
   box.innerHTML = `<button class="chip add" id="addChip">+ New</button>` + order.map(p => `<button class="chip" style="${pc(p)}" aria-pressed="${S.pick === p}" data-p="${esc(p)}"><i class="pd"></i>${esc(p)}</button>`).join("");
   box.querySelectorAll("[data-p]").forEach(b => b.onclick = () => { S.pick = S.pick === b.dataset.p ? null : b.dataset.p; $("#flagErr").textContent = ""; renderChips(); });
   $("#addChip").onclick = () => { const r = $("#newProjRow"); r.hidden = !r.hidden; if (!r.hidden) $("#newProj").focus(); };
-  const inTab = S.flags.filter(f => isOpen(f) && !isStale(f) && tabOf(f) === S.who);
+  const inTab = S.flags.filter(f => isOpen(f) && !isStale(f) && inLane(f) && (S.lane === "idea" || tabOf(f) === S.who));
   const fs = ["all", ...new Set(inTab.map(f => f.project))];
   if (!fs.includes(S.filter)) S.filter = "all";
   $("#filters").innerHTML = fs.length > 2 ? fs.map(p => p === "all" ? `<button class="chip" aria-pressed="${S.filter === p}" data-f="all">All</button>`
@@ -391,7 +438,7 @@ const ICON = {
 };
 /* the pencil: change the words, the label, or who it's for, right in the list */
 function editor(f) {
-  const d = S.draft || { text: f.text, project: f.project, who: tabOf(f) };
+  const d = S.draft || { text: f.text, project: f.project, who: tabOf(f), lane: laneOf(f) === "pc" ? "pc" : "cloud" };
   const projs = S.projects.includes(d.project) ? S.projects : [d.project, ...S.projects];
   return `<div class="fedit">
     <textarea class="ftext" maxlength="1500" aria-label="Flag text">${esc(d.text)}</textarea>
@@ -399,6 +446,7 @@ function editor(f) {
       <select class="fproj" aria-label="Label">${projs.map(p => `<option ${p === d.project ? "selected" : ""}>${esc(p)}</option>`).join("")}</select>
       <div class="chips" role="group" aria-label="Who is this for">${[["claude", "For Claude"], ["you", "For me"], ["idea", "Idea"]].map(([k, t]) => `<button class="chip" data-a="ewho" data-k="${k}" aria-pressed="${d.who === k}">${t}</button>`).join("")}</div>
     </div>
+    ${d.who === "idea" ? "" : `<div class="lanerow">Runs on <div class="chips">${[["cloud", "Cloud"], ["pc", "PC"]].map(([k, t]) => `<button class="chip" data-a="elane" data-k="${k}" aria-pressed="${d.lane === k}">${t}</button>`).join("")}</div></div>`}
     <div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="ecancel">Cancel</button><button class="btn sm" data-a="esave">Save</button></div>
   </div>`;
 }
@@ -423,34 +471,40 @@ function flagRow(f, doneView, reviewView) {
 }
 function renderFlags() {
   const ae = document.activeElement; if (S.editing && ae && ae.closest && ae.closest(".fedit")) return; /* don't wipe an edit mid-typing */
-  const fresh = S.flags.filter(f => isOpen(f) && !isStale(f));
+  const idea = S.lane === "idea";
+  if (!idea && S.who === "idea") S.who = "claude";
+  const fresh = S.flags.filter(f => isOpen(f) && !isStale(f) && inLane(f));
   const counts = { claude: 0, you: 0, idea: 0 }; fresh.forEach(f => counts[tabOf(f)]++);
+  $("#tabWho").hidden = idea;
   whoBtns($("#tabWho"), S.who, counts);
-  const stale = S.flags.filter(isStale).sort((a, b) => touched(a).localeCompare(touched(b)));
+  const stale = S.flags.filter(f => isStale(f) && inLane(f)).sort((a, b) => touched(a).localeCompare(touched(b)));
   const rv = $("#review"); rv.hidden = !stale.length;
   rv.innerHTML = stale.length ? `<h3>Still need these? <span class="n" style="font:500 12px var(--fm);color:var(--warn)">${stale.length}</span></h3>
     <p class="note">Flags that have sat untouched for a while. Keep one and pick when it checks in next.</p>
     <div class="list">${stale.slice(0, 3).map(f => flagRow(f, false, true)).join("")}</div>${stale.length > 3 ? `<p class="note">${stale.length - 3} more after these.</p>` : ""}` : "";
-  const open = fresh.filter(f => tabOf(f) === S.who && (S.filter === "all" || f.project === S.filter))
+  const open = fresh.filter(f => (idea || tabOf(f) === S.who) && (S.filter === "all" || f.project === S.filter))
     .sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0));
   $("#openN").textContent = fresh.length + stale.length || "";
-  const none = S.who === "you" ? "Nothing on your list. Add one above with For me picked." : S.who === "idea" ? "No ideas yet. Add one above with Idea picked." : "No open flags. Raise one above, or plant one from any app's gear menu.";
+  const none = idea ? "No ideas yet. Tap the flag button and pick Idea." : S.who === "you" ? "Nothing on your list here. Tap the flag button and pick For me." : S.lane === "pc" ? "No PC flags. Tap the flag button and pick PC run." : "No open flags. Tap the flag button, or plant one from any app's gear menu.";
   $("#flags").innerHTML = open.length ? open.map(f => flagRow(f, false)).join("") : `<p class="empty">${S.filter === "all" ? none : "Nothing here for " + esc(S.filter) + "."}</p>`;
-  const done = S.flags.filter(f => f.status === "done" || f.status === "dismissed").sort((a, b) => (b.resolvedAt || "").localeCompare(a.resolvedAt || "")).slice(0, 15);
+  const done = S.flags.filter(f => (f.status === "done" || f.status === "dismissed") && inLane(f)).sort((a, b) => (b.resolvedAt || "").localeCompare(a.resolvedAt || "")).slice(0, 15);
   $("#doneBox").hidden = !done.length;
   $("#done").innerHTML = done.map(f => flagRow(f, true)).join("");
 }
 const PICI = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/></svg>';
-const CAN_UNDO = ["approved", "redo", "denied"]; /* decided, but Claude hasn't acted yet */
+const CAN_UNDO = ["approved", "ready", "redo", "denied"]; /* decided, but Claude hasn't acted yet */
 const isPR = p => /\/pull\/\d+/.test(p.link || "");
+const claudeTurn = p => p.status === "approved" || p.status === "ready" || p.status === "redo";
 /* one plain line per card that answers "who has the ball, and what happens next" */
 function turnLine(p) {
   const T = (c, big, small) => `<div class="turn"><i style="--c:${c}"></i><span>${big}${small ? `<small>${small}</small>` : ""}</span></div>`;
-  if (p.status === "waiting") return T("var(--warn)", "Your turn: approve, add notes, or deny", "Approving doesn't merge it yet. Claude gets it ready tonight, then it comes back here with a Merge button.");
-  if (p.status === "ready") return isPR(p) ? T("var(--flag)", "Your turn: merge it on GitHub", "It's built and checked. Only you can merge (Claude isn't allowed to). Tap Merge on GitHub, then the green Merge button there.")
-    : T("var(--flag)", "Your turn: it's ready for you", "Open it and follow the steps, then tap Done.");
-  if (p.status === "approved") return T("var(--okc)", "Claude's turn: getting it ready tonight", "Nothing for you to do. It comes back up top when it's ready to merge.");
+  const pc = propLane(p) === "pc";
+  if (p.status === "waiting") return T("var(--warn)", "Your turn: approve, add notes, or deny",
+    pc ? "Approve and the PC run puts it in next time (Wed or Sat night). Add notes first and it makes your tweaks too."
+       : "Approve and Claude merges it tonight. Add notes first and Claude makes your tweaks, then merges. Can't wait? Merge it yourself on GitHub.");
   if (p.status === "redo") return T("var(--okc)", "Claude's turn: reworking it with your notes", "Nothing for you to do. The new version comes back up top for a look.");
+  if (claudeTurn(p)) return pc ? T("var(--okc)", p.feedback ? "Claude's turn: the PC run adds your tweaks and puts it in" : "Claude's turn: the PC run puts it in", "Nothing for you to do. It runs Wednesday and Saturday nights.")
+    : T("var(--okc)", p.feedback ? "Claude's turn: making your tweaks, then merging tonight" : "Claude's turn: merging it tonight", "Nothing for you to do. Can't wait? Merge it yourself on GitHub, Claude will notice.");
   return "";
 }
 function picsBtn(p) {
@@ -458,22 +512,19 @@ function picsBtn(p) {
   return n ? `<button class="ic pics" data-a="shots" aria-label="See ${n} screenshots" title="Screenshots">${PICI}${n}</button>` : "";
 }
 function propCard(p) {
-  if (p.status === "approved" || p.status === "redo") return `<div class="prop claude" data-id="${p.id}">
+  if (claudeTurn(p)) return `<div class="prop claude" data-id="${p.id}">
       <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.decidedAt || p.created)}</span></div>
       <h3>${esc(p.title)}</h3>${turnLine(p)}
       ${p.feedback ? `<p class="said clamp" data-a="unclamp">Your notes: “${esc(p.feedback)}”</p>` : ""}
-      <div class="row"><button class="btn sm ghost" data-a="undo">Change my mind</button></div>
+      <div class="row" style="flex-wrap:wrap"><button class="btn sm ghost" data-a="undo">Change my mind</button>${p.status !== "redo" && isPR(p) ? `<a class="btn sm ghost" href="${esc(p.link)}" target="_blank" rel="noopener">Merge it myself</a>` : ""}</div>
     </div>`;
-  const ready = p.status === "ready";
   return `<div class="prop" data-id="${p.id}">
-      <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(ready ? p.readyAt || p.created : p.created)}</span>${p.revision ? `<span>· version ${p.revision}</span>` : ""}</div>
+      <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.created)}</span>${p.revision ? `<span>· version ${p.revision}</span>` : ""}</div>
       <h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p>
-      <div class="links">${picsBtn(p)}${p.link && !ready ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">See the full change</a>` : ""}</div>
+      <div class="links">${picsBtn(p)}${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">See the full change</a>` : ""}</div>
       ${turnLine(p)}
-      ${ready
-        ? `<div class="row" style="flex-wrap:wrap">${p.link ? `<a class="btn sm" href="${esc(p.link)}" target="_blank" rel="noopener">${isPR(p) ? "Merge on GitHub" : "Open it"}</a>` : ""}<button class="btn sm ghost" data-a="merged">${isPR(p) ? "I merged it" : "Done"}</button></div>${isPR(p) ? `<p class="note">Forgot to tap I merged it? No problem, the night shift notices on its own.</p>` : ""}`
-        : `<textarea class="pnote" data-note="${p.id}" placeholder="Notes for Claude (optional): what you like, what to change" maxlength="1500">${esc(S.notes[p.id] || "")}</textarea>
-           <div class="row"><button class="btn sm" data-a="approve">${S.notes[p.id] ? "Approve with notes" : "Approve"}</button><button class="btn sm ghost" data-a="deny">${S.notes[p.id] ? "Redo with notes" : "Deny"}</button></div>`}
+      <textarea class="pnote" data-note="${p.id}" placeholder="Notes for Claude (optional): what you like, what to change" maxlength="1500">${esc(S.notes[p.id] || "")}</textarea>
+      <div class="row"><button class="btn sm" data-a="approve">${S.notes[p.id] ? "Approve with notes" : "Approve"}</button><button class="btn sm ghost" data-a="deny">${S.notes[p.id] ? "Redo with notes" : "Deny"}</button></div>
     </div>`;
 }
 function archRow(p) {
@@ -484,12 +535,13 @@ function renderProps() {
   const a = document.activeElement; if (a && a.classList && a.classList.contains("pnote")) return; /* don't wipe a note mid-typing */
   const newest = (a, b) => (b.decidedAt || b.created || "").localeCompare(a.decidedAt || a.created || "");
   /* ready to merge sits on top: it's the one that's fully done except for your tap */
-  const mine = S.props.filter(p => p.status === "waiting" || p.status === "ready").sort((a, b) => (a.status === "ready" ? 0 : 1) - (b.status === "ready" ? 0 : 1) || (b.created || "").localeCompare(a.created || ""));
-  const claude = S.props.filter(p => p.status === "approved" || p.status === "redo").sort(newest);
-  const arch = S.props.filter(p => p.status === "shipped" || p.status === "denied").sort((a, b) => (b.shippedAt || b.decidedAt || b.created || "").localeCompare(a.shippedAt || a.decidedAt || a.created || "")).slice(0, 25);
+  const here = S.props.filter(p => propLane(p) === S.lane);
+  const mine = here.filter(p => p.status === "waiting").sort((a, b) => (b.created || "").localeCompare(a.created || ""));
+  const claude = here.filter(claudeTurn).sort(newest);
+  const arch = here.filter(p => p.status === "shipped" || p.status === "denied").sort((a, b) => (b.shippedAt || b.decidedAt || b.created || "").localeCompare(a.shippedAt || a.decidedAt || a.created || "")).slice(0, 25);
   $("#propN").textContent = mine.length ? mine.length : "";
   $("#clN").textContent = claude.length ? claude.length : "";
-  $("#props").innerHTML = mine.length ? mine.map(propCard).join("") : `<p class="empty">Nothing needs you. New proposals and anything ready to merge show up here.</p>`;
+  $("#props").innerHTML = mine.length ? mine.map(propCard).join("") : `<p class="empty">Nothing needs you. New proposals show up here.</p>`;
   $("#cprops").innerHTML = claude.length ? claude.map(propCard).join("") : `<p class="empty">Nothing here. Once you approve or send something back, it waits here until the night shift handles it.</p>`;
   $("#archBox").hidden = !arch.length;
   $("#archSum").textContent = `Archive (${arch.length}${arch.length === 25 ? "+" : ""} merged or denied)`;
@@ -521,14 +573,15 @@ function renderApp() {
 function renderLabels() {
   const ae = document.activeElement; if (ae && ae.closest && ae.closest("#labs") && ae.type === "text") return;
   const n = {}; S.flags.filter(isOpen).forEach(f => n[f.project] = (n[f.project] || 0) + 1);
-  $("#labN").textContent = S.projects.length || "";
-  $("#labs").innerHTML = S.projects.map(p => {
+  const labs = S.projects.filter(p => labLane(p) === S.lane);
+  $("#labN").textContent = labs.length || "";
+  $("#labs").innerHTML = labs.map(p => {
     const c = /^#[0-9a-f]{6}$/i.test(S.colors[p] || "") ? S.colors[p] : autoColor(p), sure = S.labSure === p;
-    return `<div class="lab" data-lab="${esc(p)}"><input type="color" value="${c}" aria-label="Color for ${esc(p)}"><input type="text" value="${esc(p)}" maxlength="40" aria-label="Name"><span class="ln" title="open flags">${n[p] || 0}</span>${p === "Unsorted" ? `<span class="ic" style="visibility:hidden"></span>`
+    return `<div class="lab" data-lab="${esc(p)}"><input type="color" value="${c}" aria-label="Color for ${esc(p)}"><input type="text" value="${esc(p)}" maxlength="40" aria-label="Name"><span class="ln" title="open flags">${n[p] || 0}</span><select class="lsel" aria-label="Where ${esc(p)} lives">${Object.entries(LANE_NAMES).map(([k, t]) => `<option value="${k}" ${labLane(p) === k ? "selected" : ""}>${t}</option>`).join("")}</select>${p === "Unsorted" ? `<span class="ic" style="visibility:hidden"></span>`
       : `<button class="ic ${sure ? "sure" : ""}" data-lab-del aria-label="${sure ? "Tap again to delete" : "Delete label"}">${ICON.del}</button>`}</div>`;
   }).join("");
 }
-function renderAll() { renderMode(); renderTally(); renderRuns(); renderWho(); renderChips(); renderFlags(); renderProps(); renderApp(); renderLabels(); }
+function renderAll() { renderLanes(); renderMode(); renderTally(); renderRuns(); renderWho(); renderChips(); renderFlags(); renderProps(); renderApp(); renderLabels(); }
 
 /* ---------- actions ---------- */
 async function setMode(m) {
@@ -557,9 +610,10 @@ async function sendFlag() {
   $("#send").disabled = true; $("#send").textContent = "Saving…";
   const f = { id: "f" + Date.now().toString(36), project, text, kind: k === "claude" ? "fix" : k, status: "open", source: "hub", created: new Date().toISOString() };
   if ($("#flagPri").checked) f.priority = true;
+  if (k !== "idea" && S.newLane !== workLane(project)) f.lane = S.newLane;
   const ok = await save(d => { d.flags = d.flags || []; d.flags.unshift(f); d.projects = d.projects || []; if (!d.projects.includes(project)) d.projects.push(project); }, (k === "idea" ? "Idea: " : "Flag: ") + project);
   const label = SEND_TXT[k];
-  if (ok) { $("#flagText").value = ""; $("#flagPri").checked = false; err.textContent = ""; $("#send").textContent = k === "claude" ? "Raised" : "Added"; setTimeout(() => $("#send").textContent = SEND_TXT[S.newWho], 1400); if (S.who !== S.newWho) { S.who = S.newWho; S.filter = "all"; renderChips(); renderFlags(); } }
+  if (ok) { $("#flagText").value = ""; $("#flagPri").checked = false; err.textContent = ""; $("#send").textContent = k === "claude" ? "Raised" : "Added"; setTimeout(() => $("#send").textContent = SEND_TXT[S.newWho], 1400); const goLane = k === "idea" ? "idea" : S.newLane; if (k !== "idea") S.who = k; S.filter = "all"; setTimeout(closeRaise, 500); if (S.lane !== goLane) setLane(goLane); else renderAll(); }
   else { $("#send").textContent = label; if (store.token()) err.textContent = "That flag didn't save. Try again in a moment."; }
   $("#send").disabled = false;
 }
@@ -567,14 +621,35 @@ async function addProject() {
   const name = $("#newProj").value.trim();
   if (!name) { $("#newProj").focus(); return; }
   if (!S.projects.includes(name)) S.projects = [...S.projects, name];
+  const ln = S.newWho === "idea" ? "idea" : S.newLane; if (ln !== "cloud" && !S.lanes[name]) S.lanes[name] = ln;
   S.pick = name; $("#newProj").value = ""; $("#newProjRow").hidden = true; renderChips();
-  save(d => { d.projects = d.projects || []; if (!d.projects.includes(name)) d.projects.push(name); }, "Add project: " + name);
+  save(d => { d.projects = d.projects || []; if (!d.projects.includes(name)) d.projects.push(name); if (ln !== "cloud") { d.lanes = d.lanes || {}; if (!d.lanes[name]) d.lanes[name] = ln; } }, "Add project: " + name);
 }
+/* the raise sheet opens from the flag button, set to whichever tab you're on */
+function openRaise() {
+  if (S.lane === "idea") S.newWho = "idea"; else { S.newLane = S.lane; if (S.newWho === "idea") S.newWho = "claude"; }
+  if (S.pick && !(labLane(S.pick) === (S.newWho === "idea" ? "idea" : S.newLane))) S.pick = null;
+  renderWho(); renderChips();
+  $("#raiseSheet").hidden = false; setTimeout(() => $("#flagText").focus(), 50);
+}
+function closeRaise() { $("#raiseSheet").hidden = true; $("#flagErr").textContent = ""; }
+function setLane(l) {
+  S.lane = l; S.filter = "all"; S.editing = null; S.draft = null;
+  try { localStorage.setItem("fh.lane", l); } catch (e) {}
+  renderAll(); renderMode();
+}
+$("#raiseBtn").onclick = openRaise;
+$("#raiseX").onclick = closeRaise;
+$("#raiseSheet").addEventListener("click", e => { if (e.target.id === "raiseSheet") closeRaise(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#raiseSheet").hidden) closeRaise(); });
+$("#laneTabs").addEventListener("click", e => { const b = e.target.closest("[data-lane]"); if (b) setLane(b.dataset.lane); });
 document.addEventListener("click", async e => {
   const m = e.target.closest(".mode"); if (m) return setMode(m.dataset.m);
+  const nb = e.target.closest("[data-nl]");
+  if (nb) { S.newLane = nb.dataset.nl; if (S.pick && labLane(S.pick) !== S.newLane) S.pick = null; renderWho(); renderChips(); return; }
   const wb = e.target.closest(".who button");
   if (wb) {
-    if (wb.parentElement.id === "newWho") { S.newWho = wb.dataset.k; renderWho(); }
+    if (wb.parentElement.id === "newWho") { const was = S.newWho; S.newWho = wb.dataset.k; if ((was === "idea") !== (S.newWho === "idea")) S.pick = null; renderWho(); renderChips(); }
     else { S.who = wb.dataset.k; S.filter = "all"; renderChips(); renderFlags(); }
     return;
   }
@@ -586,13 +661,15 @@ document.addEventListener("click", async e => {
   else if (a === "keepask") { S.keeping = S.keeping === id ? null : id; renderFlags(); }
   else if (a === "keep") { const d = +b.dataset.days || NEXT_REVIEW; S.keeping = null; save(edit("flags", f => { f.reviewedAt = now; f.reviewEvery = d; }), "Flag kept"); }
   else if (a === "edit") { const f = S.flags.find(x => x.id === id); if (!f) return; S.editing = id; S.draft = { text: f.text, project: f.project, who: tabOf(f) }; renderFlags(); const t = document.querySelector(`#flags [data-id="${id}"] .ftext`); if (t) { t.style.height = Math.min(t.scrollHeight + 4, 360) + "px"; t.focus(); t.setSelectionRange(t.value.length, t.value.length); } }
-  else if (a === "ewho") { S.draft.who = b.dataset.k; b.parentElement.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b)); }
+  else if (a === "ewho") { S.draft.who = b.dataset.k; b.blur(); renderFlags(); }
+  else if (a === "elane") { S.draft.lane = b.dataset.k; b.parentElement.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b)); }
   else if (a === "ecancel") { S.editing = null; S.draft = null; b.blur(); renderFlags(); }
   else if (a === "esave") {
     const d = S.draft, text = (d.text || "").trim(); if (!text) { row.querySelector(".ftext").focus(); return; }
     b.disabled = true; b.textContent = "Saving…";
     const ok = await save(edit("flags", f => {
       f.text = text; f.project = d.project; f.editedAt = now; f.reviewedAt = now;
+      if (d.who === "idea" || d.lane === workLane(d.project)) delete f.lane; else f.lane = d.lane;
       if (d.who !== tabOf(f)) { f.kind = d.who === "claude" ? (f.prevKind && f.prevKind !== "you" && f.prevKind !== "idea" ? f.prevKind : "fix") : d.who; delete f.prevKind; }
     }), "Flag edited");
     if (ok) { S.editing = null; S.draft = null; document.activeElement && document.activeElement.blur(); renderAll(); }
@@ -640,6 +717,7 @@ document.addEventListener("change", e => {
   if (t.classList.contains("fproj") && S.draft) { S.draft.project = t.value; return; }
   const lab = t.closest("[data-lab]"); if (!lab) return;
   const name = lab.dataset.lab;
+  if (t.classList.contains("lsel")) { const v = t.value; if (v === "cloud") delete S.lanes[name]; else S.lanes[name] = v; renderAll(); save(d => { d.lanes = d.lanes || {}; if (v === "cloud") delete d.lanes[name]; else d.lanes[name] = v; }, `Label ${name} moved to ${LANE_NAMES[v]}`); return; }
   if (t.type === "color") { S.colors[name] = t.value; renderChips(); renderFlags(); save(d => { d.colors = d.colors || {}; d.colors[name] = t.value; }, "Label color: " + name); }
   else if (t.type === "text") renameLabel(name, t.value.trim(), t);
 });
@@ -649,11 +727,13 @@ function renameLabel(old, nu, input) {
   const move = p => p === old ? nu : p;
   if (S.pick === old) S.pick = nu;
   if (S.filter === old) S.filter = nu;
+  if (S.lanes[old]) { S.lanes[nu] = S.lanes[old]; delete S.lanes[old]; }
   input.blur();
   save(d => {
     d.projects = [...new Set((d.projects || []).map(move))];
     (d.flags || []).forEach(f => f.project = move(f.project));
     (d.proposals || []).forEach(p => p.project = move(p.project));
+    if (d.lanes && d.lanes[old]) { d.lanes[nu] = d.lanes[old]; delete d.lanes[old]; }
     if (d.colors && d.colors[old]) { if (!d.colors[nu]) d.colors[nu] = d.colors[old]; delete d.colors[old]; }
   }, `Label renamed: ${old} to ${nu}`);
 }
@@ -672,8 +752,8 @@ function addLabel() {
   const name = $("#newLab").value.trim(); if (!name) { $("#newLab").focus(); return; }
   $("#newLab").value = "";
   if (S.projects.includes(name)) return;
-  S.projects = [...S.projects, name]; renderLabels(); renderChips();
-  save(d => { d.projects = d.projects || []; if (!d.projects.includes(name)) d.projects.push(name); }, "Add label: " + name);
+  const ln = S.lane; S.projects = [...S.projects, name]; if (ln !== "cloud") S.lanes[name] = ln; renderLabels(); renderChips();
+  save(d => { d.projects = d.projects || []; if (!d.projects.includes(name)) d.projects.push(name); if (ln !== "cloud") { d.lanes = d.lanes || {}; d.lanes[name] = ln; } }, "Add label: " + name);
 }
 document.addEventListener("click", e => { const b = e.target.closest("[data-lab-del]"); if (b) deleteLabel(b.closest("[data-lab]").dataset.lab); });
 document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.closest && e.target.closest("[data-lab]") && e.target.type === "text") e.target.blur(); }); /* blur fires change */
@@ -702,6 +782,7 @@ $("#flagText").addEventListener("input", () => $("#flagErr").textContent = "");
 function apply(d) {
   S.projects = d.projects || [];
   S.colors = d.colors || {};
+  S.lanes = d.lanes || {};
   S.flags = (d.flags || []).slice().sort((a, b) => (b.created || "").localeCompare(a.created || ""));
   S.props = d.proposals || [];
   S.runs = (d.runs || []).slice().sort((a, b) => (b.at || "").localeCompare(a.at || ""));

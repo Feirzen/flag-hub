@@ -316,11 +316,12 @@
    "id": "fmvio9zbk",
    "project": "RetroBat Wizard",
    "text": "So the upload speed on admin additions to the online library is abysmal. I’m clocking 3.5-4 MB/s. When I move a file onto the HDD from the computer I get 100 MB/s, and the upload speed on a ookla speed test in my browser is 39 MB/s. Why is it so low? It should be way closer to 40, right? Can we make it more efficient somehow? Also, maybe notify me and tell me- what happens if I close the wizard mid upload? Can you make it so it keeps uploading, or even just prompts you with a “are you sure?, you’ve got some files still uploading!” Or sum like that? Like can I have it sit in the background instead of closing when I open Retrobat with it only when uploading files? Idk, I would love for it to be faster, and not be worried about closing it and cutting off the upload you know?",
-   "kind": "fix",
-   "status": "proposed",
+   "kind": "you",
+   "status": "open",
    "source": "hub",
    "created": "2026-10-21T22:17:10.160Z",
-   "note": "Speed: speed tests show megabits, file copies show megabytes. 39 Mbps is about 4.9 MB/s, so 3.5 to 4 MB/s is already close to the most your connection can send, and the wizard's upload code is already lean. Closing mid-upload used to kill it silently (PLAY closes the wizard too). The proposal fixes that: it asks, and can keep uploading from the taskbar while you play."
+   "note": "Check whether RetroBat 3.1 already has the upload keep-alive. The PC note is at https://github.com/Feirzen/retrobat-wizard/blob/claude/tender-babbage-yk92p3/FOR-THE-PC/2026-10-23-upload-keepalive.md",
+   "reviewedAt": "2026-10-29T21:35:42Z"
   },
   {
    "id": "fmviki81c",
@@ -1026,17 +1027,22 @@
    "flagIds": [
     "fmvio9zbk"
    ],
-   "status": "redo",
+   "status": "denied",
    "created": "2026-10-23T02:45:46Z",
    "source": "manual run",
    "applyOn": "pc",
-   "decidedAt": "2026-10-25T19:42:07.810Z",
+   "decidedAt": "2026-10-29T21:35:42Z",
    "feedback": "Absolutely yes for this, im all for it, but let me finish updating retrobat to 3.1 first, and this will be a part of it- I’ll handle it. Thanks though",
    "history": [
     {
      "at": "2026-10-25T19:42:07.810Z",
      "status": "redo",
      "feedback": "Absolutely yes for this, im all for it, but let me finish updating retrobat to 3.1 first, and this will be a part of it- I’ll handle it. Thanks though"
+    },
+    {
+     "at": "2026-10-29T21:35:42Z",
+     "status": "denied",
+     "note": "Moved to a For me flag (he will check if 3.1 already has it)"
     }
    ]
   },
@@ -1172,7 +1178,8 @@
     "Black Ops III: Zombies Chronicles"
    ],
    "hideRatedM": true,
-   "listUpdatedAt": "2026-10-23T05:01:22Z"
+   "listUpdatedAt": "2026-10-23T05:01:22Z",
+   "lane": "pc"
   },
   {
    "id": "p1025pbtimer",
@@ -1610,5 +1617,13 @@
    "app": "retrobat-wizard",
    "at": "2026-10-25T07:31:00Z"
   }
- ]
+ ],
+ "lanes": {
+  "RetroBat": "pc",
+  "RetroBat Wizard": "pc",
+  "3DS Setup": "pc",
+  "Jellyfin": "pc",
+  "Home Assistant": "pc",
+  "Big ideas": "idea"
+ }
 }
