@@ -268,11 +268,13 @@
    "project": "Flag Hub",
    "text": "ok so here on the hub, if I approve, deny, or leave comments on something, and then see something else and change my mind, could we allow me to edit it since it's just sitting pending claude's move? Also, I would like a Waiting for Claude section, since I already approved and did everything for it to stop waiting on me, but it still populates that section. Lastly, the screenshots for me to review are awesome, like really. But I would like them to be tiny, or even just show a photos icon for me to tap and THEN bring them up. They take up SO much space as it stands rn.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-26T00:18:50.104Z",
    "reviewedAt": "2026-10-28T13:13:52.676Z",
-   "priority": true
+   "priority": true,
+   "resolvedAt": "2026-10-29T21:11:16.994Z",
+   "resolution": "Shipped: Whose turn it is, Merge button, archive, photo button"
   },
   {
    "id": "fmvo8katu",
@@ -1255,7 +1257,7 @@
     "previews/p1029hubmind/before.png",
     "previews/p1029hubmind/after.png"
    ],
-   "status": "ready",
+   "status": "shipped",
    "created": "2026-10-29T07:57:25Z",
    "flagIds": [
     "fmvoiduns"
@@ -1283,7 +1285,9 @@
      "y": 0.39,
      "r": 0.3
     }
-   ]
+   ],
+   "shippedAt": "2026-10-29T21:11:16.994Z",
+   "mergedBy": "you"
   },
   {
    "id": "p1029kitpress",
