@@ -24,12 +24,13 @@
      data-look="off"  -> never touches the app's colors, no Look panel
      data-gear="off"  -> no gear; a small flag button sits bottom-left instead
                          (data-button="off" hides it when the app has its own flag entry)
-     data-longpress   -> "on"/"off" (default: on with the full kit, off in flags-only mode) */
+     data-longpress   -> "on" brings back long-press (phone) and right-click (computer) to plant a flag.
+                         Off by default: Plant a flag and Aim in the gear do the job without getting in the way. */
   const opt = k => (me && me.dataset[k]) || "";
   const LOOK = opt("look") !== "off";
   const GEAR = opt("gear") !== "off";
   const FLOATBTN = !GEAR && opt("button") !== "off";
-  const LONGPRESS = opt("longpress") ? opt("longpress") === "on" : LOOK;
+  const LONGPRESS = opt("longpress") === "on";
   /* window.KitConfig (set by the app before this file runs) lets an app wire the kit into itself:
        gear: "#gear"        use the app's own settings button instead of adding a second one
        look: { get, set, tone, lock, reroll }   the app paints its own looks; the kit is just the controls
@@ -443,7 +444,7 @@
       <div class="fk-h"><span>Raise a flag</span><button class="fk-x" aria-label="Close">${IC.x}</button></div>
       <button data-a="plant">${IC.pin}<span>Plant a flag<small>Tap the exact thing you mean</small></span></button>
       <button data-a="general">${IC.chat}<span>General feedback<small>About ${esc(NAME)} as a whole</small></span></button>
-      <p class="fk-hint" style="margin-top:0">${LONGPRESS ? "Tip: long-press anything (or right-click on a computer) to plant a flag right there." : "Tip: on a computer, right-click anything to plant a flag right there."}</p></div>`);
+      ${LONGPRESS ? `<p class="fk-hint" style="margin-top:0">Tip: long-press anything (or right-click on a computer) to plant a flag right there.</p>` : ""}</div>`);
     p.querySelector(".fk-x").onclick = closePanel;
     p.querySelector('[data-a="plant"]').onclick = () => { closeAll(); startPlant(); };
     p.querySelector('[data-a="general"]').onclick = () => { closeAll(); openSheet(null); };
@@ -607,6 +608,7 @@
   document.addEventListener("touchmove", e => { if (lp && lpXY) { const p = e.touches[0]; if (Math.hypot(p.clientX - lpXY[0], p.clientY - lpXY[1]) > 10) cancelLP(); } }, { passive: true });
   document.addEventListener("touchend", cancelLP, { passive: true });
   document.addEventListener("contextmenu", e => {
+    if (!LONGPRESS) return; /* the normal right-click and long-press menus stay untouched */
     if (e.target.closest(".fk") || e.target.closest("input,textarea,select,[contenteditable]") || e.shiftKey) return;
     if ("ontouchstart" in window && matchMedia("(pointer:coarse)").matches) { e.preventDefault(); return; }
     e.preventDefault(); place(e.target, e.clientX, e.clientY);
