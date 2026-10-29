@@ -106,6 +106,9 @@ details summary{cursor:pointer;color:var(--ink3);font-size:13px}
 .digest .dk.proposed{background:var(--warnBg);color:var(--warn)}
 .digest .dk.failed{background:var(--flagBg);color:var(--flag)}
 .shots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pics{align-self:flex-start;display:inline-flex;align-items:center;gap:6px}
+.pics svg{flex:none}
+#pastBox{margin-top:4px}
 .shots figure{margin:0;display:flex;flex-direction:column;gap:4px}
 .shots img{width:100%;border-radius:10px;border:1px solid var(--line);display:block;background:var(--card)}
 .shots figcaption{font:500 11px var(--fm);color:var(--ink3)}
@@ -226,6 +229,12 @@ textarea.idea:focus{border-color:var(--ink2)}
     <div id="props" class="list"><p class="empty">Nothing waiting. Proposals from the night shift land here for a quick yes or no.</p></div>
   </section>
 
+  <section aria-labelledby="wc">
+    <h2 id="wc"><span class="ht"><i class="hd" style="--c:var(--okc)"></i>Waiting for Claude</span> <span class="n" id="clN"></span></h2>
+    <div id="cprops" class="list"><p class="empty">Nothing queued. Proposals you approve or send back wait here until the night shift picks them up.</p></div>
+    <details id="pastBox" hidden><summary>Past proposals</summary><div id="past" class="list" style="margin-top:8px"></div></details>
+  </section>
+
   <section aria-labelledby="rf">
     <h2 id="rf"><span class="ht"><i class="hd" style="--c:var(--flag)" id="rfMark"></i>Raise a flag</span></h2>
     <div class="who" id="newWho" role="group" aria-label="Who is this flag for"></div>
@@ -264,7 +273,7 @@ textarea.idea:focus{border-color:var(--ink2)}
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ago = t => { if (!t) return ""; const m = Math.round((Date.now() - new Date(t)) / 60000); if (m < 1) return "just now"; if (m < 60) return m + "m ago"; const h = Math.round(m / 60); if (h < 24) return h + "h ago"; const d = Math.round(h / 24); return d < 30 ? d + "d ago" : new Date(t).toLocaleDateString(); };
-const S = { keeping: null, notes: {}, mode: "light", projects: [], colors: {}, flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude", editing: null, draft: null, labSure: null };
+const S = { keeping: null, notes: {}, shots: new Set(), mode: "light", projects: [], colors: {}, flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude", editing: null, draft: null, labSure: null };
 const FIRST_REVIEW = 21, NEXT_REVIEW = 45;
 const KEEP_OPTS = [[21, "3 wks"], [45, "6 wks"], [90, "3 mo"]];
 const IDEA_HOME = "Big ideas"; /* where an idea goes when no label is picked */
@@ -403,22 +412,34 @@ function renderFlags() {
   $("#done").innerHTML = done.map(f => flagRow(f, true)).join("");
 }
 const STATE_TXT = { approved: "Approved. Claude gets it ready to merge tonight.", ready: "Ready to merge. Merge it on GitHub, then tap Merged.", shipped: "Shipped", denied: "Denied", redo: "Sent back. Claude will rework it with your notes." };
-function renderProps() {
-  const a = document.activeElement; if (a && a.classList && a.classList.contains("pnote")) return; /* don't wipe a note mid-typing */
-  const rank = p => p.status === "waiting" ? 0 : p.status === "ready" ? 1 : 2;
-  const list = [...S.props].sort((a, b) => rank(a) - rank(b) || (b.created || "").localeCompare(a.created || "")).slice(0, 12);
-  const w = S.props.filter(p => p.status === "waiting" || p.status === "ready").length;
-  $("#propN").textContent = w ? w : "";
-  $("#props").innerHTML = list.length ? list.map(p => `<div class="prop" data-id="${p.id}">
+const PICI = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/></svg>';
+const CAN_UNDO = ["approved", "redo", "denied"]; /* decided, but Claude hasn't acted yet */
+function propCard(p) {
+  const imgs = p.images || [], open = S.shots.has(p.id);
+  return `<div class="prop" data-id="${p.id}">
       <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.created)}</span></div>
       <h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p>
-      ${(p.images || []).length ? `<div class="shots">${p.images.map((src, k) => `<figure><a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" alt="${k ? "After" : "Before"}" loading="lazy"></a><figcaption>${k ? "after" : "before"}</figcaption></figure>`).join("")}</div>` : ""}
-      ${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">See the before and after</a>` : ""}
+      ${imgs.length ? `<button class="btn sm ghost pics" data-a="shots" aria-expanded="${open}">${PICI}${open ? "Hide screenshots" : "See screenshots"}</button>` : ""}
+      ${imgs.length && open ? `<div class="shots">${imgs.map((src, k) => `<figure><a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" alt="${k ? "After" : "Before"}" loading="lazy"></a><figcaption>${k ? "after" : "before"}</figcaption></figure>`).join("")}</div>` : ""}
+      ${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">See the full change</a>` : ""}
       ${p.status === "waiting"
         ? `<textarea class="pnote" data-note="${p.id}" placeholder="Notes for Claude (optional): what you like, what to change" maxlength="1500">${esc(S.notes[p.id] || "")}</textarea>
            <div class="row"><button class="btn sm" data-a="approve">${S.notes[p.id] ? "Approve with notes" : "Approve"}</button><button class="btn sm ghost" data-a="deny">${S.notes[p.id] ? "Redo with notes" : "Deny"}</button></div>`
-        : `<span class="state ${p.status}">${STATE_TXT[p.status] || "Denied"}</span>${p.feedback ? `<p class="said">“${esc(p.feedback)}”</p>` : ""}${p.status === "ready" || p.status === "approved" ? `<div class="row"><button class="btn sm" data-a="merged">Merged and resolved</button></div>` : ""}`}
-    </div>`).join("") : `<p class="empty">Nothing waiting. Proposals from the night shift land here for a quick yes or no.</p>`;
+        : `<span class="state ${p.status}">${STATE_TXT[p.status] || "Denied"}</span>${p.feedback ? `<p class="said">“${esc(p.feedback)}”</p>` : ""}${p.status === "ready" || p.status === "approved" || CAN_UNDO.includes(p.status) ? `<div class="row">${p.status === "ready" || p.status === "approved" ? `<button class="btn sm" data-a="merged">Merged and resolved</button>` : ""}${CAN_UNDO.includes(p.status) ? `<button class="btn sm ghost" data-a="undo">Change my mind</button>` : ""}</div>` : ""}`}
+    </div>`;
+}
+function renderProps() {
+  const a = document.activeElement; if (a && a.classList && a.classList.contains("pnote")) return; /* don't wipe a note mid-typing */
+  const newest = (a, b) => (b.decidedAt || b.created || "").localeCompare(a.decidedAt || a.created || "");
+  const mine = S.props.filter(p => p.status === "waiting" || p.status === "ready").sort((a, b) => (a.status === "waiting" ? 0 : 1) - (b.status === "waiting" ? 0 : 1) || (b.created || "").localeCompare(a.created || ""));
+  const claude = S.props.filter(p => p.status === "approved" || p.status === "redo").sort(newest);
+  const past = S.props.filter(p => p.status === "shipped" || p.status === "denied").sort((a, b) => (b.shippedAt || b.decidedAt || b.created || "").localeCompare(a.shippedAt || a.decidedAt || a.created || "")).slice(0, 8);
+  $("#propN").textContent = mine.length ? mine.length : "";
+  $("#clN").textContent = claude.length ? claude.length : "";
+  $("#props").innerHTML = mine.length ? mine.map(propCard).join("") : `<p class="empty">Nothing waiting. Proposals from the night shift land here for a quick yes or no.</p>`;
+  $("#cprops").innerHTML = claude.length ? claude.map(propCard).join("") : `<p class="empty">Nothing queued. Proposals you approve or send back wait here until the night shift picks them up.</p>`;
+  $("#pastBox").hidden = !past.length;
+  $("#past").innerHTML = past.map(propCard).join("");
 }
 function renderApp() {
   $("#appN").textContent = S.appFlags.length ? S.appFlags.length : "";
@@ -517,6 +538,13 @@ document.addEventListener("click", async e => {
     const ok = await save(d => { const p = (d.proposals || []).find(x => x.id === id); if (!p) return; p.status = "shipped"; p.shippedAt = now; p.mergedBy = "you";
       (d.flags || []).forEach(f => { if ((p.flagIds || []).includes(f.id) && f.status !== "done") { f.status = "done"; f.resolvedAt = now; f.resolution = "Shipped: " + p.title; } }); }, "Proposal merged");
     if (ok) renderAll();
+  }
+  else if (a === "shots") { S.shots.has(id) ? S.shots.delete(id) : S.shots.add(id); renderProps(); }
+  else if (a === "undo") {
+    const was = S.props.find(x => x.id === id); let moved = false;
+    const ok = await save(edit("proposals", p => { if (!CAN_UNDO.includes(p.status)) return; moved = true; (p.history = p.history || []).push({ at: now, status: "reopened", from: p.status }); p.status = "waiting"; delete p.feedback; delete p.decidedAt; }), "Proposal reopened");
+    if (ok && moved) { if (was && was.feedback) S.notes[id] = was.feedback; renderProps(); const t = document.querySelector(`#props [data-note="${id}"]`); if (t) { t.scrollIntoView({ block: "center", behavior: "smooth" }); t.focus(); } }
+    else if (ok) renderProps();
   }
   else if (a === "approve" || a === "deny") {
     const note = (S.notes[id] || "").trim();
