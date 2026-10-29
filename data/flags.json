@@ -931,10 +931,12 @@
    "kind": "fix",
    "project": "RetroBat Wizard",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Replace the normal Windows title bar with custom minimize, full/small screen, and close buttons",
    "id": "rem-42",
-   "reviewedAt": "2026-10-25T05:25:09.808Z"
+   "reviewedAt": "2026-10-25T05:25:09.808Z",
+   "resolvedAt": "2026-10-29T22:30:44.196Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
