@@ -27,7 +27,7 @@
    "project": "Flag Hub",
    "text": "Now that you have created the “aim” feature for flags, and because it’s sitting in the settings toolbar most of the time, I think I want you to eliminate the right-click or long click on mobile to plant a flag. It has gotten in the way more often than it’s been helpful. I’m marking this as flag hub, but it applies to almost all my repos and apps",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-29T15:56:52.625Z"
   },
@@ -1246,14 +1246,14 @@
   {
    "id": "p1029hubmind",
    "project": "Flag Hub",
-   "title": "Change your mind, Waiting for Claude, tucked-away screenshots",
-   "summary": "Anything you approved, sent back, or denied gets a Change my mind button until Claude acts on it, and approved or sent-back proposals move to a new Waiting for Claude section. Screenshots now hide behind a small See screenshots button so cards stay short.",
+   "title": "Whose turn it is, Merge button, archive, photo button",
+   "summary": "Reworked with your notes and ready to merge (no second approval, like you asked): every card now says in one line whose turn it is, and ready ones get a Merge on GitHub button. Old ones fold into an Archive, and screenshots open from a small photo button with a glowing ring on the change.",
    "link": "https://github.com/Feirzen/flag-hub/pull/7",
    "images": [
     "previews/p1029hubmind/before.png",
     "previews/p1029hubmind/after.png"
    ],
-   "status": "redo",
+   "status": "ready",
    "created": "2026-10-29T07:57:25Z",
    "flagIds": [
     "fmvoiduns"
@@ -1266,8 +1266,46 @@
      "at": "2026-10-29T15:54:45.363Z",
      "status": "redo",
      "feedback": "I think that looks good! I really need it to be simple though, Straightforward and easy for me to see, like did you leave it for me to merge? Did me clicking approve merge it, or do I have to open GitHub? I also don’t want the history of past ones on there anymore, like if it got merged and is in effect, we can just through that in an archive or sum, I really don’t want it filling my screen. And while you’re at it, I’d like the screenshots to take up less of the screen. Sure let me tap and see them bigger but maybe just a photo icon that I can tap for them, not big ones chilling there. Lastly, when differences are small, I’d appreciate a glowing yellow circle or somehow add an indicator to know where to look for the fix. I’m going to mark this as redo, not because you’re suggestion was bad but because I want more done that just that. Don’t come back for another approval, just go ahead and fix, update, and merge it for me! I just really need this process to be smoother, there’s a lot of grey area here in the middle, and I need to know if something is actually waiting on me or on you or is merged or if I have to merge or what. I’d like to be able to say approve and you can merge it for me. Or just merge with the approve button idk."
+    },
+    {
+     "at": "2026-10-29T21:04:32Z",
+     "status": "ready",
+     "note": "Reworked (version 2) and set ready per his note: no second approval"
+    }
+   ],
+   "readyAt": "2026-10-29T21:04:32Z",
+   "revision": 2,
+   "spots": [
+    {
+     "x": 0.45,
+     "y": 0.39,
+     "r": 0.3
     }
    ]
+  },
+  {
+   "id": "p1029kitpress",
+   "project": "Flag Hub",
+   "title": "No more long-press or right-click flags",
+   "summary": "Long-press on your phone and right-click on a computer go back to normal in every app, so they stop planting flags by accident. Planting still works from the gear's Flag button with Aim.",
+   "link": "https://github.com/Feirzen/flag-hub/pull/8",
+   "images": [
+    "previews/p1029kitpress/before.png",
+    "previews/p1029kitpress/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.45,
+     "y": 0.28,
+     "r": 0.22
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-10-29T21:04:32Z",
+   "flagIds": [
+    "fmvtq7qj5"
+   ],
+   "source": "night shift"
   }
  ],
  "runs": [
@@ -1535,9 +1573,26 @@
      "text": "Built your priority Hub flag: change your mind on decisions, a Waiting for Claude section, and screenshots behind a button."
     }
    ]
+  },
+  {
+   "at": "2026-10-29T21:04:32Z",
+   "mode": "light",
+   "summary": "Reworked your priority Hub proposal with your notes and left it ready to merge, and built the no-long-press kit change as a proposal.",
+   "items": [
+    {
+     "kind": "ready",
+     "project": "Flag Hub",
+     "text": "Reworked: the Hub now says whose turn it is, has a Merge on GitHub button, an Archive, and a photo button with a glowing ring. Ready to merge."
+    },
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "Turn off long-press and right-click flag planting in every app (the gear Flag button still works)."
+    }
+   ]
   }
  ],
- "digestAt": "2026-10-29T07:57:50Z",
+ "digestAt": "2026-10-29T21:04:32Z",
  "polish": [
   {
    "app": "panicbutton",
