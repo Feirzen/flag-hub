@@ -890,9 +890,11 @@
    "kind": "fix",
    "project": "RetroBat",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Make the ALL GAMES view a grid, and 2+4 player become grid + details",
-   "id": "rem-38"
+   "id": "rem-38",
+   "resolvedAt": "2026-10-29T22:30:54.626Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
