@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvtq7qj5",
+   "project": "Flag Hub",
+   "text": "Now that you have created the “aim” feature for flags, and because it’s sitting in the settings toolbar most of the time, I think I want you to eliminate the right-click or long click on mobile to plant a flag. It has gotten in the way more often than it’s been helpful. I’m marking this as flag hub, but it applies to almost all my repos and apps",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-29T15:56:52.625Z"
+  },
+  {
    "id": "fmvstd7u3",
    "project": "Study Decks",
    "text": "The particle effects on the map of study decks are the same for every version of the Storey and I would love for them to have a couple different options that can move between, like, instead of always just particles, floating up in the ground some could be like a steam or vapor or fog, all animated the same way the particle effect can stay or a third option, being grass or lines from the ground, swinging around and moving.",
