@@ -1244,12 +1244,21 @@
     "previews/p1029hubmind/before.png",
     "previews/p1029hubmind/after.png"
    ],
-   "status": "waiting",
+   "status": "redo",
    "created": "2026-10-29T07:57:25Z",
    "flagIds": [
     "fmvoiduns"
    ],
-   "source": "night shift"
+   "source": "night shift",
+   "decidedAt": "2026-10-29T15:54:45.363Z",
+   "feedback": "I think that looks good! I really need it to be simple though, Straightforward and easy for me to see, like did you leave it for me to merge? Did me clicking approve merge it, or do I have to open GitHub? I also don’t want the history of past ones on there anymore, like if it got merged and is in effect, we can just through that in an archive or sum, I really don’t want it filling my screen. And while you’re at it, I’d like the screenshots to take up less of the screen. Sure let me tap and see them bigger but maybe just a photo icon that I can tap for them, not big ones chilling there. Lastly, when differences are small, I’d appreciate a glowing yellow circle or somehow add an indicator to know where to look for the fix. I’m going to mark this as redo, not because you’re suggestion was bad but because I want more done that just that. Don’t come back for another approval, just go ahead and fix, update, and merge it for me! I just really need this process to be smoother, there’s a lot of grey area here in the middle, and I need to know if something is actually waiting on me or on you or is merged or if I have to merge or what. I’d like to be able to say approve and you can merge it for me. Or just merge with the approve button idk.",
+   "history": [
+    {
+     "at": "2026-10-29T15:54:45.363Z",
+     "status": "redo",
+     "feedback": "I think that looks good! I really need it to be simple though, Straightforward and easy for me to see, like did you leave it for me to merge? Did me clicking approve merge it, or do I have to open GitHub? I also don’t want the history of past ones on there anymore, like if it got merged and is in effect, we can just through that in an archive or sum, I really don’t want it filling my screen. And while you’re at it, I’d like the screenshots to take up less of the screen. Sure let me tap and see them bigger but maybe just a photo icon that I can tap for them, not big ones chilling there. Lastly, when differences are small, I’d appreciate a glowing yellow circle or somehow add an indicator to know where to look for the fix. I’m going to mark this as redo, not because you’re suggestion was bad but because I want more done that just that. Don’t come back for another approval, just go ahead and fix, update, and merge it for me! I just really need this process to be smoother, there’s a lot of grey area here in the middle, and I need to know if something is actually waiting on me or on you or is merged or if I have to merge or what. I’d like to be able to say approve and you can merge it for me. Or just merge with the approve button idk."
+    }
+   ]
   }
  ],
  "runs": [
