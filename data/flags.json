@@ -27,9 +27,11 @@
    "project": "Flag Hub",
    "text": "Now that you have created the “aim” feature for flags, and because it’s sitting in the settings toolbar most of the time, I think I want you to eliminate the right-click or long click on mobile to plant a flag. It has gotten in the way more often than it’s been helpful. I’m marking this as flag hub, but it applies to almost all my repos and apps",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-29T15:56:52.625Z"
+   "created": "2026-10-29T15:56:52.625Z",
+   "resolvedAt": "2026-10-29T21:10:17Z",
+   "resolution": "Shipped: long-press and right-click no longer plant flags in any app."
   },
   {
    "id": "fmvstd7u3",
@@ -1300,13 +1302,14 @@
      "r": 0.22
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-29T21:04:32Z",
    "flagIds": [
     "fmvtq7qj5"
    ],
    "source": "night shift",
-   "decidedAt": "2026-10-29T21:07:28.817Z"
+   "decidedAt": "2026-10-29T21:07:28.817Z",
+   "shippedAt": "2026-10-29T21:10:17Z"
   }
  ],
  "runs": [
