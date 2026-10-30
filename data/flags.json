@@ -54,7 +54,7 @@
    "project": "Flag Hub",
    "text": "I appreciate having the toggle with the off, light, or go jig, but we can delete this last rin report on the ideas section specifically. Similar to how the PC shows PC runs, Ideas has no specific runs, so it can just not show last runs on this section",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-10-29T22:28:36.960Z",
    "where": {
@@ -64,7 +64,9 @@
     "says": "Last run 1h ago: Reworked your priority Hub proposal with your notes and left it ready to merge, and built the no-long-p",
     "screen": "366x655 phone",
     "look": "chameleon"
-   }
+   },
+   "resolvedAt": "2026-10-30T08:01:17Z",
+   "resolution": "The Ideas tab no longer shows a last-run line, same as how PC only shows PC runs."
   },
   {
    "id": "fmvtq7qj5",
@@ -82,7 +84,7 @@
    "project": "Study Decks",
    "text": "The particle effects on the map of study decks are the same for every version of the Storey and I would love for them to have a couple different options that can move between, like, instead of always just particles, floating up in the ground some could be like a steam or vapor or fog, all animated the same way the particle effect can stay or a third option, being grass or lines from the ground, swinging around and moving.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-29T00:37:21.005Z"
   },
@@ -662,7 +664,8 @@
    "status": "open",
    "text": "Add all the concerts we've been to as playlists: OneRepublic, YSA Together in Christ, Yoke Lore, Owl City, Andy Grammer YSA. Claude on laptop has the chat with the setlists.",
    "id": "rem-08",
-   "reviewedAt": "2026-10-25T05:24:01.162Z"
+   "reviewedAt": "2026-10-25T05:24:01.162Z",
+   "note": "No repo for this, so the night shift can't do it. Move it to For me, PC, or Ideas?"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
@@ -1386,9 +1389,44 @@
    "source": "night shift",
    "decidedAt": "2026-10-29T21:07:28.817Z",
    "shippedAt": "2026-10-29T21:10:17Z"
+  },
+  {
+   "id": "p1030sdamb",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Map rooms take turns: particles, mist, or swaying grass",
+   "summary": "Walking room to room on the adventure map now changes the ambience: floating particles, soft mist (steam on lava), or grass that sways and bends as your hero walks by. Colors match each story, and your existing maps stay exactly the same.",
+   "link": "https://github.com/Feirzen/study-decks/pull/3",
+   "images": [
+    "previews/p1030sdamb/before.png",
+    "previews/p1030sdamb/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-10-30T08:01:17Z",
+   "flagIds": [
+    "fmvstd7u3"
+   ]
   }
  ],
  "runs": [
+  {
+   "at": "2026-10-30T08:01:17Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Hid the last-run line on the Ideas tab and built a proposal for new map ambience in Study Decks.",
+   "items": [
+    {
+     "kind": "fixed",
+     "project": "Flag Hub",
+     "text": "Ideas tab no longer shows a last-run line."
+    },
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Map rooms now take turns between particles, mist, and swaying grass."
+    }
+   ]
+  },
   {
    "at": "2026-10-23T02:45:46Z",
    "mode": "manual",
@@ -1684,7 +1722,7 @@
    ]
   }
  ],
- "digestAt": "2026-10-29T21:04:32Z",
+ "digestAt": "2026-10-30T08:01:17Z",
  "polish": [
   {
    "app": "panicbutton",
