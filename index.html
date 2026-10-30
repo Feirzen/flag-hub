@@ -225,6 +225,9 @@ header{padding-left:58px}
 .lanes button{border:0;background:transparent;color:var(--ink3);border-radius:10px;padding:9px 6px;font:600 15px var(--fd);cursor:pointer;display:flex;gap:6px;align-items:center;justify-content:center;position:relative;transition:background .2s,color .2s}
 .lanes button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
 .lanes .wn{font:500 12px var(--fm);opacity:.7}
+/* once the lane bar sticks to the top on a phone, it tucks toward the center so the flag and gear buttons keep their corners */
+.lanes{transition:margin .25s ease,top .25s ease}
+@media (max-width:760px){.lanes.stuck{margin-inline:58px;top:calc(15px + env(safe-area-inset-top,0px));box-shadow:0 6px 18px rgba(0,0,0,.25)}.lanes.stuck button{padding-inline:2px;font-size:14px}}
 .lanes .ping{position:absolute;top:6px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--warn)}
 .who.two{grid-template-columns:1fr 1fr}
 .sheetbg{position:fixed;inset:0;z-index:2147482000;background:rgba(8,8,12,.6);display:flex;align-items:flex-start;justify-content:center;padding:calc(72px + env(safe-area-inset-top,0px)) 12px 12px;overflow-y:auto;animation:in .2s ease}
@@ -762,6 +765,15 @@ document.addEventListener("click", e => { const b = e.target.closest("[data-lab-
 document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.closest && e.target.closest("[data-lab]") && e.target.type === "text") e.target.blur(); }); /* blur fires change */
 $("#addLab").onclick = addLabel;
 $("#newLab").addEventListener("keydown", e => { if (e.key === "Enter") addLabel(); });
+
+/* ---------- lane bar: tuck in once it sticks to the top ---------- */
+(() => {
+  const bar = $("#laneTabs"); if (!bar) return;
+  let on = false, tick = 0;
+  const check = () => { tick = 0; const stuck = window.scrollY > 4 && bar.getBoundingClientRect().top <= parseFloat(getComputedStyle(bar).top) + 10; if (stuck !== on) { on = stuck; bar.classList.toggle("stuck", on); } };
+  addEventListener("scroll", () => { if (!tick) tick = requestAnimationFrame(check); }, { passive: true });
+  addEventListener("resize", check); check();
+})();
 
 /* ---------- folding sections ---------- */
 const FOLD_KEY = "fh.folded";
