@@ -1,10 +1,10 @@
 {
  "mode": "big",
- "openFlags": 44,
- "waiting": 2,
+ "openFlags": 43,
+ "waiting": 0,
  "lastRun": {
-  "at": "2026-10-30T21:21:17Z",
-  "summary": "Merged the map ambience with your battle tweak and built two Hub proposals: a mode pill on the folded Night shift and a lane bar that tucks in."
+  "at": "2026-10-30T21:44:03Z",
+  "summary": "On request: merged both Hub proposals and shipped the docked audio player in Study Decks."
  },
- "updated": "2026-10-30T21:21:17Z"
+ "updated": "2026-10-30T21:44:03Z"
 }

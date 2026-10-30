@@ -28,7 +28,7 @@
    "project": "Study Decks",
    "text": "I would love for this to float and stay wherever so I can stick pause or play while scrolling through the reading. I hit play, and then scroll through it as I listen, so I would love to be able to still access it, similar to how it works on the rest of the app outside the popup window. Maybe just move it to the bottom of the popup window's frame, and make it stay there always, idk, whatever works best. Just dont let it get in the way of text or whatever, integrate it well.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-10-30T20:40:23.166Z",
    "where": {
@@ -39,7 +39,9 @@
     "screen": "1536x695 computer",
     "look": "light"
    },
-   "reviewedAt": "2026-10-30T21:40:13.192Z"
+   "reviewedAt": "2026-10-30T21:40:13.192Z",
+   "resolvedAt": "2026-10-30T21:44:03Z",
+   "resolution": "The lesson pop-up now keeps its audio player docked at the bottom while you scroll."
   },
   {
    "id": "fmvv9xqib",
@@ -74,7 +76,7 @@
    "project": "Flag Hub",
    "text": "This flag in the corner and the settings icon in the corner are both. Awesome. However, whenever I scroll down and the three bars of cloud, PC and ideas goes to the top, the flag and settings icons sit on top of them in the way. Maybe make it so when I scroll up the cloud, PC and ideas bar shrimps slightly towards the center, so that on other side, the flag and settings button can stay there.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-10-30T17:38:56.069Z",
    "where": {
@@ -84,14 +86,16 @@
     "says": "",
     "screen": "366x693 phone",
     "look": "chameleon"
-   }
+   },
+   "resolvedAt": "2026-10-30T21:44:03Z",
+   "resolution": "The lane bar now tucks toward the center when it sticks to the top, so the flag and gear sit beside it."
   },
   {
    "id": "fmvv98vh2",
    "project": "Flag Hub",
    "text": "This is great, and I would love for even if the section when it’s collapsed to see a Little indicator of what it’s set to. So on the right side of this collapse section. There can be a three part indicator with whatever it’s set to lit up. Does that make sense? The expanded section can stay the same, but collapsed. I would love to be able to see what it’s at.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-10-30T17:37:24.567Z",
    "where": {
@@ -101,7 +105,9 @@
     "says": "NIGHT SHIFT",
     "screen": "366x655 phone",
     "look": "chameleon"
-   }
+   },
+   "resolvedAt": "2026-10-30T21:44:03Z",
+   "resolution": "Folding the Night shift section now shows an Off / Light / Big pill with the current mode lit."
   },
   {
    "id": "fmvufx0rb",
@@ -1524,12 +1530,13 @@
      "r": 0.16
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-30T21:21:17Z",
    "flagIds": [
     "fmvv98vh2"
    ],
-   "decidedAt": "2026-10-30T21:39:51.798Z"
+   "decidedAt": "2026-10-30T21:39:51.798Z",
+   "shippedAt": "2026-10-30T21:44:03Z"
   },
   {
    "id": "p1030lanetuck",
@@ -1549,15 +1556,64 @@
      "r": 0.34
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-30T21:21:17Z",
    "flagIds": [
     "fmvv9au2t"
    ],
-   "decidedAt": "2026-10-30T21:40:06.133Z"
+   "decidedAt": "2026-10-30T21:40:06.133Z",
+   "shippedAt": "2026-10-30T21:44:03Z"
+  },
+  {
+   "id": "p1030pkau",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Lesson pop-up keeps its audio player docked",
+   "summary": "The narration player now sits along the bottom of the lesson pop-up and stays there while you scroll. At the end of the reading it settles under the Back to the question button.",
+   "link": "https://github.com/Feirzen/study-decks/pull/4",
+   "images": [
+    "previews/p1030pkau/before.png",
+    "previews/p1030pkau/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.5,
+     "y": 0.88,
+     "r": 0.4
+    }
+   ],
+   "status": "shipped",
+   "created": "2026-10-30T21:44:03Z",
+   "shippedAt": "2026-10-30T21:44:03Z",
+   "flagIds": [
+    "fmvvfs6m6"
+   ]
   }
  ],
  "runs": [
+  {
+   "at": "2026-10-30T21:44:03Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "On request: merged both Hub proposals and shipped the docked audio player in Study Decks.",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Flag Hub",
+     "text": "Folded Night shift section now shows which mode is on."
+    },
+    {
+     "kind": "merged",
+     "project": "Flag Hub",
+     "text": "Lane bar tucks in when it sticks, so the flag and gear stop covering it."
+    },
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Lesson pop-up keeps its audio player docked at the bottom while you scroll."
+    }
+   ]
+  },
   {
    "at": "2026-10-30T21:21:17Z",
    "lane": "cloud",
@@ -1894,7 +1950,7 @@
    ]
   }
  ],
- "digestAt": "2026-10-30T21:21:17Z",
+ "digestAt": "2026-10-30T21:44:03Z",
  "polish": [
   {
    "app": "panicbutton",
