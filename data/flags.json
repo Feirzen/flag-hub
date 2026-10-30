@@ -24,6 +24,15 @@
  ],
  "flags": [
   {
+   "id": "fmvv9uimg",
+   "project": "Bilingual Blueprints",
+   "text": "I’d love to get a scheduled task setup that can access all the repos in my Bilingual blueprints organization, similar to the nightly run of the flag hub, with the intent of fixing issues people have with their sites, or issues I find with them. The budget should only apply per website, not across the board. Also, I’m going to want a widget eventually similar to the flag hub medium sized widget where I can see the light off or go big, see how many flags people have per website, and see anything waiting on me.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-30T17:54:14.344Z"
+  },
+  {
    "id": "fmvv9jrg6",
    "project": "Flag Hub",
    "text": "My medium sized (not the small one) flag hub widget is pretty outdated now, and there’s too many flags there for it to be real helpful. Maybe we can change it up? I think useful things would be seeing the # of flags divided up by section, and for Claud, for me, cloud vs PC, see last runs of each scheduled task, and maybe the only specific flags I want to see details of are the ones waiting on me, if any, in bright colors so I look at them. Idk, propose a couple options?",
