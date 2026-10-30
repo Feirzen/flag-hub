@@ -1548,11 +1548,12 @@
      "r": 0.34
     }
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-30T21:21:17Z",
    "flagIds": [
     "fmvv9au2t"
-   ]
+   ],
+   "decidedAt": "2026-10-30T21:40:06.133Z"
   }
  ],
  "runs": [
