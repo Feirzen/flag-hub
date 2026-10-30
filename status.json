@@ -1,10 +1,10 @@
 {
- "mode": "off",
+ "mode": "big",
  "openFlags": 43,
  "waiting": 0,
  "lastRun": {
   "at": "2026-10-30T21:44:03Z",
   "summary": "On request: merged both Hub proposals and shipped the docked audio player in Study Decks."
  },
- "updated": "2026-10-30T21:44:23.462Z"
+ "updated": "2026-10-30T21:44:28.082Z"
 }
