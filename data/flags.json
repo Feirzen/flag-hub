@@ -1523,11 +1523,12 @@
      "r": 0.16
     }
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-30T21:21:17Z",
    "flagIds": [
     "fmvv98vh2"
-   ]
+   ],
+   "decidedAt": "2026-10-30T21:39:51.798Z"
   },
   {
    "id": "p1030lanetuck",
