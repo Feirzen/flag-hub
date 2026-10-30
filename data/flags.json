@@ -1157,7 +1157,7 @@
    "summary": "Your notes are in, plus every M-rated game from your RetroBat Wishlist, so 36 games are on the hide list now. It's a running list; the RetroBat night shift on your PC builds the switch next.",
    "link": "https://github.com/Feirzen/flag-hub/blob/main/previews/p1a15f4758e9/family-filter.md",
    "images": [],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-21T16:31:00Z",
    "flagIds": [
     "fmvibf6x6"
@@ -1169,6 +1169,11 @@
      "at": "2026-10-21T19:32:44.968Z",
      "status": "approved",
      "feedback": "The complete list is still rolling out, so create a running list that we can add to in the future, take a look now because I have added a solid amount of games and I liked your top suggestions but not your middle suggestions. For example, Ace attorney is silly and all of the ones he grouped with that.  But yeah, morrowwind and golden eye, plus take a look because I added a couple for example GTA"
+    },
+    {
+     "at": "2026-10-30T03:45:54Z",
+     "status": "shipped",
+     "note": "Night shift added the 7 approved games the shipped M list was missing (GoldenEye 007, Morrowind, Def Jam: Fight for NY, The Last of Us, Demon's Souls, Brute Force, Black Ops III Zombies Chronicles) to _Wizard/Settings/family-hide.txt. Backup: _night-shift/backups/2026-10-30/."
     }
    ],
    "hide": [
@@ -1211,7 +1216,8 @@
    ],
    "hideRatedM": true,
    "listUpdatedAt": "2026-10-23T05:01:22Z",
-   "lane": "pc"
+   "lane": "pc",
+   "shippedAt": "2026-10-30T03:45:54Z"
   },
   {
    "id": "p1025pbtimer",
@@ -1635,6 +1641,18 @@
      "kind": "proposed",
      "project": "Flag Hub",
      "text": "Turn off long-press and right-click flag planting in every app (the gear Flag button still works)."
+    }
+   ]
+  },
+  {
+   "at": "2026-10-30T03:45:54Z",
+   "mode": "light",
+   "summary": "Shipped your family filter list: the 7 approved games it was still missing, like GoldenEye and Morrowind, are now on your hide list.",
+   "items": [
+    {
+     "kind": "shipped",
+     "project": "RetroBat",
+     "text": "Family filter now also hides GoldenEye 007, Morrowind, Def Jam: Fight for NY, The Last of Us, Demon's Souls, Brute Force, and BO3 Zombies Chronicles."
     }
    ]
   }
