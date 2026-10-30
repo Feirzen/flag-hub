@@ -371,6 +371,9 @@ function renderTally() {
   $("#tally").innerHTML = `<b style="color:var(--flag)">${theirs}</b> for Claude · <b style="color:var(--tealInk)">${mine}</b> for you · <b${wait ? ' style="color:var(--warn)"' : ""}>${wait}</b> on you`;
 }
 function renderRuns() {
+  const idea = S.lane === "idea";
+  $("#lastrun").hidden = idea;
+  if (idea) { $("#digest").hidden = true; return; }
   const want = S.lane === "pc" ? "pc" : "cloud", r = S.runs.find(x => runLane(x) === want);
   $("#lastrun").textContent = r ? `Last run ${ago(r.at)}: ${r.summary}` : `No ${want === "pc" ? "PC" : "cloud"} runs yet.`;
   const since = Date.now() - 30 * 3600 * 1000;
