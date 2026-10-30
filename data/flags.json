@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvv9jrg6",
+   "project": "Flag Hub",
+   "text": "My medium sized (not the small one) flag hub widget is pretty outdated now, and there’s too many flags there for it to be real helpful. Maybe we can change it up? I think useful things would be seeing the # of flags divided up by section, and for Claud, for me, cloud vs PC, see last runs of each scheduled task, and maybe the only specific flags I want to see details of are the ones waiting on me, if any, in bright colors so I look at them. Idk, propose a couple options?",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-30T17:45:52.566Z"
+  },
+  {
    "id": "fmvv9au2t",
    "project": "Flag Hub",
    "text": "This flag in the corner and the settings icon in the corner are both. Awesome. However, whenever I scroll down and the three bars of cloud, PC and ideas goes to the top, the flag and settings icons sit on top of them in the way. Maybe make it so when I scroll up the cloud, PC and ideas bar shrimps slightly towards the center, so that on other side, the flag and settings button can stay there.",
