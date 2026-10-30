@@ -192,6 +192,15 @@ h2.fold .ht::after{content:"";width:7px;height:7px;border-right:1.8px solid var(
 section.shut h2.fold .ht::after{transform:translateY(1px) rotate(-45deg)}
 section.shut>:not(h2){display:none!important}
 section.shut{gap:0}
+/* folded night shift: a small three-part pill shows which mode is on */
+.nsPill{display:none;margin-left:auto;gap:2px;padding:2px;border:1px solid var(--line);border-radius:999px;background:var(--card2)}
+section.shut .nsPill{display:inline-flex}
+section.shut #modeSaved:empty{display:none}
+.nsPill i{font:600 10.5px/1 var(--fb);font-style:normal;letter-spacing:.04em;padding:4px 7px;border-radius:999px;color:var(--ink3);opacity:.55;transition:background .2s,color .2s,opacity .2s}
+.nsPill i.on{opacity:1;color:var(--bg)}
+.nsPill i.on[data-m="off"]{background:var(--off)}
+.nsPill i.on[data-m="light"]{background:var(--okc)}
+.nsPill i.on[data-m="big"]{background:var(--big)}
 /* ideas: dotted outline flag, kept apart from the work */
 .who{grid-template-columns:repeat(3,1fr)}
 .who button[aria-pressed="true"][data-k="idea"]{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink3) 70%,transparent)}
@@ -263,7 +272,7 @@ header{padding-left:58px}
   </section>
 
   <section aria-labelledby="ns">
-    <h2 id="ns"><span class="ht"><i class="hd" style="--c:var(--big)"></i>Night shift</span> <span class="n" id="modeSaved"></span></h2>
+    <h2 id="ns"><span class="ht"><i class="hd" style="--c:var(--big)"></i>Night shift</span> <span class="n" id="modeSaved"></span><span class="nsPill" id="nsPill" aria-hidden="true"><i data-m="off">Off</i><i data-m="light">Light</i><i data-m="big">Big</i></span></h2>
     <div class="modes" role="group" aria-label="Night shift mode">
       <button class="mode" data-m="off" aria-pressed="false"><span class="dot"></span>Off<small>Skip tonight</small></button>
       <button class="mode" data-m="light" aria-pressed="true"><span class="dot"></span>Light<small>About 2 things a night</small></button>
@@ -362,6 +371,7 @@ let busy = false;
 const MODE_TXT = { off: "Night shift is off.", light: "Light: a couple of small fixes a night.", big: "Go Big: bigger builds tonight." };
 function renderMode() {
   document.querySelectorAll(".mode").forEach(b => b.setAttribute("aria-pressed", b.dataset.m === S.mode));
+  document.querySelectorAll("#nsPill i").forEach(i => i.classList.toggle("on", i.dataset.m === S.mode));
 }
 function renderTally() {
   const open = S.flags.filter(f => f.status === "open");
