@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvufw4mq",
+   "project": "RetroBat Wizard",
+   "text": "I need to use the Check missing games button to find any games that aren't actually listed under Retro Bat and figure out why they aren't showing",
+   "kind": "you",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-30T03:55:41.042Z"
+  },
+  {
    "id": "fmvufvkd4",
    "project": "RetroBat Wizard",
    "text": "When we published 3.2 we were working on separate saves per person however it was unfinished and was presenting some issues because it almost caused damage. It didn't actually come up it just moved all of my saves somewhere else and gave us a mini heart attack. The idea is that if I want to allow someone else to play on my computer without sharing my saves with them when I select a different person on the login page it allows me completely new fresh saves per device and then tracks per that person on that device specifically.",
