@@ -24,6 +24,23 @@
  ],
  "flags": [
   {
+   "id": "fmvvjv8bn",
+   "project": "Study Decks",
+   "text": "This can go in the \"options\" section instead of the filters",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-30T22:34:43.811Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": "div#overlay > div.modalbg > div.modal.wide > div.fx-pop > button.fx-opt:nth-of-type(2)",
+    "says": "Scrolls of Wisdom Learning pages pop up as you reach them in Battle.",
+    "screen": "1396x632 computer",
+    "look": "light"
+   }
+  },
+  {
    "id": "fmvvfs6m6",
    "project": "Study Decks",
    "text": "I would love for this to float and stay wherever so I can stick pause or play while scrolling through the reading. I hit play, and then scroll through it as I listen, so I would love to be able to still access it, similar to how it works on the rest of the app outside the popup window. Maybe just move it to the bottom of the popup window's frame, and make it stay there always, idk, whatever works best. Just dont let it get in the way of text or whatever, integrate it well.",
