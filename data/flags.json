@@ -23,6 +23,23 @@
  ],
  "flags": [
   {
+   "id": "fmvv9au2t",
+   "project": "Flag Hub",
+   "text": "This flag in the corner and the settings icon in the corner are both. Awesome. However, whenever I scroll down and the three bars of cloud, PC and ideas goes to the top, the flag and settings icons sit on top of them in the way. Maybe make it so when I scroll up the cloud, PC and ideas bar shrimps slightly towards the center, so that on other side, the flag and settings button can stay there.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-30T17:38:56.069Z",
+   "where": {
+    "app": "flag-hub",
+    "page": "https://feirzen.github.io/flag-hub/",
+    "element": "button#raiseBtn > svg",
+    "says": "",
+    "screen": "366x693 phone",
+    "look": "chameleon"
+   }
+  },
+  {
    "id": "fmvv98vh2",
    "project": "Flag Hub",
    "text": "This is great, and I would love for even if the section when it’s collapsed to see a Little indicator of what it’s set to. So on the right side of this collapse section. There can be a three part indicator with whatever it’s set to lit up. Does that make sense? The expanded section can stay the same, but collapsed. I would love to be able to see what it’s at.",
