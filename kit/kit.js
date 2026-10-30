@@ -220,6 +220,12 @@
 .fk-pill.on{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 .fk-cham{overflow:hidden;transition:max-height .35s ease,opacity .25s ease;max-height:0;opacity:0}
 .fk-cham.show{max-height:200px;opacity:1}
+.fk-xtras{margin-top:12px;display:grid;gap:6px}
+.fk-xt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid var(--border);background:transparent;color:var(--text);border-radius:12px;padding:9px 11px;font-size:13.5px;cursor:pointer}
+.fk-xt .fk-xi{font-size:18px;line-height:1}.fk-xt b{flex:1;font-weight:600}.fk-xt small{display:block;font-weight:400;color:var(--muted);font-size:11.5px;margin-top:1px}
+.fk-sw2{flex:0 0 36px;height:21px;border-radius:11px;background:var(--border);position:relative;transition:background .22s ease}
+.fk-sw2::after{content:"";position:absolute;top:2.5px;left:2.5px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .22s cubic-bezier(.2,.9,.3,1.3)}
+.fk-xt.on .fk-sw2{background:var(--accent)}.fk-xt.on .fk-sw2::after{transform:translateX(15px)}
 .fk-hint{font-size:12px;color:var(--muted);margin:8px 2px 0;line-height:1.45}
 .fk-menu>button{width:100%;display:flex;align-items:center;gap:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:12px;padding:12px;margin-bottom:8px;font-size:14px;text-align:left;cursor:pointer}
 .fk-menu>button small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
@@ -411,13 +417,25 @@
         <div class="fk-seg"><button data-tone="any">Any</button><button data-tone="light">Light</button><button data-tone="dark">Dark</button></div>
         <div class="fk-pills"><button class="fk-pill" data-a="lock"></button><button class="fk-pill" data-a="new">${IC.shuffle}New colors</button></div>
         <p class="fk-hint">New colors every screen. While settings are open, the gecko next to the gear does the same: tap it to shuffle, tap its lock to freeze.</p>
-      </div></div>`);
+      </div>${xtras()}</div>`);
     p.querySelector(".fk-x").onclick = closePanel;
     p.querySelectorAll("[data-t]").forEach(b => b.onclick = () => setTheme(b.dataset.t));
     p.querySelectorAll("[data-tone]").forEach(b => b.onclick = () => setTone(b.dataset.tone));
     p.querySelector('[data-a="lock"]').onclick = toggleLock;
     p.querySelector('[data-a="new"]').onclick = newColors;
+    p.querySelectorAll("[data-x]").forEach(b => b.onclick = () => {
+      const x = (ADAPT.extras || [])[+b.dataset.x]; if (!x) return;
+      try { x.set(!x.get()); } catch (e) {}
+      b.classList.toggle("on", !!x.get());
+    });
     return p;
+  }
+  /* optional app toggles under the tiles: KitConfig.look.extras = [{ label, sub, icon, get(), set(on) }] */
+  function xtras() {
+    const xs = (ADAPT && Array.isArray(ADAPT.extras)) ? ADAPT.extras : [];
+    if (!xs.length) return "";
+    return `<div class="fk-xtras">${xs.map((x, i) => { let on = false; try { on = !!x.get(); } catch (e) {}
+      return `<button class="fk-xt ${on ? "on" : ""}" data-x="${i}"><span class="fk-xi">${x.icon || ""}</span><b>${esc(x.label || "")}${x.sub ? `<small>${esc(x.sub)}</small>` : ""}</b><span class="fk-sw2"></span></button>`; }).join("")}</div>`;
   }
 
   function syncUI() {
