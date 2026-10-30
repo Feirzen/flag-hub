@@ -24,6 +24,23 @@
  ],
  "flags": [
   {
+   "id": "fmvvjwwkz",
+   "project": "Flag Hub",
+   "text": "for some reason the icons rolling out below the settings gear are skewed off to the left, not in line with the settings gear. Let's get those lined up.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-30T22:36:01.907Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": "kit: Look",
+    "says": "Settings gear menu (shared kit)",
+    "screen": "1396x632 computer",
+    "look": "light"
+   }
+  },
+  {
    "id": "fmvvjv8bn",
    "project": "Study Decks",
    "text": "This can go in the \"options\" section instead of the filters",
