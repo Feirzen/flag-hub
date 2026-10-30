@@ -24,6 +24,15 @@
  ],
  "flags": [
   {
+   "id": "fmvv9xqib",
+   "project": "RetroBat",
+   "text": "For some reason, my PC and my laptop, keep popping up that different games Have a cloud sync error on steam. I imagine it’s because the saved data and begin and everything is saved onto my external hard drive, which I unplugged and plug back in all the time. Do I have to re add the library every time I probably get back in? Or how do I keep the cloud sync errors from happening?",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-30T17:56:44.533Z"
+  },
+  {
    "id": "fmvv9uimg",
    "project": "Bilingual Blueprints",
    "text": "I’d love to get a scheduled task setup that can access all the repos in my Bilingual blueprints organization, similar to the nightly run of the flag hub, with the intent of fixing issues people have with their sites, or issues I find with them. The budget should only apply per website, not across the board. Also, I’m going to want a widget eventually similar to the flag hub medium sized widget where I can see the light off or go big, see how many flags people have per website, and see anything waiting on me.",
