@@ -23,6 +23,15 @@
  ],
  "flags": [
   {
+   "id": "fmvufx0rb",
+   "project": "RetroBat Wizard",
+   "text": "Polish up all the retro bat icons: They just all could use a little bit of work because they're like 75% there.",
+   "kind": "you",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-10-30T03:56:22.679Z"
+  },
+  {
    "id": "fmvufw4mq",
    "project": "RetroBat Wizard",
    "text": "I need to use the Check missing games button to find any games that aren't actually listed under Retro Bat and figure out why they aren't showing",
