@@ -56,7 +56,8 @@
    "kind": "fix",
    "status": "open",
    "source": "hub",
-   "created": "2026-10-30T17:54:14.344Z"
+   "created": "2026-10-30T17:54:14.344Z",
+   "note": "No repo for this, so the night shift can't do it. Move it to For me, PC, or Ideas?"
   },
   {
    "id": "fmvv9jrg6",
@@ -72,7 +73,7 @@
    "project": "Flag Hub",
    "text": "This flag in the corner and the settings icon in the corner are both. Awesome. However, whenever I scroll down and the three bars of cloud, PC and ideas goes to the top, the flag and settings icons sit on top of them in the way. Maybe make it so when I scroll up the cloud, PC and ideas bar shrimps slightly towards the center, so that on other side, the flag and settings button can stay there.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "app",
    "created": "2026-10-30T17:38:56.069Z",
    "where": {
@@ -89,7 +90,7 @@
    "project": "Flag Hub",
    "text": "This is great, and I would love for even if the section when it’s collapsed to see a Little indicator of what it’s set to. So on the right side of this collapse section. There can be a three part indicator with whatever it’s set to lit up. Does that make sense? The expanded section can stay the same, but collapsed. I would love to be able to see what it’s at.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "app",
    "created": "2026-10-30T17:37:24.567Z",
    "where": {
@@ -163,9 +164,11 @@
    "project": "Study Decks",
    "text": "The particle effects on the map of study decks are the same for every version of the Storey and I would love for them to have a couple different options that can move between, like, instead of always just particles, floating up in the ground some could be like a steam or vapor or fog, all animated the same way the particle effect can stay or a third option, being grass or lines from the ground, swinging around and moving.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-29T00:37:21.005Z"
+   "created": "2026-10-29T00:37:21.005Z",
+   "resolvedAt": "2026-10-30T21:21:17Z",
+   "resolution": "Map rooms now rotate between particles, mist, and swaying grass, and each battle uses the same look as the room it started in."
   },
   {
    "id": "fmvsrnlgf",
@@ -1481,7 +1484,7 @@
     "previews/p1030sdamb/before.png",
     "previews/p1030sdamb/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-30T08:01:17Z",
    "flagIds": [
     "fmvstd7u3"
@@ -1493,11 +1496,88 @@
      "at": "2026-10-30T17:35:39.293Z",
      "status": "approved",
      "feedback": "I love it, and make sure it’s also applied during a battle sequence"
+    },
+    {
+     "at": "2026-10-30T21:21:17Z",
+     "status": "shipped",
+     "feedback": "Night shift: added the battle ambience you asked for, then merged."
     }
+   ],
+   "shippedAt": "2026-10-30T21:21:17Z"
+  },
+  {
+   "id": "p1030nspill",
+   "project": "Flag Hub",
+   "lane": "cloud",
+   "title": "Folded Night shift shows its mode",
+   "summary": "When you fold the Night shift section, a small Off / Light / Big pill on the right of the heading lights up the current mode. Opened, it looks exactly like before.",
+   "link": "https://github.com/Feirzen/flag-hub/pull/11",
+   "images": [
+    "previews/p1030nspill/before.png",
+    "previews/p1030nspill/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.75,
+     "y": 0.778,
+     "r": 0.16
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-10-30T21:21:17Z",
+   "flagIds": [
+    "fmvv98vh2"
+   ]
+  },
+  {
+   "id": "p1030lanetuck",
+   "project": "Flag Hub",
+   "lane": "cloud",
+   "title": "Lane bar tucks in between the flag and gear",
+   "summary": "On your phone, once the Cloud / PC / Ideas bar sticks to the top it slides toward the center, so the flag and gear buttons sit beside it instead of on top. Scroll back up and it widens out again; desktop is unchanged.",
+   "link": "https://github.com/Feirzen/flag-hub/pull/12",
+   "images": [
+    "previews/p1030lanetuck/before.png",
+    "previews/p1030lanetuck/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.5,
+     "y": 0.045,
+     "r": 0.34
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-10-30T21:21:17Z",
+   "flagIds": [
+    "fmvv9au2t"
    ]
   }
  ],
  "runs": [
+  {
+   "at": "2026-10-30T21:21:17Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Merged the map ambience with your battle tweak and built two Hub proposals: a mode pill on the folded Night shift and a lane bar that tucks in.",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Map ambience is live, and battles now use the same particles, mist, or grass as the room you were in."
+    },
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "Folded Night shift section shows an Off / Light / Big pill with the current mode lit."
+    },
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "Lane bar tucks toward the center when it sticks, so the flag and gear stop covering it."
+    }
+   ]
+  },
   {
    "at": "2026-10-30T08:01:17Z",
    "lane": "cloud",
@@ -1811,7 +1891,7 @@
    ]
   }
  ],
- "digestAt": "2026-10-30T08:01:17Z",
+ "digestAt": "2026-10-30T21:21:17Z",
  "polish": [
   {
    "app": "panicbutton",

@@ -1,10 +1,10 @@
 {
  "mode": "big",
- "openFlags": 43,
- "waiting": 0,
+ "openFlags": 44,
+ "waiting": 2,
  "lastRun": {
-  "at": "2026-10-30T08:01:17Z",
-  "summary": "Hid the last-run line on the Ideas tab and built a proposal for new map ambience in Study Decks."
+  "at": "2026-10-30T21:21:17Z",
+  "summary": "Merged the map ambience with your battle tweak and built two Hub proposals: a mode pill on the folded Night shift and a lane bar that tucks in."
  },
- "updated": "2026-10-30T17:47:10.831Z"
+ "updated": "2026-10-30T21:21:17Z"
 }
