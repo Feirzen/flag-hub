@@ -1401,10 +1401,19 @@
     "previews/p1030sdamb/before.png",
     "previews/p1030sdamb/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-30T08:01:17Z",
    "flagIds": [
     "fmvstd7u3"
+   ],
+   "decidedAt": "2026-10-30T17:35:39.293Z",
+   "feedback": "I love it, and make sure it’s also applied during a battle sequence",
+   "history": [
+    {
+     "at": "2026-10-30T17:35:39.293Z",
+     "status": "approved",
+     "feedback": "I love it, and make sure it’s also applied during a battle sequence"
+    }
    ]
   }
  ],
