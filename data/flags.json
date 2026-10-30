@@ -1110,6 +1110,33 @@
    "status": "open",
    "text": "Add sports games like Madden and 2K",
    "id": "rem-46"
+  },
+  {
+   "id": "sd-playstyles",
+   "project": "Study Decks",
+   "kind": "feature",
+   "status": "open",
+   "source": "claude",
+   "created": "2026-10-30T22:40:00Z",
+   "text": "Study Decks: more playstyles in the Tower beyond fight-everything. Real platforming obstacle courses, mazes, and other crazy dynamic sections, with questions built in (answer to open a gate, jump the right answer, etc.) so it stays fun and keeps forcing real learning."
+  },
+  {
+   "id": "sd-seasonal-adventures",
+   "project": "Study Decks",
+   "kind": "feature",
+   "status": "open",
+   "source": "claude",
+   "created": "2026-10-30T22:40:00Z",
+   "text": "Study Decks: more seasonal holiday adventures like the Halloween one (tower.js SEASONS + a STORIES entry). Each runs around its holiday on its own (Halloween = Oct 16 to Nov 10). Ideas: Christmas, Valentine's, St. Patrick's, Easter, Fourth of July, Thanksgiving."
+  },
+  {
+   "id": "sd-seasonal-theme",
+   "project": "Study Decks",
+   "kind": "feature",
+   "status": "open",
+   "source": "claude",
+   "created": "2026-10-30T22:40:00Z",
+   "text": "Study Decks: seasonal look across the whole app (not just the adventure). Holiday colors and small touches that turn on automatically around each holiday, with a toggle in Options to switch them off."
   }
  ],
  "proposals": [
