@@ -24,6 +24,23 @@
  ],
  "flags": [
   {
+   "id": "fmvvmv2kd",
+   "project": "Study Decks",
+   "text": "Every time I press pause or play, it's like 33% accurate. It only sometimes will actually play or pause, and it's super frustrating. I also would love a forward or back 10 seconds, and the space on my keyboard should NOT automatically go to reset the deck holy. Every time I press space to pause it the deck asks if I really want to reset.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-10-30T23:58:35.197Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": "div#app > div.wrap > div.au-list:nth-of-type(7) > div.au:nth-of-type(2) > button.au-btn:nth-of-type(1)",
+    "says": "Play",
+    "screen": "1396x632 computer",
+    "look": "chameleon"
+   }
+  },
+  {
    "id": "fmvvjwwkz",
    "project": "Flag Hub",
    "text": "for some reason the icons rolling out below the settings gear are skewed off to the left, not in line with the settings gear. Let's get those lined up.",
