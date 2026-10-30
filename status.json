@@ -1,10 +1,10 @@
 {
- "mode": "light",
- "openFlags": 40,
- "waiting": 1,
+ "mode": "big",
+ "openFlags": 43,
+ "waiting": 0,
  "lastRun": {
   "at": "2026-10-30T08:01:17Z",
   "summary": "Hid the last-run line on the Ideas tab and built a proposal for new map ambience in Study Decks."
  },
- "updated": "2026-10-30T08:01:17Z"
+ "updated": "2026-10-30T17:47:10.831Z"
 }
