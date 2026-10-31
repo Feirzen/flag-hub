@@ -1712,11 +1712,12 @@
    "summary": "Downloads count their own bytes, so the percent climbs smoothly with MB/s and time left, and the top banner becomes a real filling bar for downloads and uploads. The Games tab also stops rebuilding all ~470 games whenever a download starts or ends, which should end most of the freezing.",
    "link": "_night-shift/proposals/p1031rbdl (README.md inside)",
    "applyOn": "pc",
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-31T05:40:00Z",
    "flagIds": [
     "fmvq3damh"
-   ]
+   ],
+   "decidedAt": "2026-10-31T06:54:41.882Z"
   }
  ],
  "runs": [
