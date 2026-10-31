@@ -339,10 +339,11 @@
   function placeTray() {
     if (!anchor || !bar) return;
     const r = anchor.getBoundingClientRect();
+    const vw = document.documentElement.clientWidth || innerWidth;   /* leaves out a desktop scrollbar, so the tray lines up under the gear */
     bar.style.top = r.bottom + 6 + "px";
-    bar.style.right = Math.max(4, innerWidth - r.right) + "px";
-    if (tok) { tok.style.top = (r.top + r.height / 2 - 17) + "px"; tok.style.right = Math.max(4, innerWidth - r.left + 6) + "px"; }
-    if (panel && !panel.classList.contains("fk-solo")) { panel.style.top = r.bottom + 6 + "px"; panel.style.right = Math.max(8, innerWidth - r.right + 50) + "px"; }
+    bar.style.right = Math.max(4, vw - r.right - (38 - r.width) / 2) + "px";   /* tray buttons are 38px: center them on the gear */
+    if (tok) { tok.style.top = (r.top + r.height / 2 - 17) + "px"; tok.style.right = Math.max(4, vw - r.left + 6) + "px"; }
+    if (panel && !panel.classList.contains("fk-solo")) { panel.style.top = r.bottom + 6 + "px"; panel.style.right = Math.max(8, vw - r.right + 50) + "px"; }
   }
   function toggleTray(force) {
     const open = force === undefined ? !bar.classList.contains("open") : force;
