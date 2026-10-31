@@ -274,16 +274,18 @@
    "project": "RetroBat Wizard",
    "text": "For the retro bat wizard, I want to be notified on my phone from game requests and feedback and stuff, which is great and you have running well, but I think I want a little bit more detail when it pops up on my phone, for example I got a game request for sonic just now from myself cause I was testing, but I’d love to know what profile it’s from if any.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-27T02:58:45.865Z"
+   "created": "2026-10-27T02:58:45.865Z",
+   "resolvedAt": "2026-10-31T05:40:00Z",
+   "resolution": "Phone pings now say what kind of report it is and who sent it, like \"Game request from Steven\" (retrobat-wizard PR #5). Drives get it with the next published wizard version."
   },
   {
    "id": "fmvq3damh",
    "project": "RetroBat Wizard",
    "text": "When downloading games on the retro bat wizard the download progress jump jumped from 0 to 42 to 85 but it still took forever to do. It waited like 30 seconds between jumping and updating. Make it update more quickly and when I download a game, I want to be able to add games to the queue. Maybe a more similar set up to the publish games from admin? So basically I want to be able to download multiple at once control what order they download and see an amount of time that it’s gonna take to do it etc.. also it freezes up a lot on that screen when I go to download games so that could be improved on for sure. For both publishing and downloading I think I have mentioned this before, but I think I want the banner on the top that says downloading or uploading to include the details and if possible, have an actual progress bar instead of just a scrolling bar. Also, if it can match the aesthetic in general, that would be a win. Honestly, I would be down to have that happen for all of the times that banner pops up, not just here.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-27T02:54:02.251Z"
   },
@@ -1694,10 +1696,26 @@
    "title": "Phone pings say what it is and who sent it",
    "summary": "A game request ping now reads \"Game request from Steven\" with the game as the text, instead of \"New report\", and ideas, bugs and guests get their own labels. It reaches other drives with the next published wizard version.",
    "link": "https://github.com/Feirzen/retrobat-wizard/pull/5",
-   "status": "waiting",
+   "status": "shipped",
    "created": "2026-10-31T05:05:00Z",
    "flagIds": [
     "fmvq3jdgp"
+   ],
+   "shippedAt": "2026-10-31T05:40:00Z",
+   "mergedBy": "you"
+  },
+  {
+   "id": "p1031rbdl",
+   "project": "RetroBat Wizard",
+   "lane": "pc",
+   "title": "Smoother downloads: real progress, speed, time left, less freezing",
+   "summary": "Downloads count their own bytes, so the percent climbs smoothly with MB/s and time left, and the top banner becomes a real filling bar for downloads and uploads. The Games tab also stops rebuilding all ~470 games whenever a download starts or ends, which should end most of the freezing.",
+   "link": "_night-shift/proposals/p1031rbdl (README.md inside)",
+   "applyOn": "pc",
+   "status": "waiting",
+   "created": "2026-10-31T05:40:00Z",
+   "flagIds": [
+    "fmvq3damh"
    ]
   }
  ],
@@ -2080,6 +2098,24 @@
      "kind": "proposed",
      "project": "RetroBat Wizard",
      "text": "Phone pings say what kind of report it is and who sent it, like \"Game request from Steven\"."
+    }
+   ]
+  },
+  {
+   "at": "2026-10-31T05:40:00Z",
+   "lane": "pc",
+   "mode": "big",
+   "summary": "On request: you merged the phone-ping change, and the smoother downloads (real progress, speed, time left, less freezing) are built and waiting for your OK.",
+   "items": [
+    {
+     "kind": "shipped",
+     "project": "RetroBat Wizard",
+     "text": "Phone pings say what kind of report it is and who sent it (goes out with the next wizard version)."
+    },
+    {
+     "kind": "proposed",
+     "project": "RetroBat Wizard",
+     "text": "Smoother downloads: real progress, MB/s and time left, a filling banner bar, and no full-page rebuild on every download."
     }
    ]
   }
