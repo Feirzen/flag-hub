@@ -28,7 +28,7 @@
    "project": "Study Decks",
    "text": "Every time I press pause or play, it's like 33% accurate. It only sometimes will actually play or pause, and it's super frustrating. I also would love a forward or back 10 seconds, and the space on my keyboard should NOT automatically go to reset the deck holy. Every time I press space to pause it the deck asks if I really want to reset.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-10-30T23:58:35.197Z",
    "where": {
@@ -38,14 +38,16 @@
     "says": "Play",
     "screen": "1396x632 computer",
     "look": "chameleon"
-   }
+   },
+   "resolvedAt": "2026-10-31T08:04:32Z",
+   "resolution": "Play/pause now catches every tap (the icon was being swapped mid-tap), and Space plays or pauses the narration instead of pressing a highlighted button like Reset. The 10-second skip buttons are a new flag."
   },
   {
    "id": "fmvvjwwkz",
    "project": "Flag Hub",
    "text": "for some reason the icons rolling out below the settings gear are skewed off to the left, not in line with the settings gear. Let's get those lined up.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-10-30T22:36:01.907Z",
    "where": {
@@ -55,14 +57,16 @@
     "says": "Settings gear menu (shared kit)",
     "screen": "1396x632 computer",
     "look": "light"
-   }
+   },
+   "resolvedAt": "2026-10-31T08:04:32Z",
+   "resolution": "The icons under the settings gear now line up right under it on a computer (the scrollbar was pushing them left), in every app."
   },
   {
    "id": "fmvvjv8bn",
    "project": "Study Decks",
    "text": "This can go in the \"options\" section instead of the filters",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "app",
    "created": "2026-10-30T22:34:43.811Z",
    "where": {
@@ -121,7 +125,7 @@
    "project": "Flag Hub",
    "text": "My medium sized (not the small one) flag hub widget is pretty outdated now, and there’s too many flags there for it to be real helpful. Maybe we can change it up? I think useful things would be seeing the # of flags divided up by section, and for Claud, for me, cloud vs PC, see last runs of each scheduled task, and maybe the only specific flags I want to see details of are the ones waiting on me, if any, in bright colors so I look at them. Idk, propose a couple options?",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-30T17:45:52.566Z"
   },
@@ -1193,6 +1197,15 @@
    "source": "claude",
    "created": "2026-10-30T22:40:00Z",
    "text": "Study Decks: seasonal look across the whole app (not just the adventure). Holiday colors and small touches that turn on automatically around each holiday, with a toggle in Options to switch them off."
+  },
+  {
+   "id": "fmvvsdskip",
+   "project": "Study Decks",
+   "text": "Add back 10 seconds and forward 10 seconds buttons to the narration players (split off from your play/pause flag).",
+   "kind": "fix",
+   "status": "open",
+   "source": "night shift",
+   "created": "2026-10-31T08:04:32Z"
   }
  ],
  "proposals": [
@@ -1718,6 +1731,47 @@
     "fmvq3damh"
    ],
    "decidedAt": "2026-10-31T06:54:41.882Z"
+  },
+  {
+   "id": "p1031sdscroll",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Scrolls of Wisdom switch moves to Options",
+   "summary": "The Scrolls of Wisdom on/off switch moves out of Filters and into Options, under a Battle heading next to Exploration map. It still saves per deck, and Filters is now just chapters and Starred/Misses/New.",
+   "link": "https://github.com/Feirzen/study-decks/pull/5",
+   "images": [
+    "previews/p1031sdscroll/before.png",
+    "previews/p1031sdscroll/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.5,
+     "y": 0.57,
+     "r": 0.42
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-10-31T08:04:32Z",
+   "flagIds": [
+    "fmvvjv8bn"
+   ]
+  },
+  {
+   "id": "p1031widget",
+   "project": "Flag Hub",
+   "lane": "cloud",
+   "title": "New medium widget, two looks to pick from",
+   "summary": "A new medium widget shows flag counts split into Claude cloud, Claude PC, for you, and ideas, when the cloud, PC, and polish runs last went, and anything waiting on you in bright orange. The \"focus\" look puts what's waiting on you front and center instead, and you pick the look with one word at the top of the script.",
+   "link": "https://github.com/Feirzen/flag-hub/pull/13",
+   "images": [
+    "previews/p1031widget/before.png",
+    "previews/p1031widget/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-10-31T08:04:32Z",
+   "flagIds": [
+    "fmvv9jrg6"
+   ]
   }
  ],
  "runs": [
@@ -2119,9 +2173,37 @@
      "text": "Smoother downloads: real progress, MB/s and time left, a filling banner bar, and no full-page rebuild on every download."
     }
    ]
+  },
+  {
+   "at": "2026-10-31T08:05:28Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Fixed the Study Decks play/pause and Space key and the settings tray lining up, and built two proposals: Scrolls of Wisdom in Options and a new medium widget.",
+   "items": [
+    {
+     "kind": "fixed",
+     "project": "Study Decks",
+     "text": "Play/pause catches every tap now, and Space pauses the narration instead of pressing Reset."
+    },
+    {
+     "kind": "fixed",
+     "project": "Flag Hub",
+     "text": "The icons under the settings gear line up right under it on a computer, in every app."
+    },
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Scrolls of Wisdom switch moves from Filters to Options."
+    },
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "New medium widget with two looks: counts by section and run times, or what's waiting on you up front."
+    }
+   ]
   }
  ],
- "digestAt": "2026-10-30T21:44:03Z",
+ "digestAt": "2026-10-31T08:05:28Z",
  "polish": [
   {
    "app": "panicbutton",

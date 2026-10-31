@@ -1,10 +1,10 @@
 {
  "mode": "big",
- "openFlags": 41,
- "waiting": 1,
+ "openFlags": 43,
+ "waiting": 2,
  "lastRun": {
-  "at": "2026-10-31T05:40:00Z",
-  "summary": "RetroBat: phone pings shipped, and the smoother downloads (real progress, speed, time left, less freezing) are built and waiting for your OK."
+  "at": "2026-10-31T08:05:28Z",
+  "summary": "Fixed the Study Decks play/pause and Space key and the settings tray lining up, and built two proposals: Scrolls of Wisdom in Options and a new medium widget."
  },
- "updated": "2026-10-31T05:41:00.000Z"
+ "updated": "2026-10-31T08:05:28Z"
 }
