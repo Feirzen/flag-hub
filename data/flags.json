@@ -101,7 +101,8 @@
    "kind": "fix",
    "status": "open",
    "source": "hub",
-   "created": "2026-10-30T17:56:44.533Z"
+   "created": "2026-10-30T17:56:44.533Z",
+   "note": "You don't need to re-add the library: Connect Steam adds the drive to Steam once per computer and Steam remembers it, so the games just show as not installed while the drive is out. Cloud saves for most games live on C: (Steam's own folder or Documents), not on the drive. The errors most likely come from unplugging or shutting down before Steam finishes uploading a save, then playing on the other computer. Before you unplug, wait a few seconds after quitting a game until the Library shows the game's cloud status as up to date; if a conflict pops up, pick the side with the newer save."
   },
   {
    "id": "fmvv9uimg",
@@ -273,7 +274,7 @@
    "project": "RetroBat Wizard",
    "text": "For the retro bat wizard, I want to be notified on my phone from game requests and feedback and stuff, which is great and you have running well, but I think I want a little bit more detail when it pops up on my phone, for example I got a game request for sonic just now from myself cause I was testing, but I’d love to know what profile it’s from if any.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-27T02:58:45.865Z"
   },
@@ -308,7 +309,7 @@
    "project": "RetroBat Wizard",
    "text": "when I hit the right or left arrows, it adjusts the sizing or sum of everything, and scroll bars appear on the right and bottom of this popout. It's jarring, and I'd love for the arrows to only switch the games, not make scroll bars appear on it.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-10-26T18:24:00.499Z",
    "where": {
@@ -318,7 +319,9 @@
     "says": "X Donkey Kong Country 2 : Diddy's Kong Quest 1-2 players · 4.0 MB Donkey Kong has been kong-napped by the nasty K.Rool a",
     "screen": "1536x695 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-10-31T05:05:00Z",
+   "resolution": "The game window's arrows only switch games now: no scroll bars, and the box keeps one size (retrobat-wizard PR #4, website only, nothing on the drive changed)."
   },
   {
    "id": "fmvpafizk",
@@ -1668,6 +1671,34 @@
    "flagIds": [
     "fmvvfs6m6"
    ]
+  },
+  {
+   "id": "p1031rbsite",
+   "project": "RetroBat Wizard",
+   "lane": "pc",
+   "title": "Website: steady game window arrows, Start and Games icons back",
+   "summary": "The game window's arrows now only switch games: no scroll bars pop up and the box keeps one size. The missing Start and Games icons are back (the chest for Games); there's no spinning globe art in the wizard yet, so Start shows the book for now.",
+   "link": "https://github.com/Feirzen/retrobat-wizard/pull/4",
+   "status": "shipped",
+   "created": "2026-10-31T04:40:00Z",
+   "shippedAt": "2026-10-31T05:05:00Z",
+   "flagIds": [
+    "fmvpl5e5v",
+    "fmvpl8yqi"
+   ]
+  },
+  {
+   "id": "p1031rbping",
+   "project": "RetroBat Wizard",
+   "lane": "pc",
+   "title": "Phone pings say what it is and who sent it",
+   "summary": "A game request ping now reads \"Game request from Steven\" with the game as the text, instead of \"New report\", and ideas, bugs and guests get their own labels. It reaches other drives with the next published wizard version.",
+   "link": "https://github.com/Feirzen/retrobat-wizard/pull/5",
+   "status": "waiting",
+   "created": "2026-10-31T05:05:00Z",
+   "flagIds": [
+    "fmvq3jdgp"
+   ]
   }
  ],
  "runs": [
@@ -2026,6 +2057,29 @@
      "kind": "shipped",
      "project": "RetroBat",
      "text": "Family filter now also hides GoldenEye 007, Morrowind, Def Jam: Fight for NY, The Last of Us, Demon's Souls, Brute Force, and BO3 Zombies Chronicles."
+    }
+   ]
+  },
+  {
+   "at": "2026-10-31T05:05:00Z",
+   "lane": "pc",
+   "mode": "big",
+   "summary": "Shipped the steadier game window and the website's missing icons, and built a proposal so phone pings say who sent a game request.",
+   "items": [
+    {
+     "kind": "shipped",
+     "project": "RetroBat Wizard",
+     "text": "Game window arrows no longer bring up scroll bars or resize the box."
+    },
+    {
+     "kind": "shipped",
+     "project": "RetroBat Wizard",
+     "text": "The website's Start and Games icons show again (the chest is back on Games)."
+    },
+    {
+     "kind": "proposed",
+     "project": "RetroBat Wizard",
+     "text": "Phone pings say what kind of report it is and who sent it, like \"Game request from Steven\"."
     }
    ]
   }
