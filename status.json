@@ -1,10 +1,10 @@
 {
  "mode": "big",
- "openFlags": 43,
- "waiting": 0,
+ "openFlags": 42,
+ "waiting": 1,
  "lastRun": {
-  "at": "2026-10-31T04:40:00Z",
-  "summary": "RetroBat: fixed the jumpy game window arrows and the missing website icons, ready for you to merge as retrobat-wizard PR #4 (couldn't save flags.json this run)."
+  "at": "2026-10-31T05:05:00Z",
+  "summary": "RetroBat: shipped the steadier game window and the website's missing icons, and built a proposal so phone pings say who sent a game request."
  },
- "updated": "2026-10-31T04:40:30.000Z"
+ "updated": "2026-10-31T05:06:00.000Z"
 }
