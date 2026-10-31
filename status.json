@@ -1,10 +1,10 @@
 {
  "mode": "big",
- "openFlags": 42,
+ "openFlags": 41,
  "waiting": 1,
  "lastRun": {
-  "at": "2026-10-31T05:05:00Z",
-  "summary": "RetroBat: shipped the steadier game window and the website's missing icons, and built a proposal so phone pings say who sent a game request."
+  "at": "2026-10-31T05:40:00Z",
+  "summary": "RetroBat: phone pings shipped, and the smoother downloads (real progress, speed, time left, less freezing) are built and waiting for your OK."
  },
- "updated": "2026-10-31T05:06:00.000Z"
+ "updated": "2026-10-31T05:41:00.000Z"
 }
