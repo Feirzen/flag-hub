@@ -3,8 +3,8 @@
  "openFlags": 43,
  "waiting": 0,
  "lastRun": {
-  "at": "2026-10-30T21:44:03Z",
-  "summary": "On request: merged both Hub proposals and shipped the docked audio player in Study Decks."
+  "at": "2026-10-31T04:40:00Z",
+  "summary": "RetroBat: fixed the jumpy game window arrows and the missing website icons, ready for you to merge as retrobat-wizard PR #4 (couldn't save flags.json this run)."
  },
- "updated": "2026-10-30T21:44:28.082Z"
+ "updated": "2026-10-31T04:40:30.000Z"
 }
