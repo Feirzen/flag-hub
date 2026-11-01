@@ -1203,7 +1203,7 @@
    "project": "Study Decks",
    "text": "Add back 10 seconds and forward 10 seconds buttons to the narration players (split off from your play/pause flag).",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "night shift",
    "created": "2026-10-31T08:04:32Z"
   }
@@ -1850,6 +1850,30 @@
    "created": "2026-11-01T07:28:17Z",
    "source": "weekly polish",
    "flagIds": []
+  },
+  {
+   "id": "p1101sdskip",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Back 10 / forward 10 buttons on the narration players",
+   "summary": "Every narration player, and the floating mini player, now has a back 10 seconds and forward 10 seconds button beside play. Your lock screen and headphone skip buttons jump 10 seconds too.",
+   "link": "https://github.com/Feirzen/study-decks/pull/6",
+   "images": [
+    "previews/p1101sdskip/before.png",
+    "previews/p1101sdskip/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.22,
+     "y": 0.77,
+     "r": 0.16
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-01T07:57:00Z",
+   "flagIds": [
+    "fmvvsdskip"
+   ]
   }
  ],
  "runs": [
@@ -2307,9 +2331,22 @@
      "text": "Rest-day note on the workout page reads as one clean sentence."
     }
    ]
+  },
+  {
+   "at": "2026-11-01T07:57:00Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Built one proposal: skip back and forward 10 seconds on the Study Decks narration players.",
+   "items": [
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Back 10 and forward 10 buttons on the narration players."
+    }
+   ]
   }
  ],
- "digestAt": "2026-10-31T08:05:28Z",
+ "digestAt": "2026-11-01T07:57:00Z",
  "polish": [
   {
    "app": "panicbutton",
