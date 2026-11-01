@@ -1772,6 +1772,84 @@
    "flagIds": [
     "fmvv9jrg6"
    ]
+  },
+  {
+   "id": "p1101msmonth",
+   "project": "Music Space",
+   "title": "Tidier month card and chapter header on your phone",
+   "summary": "On the Path tab, the practice number now sits right beside its label and the week circles stretch across the card with the key underneath. The chapter's Test out button tucks into the corner so the description gets the full width.",
+   "link": "https://github.com/Feirzen/music-space/pull/1",
+   "lane": "cloud",
+   "images": [
+    "previews/p1101msmonth/before.png",
+    "previews/p1101msmonth/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-01T07:28:17Z",
+   "source": "weekly polish",
+   "flagIds": []
+  },
+  {
+   "id": "p1101mstiles",
+   "project": "Music Space",
+   "title": "Practice tools fit on one phone screen",
+   "summary": "The Practice tab tiles are compact on your phone: small icon beside the name, short description under it. All eight tools and the warm-up fit on one screen with no scrolling, and bigger screens stay the same.",
+   "link": "https://github.com/Feirzen/music-space/pull/2",
+   "lane": "cloud",
+   "images": [
+    "previews/p1101mstiles/before.png",
+    "previews/p1101mstiles/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-01T07:28:17Z",
+   "source": "weekly polish",
+   "flagIds": []
+  },
+  {
+   "id": "p1101bmcal",
+   "project": "Bulk Manager",
+   "title": "Lift calendar rings today and shows what is coming up",
+   "summary": "The Lift days calendar puts a soft ring on today and shows upcoming lift days as faint dotted boxes, and today never counts as missed before it's over. The line under it now says how many lift days are done so far and how many are still ahead.",
+   "link": "https://github.com/Feirzen/bulk-manager/pull/2",
+   "spots": [
+    {
+     "x": 0.86,
+     "y": 0.37,
+     "r": 0.07
+    }
+   ],
+   "lane": "cloud",
+   "images": [
+    "previews/p1101bmcal/before.png",
+    "previews/p1101bmcal/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-01T07:28:17Z",
+   "source": "weekly polish",
+   "flagIds": []
+  },
+  {
+   "id": "p1101bmrest",
+   "project": "Bulk Manager",
+   "title": "Rest-day note on the workout page reads cleanly",
+   "summary": "Opening a session on a rest day used to show an awkward note with odd gaps around the day. Now it reads as one sentence: Rest day today. This is Tuesday's session, opened early.",
+   "link": "https://github.com/Feirzen/bulk-manager/pull/3",
+   "spots": [
+    {
+     "x": 0.5,
+     "y": 0.145,
+     "r": 0.12
+    }
+   ],
+   "lane": "cloud",
+   "images": [
+    "previews/p1101bmrest/before.png",
+    "previews/p1101bmrest/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-01T07:28:17Z",
+   "source": "weekly polish",
+   "flagIds": []
   }
  ],
  "runs": [
@@ -2201,6 +2279,34 @@
      "text": "New medium widget with two looks: counts by section and run times, or what's waiting on you up front."
     }
    ]
+  },
+  {
+   "at": "2026-11-01T07:28:17Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Weekly polish: two proposals each for Music Space and Bulk Manager.",
+   "items": [
+    {
+     "kind": "proposed",
+     "project": "Music Space",
+     "text": "Tidier month card and chapter header on the Path tab."
+    },
+    {
+     "kind": "proposed",
+     "project": "Music Space",
+     "text": "Practice tools fit on one phone screen."
+    },
+    {
+     "kind": "proposed",
+     "project": "Bulk Manager",
+     "text": "Lift calendar rings today and shows lift days coming up."
+    },
+    {
+     "kind": "proposed",
+     "project": "Bulk Manager",
+     "text": "Rest-day note on the workout page reads as one clean sentence."
+    }
+   ]
   }
  ],
  "digestAt": "2026-10-31T08:05:28Z",
@@ -2212,6 +2318,14 @@
   {
    "app": "retrobat-wizard",
    "at": "2026-10-25T07:31:00Z"
+  },
+  {
+   "app": "music-space",
+   "at": "2026-11-01T07:28:17Z"
+  },
+  {
+   "app": "bulk-manager",
+   "at": "2026-11-01T07:28:17Z"
   }
  ],
  "lanes": {

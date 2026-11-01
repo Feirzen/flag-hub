@@ -1,10 +1,10 @@
 {
  "mode": "big",
  "openFlags": 43,
- "waiting": 2,
+ "waiting": 6,
  "lastRun": {
   "at": "2026-10-31T08:05:28Z",
   "summary": "Fixed the Study Decks play/pause and Space key and the settings tray lining up, and built two proposals: Scrolls of Wisdom in Options and a new medium widget."
  },
- "updated": "2026-10-31T08:05:28Z"
+ "updated": "2026-11-01T07:28:17Z"
 }
