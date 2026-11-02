@@ -24,6 +24,15 @@
  ],
  "flags": [
   {
+   "id": "fmvzovk96",
+   "project": "Bilingual Blueprints",
+   "text": "“Do-it-yourself website builders\nabout $17 to $29/mo + your time”\n\nThis is in a funky spot and doesn’t make sense at all glance. Make it easier to understand (Our competitors price or whatever like that)\n\nAlso just above, let’s cut the prices  of each add on. Lots of numbers and looks like I’m looking to take money wherever possible.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-11-02T20:06:02.058Z"
+  },
+  {
    "id": "fmvvmv2kd",
    "project": "Study Decks",
    "text": "Every time I press pause or play, it's like 33% accurate. It only sometimes will actually play or pause, and it's super frustrating. I also would love a forward or back 10 seconds, and the space on my keyboard should NOT automatically go to reset the deck holy. Every time I press space to pause it the deck asks if I really want to reset.",
