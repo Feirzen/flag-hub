@@ -24,6 +24,23 @@
  ],
  "flags": [
   {
+   "id": "fmvzublxm",
+   "project": "Study Decks",
+   "text": "The minimap in the top right corner here is big enough that it stick out onto the screen. Idk if we need it to shrink down and then get big when you float the cursor over it or what, but I want it to stop being in the way when I'm trying to look at the screen. Also, I dont like that on the map I'm a flashing dot. Just make me stay solid, it doesnt need to flash.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-02T22:38:28.810Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": "canvas#mapcv",
+    "says": "",
+    "screen": "1396x785 computer",
+    "look": "chameleon"
+   }
+  },
+  {
    "id": "fmvzovk96",
    "project": "Bilingual Blueprints",
    "text": "“Do-it-yourself website builders\nabout $17 to $29/mo + your time”\n\nThis is in a funky spot and doesn’t make sense at all glance. Make it easier to understand (Our competitors price or whatever like that)\n\nAlso just above, let’s cut the prices  of each add on. Lots of numbers and looks like I’m looking to take money wherever possible.",
