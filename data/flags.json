@@ -1750,11 +1750,12 @@
      "r": 0.42
     }
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-31T08:04:32Z",
    "flagIds": [
     "fmvvjv8bn"
-   ]
+   ],
+   "decidedAt": "2026-11-02T05:30:00.445Z"
   },
   {
    "id": "p1031widget",
