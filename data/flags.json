@@ -1849,10 +1849,11 @@
     "previews/p1101bmrest/before.png",
     "previews/p1101bmrest/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-01T07:28:17Z",
    "source": "weekly polish",
-   "flagIds": []
+   "flagIds": [],
+   "decidedAt": "2026-11-02T05:27:05.375Z"
   },
   {
    "id": "p1101sdskip",
