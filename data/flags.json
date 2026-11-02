@@ -24,6 +24,23 @@
  ],
  "flags": [
   {
+   "id": "fmvzugs7y",
+   "project": "Study Decks",
+   "text": "Another idea after all the other flags with ideas have been applied, would be a party mode, where 1-4 players can connect. We use either QR codes to connect people's phones (ideal) or connect xbox controllers directly and have each control a player. The map would probably go away, but the unique challenges I mentioned in another flag like mazes or whatevs, or battle mode, could all be worked into a party mode. That would be so fun in AA school!",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-02T22:42:30.238Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": null,
+    "says": null,
+    "screen": "1396x785 computer",
+    "look": "chameleon"
+   }
+  },
+  {
    "id": "fmvzublxm",
    "project": "Study Decks",
    "text": "The minimap in the top right corner here is big enough that it stick out onto the screen. Idk if we need it to shrink down and then get big when you float the cursor over it or what, but I want it to stop being in the way when I'm trying to look at the screen. Also, I dont like that on the map I'm a flashing dot. Just make me stay solid, it doesnt need to flash.",
