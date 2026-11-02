@@ -1780,7 +1780,7 @@
     "previews/p1031widget/before.png",
     "previews/p1031widget/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-31T08:04:32Z",
    "flagIds": [
     "fmvv9jrg6"
@@ -1805,6 +1805,11 @@
      "at": "2026-11-02T09:05:05Z",
      "status": "waiting",
      "feedback": "Night shift: reworked per your notes (large widget, counts look, cloud/PC icons, big red waiting number, no ideas count)."
+    },
+    {
+     "at": "2026-11-02T15:42:18.676Z",
+     "status": "approved",
+     "feedback": "That looks so good! Accept the cloud is a little too flat, id like to to be rounder and more easily recognizable. Amd the PC icon i want to be a computer monitor instead of that server thing. Besides that it’s ready. Fix that and ship it"
     }
    ],
    "revision": 2,
@@ -1814,7 +1819,9 @@
      "y": 0.335,
      "r": 0.07
     }
-   ]
+   ],
+   "decidedAt": "2026-11-02T15:42:18.676Z",
+   "feedback": "That looks so good! Accept the cloud is a little too flat, id like to to be rounder and more easily recognizable. Amd the PC icon i want to be a computer monitor instead of that server thing. Besides that it’s ready. Fix that and ship it"
   },
   {
    "id": "p1101msmonth",
