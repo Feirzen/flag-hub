@@ -2019,11 +2019,12 @@
      "r": 0.06
     }
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-02T09:05:05Z",
    "flagIds": [
     "sd-seasonal-theme"
-   ]
+   ],
+   "decidedAt": "2026-11-02T15:39:38.915Z"
   }
  ],
  "runs": [
