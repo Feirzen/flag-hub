@@ -1832,7 +1832,7 @@
     "previews/p1101bmcal/before.png",
     "previews/p1101bmcal/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-01T07:28:17Z",
    "source": "weekly polish",
    "flagIds": [],
@@ -1842,7 +1842,8 @@
      "status": "reopened",
      "from": "approved"
     }
-   ]
+   ],
+   "decidedAt": "2026-11-02T05:29:17.226Z"
   },
   {
    "id": "p1101bmrest",
