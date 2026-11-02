@@ -1768,10 +1768,19 @@
     "previews/p1031widget/before.png",
     "previews/p1031widget/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-10-31T08:04:32Z",
    "flagIds": [
     "fmvv9jrg6"
+   ],
+   "decidedAt": "2026-11-02T05:35:35.154Z",
+   "feedback": "I like the “Counts” look better! Go ahead and apply that, but on the flags listed below the counts, add a big red number of the flags waiting on me from EITHER PC or cloud, yeah? Also change the Claude cloud words to Cluade and then a cloud icon on the side, and the PC word to a computer icon. Then it will look easier to read. Then get rid of “ideas” on the widget, we don’t need that count. \nLastly, I imagine I will have to paste the script into svripteable, so send me an email via resend with the script to paste and basic instructions, and consider that good enough to resolve it.",
+   "history": [
+    {
+     "at": "2026-11-02T05:35:35.154Z",
+     "status": "approved",
+     "feedback": "I like the “Counts” look better! Go ahead and apply that, but on the flags listed below the counts, add a big red number of the flags waiting on me from EITHER PC or cloud, yeah? Also change the Claude cloud words to Cluade and then a cloud icon on the side, and the PC word to a computer icon. Then it will look easier to read. Then get rid of “ideas” on the widget, we don’t need that count. \nLastly, I imagine I will have to paste the script into svripteable, so send me an email via resend with the script to paste and basic instructions, and consider that good enough to resolve it."
+    }
    ]
   },
   {
