@@ -1784,7 +1784,7 @@
     "previews/p1101msmonth/before.png",
     "previews/p1101msmonth/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-01T07:28:17Z",
    "source": "weekly polish",
    "flagIds": [],
@@ -1794,7 +1794,8 @@
      "status": "reopened",
      "from": "approved"
     }
-   ]
+   ],
+   "decidedAt": "2026-11-02T05:28:38.699Z"
   },
   {
    "id": "p1101mstiles",
