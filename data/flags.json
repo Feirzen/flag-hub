@@ -1801,10 +1801,11 @@
     "previews/p1101mstiles/before.png",
     "previews/p1101mstiles/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-01T07:28:17Z",
    "source": "weekly polish",
-   "flagIds": []
+   "flagIds": [],
+   "decidedAt": "2026-11-02T05:26:58.592Z"
   },
   {
    "id": "p1101bmcal",
