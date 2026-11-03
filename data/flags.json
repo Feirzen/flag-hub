@@ -45,7 +45,7 @@
    "project": "Study Decks",
    "text": "The minimap in the top right corner here is big enough that it stick out onto the screen. Idk if we need it to shrink down and then get big when you float the cursor over it or what, but I want it to stop being in the way when I'm trying to look at the screen. Also, I dont like that on the map I'm a flashing dot. Just make me stay solid, it doesnt need to flash.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-11-02T22:38:28.810Z",
    "where": {
@@ -55,7 +55,9 @@
     "says": "",
     "screen": "1396x785 computer",
     "look": "chameleon"
-   }
+   },
+   "resolvedAt": "2026-11-03T09:04:59Z",
+   "resolution": "The Tower minimap is smaller on computers and a little see-through, and your dot on it no longer flashes."
   },
   {
    "id": "fmvzovk96",
@@ -64,7 +66,8 @@
    "kind": "fix",
    "status": "open",
    "source": "hub",
-   "created": "2026-11-02T20:06:02.058Z"
+   "created": "2026-11-02T20:06:02.058Z",
+   "note": "No repo for this, so the night shift can't do it. Move it to For me, PC, or Ideas?"
   },
   {
    "id": "fmvvmv2kd",
@@ -170,9 +173,11 @@
    "project": "Flag Hub",
    "text": "My medium sized (not the small one) flag hub widget is pretty outdated now, and there’s too many flags there for it to be real helpful. Maybe we can change it up? I think useful things would be seeing the # of flags divided up by section, and for Claud, for me, cloud vs PC, see last runs of each scheduled task, and maybe the only specific flags I want to see details of are the ones waiting on me, if any, in bright colors so I look at them. Idk, propose a couple options?",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-30T17:45:52.566Z"
+   "created": "2026-10-30T17:45:52.566Z",
+   "resolvedAt": "2026-11-03T09:04:59Z",
+   "resolution": "The large widget now has the counts look with a round cloud and a computer monitor icon; the script is flag-hub/scriptable/flag-hub-large-widget.js (the email with it couldn't be sent from the cloud run)."
   },
   {
    "id": "fmvv9au2t",
@@ -1229,7 +1234,7 @@
    "id": "sd-seasonal-adventures",
    "project": "Study Decks",
    "kind": "feature",
-   "status": "open",
+   "status": "proposed",
    "source": "claude",
    "created": "2026-10-30T22:40:00Z",
    "text": "Study Decks: more seasonal holiday adventures like the Halloween one (tower.js SEASONS + a STORIES entry). Each runs around its holiday on its own (Halloween = Oct 16 to Nov 10). Ideas: Christmas, Valentine's, St. Patrick's, Easter, Fourth of July, Thanksgiving."
@@ -1238,10 +1243,12 @@
    "id": "sd-seasonal-theme",
    "project": "Study Decks",
    "kind": "feature",
-   "status": "proposed",
+   "status": "done",
    "source": "claude",
    "created": "2026-10-30T22:40:00Z",
-   "text": "Study Decks: seasonal look across the whole app (not just the adventure). Holiday colors and small touches that turn on automatically around each holiday, with a toggle in Options to switch them off."
+   "text": "Study Decks: seasonal look across the whole app (not just the adventure). Holiday colors and small touches that turn on automatically around each holiday, with a toggle in Options to switch them off.",
+   "resolvedAt": "2026-11-03T09:04:59Z",
+   "resolution": "Study Decks dresses up for Christmas Dec 1 to 31 on its own, with a switch in the gear's Look panel."
   },
   {
    "id": "fmvvsdskip",
@@ -1823,7 +1830,7 @@
     "previews/p1031widget/before.png",
     "previews/p1031widget/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-31T08:04:32Z",
    "flagIds": [
     "fmvv9jrg6"
@@ -1853,6 +1860,11 @@
      "at": "2026-11-02T15:42:18.676Z",
      "status": "approved",
      "feedback": "That looks so good! Accept the cloud is a little too flat, id like to to be rounder and more easily recognizable. Amd the PC icon i want to be a computer monitor instead of that server thing. Besides that it’s ready. Fix that and ship it"
+    },
+    {
+     "at": "2026-11-03T09:04:59Z",
+     "status": "shipped",
+     "from": "approved"
     }
    ],
    "revision": 2,
@@ -1864,7 +1876,8 @@
     }
    ],
    "decidedAt": "2026-11-02T15:42:18.676Z",
-   "feedback": "That looks so good! Accept the cloud is a little too flat, id like to to be rounder and more easily recognizable. Amd the PC icon i want to be a computer monitor instead of that server thing. Besides that it’s ready. Fix that and ship it"
+   "feedback": "That looks so good! Accept the cloud is a little too flat, id like to to be rounder and more easily recognizable. Amd the PC icon i want to be a computer monitor instead of that server thing. Besides that it’s ready. Fix that and ship it",
+   "shippedAt": "2026-11-03T09:04:59Z"
   },
   {
    "id": "p1101msmonth",
@@ -2078,12 +2091,44 @@
      "r": 0.06
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-02T09:05:05Z",
    "flagIds": [
     "sd-seasonal-theme"
    ],
-   "decidedAt": "2026-11-02T15:39:38.915Z"
+   "decidedAt": "2026-11-02T15:39:38.915Z",
+   "shippedAt": "2026-11-03T09:04:59Z",
+   "history": [
+    {
+     "at": "2026-11-03T09:04:59Z",
+     "status": "shipped",
+     "from": "approved"
+    }
+   ]
+  },
+  {
+   "id": "p1103sdxadv",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Christmas adventure: The Stolen Christmas",
+   "summary": "From Dec 1 to 31, starting an adventure on any deck gives you a Christmas story instead, like Halloween did: climb Tinsel Tower past gingerbread shrooms, rogue elves, and the Nutcracker General to beat the Humbug King. Snowy red-and-green rooms with presents around, and a Humbug King's Star trophy at the end.",
+   "link": "https://github.com/Feirzen/study-decks/pull/8",
+   "images": [
+    "previews/p1103sdxadv/before.png",
+    "previews/p1103sdxadv/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.4,
+     "y": 0.09,
+     "r": 0.12
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-03T09:04:59Z",
+   "flagIds": [
+    "sd-seasonal-adventures"
+   ]
   }
  ],
  "runs": [
@@ -2607,9 +2652,42 @@
      "text": "Christmas look for December, with a switch to turn it off."
     }
    ]
+  },
+  {
+   "at": "2026-11-03T09:04:59Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Merged your three approved changes, shrank the Tower minimap, and built a Christmas adventure proposal for Study Decks.",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Music Space",
+     "text": "The shared settings gear tray is back."
+    },
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Christmas look for December, with a switch to turn it off."
+    },
+    {
+     "kind": "merged",
+     "project": "Flag Hub",
+     "text": "Large widget counts look, now with a round cloud and a monitor icon."
+    },
+    {
+     "kind": "fixed",
+     "project": "Study Decks",
+     "text": "Tower minimap is smaller on computers and your dot stays solid."
+    },
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Christmas adventure: The Stolen Christmas, for December."
+    }
+   ]
   }
  ],
- "digestAt": "2026-11-02T09:05:05Z",
+ "digestAt": "2026-11-03T09:04:59Z",
  "polish": [
   {
    "app": "panicbutton",
