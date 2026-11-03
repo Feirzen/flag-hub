@@ -2046,10 +2046,19 @@
      "r": 0.09
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-02T09:05:05Z",
    "flagIds": [],
-   "decidedAt": "2026-11-02T15:39:03.341Z"
+   "decidedAt": "2026-11-02T15:39:03.341Z",
+   "shippedAt": "2026-11-03T08:56:56Z",
+   "mergedBy": "you",
+   "history": [
+    {
+     "at": "2026-11-03T08:56:56Z",
+     "status": "shipped",
+     "feedback": "You merged it on GitHub."
+    }
+   ]
   },
   {
    "id": "p1102sdxmas",
