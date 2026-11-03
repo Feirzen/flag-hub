@@ -23,6 +23,9 @@ const BLUE = "#3d8bfd";
 const TEAL = "#2bb5a0";
 const YELLOW = "#ffb020";
 const WAIT_ROWS = 3;
+// Icons (SF Symbols): a round, puffy cloud for the cloud run and a plain monitor for the PC run.
+const CLOUD_ICON = "cloud.fill";
+const PC_ICON = "display";
 const FLAG_ROWS = 6;
 
 async function getJSON(path) {
@@ -100,10 +103,10 @@ txt(top, "●", Font.systemFont(11), new Color(mode.color));
 top.addSpacer(4);
 txt(top, mode.label, Font.boldRoundedSystemFont(16), ink, 1);
 top.addSpacer();
-icon(top, "cloud.fill", 10, soft); top.addSpacer(3);
+icon(top, CLOUD_ICON, 12, soft); top.addSpacer(3);
 txt(top, ago(cloudAt), Font.mediumSystemFont(10), soft, 1);
 top.addSpacer(8);
-icon(top, "desktopcomputer", 10, soft); top.addSpacer(3);
+icon(top, PC_ICON, 12, soft); top.addSpacer(3);
 txt(top, ago(pcAt), Font.mediumSystemFont(10), soft, 1);
 top.addSpacer(8);
 icon(top, "sparkles", 10, soft); top.addSpacer(3);
@@ -112,7 +115,7 @@ w.addSpacer(9);
 
 // ---- counts: Claude (cloud), Claude (PC), for you
 const row = w.addStack(); row.centerAlignContent();
-[[cloud.length, "Claude", "cloud.fill", ORANGE], [pc.length, "Claude", "desktopcomputer", BLUE], [forYou.length, "for you", null, TEAL]]
+[[cloud.length, "Claude", CLOUD_ICON, ORANGE], [pc.length, "Claude", PC_ICON, BLUE], [forYou.length, "for you", null, TEAL]]
   .forEach(([n, label, sym, color], i) => {
     if (i) row.addSpacer(6);
     const p = row.addStack(); p.layoutVertically(); p.backgroundColor = card; p.cornerRadius = 10; p.setPadding(6, 9, 6, 9);
@@ -120,7 +123,7 @@ const row = w.addStack(); row.centerAlignContent();
     txt(p, String(n), Font.boldRoundedSystemFont(20), n ? new Color(color) : soft);
     const l = p.addStack(); l.centerAlignContent();
     txt(l, label, Font.mediumSystemFont(11), soft, 1);
-    if (sym) { l.addSpacer(4); icon(l, sym, 10, n ? new Color(color) : soft); }
+    if (sym) { l.addSpacer(5); icon(l, sym, 13, n ? new Color(color) : soft); }
   });
 w.addSpacer(9);
 
@@ -138,7 +141,7 @@ if (!data) {
   waiting.slice(0, WAIT_ROWS).forEach(p => {
     box.addSpacer(3);
     const r = box.addStack(); r.centerAlignContent();
-    icon(r, propLane(p) === "pc" ? "desktopcomputer" : "cloud.fill", 10, new Color(RED));
+    icon(r, propLane(p) === "pc" ? PC_ICON : CLOUD_ICON, 12, new Color(RED));
     r.addSpacer(6);
     txt(r, `${p.project}: ${p.title}`, Font.semiboldSystemFont(12), new Color(RED), 1);
     r.addSpacer();
@@ -163,7 +166,7 @@ if (!data) {
     const color = new Color(mine ? TEAL : flagLane(f) === "pc" ? BLUE : ORANGE);
     if (f.priority) txt(r, "⚡", Font.systemFont(10), new Color(YELLOW));
     else if (mine) txt(r, "●", Font.systemFont(9), color);
-    else icon(r, flagLane(f) === "pc" ? "desktopcomputer" : "cloud.fill", 9, color);
+    else icon(r, flagLane(f) === "pc" ? PC_ICON : CLOUD_ICON, 11, color);
     r.addSpacer(6);
     txt(r, f.project || "Unsorted", Font.semiboldSystemFont(11), soft, 1);
     r.addSpacer(6);
