@@ -24,6 +24,49 @@
  ],
  "flags": [
   {
+   "id": "fmvzugs7y",
+   "project": "Study Decks",
+   "text": "Another idea after all the other flags with ideas have been applied, would be a party mode, where 1-4 players can connect. We use either QR codes to connect people's phones (ideal) or connect xbox controllers directly and have each control a player. The map would probably go away, but the unique challenges I mentioned in another flag like mazes or whatevs, or battle mode, could all be worked into a party mode. That would be so fun in AA school!",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-02T22:42:30.238Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": null,
+    "says": null,
+    "screen": "1396x785 computer",
+    "look": "chameleon"
+   }
+  },
+  {
+   "id": "fmvzublxm",
+   "project": "Study Decks",
+   "text": "The minimap in the top right corner here is big enough that it stick out onto the screen. Idk if we need it to shrink down and then get big when you float the cursor over it or what, but I want it to stop being in the way when I'm trying to look at the screen. Also, I dont like that on the map I'm a flashing dot. Just make me stay solid, it doesnt need to flash.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-02T22:38:28.810Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": "canvas#mapcv",
+    "says": "",
+    "screen": "1396x785 computer",
+    "look": "chameleon"
+   }
+  },
+  {
+   "id": "fmvzovk96",
+   "project": "Bilingual Blueprints",
+   "text": "“Do-it-yourself website builders\nabout $17 to $29/mo + your time”\n\nThis is in a funky spot and doesn’t make sense at all glance. Make it easier to understand (Our competitors price or whatever like that)\n\nAlso just above, let’s cut the prices  of each add on. Lots of numbers and looks like I’m looking to take money wherever possible.",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-11-02T20:06:02.058Z"
+  },
+  {
    "id": "fmvvmv2kd",
    "project": "Study Decks",
    "text": "Every time I press pause or play, it's like 33% accurate. It only sometimes will actually play or pause, and it's super frustrating. I also would love a forward or back 10 seconds, and the space on my keyboard should NOT automatically go to reset the deck holy. Every time I press space to pause it the deck asks if I really want to reset.",
@@ -66,7 +109,7 @@
    "project": "Study Decks",
    "text": "This can go in the \"options\" section instead of the filters",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-10-30T22:34:43.811Z",
    "where": {
@@ -76,7 +119,9 @@
     "says": "Scrolls of Wisdom Learning pages pop up as you reach them in Battle.",
     "screen": "1396x632 computer",
     "look": "light"
-   }
+   },
+   "resolvedAt": "2026-11-02T09:05:05Z",
+   "resolution": "The Scrolls of Wisdom switch now lives under Options instead of Filters."
   },
   {
    "id": "fmvvfs6m6",
@@ -1193,7 +1238,7 @@
    "id": "sd-seasonal-theme",
    "project": "Study Decks",
    "kind": "feature",
-   "status": "open",
+   "status": "proposed",
    "source": "claude",
    "created": "2026-10-30T22:40:00Z",
    "text": "Study Decks: seasonal look across the whole app (not just the adventure). Holiday colors and small touches that turn on automatically around each holiday, with a toggle in Options to switch them off."
@@ -1203,9 +1248,11 @@
    "project": "Study Decks",
    "text": "Add back 10 seconds and forward 10 seconds buttons to the narration players (split off from your play/pause flag).",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "night shift",
-   "created": "2026-10-31T08:04:32Z"
+   "created": "2026-10-31T08:04:32Z",
+   "resolvedAt": "2026-11-02T09:05:05Z",
+   "resolution": "The narration players have back 10 and forward 10 second buttons."
   }
  ],
  "proposals": [
@@ -1750,19 +1797,27 @@
      "r": 0.42
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-31T08:04:32Z",
    "flagIds": [
     "fmvvjv8bn"
    ],
-   "decidedAt": "2026-11-02T05:30:00.445Z"
+   "decidedAt": "2026-11-02T05:30:00.445Z",
+   "shippedAt": "2026-11-02T09:05:05Z",
+   "history": [
+    {
+     "at": "2026-11-02T09:05:05Z",
+     "status": "shipped",
+     "feedback": "Night shift: merged."
+    }
+   ]
   },
   {
    "id": "p1031widget",
    "project": "Flag Hub",
    "lane": "cloud",
-   "title": "New medium widget, two looks to pick from",
-   "summary": "A new medium widget shows flag counts split into Claude cloud, Claude PC, for you, and ideas, when the cloud, PC, and polish runs last went, and anything waiting on you in bright orange. The \"focus\" look puts what's waiting on you front and center instead, and you pick the look with one word at the top of the script.",
+   "title": "Large widget gets the counts look",
+   "summary": "Reworked for your large widget instead of the medium one: three count tiles (Claude with a cloud icon, Claude with a computer icon, and for you, no ideas), then a big red number of proposals waiting on you from the cloud or PC with the first few listed, then your open flags. Your medium widget is left alone, and once you approve, the night shift emails you the script to paste into Scriptable with the steps.",
    "link": "https://github.com/Feirzen/flag-hub/pull/13",
    "images": [
     "previews/p1031widget/before.png",
@@ -1788,10 +1843,28 @@
      "at": "2026-11-02T05:38:14.289Z",
      "status": "approved",
      "feedback": "I like the “Counts” look better! Go ahead and apply that, but on the flags listed below the counts, add a big red number of the flags waiting on me from EITHER PC or cloud, yeah? Also change the Claude cloud words to Cluade and then a cloud icon on the side, and the PC word to a computer icon. Then it will look easier to read. Then get rid of “ideas” on the widget, we don’t need that count. \nLastly, I imagine I will have to paste the script into svripteable, so send me an email via resend with the script to paste and basic instructions, and consider that good enough to resolve it.\nWAIT- edit. So I meant the bigger widget, not this size. There’s currently two, one that’s twice the height of the one you showed me. Leave this one alone, but update the bigger one (double this size) for me. Sorry I might have been confused when I said which to do."
+    },
+    {
+     "at": "2026-11-02T09:05:05Z",
+     "status": "waiting",
+     "feedback": "Night shift: reworked per your notes (large widget, counts look, cloud/PC icons, big red waiting number, no ideas count)."
+    },
+    {
+     "at": "2026-11-02T15:42:18.676Z",
+     "status": "approved",
+     "feedback": "That looks so good! Accept the cloud is a little too flat, id like to to be rounder and more easily recognizable. Amd the PC icon i want to be a computer monitor instead of that server thing. Besides that it’s ready. Fix that and ship it"
     }
    ],
-   "decidedAt": "2026-11-02T05:38:14.289Z",
-   "feedback": "I like the “Counts” look better! Go ahead and apply that, but on the flags listed below the counts, add a big red number of the flags waiting on me from EITHER PC or cloud, yeah? Also change the Claude cloud words to Cluade and then a cloud icon on the side, and the PC word to a computer icon. Then it will look easier to read. Then get rid of “ideas” on the widget, we don’t need that count. \nLastly, I imagine I will have to paste the script into svripteable, so send me an email via resend with the script to paste and basic instructions, and consider that good enough to resolve it.\nWAIT- edit. So I meant the bigger widget, not this size. There’s currently two, one that’s twice the height of the one you showed me. Leave this one alone, but update the bigger one (double this size) for me. Sorry I might have been confused when I said which to do."
+   "revision": 2,
+   "spots": [
+    {
+     "x": 0.16,
+     "y": 0.335,
+     "r": 0.07
+    }
+   ],
+   "decidedAt": "2026-11-02T15:42:18.676Z",
+   "feedback": "That looks so good! Accept the cloud is a little too flat, id like to to be rounder and more easily recognizable. Amd the PC icon i want to be a computer monitor instead of that server thing. Besides that it’s ready. Fix that and ship it"
   },
   {
    "id": "p1101msmonth",
@@ -1804,7 +1877,7 @@
     "previews/p1101msmonth/before.png",
     "previews/p1101msmonth/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-01T07:28:17Z",
    "source": "weekly polish",
    "flagIds": [],
@@ -1813,9 +1886,15 @@
      "at": "2026-11-02T05:28:09.780Z",
      "status": "reopened",
      "from": "approved"
+    },
+    {
+     "at": "2026-11-02T09:05:05Z",
+     "status": "shipped",
+     "feedback": "Night shift: merged."
     }
    ],
-   "decidedAt": "2026-11-02T05:28:38.699Z"
+   "decidedAt": "2026-11-02T05:28:38.699Z",
+   "shippedAt": "2026-11-02T09:05:05Z"
   },
   {
    "id": "p1101mstiles",
@@ -1828,11 +1907,19 @@
     "previews/p1101mstiles/before.png",
     "previews/p1101mstiles/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-01T07:28:17Z",
    "source": "weekly polish",
    "flagIds": [],
-   "decidedAt": "2026-11-02T05:26:58.592Z"
+   "decidedAt": "2026-11-02T05:26:58.592Z",
+   "shippedAt": "2026-11-02T09:05:05Z",
+   "history": [
+    {
+     "at": "2026-11-02T09:05:05Z",
+     "status": "shipped",
+     "feedback": "Night shift: merged."
+    }
+   ]
   },
   {
    "id": "p1101bmcal",
@@ -1852,7 +1939,7 @@
     "previews/p1101bmcal/before.png",
     "previews/p1101bmcal/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-01T07:28:17Z",
    "source": "weekly polish",
    "flagIds": [],
@@ -1861,9 +1948,15 @@
      "at": "2026-11-02T05:27:55.577Z",
      "status": "reopened",
      "from": "approved"
+    },
+    {
+     "at": "2026-11-02T09:05:05Z",
+     "status": "shipped",
+     "feedback": "Night shift: merged."
     }
    ],
-   "decidedAt": "2026-11-02T05:29:17.226Z"
+   "decidedAt": "2026-11-02T05:29:17.226Z",
+   "shippedAt": "2026-11-02T09:05:05Z"
   },
   {
    "id": "p1101bmrest",
@@ -1883,7 +1976,7 @@
     "previews/p1101bmrest/before.png",
     "previews/p1101bmrest/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-01T07:28:17Z",
    "source": "weekly polish",
    "flagIds": [],
@@ -1892,9 +1985,15 @@
      "at": "2026-11-02T05:28:03.882Z",
      "status": "reopened",
      "from": "approved"
+    },
+    {
+     "at": "2026-11-02T09:05:05Z",
+     "status": "shipped",
+     "feedback": "Night shift: merged."
     }
    ],
-   "decidedAt": "2026-11-02T05:29:41.800Z"
+   "decidedAt": "2026-11-02T05:29:41.800Z",
+   "shippedAt": "2026-11-02T09:05:05Z"
   },
   {
    "id": "p1101sdskip",
@@ -1914,12 +2013,77 @@
      "r": 0.16
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-01T07:57:00Z",
    "flagIds": [
     "fmvvsdskip"
    ],
-   "decidedAt": "2026-11-02T05:26:21.936Z"
+   "decidedAt": "2026-11-02T05:26:21.936Z",
+   "shippedAt": "2026-11-02T09:05:05Z",
+   "history": [
+    {
+     "at": "2026-11-02T09:05:05Z",
+     "status": "shipped",
+     "feedback": "Night shift: merged."
+    }
+   ]
+  },
+  {
+   "id": "p1102mskit",
+   "project": "Music Space",
+   "lane": "cloud",
+   "title": "Shared settings gear comes back",
+   "summary": "Tapping the gear in Music Space rolls out the shared tray again (Look, Flag, Sound, more), like your other apps, instead of jumping straight to the settings page. The v2.4 profiles update accidentally dropped the shared kit, and this puts it back exactly as it was.",
+   "link": "https://github.com/Feirzen/music-space/pull/3",
+   "images": [
+    "previews/p1102mskit/before.png",
+    "previews/p1102mskit/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.905,
+     "y": 0.16,
+     "r": 0.09
+    }
+   ],
+   "status": "shipped",
+   "created": "2026-11-02T09:05:05Z",
+   "flagIds": [],
+   "decidedAt": "2026-11-02T15:39:03.341Z",
+   "shippedAt": "2026-11-03T08:56:56Z",
+   "mergedBy": "you",
+   "history": [
+    {
+     "at": "2026-11-03T08:56:56Z",
+     "status": "shipped",
+     "feedback": "You merged it on GitHub."
+    }
+   ]
+  },
+  {
+   "id": "p1102sdxmas",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Christmas look for December",
+   "summary": "From Dec 1 to 31 Study Decks dresses up on its own like it does for Halloween: snow, twinkling lights across the top, a red ornament on the wordmark that jingles when you tap it, and candy-cane progress bars. A Christmas decorations switch sits under the Halloween one in the gear's Look panel.",
+   "link": "https://github.com/Feirzen/study-decks/pull/7",
+   "images": [
+    "previews/p1102sdxmas/before.png",
+    "previews/p1102sdxmas/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.38,
+     "y": 0.163,
+     "r": 0.06
+    }
+   ],
+   "status": "approved",
+   "created": "2026-11-02T09:05:05Z",
+   "flagIds": [
+    "sd-seasonal-theme"
+   ],
+   "decidedAt": "2026-11-02T15:39:38.915Z"
   }
  ],
  "runs": [
@@ -2390,9 +2554,62 @@
      "text": "Back 10 and forward 10 buttons on the narration players."
     }
    ]
+  },
+  {
+   "at": "2026-11-02T09:05:05Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Merged your six approved changes, reworked the widget onto the large size, and built two proposals (Music Space gear fix, Study Decks Christmas look).",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Scrolls of Wisdom switch moved to Options."
+    },
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Back 10 and forward 10 buttons on the narration players."
+    },
+    {
+     "kind": "merged",
+     "project": "Music Space",
+     "text": "Tidier month card and chapter header on phones."
+    },
+    {
+     "kind": "merged",
+     "project": "Music Space",
+     "text": "Practice tools fit on one phone screen."
+    },
+    {
+     "kind": "merged",
+     "project": "Bulk Manager",
+     "text": "Lift calendar rings today and shows what is coming up."
+    },
+    {
+     "kind": "merged",
+     "project": "Bulk Manager",
+     "text": "Rest-day note on the workout page reads cleanly."
+    },
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "Reworked: the counts look now goes on your large widget, with cloud/PC icons and a big red waiting number."
+    },
+    {
+     "kind": "proposed",
+     "project": "Music Space",
+     "text": "Bring back the shared settings gear tray that the v2.4 update dropped."
+    },
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Christmas look for December, with a switch to turn it off."
+    }
+   ]
   }
  ],
- "digestAt": "2026-11-01T07:57:00Z",
+ "digestAt": "2026-11-02T09:05:05Z",
  "polish": [
   {
    "app": "panicbutton",
