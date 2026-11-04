@@ -2124,11 +2124,12 @@
      "r": 0.12
     }
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-03T09:04:59Z",
    "flagIds": [
     "sd-seasonal-adventures"
-   ]
+   ],
+   "decidedAt": "2026-11-04T03:54:26.331Z"
   }
  ],
  "runs": [
