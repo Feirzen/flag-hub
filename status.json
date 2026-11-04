@@ -1,10 +1,10 @@
 {
  "mode": "big",
- "openFlags": 42,
+ "openFlags": 41,
  "waiting": 1,
  "lastRun": {
-  "at": "2026-11-03T09:04:59Z",
-  "summary": "Merged your three approved changes, shrank the Tower minimap, and built a Christmas adventure proposal for Study Decks."
+  "at": "2026-11-04T09:03:21Z",
+  "summary": "Merged the Christmas adventure and built a Labyrinth trial room proposal for Study Decks."
  },
- "updated": "2026-11-03T09:04:59Z"
+ "updated": "2026-11-04T09:03:21Z"
 }

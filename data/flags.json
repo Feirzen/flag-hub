@@ -1225,7 +1225,7 @@
    "id": "sd-playstyles",
    "project": "Study Decks",
    "kind": "feature",
-   "status": "open",
+   "status": "proposed",
    "source": "claude",
    "created": "2026-10-30T22:40:00Z",
    "text": "Study Decks: more playstyles in the Tower beyond fight-everything. Real platforming obstacle courses, mazes, and other crazy dynamic sections, with questions built in (answer to open a gate, jump the right answer, etc.) so it stays fun and keeps forcing real learning."
@@ -1234,10 +1234,12 @@
    "id": "sd-seasonal-adventures",
    "project": "Study Decks",
    "kind": "feature",
-   "status": "proposed",
+   "status": "done",
    "source": "claude",
    "created": "2026-10-30T22:40:00Z",
-   "text": "Study Decks: more seasonal holiday adventures like the Halloween one (tower.js SEASONS + a STORIES entry). Each runs around its holiday on its own (Halloween = Oct 16 to Nov 10). Ideas: Christmas, Valentine's, St. Patrick's, Easter, Fourth of July, Thanksgiving."
+   "text": "Study Decks: more seasonal holiday adventures like the Halloween one (tower.js SEASONS + a STORIES entry). Each runs around its holiday on its own (Halloween = Oct 16 to Nov 10). Ideas: Christmas, Valentine's, St. Patrick's, Easter, Fourth of July, Thanksgiving.",
+   "resolvedAt": "2026-11-04T09:03:21Z",
+   "resolution": "The Christmas adventure shipped and runs Dec 1 to 31; other holidays can follow the same pattern if you flag them."
   },
   {
    "id": "sd-seasonal-theme",
@@ -2124,12 +2126,37 @@
      "r": 0.12
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-03T09:04:59Z",
    "flagIds": [
     "sd-seasonal-adventures"
    ],
-   "decidedAt": "2026-11-04T03:54:26.331Z"
+   "decidedAt": "2026-11-04T03:54:26.331Z",
+   "shippedAt": "2026-11-04T09:03:21Z"
+  },
+  {
+   "id": "p1104sdmaze",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Labyrinth trial rooms in the Tower",
+   "summary": "Some floors now have a Labyrinth: the doors seal, the lights go out, and you have to find a glowing rune in a real maze, answering a question to open each riddle gate on the way. Floors you're already partway through stay exactly the same.",
+   "link": "https://github.com/Feirzen/study-decks/pull/9",
+   "images": [
+    "previews/p1104sdmaze/before.png",
+    "previews/p1104sdmaze/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.77,
+     "y": 0.125,
+     "r": 0.1
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-04T09:03:21Z",
+   "flagIds": [
+    "sd-playstyles"
+   ]
   }
  ],
  "runs": [
@@ -2686,9 +2713,27 @@
      "text": "Christmas adventure: The Stolen Christmas, for December."
     }
    ]
+  },
+  {
+   "at": "2026-11-04T09:03:21Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Merged the Christmas adventure and built a Labyrinth trial room proposal for Study Decks.",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Christmas adventure: The Stolen Christmas, live for December."
+    },
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Labyrinth trial rooms: a dark maze with riddle gates and a rune to find."
+    }
+   ]
   }
  ],
- "digestAt": "2026-11-03T09:04:59Z",
+ "digestAt": "2026-11-04T09:03:21Z",
  "polish": [
   {
    "app": "panicbutton",
