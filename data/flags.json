@@ -38,7 +38,8 @@
     "says": null,
     "screen": "1396x785 computer",
     "look": "chameleon"
-   }
+   },
+   "note": "Holding this until the challenge-room ideas (like the Labyrinth) are in, like you said. Then it becomes a proposal."
   },
   {
    "id": "fmvzublxm",
@@ -299,16 +300,18 @@
    "project": "RetroBat Wizard",
    "text": "continued x2 …. can be opened, and lives under the “what the wizard is” box.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-27T03:20:56.739Z"
+   "created": "2026-10-27T03:20:56.739Z",
+   "resolvedAt": "2026-11-05T06:50:00Z",
+   "resolution": "Shipped in wizard 3.3.1: How this setup works is rewritten and opens in its own window from the What the Wizard is box."
   },
   {
    "id": "fmvq49pjn",
    "project": "RetroBat Wizard",
    "text": "…continued when you click on it it will open up the section that already exists under this computer, “Steam on this computer”. Not as a pop out, but on that page. \nAnother thing, under the admin tab I have shared my scraper login before, in fact when I look now, it says, share it again, but there’s nowhere on anyone else else’s wizard to import that login. If possible, I would love to make it so that’s not even a necessary step. On that note, is it possible to make the scraper scrape for games missing all media every time it’s opened? So for example, I could add a new Health stat showing the number of games missing all media, and then let it scrape every time? It can only be for games, missing all media, and give very basic instructions in the description underneath on how to manually scrape individual games or all games. If the login can’t automatically be shared, maybe just add a button there to click that will offer to import the login.\nLastly, under the help tab: move set this computer up again to the settings>this computer page. Also move, add a shortcut to a game to the features page, and then move make this drive R: to settings>this computer> advanced: using this setup on more than one computer dropdown. Also the Rename this button can be deleted entirely. Lastly, the “how this setup works” text really needs to be updated so that it explains the current setup, and maybe have a blurb for coding nerds or sum. And move that whole text to a out window that can be opened",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "hub",
    "created": "2026-10-27T03:19:14.580Z"
   },
@@ -317,11 +320,13 @@
    "project": "RetroBat Wizard",
    "text": "Okay I tried downloading it on another computer as a test. It actually worked really well this time and I was really happy about it. The three wizard loading bars was very functional, but I don’t want the wizard to ride the loading bar as much as I want him to stand at the end while it loads good idea though.\nAlso, on this new dummy set up it seems to be working pretty well, the downloader could use some work which I’ve already told you about. When I log into an account, it doesn’t seem to save my favorites, so on the social tab where I have my three favorites and then the recently played and all of that nothing was saved there, except for my profile picture. My hope was that I could save my favorites and maybe even total playtime and maybe even recently played and all of that info saves to the cloud and comes back down. I don’t know at least for sure. The three favorites need to save. Also, I tried inviting my other account from this dummy account and the invite was never received on my end. It says it was sent and it gave me a timer till it expired but it just never showed on the other end. Is there any way to make that work better or fix the thing? As another note, I would love to move the Steam on this computer from this computer and settings, and instead have it as a section of the online library. So basically there’s PlayStation Sega all of the different consoles add one more console under PC and more and include a pixelated steam icon I can upload later, and… continued",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-27T03:08:49.480Z",
    "editedAt": "2026-10-27T03:09:26.006Z",
-   "reviewedAt": "2026-10-27T03:09:26.006Z"
+   "reviewedAt": "2026-10-27T03:09:26.006Z",
+   "resolvedAt": "2026-11-05T06:50:00Z",
+   "resolution": "Shipped in wizard 3.3.1: the mage stands at the end of each install bar, your three favourites come back at login, invites arrive, and Steam is on the Games tab (the pixel Steam icon is still yours to drop in)."
   },
   {
    "id": "fmvq3jdgp",
@@ -339,9 +344,11 @@
    "project": "RetroBat Wizard",
    "text": "When downloading games on the retro bat wizard the download progress jump jumped from 0 to 42 to 85 but it still took forever to do. It waited like 30 seconds between jumping and updating. Make it update more quickly and when I download a game, I want to be able to add games to the queue. Maybe a more similar set up to the publish games from admin? So basically I want to be able to download multiple at once control what order they download and see an amount of time that it’s gonna take to do it etc.. also it freezes up a lot on that screen when I go to download games so that could be improved on for sure. For both publishing and downloading I think I have mentioned this before, but I think I want the banner on the top that says downloading or uploading to include the details and if possible, have an actual progress bar instead of just a scrolling bar. Also, if it can match the aesthetic in general, that would be a win. Honestly, I would be down to have that happen for all of the times that banner pops up, not just here.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-27T02:54:02.251Z"
+   "created": "2026-10-27T02:54:02.251Z",
+   "resolvedAt": "2026-11-05T06:50:00Z",
+   "resolution": "Shipped in wizard 3.3.1: downloads show smooth progress with speed and time left, and the Games tab stops rebuilding every game (already live on the drive, so nothing was replaced and no backup was needed)."
   },
   {
    "id": "fmvpl8yqi",
@@ -1781,12 +1788,13 @@
    "summary": "Downloads count their own bytes, so the percent climbs smoothly with MB/s and time left, and the top banner becomes a real filling bar for downloads and uploads. The Games tab also stops rebuilding all ~470 games whenever a download starts or ends, which should end most of the freezing.",
    "link": "_night-shift/proposals/p1031rbdl (README.md inside)",
    "applyOn": "pc",
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-10-31T05:40:00Z",
    "flagIds": [
     "fmvq3damh"
    ],
-   "decidedAt": "2026-10-31T06:54:41.882Z"
+   "decidedAt": "2026-10-31T06:54:41.882Z",
+   "shippedAt": "2026-11-05T06:50:00Z"
   },
   {
    "id": "p1031sdscroll",
@@ -2139,7 +2147,7 @@
    "project": "Study Decks",
    "lane": "cloud",
    "title": "Labyrinth trial rooms in the Tower",
-   "summary": "Some floors now have a Labyrinth: the doors seal, the lights go out, and you have to find a glowing rune in a real maze, answering a question to open each riddle gate on the way. Floors you're already partway through stay exactly the same.",
+   "summary": "Reworked: the Labyrinth now flashes and goes pitch black, your light stops at walls so you have to feel your way through dead ends, only the riddle gate locks glow (plus the odd pair of eyes), and a key in one dead end lights dim torches across the whole room. Floors you're already partway through stay exactly the same.",
    "link": "https://github.com/Feirzen/study-decks/pull/9",
    "images": [
     "previews/p1104sdmaze/before.png",
@@ -2147,12 +2155,12 @@
    ],
    "spots": [
     {
-     "x": 0.77,
-     "y": 0.125,
-     "r": 0.1
+     "x": 0.51,
+     "y": 0.19,
+     "r": 0.14
     }
    ],
-   "status": "redo",
+   "status": "waiting",
    "created": "2026-11-04T09:03:21Z",
    "flagIds": [
     "sd-playstyles"
@@ -2170,33 +2178,26 @@
      "status": "redo",
      "feedback": "This is actually such a cool idea! Don’t resolve my flag about unique challenge rooms for the game mode because I want more ideas like this, but absolutely let’s integrate this. I like the labyrinth idea at Alexis core, however, I would love for you to apply somewhat differently. Make the whole room. Go pitch black after a flash of light When you enter. The only things visible is directly around you similar to the existing dark rooms, and glowing ruins on the Riddle Gates. Everything else is literally invisible except maybe occasional ambience, glowing or torches or maybe even fun, monster animations or something. The light that the player exudes though only shines on the walls around them, meaning you can see up and down in a vertical hallway, but not very far, and can’t see past the walls on either side. That way you can’t just work the maze out in your head, but actually have to try different pathways, hit dead ends, and etc. maybe make a key in one deadend allow you to turn on torches that dimly light the whole room so once you solve it you can come back without having to resolve it. Make sense?"
     }
+   ],
+   "revision": 2,
+   "reworkedAt": "2026-11-05T23:41:45Z"
+  },
+  {
+   "id": "p1105rbart",
+   "project": "RetroBat Wizard",
+   "lane": "pc",
+   "title": "Health page: Box art light with a count and how to scrape",
+   "summary": "A new green Box art card on Health and repair says how many games have no pictures at all, which consoles have the most, and gives two plain steps for scraping all games or one game in RetroBat. Everything else in that flag already shipped in 3.3.1, so this is the last piece, and it only changes Check-DriveHealth.ps1.",
+   "link": "_night-shift/proposals/p1105rbart (README.md inside)",
+   "applyOn": "pc",
+   "status": "waiting",
+   "created": "2026-11-05T06:50:00Z",
+   "flagIds": [
+    "fmvq49pjn"
    ]
   }
  ],
  "runs": [
-  {
-   "at": "2026-10-30T21:44:03Z",
-   "lane": "cloud",
-   "mode": "big",
-   "summary": "On request: merged both Hub proposals and shipped the docked audio player in Study Decks.",
-   "items": [
-    {
-     "kind": "merged",
-     "project": "Flag Hub",
-     "text": "Folded Night shift section now shows which mode is on."
-    },
-    {
-     "kind": "merged",
-     "project": "Flag Hub",
-     "text": "Lane bar tucks in when it sticks, so the flag and gear stop covering it."
-    },
-    {
-     "kind": "merged",
-     "project": "Study Decks",
-     "text": "Lesson pop-up keeps its audio player docked at the bottom while you scroll."
-    }
-   ]
-  },
   {
    "at": "2026-10-30T21:21:17Z",
    "lane": "cloud",
@@ -2745,9 +2746,50 @@
      "text": "Labyrinth trial rooms: a dark maze with riddle gates and a rune to find."
     }
    ]
+  },
+  {
+   "at": "2026-11-05T06:50:00Z",
+   "lane": "pc",
+   "mode": "big",
+   "summary": "Marked the smoother downloads shipped (they went out in 3.3.1), closed three wizard flags 3.3.1 already covered, and built a Box art Health light proposal.",
+   "items": [
+    {
+     "kind": "shipped",
+     "project": "RetroBat Wizard",
+     "text": "Smoother downloads were already live in 3.3.1, so nothing needed copying over."
+    },
+    {
+     "kind": "fixed",
+     "project": "RetroBat Wizard",
+     "text": "Closed three flags 3.3.1 already handled: mage on the loading bar, favourites, invites, Steam tab, How this setup works."
+    },
+    {
+     "kind": "proposed",
+     "project": "RetroBat Wizard",
+     "text": "A Box art card on Health with how many games have no pictures and how to scrape them."
+    },
+    {
+     "kind": "failed",
+     "project": "RetroBat",
+     "text": "Couldn't save to the Hub file this run, so these changes wait in data/pending until the next run merges them."
+    }
+   ]
+  },
+  {
+   "at": "2026-11-05T23:41:45Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Reworked the Study Decks Labyrinth per your notes and saved the PC run's pending Hub update.",
+   "items": [
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Reworked: Labyrinth goes pitch black, light stops at walls, glowing gate locks, and a torch key in a dead end."
+    }
+   ]
   }
  ],
- "digestAt": "2026-11-04T09:03:21Z",
+ "digestAt": "2026-11-05T23:41:45Z",
  "polish": [
   {
    "app": "panicbutton",

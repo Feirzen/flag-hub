@@ -1,10 +1,10 @@
 {
  "mode": "big",
- "openFlags": 41,
- "waiting": 1,
+ "openFlags": 38,
+ "waiting": 2,
  "lastRun": {
-  "at": "2026-11-05T06:50:00Z",
-  "summary": "RetroBat: smoother downloads already shipped in 3.3.1, three covered flags closed, and a Box art Health light proposal built (Hub save pending in data/pending)."
+  "at": "2026-11-05T23:41:45Z",
+  "summary": "Reworked the Study Decks Labyrinth per your notes and saved the PC run's pending Hub update."
  },
- "updated": "2026-11-05T06:50:00Z"
+ "updated": "2026-11-05T23:41:45Z"
 }

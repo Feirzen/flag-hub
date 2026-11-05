@@ -1,6 +1,6 @@
 {
  "note": "Night shift 2026-11-05 (RetroBat) could not save to Feirzen/flag-hub: this session's git access does not include that repo, and the 285 KB data/flags.json is too big to rewrite safely through the connector. The next run with flag-hub access should merge these into data/flags.json (and refresh status.json counts), then set done: true here.",
- "done": false,
+ "done": true,
  "proposalUpdates": {
   "p1031rbdl": {
    "status": "shipped",
@@ -70,5 +70,6 @@
     "text": "Couldn't save to the Hub file this run, so these changes wait in data/pending until the next run merges them."
    }
   ]
- }
+ },
+ "mergedAt": "2026-11-05T23:41:45Z"
 }
