@@ -1,0 +1,74 @@
+{
+ "note": "Night shift 2026-11-05 (RetroBat) could not save to Feirzen/flag-hub: this session's git access does not include that repo, and the 285 KB data/flags.json is too big to rewrite safely through the connector. The next run with flag-hub access should merge these into data/flags.json (and refresh status.json counts), then set done: true here.",
+ "done": false,
+ "proposalUpdates": {
+  "p1031rbdl": {
+   "status": "shipped",
+   "shippedAt": "2026-11-05T06:50:00Z"
+  }
+ },
+ "flagUpdates": {
+  "fmvq3damh": {
+   "status": "done",
+   "resolvedAt": "2026-11-05T06:50:00Z",
+   "resolution": "Shipped in wizard 3.3.1: downloads show smooth progress with speed and time left, and the Games tab stops rebuilding every game (already live on the drive, so nothing was replaced and no backup was needed)."
+  },
+  "fmvq3wb7p": {
+   "status": "done",
+   "resolvedAt": "2026-11-05T06:50:00Z",
+   "resolution": "Shipped in wizard 3.3.1: the mage stands at the end of each install bar, your three favourites come back at login, invites arrive, and Steam is on the Games tab (the pixel Steam icon is still yours to drop in)."
+  },
+  "fmvq4bwdf": {
+   "status": "done",
+   "resolvedAt": "2026-11-05T06:50:00Z",
+   "resolution": "Shipped in wizard 3.3.1: How this setup works is rewritten and opens in its own window from the What the Wizard is box."
+  },
+  "fmvq49pjn": {
+   "status": "proposed"
+  }
+ },
+ "newProposals": [
+  {
+   "id": "p1105rbart",
+   "project": "RetroBat Wizard",
+   "lane": "pc",
+   "title": "Health page: Box art light with a count and how to scrape",
+   "summary": "A new green Box art card on Health and repair says how many games have no pictures at all, which consoles have the most, and gives two plain steps for scraping all games or one game in RetroBat. Everything else in that flag already shipped in 3.3.1, so this is the last piece, and it only changes Check-DriveHealth.ps1.",
+   "link": "_night-shift/proposals/p1105rbart (README.md inside)",
+   "applyOn": "pc",
+   "status": "waiting",
+   "created": "2026-11-05T06:50:00Z",
+   "flagIds": [
+    "fmvq49pjn"
+   ]
+  }
+ ],
+ "run": {
+  "at": "2026-11-05T06:50:00Z",
+  "lane": "pc",
+  "mode": "big",
+  "summary": "Marked the smoother downloads shipped (they went out in 3.3.1), closed three wizard flags 3.3.1 already covered, and built a Box art Health light proposal.",
+  "items": [
+   {
+    "kind": "shipped",
+    "project": "RetroBat Wizard",
+    "text": "Smoother downloads were already live in 3.3.1, so nothing needed copying over."
+   },
+   {
+    "kind": "fixed",
+    "project": "RetroBat Wizard",
+    "text": "Closed three flags 3.3.1 already handled: mage on the loading bar, favourites, invites, Steam tab, How this setup works."
+   },
+   {
+    "kind": "proposed",
+    "project": "RetroBat Wizard",
+    "text": "A Box art card on Health with how many games have no pictures and how to scrape them."
+   },
+   {
+    "kind": "failed",
+    "project": "RetroBat",
+    "text": "Couldn't save to the Hub file this run, so these changes wait in data/pending until the next run merges them."
+   }
+  ]
+ }
+}
