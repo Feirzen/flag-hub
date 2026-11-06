@@ -1,10 +1,10 @@
 {
- "mode": "off",
+ "mode": "light",
  "openFlags": 38,
- "waiting": 1,
+ "waiting": 0,
  "lastRun": {
   "at": "2026-11-06T00:26:25Z",
   "summary": "Built the Answer Stones, a second Tower challenge room, as a proposal."
  },
- "updated": "2026-11-06T01:07:25.491Z"
+ "updated": "2026-11-06T01:08:01.514Z"
 }
