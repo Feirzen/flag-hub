@@ -2219,11 +2219,12 @@
      "r": 0.16
     }
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-06T00:26:25Z",
    "flagIds": [
     "sd-playstyles"
-   ]
+   ],
+   "decidedAt": "2026-11-06T01:07:56.183Z"
   }
  ],
  "runs": [
