@@ -1,10 +1,10 @@
 {
  "mode": "big",
  "openFlags": 38,
- "waiting": 2,
+ "waiting": 0,
  "lastRun": {
-  "at": "2026-11-05T23:41:45Z",
-  "summary": "Reworked the Study Decks Labyrinth per your notes and saved the PC run's pending Hub update."
+  "at": "2026-11-06T00:17:21Z",
+  "summary": "Merged the Labyrinth you approved in chat, denied the Box art Health card, and deleted its flag."
  },
- "updated": "2026-11-05T23:41:45Z"
+ "updated": "2026-11-06T00:17:21Z"
 }
