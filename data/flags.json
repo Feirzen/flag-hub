@@ -2226,51 +2226,33 @@
    ],
    "decidedAt": "2026-11-06T01:07:56.183Z",
    "shippedAt": "2026-11-06T08:54:11Z"
+  },
+  {
+   "id": "p1106sdchasm",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "The Chasm trial room in the Tower",
+   "summary": "Some floors now have a sealed room that's one big drop, with narrow bridges to an island and a lever that breaks the seal. Cracked planks block the bridges: answer right to brace one, miss and it snaps and drops you back by the door.",
+   "link": "https://github.com/Feirzen/study-decks/pull/11",
+   "images": [
+    "previews/p1106sdchasm/before.png",
+    "previews/p1106sdchasm/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.42,
+     "y": 0.22,
+     "r": 0.22
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-06T09:01:45Z",
+   "flagIds": [
+    "sd-playstyles"
+   ]
   }
  ],
  "runs": [
-  {
-   "at": "2026-10-23T02:45:46Z",
-   "mode": "manual",
-   "summary": "Manual run: 4 proposals waiting on you, the family filter list updated, and answers on 4 flags.",
-   "items": [
-    {
-     "kind": "proposed",
-     "project": "Flag Hub",
-     "text": "Fold sections, a pencil to edit flags, an Ideas tab, and a label editor."
-    },
-    {
-     "kind": "proposed",
-     "project": "Study Decks",
-     "text": "Its gear now rolls out the shared tray."
-    },
-    {
-     "kind": "proposed",
-     "project": "Bulk Manager",
-     "text": "The theme dot is now the shared gear."
-    },
-    {
-     "kind": "proposed",
-     "project": "RetroBat Wizard",
-     "text": "Uploads keep going if you close the wizard or press PLAY."
-    },
-    {
-     "kind": "fixed",
-     "project": "RetroBat",
-     "text": "Family filter list rebuilt with your notes: Black Ops II, GTA, GoldenEye, Morrowind hidden."
-    },
-    {
-     "kind": "fixed",
-     "project": "Flag Hub",
-     "text": "Answers left on the upload speed, BotW, Screen Time, and daily activity flags."
-    },
-    {
-     "kind": "fixed",
-     "project": "Trip Board",
-     "text": "Closed the old Trip Board gear flag since it's inactive."
-    }
-   ]
-  },
   {
    "at": "2026-10-19T22:40:44Z",
    "mode": "light",
@@ -2803,9 +2785,27 @@
      "text": "Answer Stones: walk onto the lettered stone with the right answer, three to break the seal."
     }
    ]
+  },
+  {
+   "at": "2026-11-06T09:01:45Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Merged the Answer Stones and built the Chasm, a third Tower challenge room, as a proposal.",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Answer Stones trial room is live in the Tower."
+    },
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "The Chasm: cross bridges over a drop, answer to brace cracked planks, pull the lever."
+    }
+   ]
   }
  ],
- "digestAt": "2026-11-06T00:26:25Z",
+ "digestAt": "2026-11-06T09:01:45Z",
  "polish": [
   {
    "app": "panicbutton",
