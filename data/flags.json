@@ -2200,27 +2200,33 @@
      "feedback": "Denied in chat (Hub wasn't responding)."
     }
    ]
+  },
+  {
+   "id": "p1106sdstone",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Answer Stones trial room in the Tower",
+   "summary": "Some floors now have a sealed room with four lettered stones in the floor: you read the question under the map, then walk onto the stone with your answer and stand still. Get three right to break the seal, and floors you're already partway through stay exactly the same.",
+   "link": "https://github.com/Feirzen/study-decks/pull/10",
+   "images": [
+    "previews/p1106sdstone/before.png",
+    "previews/p1106sdstone/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.48,
+     "y": 0.2,
+     "r": 0.16
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-06T00:26:25Z",
+   "flagIds": [
+    "sd-playstyles"
+   ]
   }
  ],
  "runs": [
-  {
-   "at": "2026-10-30T08:01:17Z",
-   "lane": "cloud",
-   "mode": "light",
-   "summary": "Hid the last-run line on the Ideas tab and built a proposal for new map ambience in Study Decks.",
-   "items": [
-    {
-     "kind": "fixed",
-     "project": "Flag Hub",
-     "text": "Ideas tab no longer shows a last-run line."
-    },
-    {
-     "kind": "proposed",
-     "project": "Study Decks",
-     "text": "Map rooms now take turns between particles, mist, and swaying grass."
-    }
-   ]
-  },
   {
    "at": "2026-10-23T02:45:46Z",
    "mode": "manual",
@@ -2782,9 +2788,22 @@
      "text": "Labyrinth trial rooms: pitch-black mazes with riddle gates and a torch key."
     }
    ]
+  },
+  {
+   "at": "2026-11-06T00:26:25Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Built the Answer Stones, a second Tower challenge room, as a proposal.",
+   "items": [
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Answer Stones: walk onto the lettered stone with the right answer, three to break the seal."
+    }
+   ]
   }
  ],
- "digestAt": "2026-11-06T00:17:21Z",
+ "digestAt": "2026-11-06T00:26:25Z",
  "polish": [
   {
    "app": "panicbutton",
