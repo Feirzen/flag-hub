@@ -2245,11 +2245,12 @@
      "r": 0.22
     }
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-06T09:01:45Z",
    "flagIds": [
     "sd-playstyles"
-   ]
+   ],
+   "decidedAt": "2026-11-07T21:13:45.637Z"
   }
  ],
  "runs": [
