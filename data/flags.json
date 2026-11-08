@@ -2251,6 +2251,50 @@
     "sd-playstyles"
    ],
    "decidedAt": "2026-11-07T21:13:45.637Z"
+  },
+  {
+   "id": "p1108sddeck",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Tidier deck page on your phone",
+   "summary": "Chapter rows are tighter so about twice as many fit before you scroll, and the Shuffle and Battle tiles now match with the note under the name. The back arrow also lines up with the first line of a long deck title.",
+   "link": "https://github.com/Feirzen/study-decks/pull/12",
+   "images": [
+    "previews/p1108sddeck/before.png",
+    "previews/p1108sddeck/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-08T08:35:00Z",
+   "source": "weekly polish",
+   "flagIds": []
+  },
+  {
+   "id": "p1108sdshuf",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Shuffle header: streak pill and cleaner chapter tag",
+   "summary": "Streak and Best now share one small pill at the top right that turns gold and gives a soft pop when your streak goes up. The chapter name gets its own line on the question card so it never wraps awkwardly.",
+   "link": "https://github.com/Feirzen/study-decks/pull/13",
+   "images": [
+    "previews/p1108sdshuf/before.png",
+    "previews/p1108sdshuf/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.77,
+     "y": 0.08,
+     "r": 0.16
+    },
+    {
+     "x": 0.38,
+     "y": 0.2,
+     "r": 0.2
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-08T08:35:00Z",
+   "source": "weekly polish",
+   "flagIds": []
   }
  ],
  "runs": [
@@ -2805,6 +2849,24 @@
    "mode": "light",
    "summary": "Nothing new tonight. The Chasm is still waiting on you, and the party mode flag stays on hold until the challenge rooms are in.",
    "items": []
+  },
+  {
+   "at": "2026-11-08T08:35:00Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Weekly polish: two small Study Decks tidy-ups are ready for you to look at.",
+   "items": [
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Tighter chapter list and matching Shuffle/Battle tiles on the deck page."
+    },
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Streak pill and a cleaner chapter tag in Shuffle."
+    }
+   ]
   }
  ],
  "digestAt": "2026-11-06T09:01:45Z",
@@ -2824,6 +2886,10 @@
   {
    "app": "bulk-manager",
    "at": "2026-11-01T07:28:17Z"
+  },
+  {
+   "app": "study-decks",
+   "at": "2026-11-08T08:35:00Z"
   }
  ],
  "lanes": {
