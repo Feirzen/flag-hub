@@ -39,7 +39,7 @@
     "screen": "1396x785 computer",
     "look": "chameleon"
    },
-   "note": "Holding this until the challenge-room ideas (like the Labyrinth) are in, like you said. Then it becomes a proposal."
+   "note": "The challenge rooms are all in now, so this is next. One question first: phones joining by QR code needs a small online relay the site doesn't have yet, but Xbox controllers on one screen works today. Start with controllers, or set up the relay for phones?"
   },
   {
    "id": "fmvzublxm",
@@ -1223,10 +1223,12 @@
    "id": "sd-playstyles",
    "project": "Study Decks",
    "kind": "feature",
-   "status": "proposed",
+   "status": "done",
    "source": "claude",
    "created": "2026-10-30T22:40:00Z",
-   "text": "Study Decks: more playstyles in the Tower beyond fight-everything. Real platforming obstacle courses, mazes, and other crazy dynamic sections, with questions built in (answer to open a gate, jump the right answer, etc.) so it stays fun and keeps forcing real learning."
+   "text": "Study Decks: more playstyles in the Tower beyond fight-everything. Real platforming obstacle courses, mazes, and other crazy dynamic sections, with questions built in (answer to open a gate, jump the right answer, etc.) so it stays fun and keeps forcing real learning.",
+   "resolvedAt": "2026-11-08T08:56:51Z",
+   "resolution": "The Tower now has three challenge rooms: the Labyrinth, the Answer Stones, and the Chasm."
   },
   {
    "id": "sd-seasonal-adventures",
@@ -2245,12 +2247,13 @@
      "r": 0.22
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-06T09:01:45Z",
    "flagIds": [
     "sd-playstyles"
    ],
-   "decidedAt": "2026-11-07T21:13:45.637Z"
+   "decidedAt": "2026-11-07T21:13:45.637Z",
+   "shippedAt": "2026-11-08T08:56:51Z"
   },
   {
    "id": "p1108sddeck",
@@ -2298,39 +2301,6 @@
   }
  ],
  "runs": [
-  {
-   "at": "2026-10-20T07:53:41Z",
-   "mode": "off",
-   "summary": "Skipped: night shift is off",
-   "items": []
-  },
-  {
-   "at": "2026-10-21T01:41:52Z",
-   "mode": "manual",
-   "summary": "Manual run on the Flag Hub's own flags: 3 fixed, 1 proposal waiting on you.",
-   "items": [
-    {
-     "kind": "fixed",
-     "project": "Flag Hub",
-     "text": "Home screen icon fixed (the icon files were broken)."
-    },
-    {
-     "kind": "fixed",
-     "project": "Flag Hub",
-     "text": "Flag text now uses the full width, buttons moved to the top line."
-    },
-    {
-     "kind": "fixed",
-     "project": "Flag Hub",
-     "text": "New large Scriptable widget with flag previews."
-    },
-    {
-     "kind": "proposed",
-     "project": "Flag Hub",
-     "text": "For me flags, project colors, and an old-flag check-in."
-    }
-   ]
-  },
   {
    "at": "2026-10-21T07:53:39Z",
    "mode": "off",
@@ -2867,9 +2837,22 @@
      "text": "Streak pill and a cleaner chapter tag in Shuffle."
     }
    ]
+  },
+  {
+   "at": "2026-11-08T08:56:51Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Merged the Chasm, so all three Tower challenge rooms are live; party mode needs one answer from you before it's built.",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "The Chasm trial room is live in the Tower."
+    }
+   ]
   }
  ],
- "digestAt": "2026-11-06T09:01:45Z",
+ "digestAt": "2026-11-08T08:56:51Z",
  "polish": [
   {
    "app": "panicbutton",
