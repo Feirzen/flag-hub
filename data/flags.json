@@ -2302,12 +2302,6 @@
  ],
  "runs": [
   {
-   "at": "2026-10-21T07:53:39Z",
-   "mode": "off",
-   "summary": "Skipped: night shift is off",
-   "items": []
-  },
-  {
    "at": "2026-10-21T16:31:00Z",
    "mode": "big",
    "summary": "Manual Go Big run: Hub upgrade ready to merge with your notes built in, night shift taught to read notes, 3 new proposals.",
@@ -2850,6 +2844,13 @@
      "text": "The Chasm trial room is live in the Tower."
     }
    ]
+  },
+  {
+   "at": "2026-11-09T08:53:38Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Nothing new tonight. Two Study Decks tidy-ups are waiting on you, and party mode still needs your answer (controllers or phones).",
+   "items": []
   }
  ],
  "digestAt": "2026-11-08T08:56:51Z",
