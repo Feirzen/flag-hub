@@ -2283,11 +2283,12 @@
     "previews/p1108sddeck/before.png",
     "previews/p1108sddeck/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-08T08:35:00Z",
    "source": "weekly polish",
    "flagIds": [],
-   "decidedAt": "2026-11-10T04:50:25.349Z"
+   "decidedAt": "2026-11-10T04:50:25.349Z",
+   "shippedAt": "2026-11-10T08:58:58Z"
   },
   {
    "id": "p1108sdshuf",
@@ -2312,46 +2313,15 @@
      "r": 0.2
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-08T08:35:00Z",
    "source": "weekly polish",
    "flagIds": [],
-   "decidedAt": "2026-11-10T04:50:54.082Z"
+   "decidedAt": "2026-11-10T04:50:54.082Z",
+   "shippedAt": "2026-11-10T08:58:58Z"
   }
  ],
  "runs": [
-  {
-   "at": "2026-10-21T16:31:00Z",
-   "mode": "big",
-   "summary": "Manual Go Big run: Hub upgrade ready to merge with your notes built in, night shift taught to read notes, 3 new proposals.",
-   "items": [
-    {
-     "kind": "proposed",
-     "project": "Flag Hub",
-     "text": "Reworked: your approved upgrade now has notes on proposals and pick-your-interval check-ins. Ready to merge."
-    },
-    {
-     "kind": "fixed",
-     "project": "Flag Hub",
-     "text": "Night shift tasks now read your notes: approve with notes ships the tweaks, redo with notes gets rebuilt."
-    },
-    {
-     "kind": "proposed",
-     "project": "Interview Prep",
-     "text": "Theme button becomes the shared gear."
-    },
-    {
-     "kind": "proposed",
-     "project": "Trip Board",
-     "text": "Masthead gear plus four looks."
-    },
-    {
-     "kind": "proposed",
-     "project": "RetroBat",
-     "text": "Family filter game list ready for your yes or notes."
-    }
-   ]
-  },
   {
    "at": "2026-10-22T07:58:39Z",
    "mode": "big",
@@ -2870,9 +2840,27 @@
    "mode": "light",
    "summary": "Nothing new tonight. Two Study Decks tidy-ups are waiting on you, and party mode still needs your answer (controllers or phones).",
    "items": []
+  },
+  {
+   "at": "2026-11-10T08:58:58Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Merged both Study Decks tidy-ups you approved; party mode still needs your answer (controllers or phones).",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Tidier deck page on your phone is live."
+    },
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Shuffle header with the streak pill is live."
+    }
+   ]
   }
  ],
- "digestAt": "2026-11-08T08:56:51Z",
+ "digestAt": "2026-11-10T08:58:58Z",
  "polish": [
   {
    "app": "panicbutton",
