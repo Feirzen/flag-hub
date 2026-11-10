@@ -1031,7 +1031,9 @@
    "source": "reminders",
    "status": "open",
    "text": "Pokemon fan games: Tectonic, Reloaded, Reborn (passwords?), Reminiscencia, Infinite Fusion, Infinity, Awakening",
-   "id": "rem-27"
+   "id": "rem-27",
+   "reviewedAt": "2026-11-10T04:51:42.458Z",
+   "reviewEvery": 21
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
