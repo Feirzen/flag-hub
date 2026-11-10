@@ -852,9 +852,11 @@
    "kind": "you",
    "project": "3DS Setup",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Get all Pokemon games",
-   "id": "rem-07"
+   "id": "rem-07",
+   "resolvedAt": "2026-11-10T04:51:29.033Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
