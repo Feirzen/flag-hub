@@ -1051,9 +1051,11 @@
    "kind": "you",
    "project": "RetroBat",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Complete the collection of games",
-   "id": "rem-29"
+   "id": "rem-29",
+   "resolvedAt": "2026-11-10T04:51:55.131Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
