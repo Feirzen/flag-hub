@@ -2296,10 +2296,11 @@
      "r": 0.2
     }
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-08T08:35:00Z",
    "source": "weekly polish",
-   "flagIds": []
+   "flagIds": [],
+   "decidedAt": "2026-11-10T04:50:54.082Z"
   }
  ],
  "runs": [
