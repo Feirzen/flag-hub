@@ -1020,7 +1020,9 @@
    "source": "reminders",
    "status": "open",
    "text": "Pokemon ROM hacks: Lazarus, Odyssey, ROWE, Unbound",
-   "id": "rem-26"
+   "id": "rem-26",
+   "reviewedAt": "2026-11-10T04:51:37.904Z",
+   "reviewEvery": 45
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
