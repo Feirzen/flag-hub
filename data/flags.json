@@ -2323,33 +2323,6 @@
  ],
  "runs": [
   {
-   "at": "2026-10-22T07:58:39Z",
-   "mode": "big",
-   "summary": "Shipped the Interview Prep gear and logged the Hub upgrade, then got blocked from GitHub before starting the priority proposals.",
-   "items": [
-    {
-     "kind": "shipped",
-     "project": "Interview Prep",
-     "text": "The theme button is now the shared settings gear."
-    },
-    {
-     "kind": "shipped",
-     "project": "Flag Hub",
-     "text": "Hub upgrade marked shipped (you merged it yourself), its 4 flags are done."
-    },
-    {
-     "kind": "fixed",
-     "project": "Trip Board",
-     "text": "Dropped the Trip Board gear proposal since you said Trip Board is inactive."
-    },
-    {
-     "kind": "failed",
-     "project": "Study Decks",
-     "text": "Gear proposals for Study Decks and Bulk Manager, plus the collapsible Hub sections, did not start: this run lost permission to sync with GitHub partway through."
-    }
-   ]
-  },
-  {
    "at": "2026-10-23T07:54:08Z",
    "mode": "big",
    "summary": "Nothing new tonight: you merged the Hub, Study Decks, and Bulk Manager proposals, so those are marked shipped, and the open flags left all need the PC.",
@@ -2858,6 +2831,13 @@
      "text": "Shuffle header with the streak pill is live."
     }
    ]
+  },
+  {
+   "at": "2026-11-11T08:54:29Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Nothing new tonight. Party mode still needs your answer (controllers or phones).",
+   "items": []
   }
  ],
  "digestAt": "2026-11-10T08:58:58Z",
