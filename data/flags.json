@@ -2323,28 +2323,6 @@
  ],
  "runs": [
   {
-   "at": "2026-10-23T07:54:08Z",
-   "mode": "big",
-   "summary": "Nothing new tonight: you merged the Hub, Study Decks, and Bulk Manager proposals, so those are marked shipped, and the open flags left all need the PC.",
-   "items": [
-    {
-     "kind": "shipped",
-     "project": "Flag Hub",
-     "text": "You merged the Hub upgrade (fold sections, pencil edits, Ideas tab, labels), so its 2 flags are done."
-    },
-    {
-     "kind": "shipped",
-     "project": "Study Decks",
-     "text": "You merged the shared gear for Study Decks, so its flag is done."
-    },
-    {
-     "kind": "shipped",
-     "project": "Bulk Manager",
-     "text": "You merged the shared gear for Bulk Manager, so its flag is done."
-    }
-   ]
-  },
-  {
    "at": "2026-10-24T07:53:38Z",
    "mode": "big",
    "summary": "Nothing new tonight: the open flags for the apps I can reach are either ideas for the PC side (wizard installer, icons) or need your drive, so they're left for the RetroBat night shift.",
@@ -2837,6 +2815,13 @@
    "lane": "cloud",
    "mode": "light",
    "summary": "Nothing new tonight. Party mode still needs your answer (controllers or phones).",
+   "items": []
+  },
+  {
+   "at": "2026-11-12T08:53:56Z",
+   "lane": "cloud",
+   "mode": "off",
+   "summary": "Skipped: night shift is off",
    "items": []
   }
  ],
