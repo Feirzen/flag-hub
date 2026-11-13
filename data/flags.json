@@ -2323,12 +2323,6 @@
  ],
  "runs": [
   {
-   "at": "2026-10-24T07:53:38Z",
-   "mode": "big",
-   "summary": "Nothing new tonight: the open flags for the apps I can reach are either ideas for the PC side (wizard installer, icons) or need your drive, so they're left for the RetroBat night shift.",
-   "items": []
-  },
-  {
    "at": "2026-10-25T05:35:00Z",
    "mode": "big",
    "summary": "RetroBat drive not reachable",
@@ -2819,6 +2813,13 @@
   },
   {
    "at": "2026-11-12T08:53:56Z",
+   "lane": "cloud",
+   "mode": "off",
+   "summary": "Skipped: night shift is off",
+   "items": []
+  },
+  {
+   "at": "2026-11-13T08:53:11Z",
    "lane": "cloud",
    "mode": "off",
    "summary": "Skipped: night shift is off",
