@@ -2323,18 +2323,6 @@
  ],
  "runs": [
   {
-   "at": "2026-10-25T05:35:00Z",
-   "mode": "big",
-   "summary": "RetroBat drive not reachable",
-   "items": [
-    {
-     "kind": "failed",
-     "project": "RetroBat",
-     "text": "Couldn't reach the RetroBat drive."
-    }
-   ]
-  },
-  {
    "at": "2026-10-25T07:31:00Z",
    "mode": "big",
    "summary": "Weekly polish: 2 proposals for Panic Button and 2 for the RetroBat Wizard website, each built on its own branch with a pull request waiting for you.",
@@ -2820,6 +2808,13 @@
   },
   {
    "at": "2026-11-13T08:53:11Z",
+   "lane": "cloud",
+   "mode": "off",
+   "summary": "Skipped: night shift is off",
+   "items": []
+  },
+  {
+   "at": "2026-11-14T08:53:25Z",
    "lane": "cloud",
    "mode": "off",
    "summary": "Skipped: night shift is off",
