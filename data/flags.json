@@ -2323,39 +2323,6 @@
  ],
  "runs": [
   {
-   "at": "2026-10-25T07:31:00Z",
-   "mode": "big",
-   "summary": "Weekly polish: 2 proposals for Panic Button and 2 for the RetroBat Wizard website, each built on its own branch with a pull request waiting for you.",
-   "items": [
-    {
-     "kind": "proposed",
-     "project": "Panic Button",
-     "text": "A calmer timer with a progress ring and a breathing square that fills and empties."
-    },
-    {
-     "kind": "proposed",
-     "project": "Panic Button",
-     "text": "A smoother list with a progress line and checks that don't jump the page."
-    },
-    {
-     "kind": "proposed",
-     "project": "RetroBat Wizard",
-     "text": "The website's theme button becomes the shared gear, so its looks work again."
-    },
-    {
-     "kind": "proposed",
-     "project": "RetroBat Wizard",
-     "text": "A find-a-game box on the website's Games page."
-    }
-   ]
-  },
-  {
-   "at": "2026-10-25T07:54:15Z",
-   "mode": "big",
-   "summary": "Nothing new tonight: the open flags for the apps I can reach are all wizard or PC-side work, and the approved family filter is for the RetroBat night shift.",
-   "items": []
-  },
-  {
    "at": "2026-10-26T07:54:14Z",
    "mode": "off",
    "summary": "Skipped: night shift is off",
@@ -2825,6 +2792,13 @@
    "lane": "cloud",
    "mode": "off",
    "summary": "Weekly polish skipped: night shift is off",
+   "items": []
+  },
+  {
+   "at": "2026-11-15T08:53:03Z",
+   "lane": "cloud",
+   "mode": "off",
+   "summary": "Skipped: night shift is off",
    "items": []
   }
  ],
