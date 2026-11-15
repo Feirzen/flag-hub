@@ -2819,6 +2819,13 @@
    "mode": "off",
    "summary": "Skipped: night shift is off",
    "items": []
+  },
+  {
+   "at": "2026-11-15T08:22:39Z",
+   "lane": "cloud",
+   "mode": "off",
+   "summary": "Weekly polish skipped: night shift is off",
+   "items": []
   }
  ],
  "digestAt": "2026-11-10T08:58:58Z",
