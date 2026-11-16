@@ -1,0 +1,33 @@
+{
+ "note": "Added from chat on 2026-11-16. data/flags.json is too big to rewrite safely through the connector, so these new flags wait here. The next run with flag-hub access should append them to data/flags.json (and refresh status.json counts), then set done: true here.",
+ "done": false,
+ "newFlags": [
+  {
+   "id": "fmw16immich",
+   "project": "Big ideas",
+   "kind": "idea",
+   "status": "open",
+   "source": "claude",
+   "created": "2026-11-16T09:20:00Z",
+   "text": "Immich: self-hosted Google Photos on the Z240. Auto phone backup, face recognition, partner sharing like iCloud's shared library, and a free-up-space feature. Only start once backups are solid (new internal drive + dad's 4TB backup), and keep iCloud until then."
+  },
+  {
+   "id": "fmw16spanish",
+   "project": "Big ideas",
+   "kind": "idea",
+   "status": "open",
+   "source": "claude",
+   "created": "2026-11-16T09:20:00Z",
+   "text": "Pimsleur-style Spanish course for Ri: original ~20 minute audio lessons (prompt, pause to answer out loud, correct answer, words returning at growing intervals), Latin American voices, MP3s served through Jellyfin. Need first: her level, accent, goal, and minutes per day."
+  },
+  {
+   "id": "fmw16steamrb",
+   "project": "RetroBat",
+   "kind": "fix",
+   "status": "open",
+   "source": "claude",
+   "created": "2026-11-16T09:20:00Z",
+   "text": "Bug: Steam has a hard time connecting with RetroBat. Launching Steam games from RetroBat throws lots of little popups and issues, none of them controller friendly. Make Steam launches from RetroBat smooth and controller-only (check how Steam is started, any Steam popups, focus returning to RetroBat on exit). Related: the cloud sync error flag fmvv9xqib."
+  }
+ ]
+}
