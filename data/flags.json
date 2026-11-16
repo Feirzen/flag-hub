@@ -2323,12 +2323,6 @@
  ],
  "runs": [
   {
-   "at": "2026-10-26T07:54:14Z",
-   "mode": "off",
-   "summary": "Skipped: night shift is off",
-   "items": []
-  },
-  {
    "at": "2026-10-27T07:55:06Z",
    "mode": "off",
    "summary": "Skipped: night shift is off",
@@ -2796,6 +2790,13 @@
   },
   {
    "at": "2026-11-15T08:53:03Z",
+   "lane": "cloud",
+   "mode": "off",
+   "summary": "Skipped: night shift is off",
+   "items": []
+  },
+  {
+   "at": "2026-11-16T08:53:27Z",
    "lane": "cloud",
    "mode": "off",
    "summary": "Skipped: night shift is off",
