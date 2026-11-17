@@ -65,3 +65,8 @@ Then: `node seal.mjs today today-payload.json > today.json` and commit it as `os
 ## Changing the passcode
 
 `node os/tools/keygen.mjs "new passcode" > os/data/key.json`, then paste the printed public key into `PUBLIC_KEY` in `os/tools/seal.mjs`, re-lock `today.json` and reset `inbox.json`, and commit. On the phone: Settings, Forget passcode, type the new one.
+
+## The Apps tab
+
+The Apps tab lists every Feirzen repo that has a live GitHub Pages site. The phone asks GitHub itself, so new apps appear with no work from any task.
+`os/data/apps.json` (not locked, nothing personal in it) only holds tweaks: `hide` (repos to leave out), `apps` (a nicer `name` or a pinned `icon` URL per repo), and `extra` (apps hosted somewhere else, as `{ "name", "url", "icon" }`).

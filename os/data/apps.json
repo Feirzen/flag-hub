@@ -1,0 +1,44 @@
+{
+  "_about": "Optional tweaks for the Apps tab in Claude OS. The app list itself comes from GitHub (every Feirzen repo with a live page). hide: repos to leave out. apps: rename or pin an icon per repo. extra: apps hosted elsewhere, as { name, url, icon }.",
+  "hide": [
+    "gre-quant-daily"
+  ],
+  "apps": {
+    "study-decks": {
+      "name": "Study Decks",
+      "icon": "https://feirzen.github.io/study-decks/favicon.png"
+    },
+    "bulk-manager": {
+      "name": "Bulk Manager",
+      "icon": "https://feirzen.github.io/bulk-manager/assets/apple-touch-icon.png"
+    },
+    "music-space": {
+      "name": "Music Space",
+      "icon": "https://feirzen.github.io/music-space/icons/apple-touch-icon.png"
+    },
+    "Trip-Board": {
+      "name": "Trip Board"
+    },
+    "interview-prep": {
+      "name": "Interview Prep",
+      "icon": "https://feirzen.github.io/interview-prep/icons/apple-touch-icon.png"
+    },
+    "panicbutton": {
+      "name": "Panic Button",
+      "icon": "https://feirzen.github.io/panicbutton/icons/apple-touch-icon.png"
+    },
+    "retrobat-wizard": {
+      "name": "RetroBat Wizard",
+      "icon": "https://feirzen.github.io/retrobat-wizard/site/apple-touch-icon.png"
+    },
+    "Resilience-notes": {
+      "name": "NoteMaker",
+      "icon": "https://feirzen.github.io/Resilience-notes/icons/apple-touch-icon.png"
+    },
+    "flag-hub": {
+      "name": "Flag Hub",
+      "icon": "https://feirzen.github.io/flag-hub/icons/apple-touch-icon.png"
+    }
+  },
+  "extra": []
+}

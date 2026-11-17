@@ -2,7 +2,7 @@
    Swipe through panels (it loops forever). Live data comes from os/data (locked so only this
    phone can read it) and from Flag Hub. Timers, alarms and settings live on this device. */
 (() => {
-  const VERSION = "2.6"; /* bump together with os/version.json so the desk phone reloads */
+  const VERSION = "2.7"; /* bump together with os/version.json so the desk phone reloads */
   const RAW = "https://raw.githubusercontent.com/Feirzen/flag-hub/main/";
   const HUB = "https://feirzen.github.io/flag-hub/";
   const $ = s => document.querySelector(s);
@@ -18,13 +18,17 @@
     h24: false, idleAfter: 90, night: true, nightFrom: "22:00", nightTo: "06:30", nightLevel: 0.55, vol: 0.6, msgChime: true, motion: "full",
     bg: "rotate", bgEvery: 30, calView: 3, moods: true, seasonal: true,
     nightMode: true, nmFrom: "00:00", nmTo: "06:00", idleDim: 60, focusPlan: "25/5",
-    panels: { today: true, calendar: true, focus: true, inbox: true, flags: true, music: true },
+    panels: { today: true, calendar: true, focus: true, inbox: true, apps: true, flags: false, music: true },
+    idleShow: { music: true, timers: true, focus: true, alarm: false, next: false }, tapSound: true,
     glance: { next: true, inbox: true, flags: true, blueprints: false, music: false, study: true, workout: true },
     music: [],
   }, load("settings", {}));
   if (!S.v23) { S.glance = Object.assign({}, S.glance, { blueprints: true }); S.v23 = true; }
-  ["panels", "glance"].forEach(k => S[k] = Object.assign(k === "panels" ? { focus: true } : { focus: false, study: true, workout: true }, S[k]));
+  ["panels", "glance"].forEach(k => S[k] = Object.assign(k === "panels" ? { focus: true, apps: true } : { focus: false, study: true, workout: true }, S[k]));
+  S.idleShow = Object.assign({ music: true, timers: true, focus: true, alarm: false, next: false }, S.idleShow);
+  if (S.tapSound == null) S.tapSound = true;
   const saveS = () => save("settings", S);
+  if (!S.v27) { S.panels.flags = false; S.v27 = true; saveS(); } /* 2.7: Flags tab is off unless he turns it back on */
   window.OSSettings = S;
 
   /* ---------- icons ---------- */
@@ -65,7 +69,7 @@
      Sound: soft synthesized bells (needs one tap to unlock on iPhone)
      ========================================================= */
   const Sound = (() => {
-    let ctx = null, master = null;
+    let ctx = null, master = null, tapOut = null;
     function unlock() {
       try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {} /* play even when the ringer switch is on silent */
       try {
@@ -73,6 +77,7 @@
           ctx = new (window.AudioContext || window.webkitAudioContext)();
           master = ctx.createGain(); const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 5200;
           master.connect(lp); lp.connect(ctx.destination);
+          tapOut = ctx.createGain(); tapOut.gain.value = 1; tapOut.connect(lp);
         }
         if (ctx.state === "suspended") ctx.resume();
         const b = ctx.createBuffer(1, 1, 22050), s = ctx.createBufferSource(); s.buffer = b; s.connect(ctx.destination); s.start(0);
@@ -93,7 +98,18 @@
       const tunes = { msg: [[880, 0], [1318.5, .16]], timer: [[1046.5, 0], [1318.5, .18], [1568, .36]], alarm: [[784, 0], [987.8, .22], [1174.7, .44], [1568, .66]], test: [[1046.5, 0], [1568, .2]] };
       (tunes[kind] || tunes.test).forEach(([f, d]) => bell(f, t + d, 2.4, .5 * loud));
     }
-    return { unlock, play, ready: () => !!ctx && ctx.state === "running" };
+    /* button taps: a soft wooden tick, like a marimba bar touched lightly. Quiet, and quieter still at night. */
+    function tap(kind) {
+      if (!ctx || ctx.state !== "running" || !S.tapSound || !tapOut) return;
+      const now = ctx.currentTime + .005, vol = Math.max(0, Math.min(1, S.vol)) * (isNight(new Date()) ? .1 : .2);
+      const notes = kind === "on" ? [587.3, 784] : kind === "off" ? [587.3, 440] : [[523.3, 587.3, 659.3, 784, 880][Math.floor(Math.random() * 5)]];
+      notes.forEach((f, i) => { const t0 = now + i * .075;
+        [[1, 1, .17], [4, .2, .05], [9.2, .05, .03]].forEach(([r, g, len]) => {
+          const o = ctx.createOscillator(), v = ctx.createGain(); o.type = "sine"; o.frequency.value = f * r;
+          v.gain.setValueAtTime(0, t0); v.gain.linearRampToValueAtTime(vol * g, t0 + .004); v.gain.exponentialRampToValueAtTime(.0001, t0 + len);
+          o.connect(v); v.connect(tapOut); o.start(t0); o.stop(t0 + len + .02); }); });
+    }
+    return { unlock, play, tap, ready: () => !!ctx && ctx.state === "running" };
   })();
 
   /* keep the screen awake while open */
@@ -149,9 +165,10 @@
         <div class="chips js-chips"></div>
       </div>`,
     today: () => `<div class="card glass js-today-main"></div><div class="card glass js-today-wx"></div>`,
-    calendar: () => `<div class="card glass calcard"><div class="calhead"><div class="h js-calrange"></div>
-        <div class="seg"><button data-calv="3">3 days</button><button data-calv="7">Week</button></div></div>
+    calendar: () => `<div class="card glass calcard"><div class="calhead"><div class="h js-calrange"></div><div class="calnext js-calnext"></div>
+        <button class="link calnow" data-act="calnow">Now</button><div class="seg"><button data-calv="3">3 days</button><button data-calv="7">Week</button></div></div>
         <div class="calbody js-cal"></div></div>`,
+    apps: () => `<div class="rowhead"><div class="h">Apps</div><span class="mut appnote">Everything you've built. New ones show up on their own.</span></div><div class="appgrid js-apps"></div>`,
     inbox: () => `<div class="rowhead"><div class="h">Inbox</div><button class="link" data-act="readall">Mark all read</button></div><div class="inboxgrid js-inbox"></div>`,
     flags: () => `<div class="rowhead"><div class="seg glass"><button data-fv="flags">Flags</button><button data-fv="bp">Blueprints</button></div><a class="link" href="${HUB}" target="_blank" rel="noopener">Flag Hub</a></div><div class="card glass js-flags"></div>`,
     focus: () => `<div class="focus">
@@ -163,7 +180,7 @@
       </div>`,
     music: () => `<div class="card glass music"><div class="mtabs js-mtabs"></div><div class="player js-player"></div></div>`,
   };
-  const ORDER = ["home", "today", "calendar", "focus", "inbox", "flags", "music"];
+  const ORDER = ["home", "today", "calendar", "focus", "inbox", "apps", "flags", "music"];
   const deck = $("#deck");
   let keys = [], n = 0, here = 0, flagView = load("flagView", "flags"), settleT = 0;
 
@@ -259,10 +276,11 @@
   }
   function drift() {
     const L = $(".page.home:not(.clone) .hl"); if (!L) return;
-    if (!idle) { L.style.transform = ""; return; }
+    if (!idle) { L.style.transform = ""; $("#idle").style.transform = ""; return; }
     L.style.transform = `translate(${Math.random() * 22}px, ${(Math.random() - .5) * 18}px)`;
+    $("#idle").style.transform = `translate(${(Math.random() - .5) * 14}px, ${-Math.random() * 6}px)`; /* so the faint strip never burns in */
   }
-  ["pointerdown", "keydown"].forEach(ev => addEventListener(ev, () => { lastTouch = Date.now(); Sound.unlock(); if (idle) setIdle(false); nightTick(new Date()); }, true));
+  ["pointerdown", "keydown"].forEach(ev => addEventListener(ev, e => { lastTouch = Date.now(); Sound.unlock(); if (idle && !(e.target && e.target.closest && e.target.closest("#idle"))) setIdle(false); nightTick(new Date()); }, true));
   setInterval(() => {
     const quiet = Date.now() - lastTouch, free = $("#sheetBack").hidden && $("#ring").hidden;
     if (S.idleAfter && !idle && free && quiet > S.idleAfter * 1000) setIdle(true);
@@ -338,7 +356,52 @@
     return ({ walk: "Walk day", flex: "Flex day", rest: "Rest day" }[kind] || "Off day") + (nxt ? ` · next lift ${nxt}` : "");
   }
 
-  function renderAll() { renderFocus(); renderToday(); renderGlance(); renderCal(); renderInbox(); renderFlags(); renderMusic(); renderChips(); syncClones(); }
+  function renderAll() { renderFocus(); renderToday(); renderGlance(); renderCal(); renderInbox(); renderFlags(); renderMusic(); renderChips(); renderApps(); renderIdle(); syncClones(); }
+
+  /* ---------- Screensaver strip: faint music controls and anything running (timers, focus), chosen in Settings ---------- */
+  function renderIdle() {
+    const sh = S.idleShow, it = sp.st && sp.st.item, now = Date.now();
+    const L = sh.music && Spot.on() && it ? `<button data-isp="prev" aria-label="Previous">${SPI.prev}</button><button data-isp="toggle" aria-label="Play or pause">${sp.st.is_playing ? SPI.pause : SPI.play}</button><button data-isp="next" aria-label="Next">${SPI.next}</button><span class="it"><b>${esc(it.name)}</b>${esc((it.artists || []).map(a => a.name).join(", ") || (it.show && it.show.name) || "")}</span>` : "";
+    const items = []; /* [key, tap action, label html, value, extra class] */
+    if (sh.focus && (F.run || F.left != null)) items.push(["focus", "focus", F.mode === "focus" ? "Focus" : "Break", fmtDur(fLeft()), ""]);
+    if (sh.timers) timers.forEach(x => items.push(["t" + x.id, "timer", x.label ? esc(x.label) : "", fmtDur(x.left != null ? x.left : x.end - now), x.left != null ? "paused" : ""]));
+    if (sh.alarm) { const nx = nextAlarm(); if (nx) items.push(["alarm", "alarms", I.alarm, fmtHM(nx.time), ""]); }
+    if (sh.next) { const up = upcoming(); if (up.length) items.push(["next", "", esc(up[0].title), fmtHM(up[0].start), ""]); }
+    /* only rebuild when the set of things changes; each second just the numbers are updated, so a tap is never lost to a redraw */
+    const sig = items.map(x => x[0] + x[2] + x[4]).join("|");
+    if (L !== idleL) { idleL = L; $(".js-il").innerHTML = L; }
+    if (sig !== idleR) { idleR = sig; $(".js-ir").innerHTML = items.map(x => `<button class="ic ${x[4]}" ${x[1] ? `data-iact="${x[1]}"` : ""}>${x[2]} <b data-iv="${esc(x[0])}"></b></button>`).join(""); }
+    items.forEach(x => { const el = $(`.js-ir [data-iv="${x[0]}"]`); if (el && el.textContent !== x[3]) el.textContent = x[3]; });
+    document.body.classList.toggle("idlemusic", !!L);
+  }
+  let idleL = null, idleR = null;
+
+  /* ---------- Apps: every site he has built. The list comes from GitHub (any repo with a live page), so new apps appear on their own.
+     os/data/apps.json can rename, hide, pin an icon, or add apps that live somewhere else. ---------- */
+  let apps = load("apps", null);
+  const APP_ICONS = ["icons/apple-touch-icon.png", "apple-touch-icon.png", "assets/apple-touch-icon.png", "site/apple-touch-icon.png", "icons/icon-192.png", "favicon.png"];
+  const nice = n => n.replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+  async function pullApps() {
+    let cfg = {}; try { cfg = await getJSON("os/data/apps.json"); } catch (e) {}
+    let list = null;
+    try { const r = await fetch("https://api.github.com/users/Feirzen/repos?per_page=100&sort=pushed"); if (r.ok) list = (await r.json()).filter(x => x.has_pages && !x.archived).map(x => ({ id: x.name, name: nice(x.name), url: "https://feirzen.github.io/" + x.name + "/" })); } catch (e) {}
+    if (!list) { if (apps) return; list = Object.keys(cfg.apps || {}).map(id => ({ id, name: nice(id), url: "https://feirzen.github.io/" + id + "/" })); }
+    const known = load("appIcons", {});
+    list = list.filter(a => !(cfg.hide || []).includes(a.id)).map(a => Object.assign(a, (cfg.apps || {})[a.id] || {})).concat(cfg.extra || []);
+    list.forEach(a => { if (!a.icon && known[a.id || a.url]) a.icon = known[a.id || a.url]; });
+    if (!list.length) return;
+    apps = list; save("apps", apps); renderApps(); syncClones();
+  }
+  function renderApps() {
+    if (!apps || !apps.length) { setAll(".js-apps", `<div class="empty">Your apps show up here once the phone is online.</div>`); return; }
+    setAll(".js-apps", apps.map((a, i) => { const icons = a.icon ? [a.icon] : APP_ICONS.map(x => a.url + x);
+      return `<a class="app" href="${esc(a.url)}" target="_blank" rel="noopener" style="animation-delay:${i * 40}ms"><span class="ai2 glass"><i>${esc((a.name || "?")[0])}</i><img src="${esc(icons[0])}" data-app="${esc(a.id || a.url)}" data-alt="${esc(icons.slice(1).join("|"))}" alt=""></span><b>${esc(a.name)}</b></a>`; }).join(""));
+  }
+  /* try each usual icon spot until one loads, then remember it */
+  deck.addEventListener("error", e => { const im = e.target; if (im.tagName !== "IMG" || im.dataset.alt == null) return;
+    const rest = im.dataset.alt.split("|").filter(Boolean); if (rest.length) { im.dataset.alt = rest.slice(1).join("|"); im.src = rest[0]; } else im.remove(); }, true);
+  deck.addEventListener("load", e => { const im = e.target; if (im.tagName !== "IMG" || !im.dataset.app) return;
+    const known = load("appIcons", {}); if (known[im.dataset.app] !== im.src) { known[im.dataset.app] = im.src; save("appIcons", known); const a = (apps || []).find(x => (x.id || x.url) === im.dataset.app); if (a && !a.icon) { a.icon = im.src; save("apps", apps); } } }, true);
 
   function renderToday() {
     const w = today && today.weather, d = today && today.day;
@@ -399,10 +462,34 @@
 
   /* ---------- Calendar (timetable, like the iPhone calendar) ---------- */
   const H0 = 6, H1 = 24;
+  let calEv = [];
+  const relDur = ms => { const m = Math.max(1, Math.round(ms / 60000)); if (m < 60) return m + " min"; const h = Math.floor(m / 60), r = m % 60; return h < 24 ? h + "h" + (r ? " " + r + "m" : "") : Math.round(h / 24) + " days"; };
+  const evTime = (date, hhmm) => { const d = parseDay(date); d.setMinutes(mins(hhmm)); return d.getTime(); };
+  function calNext(cal) {
+    const now = Date.now(), tk = dayKey(new Date()); let live = null, next = null;
+    for (const d of (cal.days || []).filter(x => x.date >= tk).sort((a, b) => a.date < b.date ? -1 : 1)) for (const e of (d.events || []).filter(e => !e.allDay && e.start && e.kind !== "routine").sort((a, b) => mins(a.start) - mins(b.start))) {
+      const a = evTime(d.date, e.start), b = e.end ? evTime(d.date, e.end) : a + 3600e3;
+      if (a <= now && b > now && !live) live = { e, b }; else if (a > now && !next) next = { e, a, date: d.date };
+    }
+    if (live) return `Now: <b>${esc(live.e.title)}</b> · ${relDur(live.b - now)} left`;
+    if (next) return `Next: <b>${esc(next.e.title)}</b> · ${next.date === tk ? "in " + relDur(next.a - now) : parseDay(next.date).toLocaleDateString(undefined, { weekday: "short" }) + " " + fmtShort(next.e.start)}`;
+    return "";
+  }
+  function openEvent(e) {
+    const now = Date.now(), day = parseDay(e.date).toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+    let when = "All day", rel = "";
+    if (!e.allDay && e.start) { const a = evTime(e.date, e.start), b = e.end ? evTime(e.date, e.end) : a + 3600e3;
+      when = fmtHM(e.start) + (e.end ? " to " + fmtHM(e.end) + " · " + relDur(b - a) : "");
+      rel = a > now ? "Starts in " + relDur(a - now) : b > now ? "Happening now · " + relDur(b - now) + " left" : "Already done"; }
+    sheet(esc(e.title), `<div class="evd"><div class="evrow"><span class="k">Day</span><span>${esc(day)}</span></div><div class="evrow"><span class="k">Time</span><span>${esc(when)}</span></div>
+      ${e.where ? `<div class="evrow"><span class="k">Where</span><span>${esc(e.where)}</span></div>` : ""}${rel ? `<div class="evrow"><span class="k">Status</span><span>${esc(rel)}</span></div>` : ""}
+      ${e.kind === "routine" ? `<div class="mut" style="margin-top:8px;font-size:13px">Part of your regular routine.</div>` : ""}</div>`);
+  }
   function renderCal() {
     const cal = today && today.calendar;
     $$(".page [data-calv]").forEach(b => b.classList.toggle("on", +b.dataset.calv === S.calView));
-    if (!Vault.ready() || !cal || !(cal.days || []).length) { setAll(".js-cal", `<div class="empty">Your calendar shows up after the next morning update.</div>`); setAll(".js-calrange", "Calendar"); return; }
+    if (!Vault.ready() || !cal || !(cal.days || []).length) { setAll(".js-cal", `<div class="empty">Your calendar shows up after the next morning update.</div>`); setAll(".js-calrange", "Calendar"); setAll(".js-calnext", ""); return; }
+    calEv = []; setAll(".js-calnext", calNext(cal));
     const todayK = dayKey(new Date());
     let days = cal.days.filter(x => x.date >= todayK);
     if (!days.length) days = cal.days.slice(-1);
@@ -411,7 +498,7 @@
     setAll(".js-calrange", first.toLocaleDateString(undefined, { month: "short", day: "numeric" }) + (days.length > 1 ? " – " + lastD.toLocaleDateString(undefined, { month: "short", day: "numeric" }) : ""));
     const hp = S.calView === 7 ? 30 : 34, total = (H1 - H0) * hp;
     const head = days.map(x => { const dt = parseDay(x.date); return `<div class="cdh ${x.date === todayK ? "on" : ""}"><span>${dt.toLocaleDateString(undefined, { weekday: "short" })}</span><b>${dt.getDate()}</b></div>`; }).join("");
-    const allDay = days.map(x => `<div class="cad">${(x.events || []).filter(e => e.allDay).map(e => `<span class="ce-ad ${esc(e.kind || "")}">${esc(e.title)}</span>`).join("")}</div>`).join("");
+    const allDay = days.map(x => `<div class="cad">${(x.events || []).filter(e => e.allDay).map(e => `<span class="ce-ad ${esc(e.kind || "")}" data-cev="${calEv.push({ ...e, date: x.date }) - 1}">${esc(e.title)}</span>`).join("")}</div>`).join("");
     const hasAllDay = days.some(x => (x.events || []).some(e => e.allDay));
     const gutter = Array.from({ length: H1 - H0 }, (_, i) => `<div class="hr" style="top:${i * hp}px">${i ? fmtShort(pad(H0 + i) + ":00") : ""}</div>`).join("");
     const cols = days.map(x => {
@@ -421,7 +508,7 @@
       const flush = () => { const lanes = []; group.forEach(e => { let l = lanes.findIndex(end => end <= e.a); if (l < 0) { l = lanes.length; lanes.push(0); } lanes[l] = e.b; e.lane = l; }); group.forEach(e => { e.lanes = lanes.length; out.push(e); }); group = []; };
       evs.forEach(e => { if (e.a >= groupEnd && group.length) flush(); group.push(e); groupEnd = Math.max(groupEnd, e.b); }); if (group.length) flush();
       const blocks = out.map(e => { const top = (e.a - H0 * 60) / 60 * hp, h = Math.max(14, (e.b - e.a) / 60 * hp - 2), w = 100 / e.lanes;
-        return `<div class="ce ${esc(e.kind || "normal")}" style="top:${top}px;height:${h}px;left:calc(${e.lane * w}% + 1px);width:calc(${w}% - 3px)"><b>${esc(e.title)}</b>${h > 30 ? `<span>${esc(fmtShort(e.start))}${e.end ? "–" + esc(fmtShort(e.end)) : ""}</span>` : ""}</div>`; }).join("");
+        return `<div class="ce ${esc(e.kind || "normal")}" data-cev="${calEv.push({ ...e, date: x.date }) - 1}" style="top:${top}px;height:${h}px;left:calc(${e.lane * w}% + 1px);width:calc(${w}% - 3px)"><b>${esc(e.title)}</b>${h > 30 ? `<span>${esc(fmtShort(e.start))}${e.end ? "–" + esc(fmtShort(e.end)) : ""}</span>` : ""}</div>`; }).join("");
       const nn = nowMins(new Date()), nowLine = x.date === todayK && nn >= H0 * 60 ? `<div class="now" style="top:${(nn - H0 * 60) / 60 * hp}px"></div>` : "";
       return `<div class="ccol ${x.date === todayK ? "on" : ""}">${blocks}${nowLine}</div>`;
     }).join("");
@@ -537,7 +624,7 @@
     try { sp.st = await Spot.api("GET", "/me/player"); sp.at = Date.now(); sp.devs = ((await Spot.api("GET", "/me/player/devices")) || {}).devices || []; if (sp.devs.length) sp.noDev = false; }
     catch (e) { if (!Spot.on()) toast("Spotify disconnected. Connect again in Settings."); }
     if (!sp.lists.length) pullLists();
-    renderMusic(); renderGlance(); syncClones();
+    renderMusic(); renderGlance(); renderIdle(); syncClones();
   }
   async function pullLists() { try { const j = await Spot.api("GET", "/me/playlists?limit=24"); sp.lists = (j.items || []).filter(Boolean).map(x => ({ name: x.name, uri: x.uri, img: (x.images && x.images.length && x.images[x.images.length - 1].url) || "" })); save("sp.lists", sp.lists); renderMusic(); } catch (e) {} }
   async function spDo(act, arg) {
@@ -557,7 +644,7 @@
       if (act === "device") { save("sp.dev", arg); sp.noDev = false; await Spot.api("PUT", "/me/player", { device_ids: [arg], play: true }); }
       if (sp.st && act === "toggle") sp.st.is_playing = !sp.st.is_playing;
     } catch (e) { if (e.status === 404) { sp.noDev = true; musicShown = null; } else toast(e.reason === "PREMIUM_REQUIRED" ? "That needs Spotify Premium" : e.message); }
-    renderMusic(); setTimeout(pullSpotify, 700);
+    renderMusic(); renderIdle(); setTimeout(pullSpotify, 700);
   }
   async function spTarget() {
     sp.devs = ((await Spot.api("GET", "/me/player/devices")) || {}).devices || [];
@@ -787,14 +874,17 @@
 
   function openSettings() {
     const seg = (key, opts) => `<div class="seg" data-seg="${key}">${opts.map(([v, l]) => `<button data-v="${v}" class="${String(S[key]) === String(v) ? "on" : ""}">${l}</button>`).join("")}</div>`;
-    const sw = (key, obj = S) => `<button class="sw ${obj[key] ? "on" : ""}" data-sw="${key}" data-in="${obj === S ? "" : obj === S.panels ? "panels" : "glance"}"></button>`;
-    const PN = { today: "Today", calendar: "Calendar", focus: "Focus", inbox: "Inbox", flags: "Flags + Blueprints", music: "Music" };
+    const sw = (key, obj = S) => `<button class="sw ${obj[key] ? "on" : ""}" data-sw="${key}" data-in="${obj === S ? "" : obj === S.panels ? "panels" : obj === S.glance ? "glance" : "idleShow"}"></button>`;
+    const PN = { today: "Today", calendar: "Calendar", focus: "Focus", inbox: "Inbox", apps: "Apps", flags: "Flags + Blueprints", music: "Music" };
+    const IN = { music: "Music controls and progress", timers: "Timers", focus: "Focus timer", alarm: "Next alarm", next: "Next event" };
     const GN = { next: "Next up", inbox: "Inbox", flags: "Flags (only when waiting on you)", blueprints: "Blueprints (only when waiting on you)", music: "Music", focus: "Focus", study: "Study (next exam)", workout: "Workout" };
     sheet("Settings", `
       <div class="h">Panels</div>
       <div class="tog">${Object.keys(PN).map(k => `<div class="row sp tight"><span>${PN[k]}</span>${sw(k, S.panels)}</div>`).join("")}</div>
       <div class="h" style="margin-top:14px">Home cards <span class="mut">(3 fit best)</span></div>
       <div class="tog">${Object.keys(GN).map(k => `<div class="row sp tight"><span>${GN[k]}</span>${sw(k, S.glance)}</div>`).join("")}</div>
+      <div class="h" style="margin-top:14px">Screensaver shows <span class="mut">(faint, along the bottom)</span></div>
+      <div class="tog">${Object.keys(IN).map(k => `<div class="row sp tight"><span>${IN[k]}</span>${sw(k, S.idleShow)}</div>`).join("")}</div>
       <div class="h" style="margin-top:14px">Background</div>
       <div class="row" style="margin-top:4px">${seg("bg", [["rotate", "Rotate"], ["shards", "Shards"], ["caustics", "Caustics"], ["silk", "Silk"], ["fluted", "Fluted"], ["prism", "Prism"]])}</div>
       <div class="tog"><div class="row sp tight"><span>Weather moods</span>${sw("moods")}</div></div>
@@ -816,12 +906,13 @@
       <div class="row"><span class="lbl2">Night dimness</span><input type="range" id="nLvl" min="0.2" max="0.85" step="0.05" value="${S.nightLevel}"></div>
       <div class="row"><span class="lbl2">Volume</span><input type="range" id="vol" min="0" max="1" step="0.05" value="${S.vol}"><button class="btn" id="test">Test</button></div>
       <div class="row sp tight"><span>Chime for new messages</span>${sw("msgChime")}</div>
+      <div class="row sp tight"><span>Soft tap sounds</span>${sw("tapSound")}</div>
       <div class="row sp"><button class="btn" id="refresh">Refresh now</button><button class="btn bad" id="forget">Forget passcode</button></div>
       <div class="ver">Claude OS ${VERSION} · ${online ? "online" : "offline"}</div>`, s => {
       s.querySelectorAll("[data-sw]").forEach(b => b.onclick = () => {
-        const obj = b.dataset.in === "panels" ? S.panels : b.dataset.in === "glance" ? S.glance : S, k = b.dataset.sw;
+        const obj = b.dataset.in ? S[b.dataset.in] : S, k = b.dataset.sw;
         obj[k] = !obj[k]; saveS(); b.classList.toggle("on");
-        if (k === "moods") { save("moodSkip", null); pickBg(true); } if (b.dataset.in === "panels") buildDeck(); else { lastMin = -1; nightOn = null; tickClock(new Date()); renderGlance(); renderChips(); syncClones(); }
+        if (k === "moods") { save("moodSkip", null); pickBg(true); } if (b.dataset.in === "panels") buildDeck(); else { lastMin = -1; nightOn = null; tickClock(new Date()); renderGlance(); renderChips(); renderIdle(); syncClones(); }
       });
       s.querySelectorAll("[data-seg]").forEach(g => g.querySelectorAll("button").forEach(b => b.onclick = () => {
         const k = g.dataset.seg, v = b.dataset.v; S[k] = isNaN(+v) ? v : +v; saveS();
@@ -877,11 +968,13 @@
 
   /* ---------- taps anywhere on the panels ---------- */
   deck.addEventListener("click", e => {
-    const t = e.target.closest("[data-go],[data-act],[data-msg],[data-fv],[data-calv],[data-track],[data-fplan],[data-sp],[data-spplay],[data-spdev],[data-spconnect]"); if (!t) return;
+    const t = e.target.closest("[data-go],[data-act],[data-msg],[data-fv],[data-calv],[data-cev],[data-track],[data-fplan],[data-sp],[data-spplay],[data-spdev],[data-spconnect]"); if (!t) return;
+    if (t.hasAttribute("data-cev")) { const ev = calEv[+t.dataset.cev]; if (ev) openEvent(ev); return; }
     if (t.dataset.sp === "clear") { const q = t.parentNode.querySelector(".js-spq"); q.value = ""; spSearch(""); return; }
     if (t.dataset.sp === "refresh") { pullSpotify(); toast("Checking…"); return; } if (t.dataset.sp) { spDo(t.dataset.sp); return; } if (t.dataset.spplay) { spDo("play", t.dataset.spplay); return; } if (t.dataset.spdev) { spDo("device", t.dataset.spdev); return; } if (t.dataset.spconnect) { Spot.login(); return; }
     if (t.dataset.fplan) { S.focusPlan = t.dataset.fplan; saveS(); if (!F.run) F.left = null; renderFocus(); return; }
     if (t.dataset.fv && !t.dataset.go) { flagView = t.dataset.fv; save("flagView", flagView); renderFlags(); syncClones(); return; }
+    if (t.dataset.go === "flags" && !keys.includes("flags")) { window.open(HUB, "_blank", "noopener"); return; }
     if (t.dataset.go) { if (t.dataset.fv) { flagView = t.dataset.fv; save("flagView", flagView); renderFlags(); } goTo(t.dataset.go); return; }
     if (t.dataset.calv) { S.calView = +t.dataset.calv; saveS(); renderCal(); return; }
     if (t.dataset.track) { save("track", +t.dataset.track); renderMusic(); renderGlance(); return; }
@@ -890,6 +983,7 @@
     if (a === "clock") openClock(); else if (a === "timer") openClock("timer"); else if (a === "alarms") openClock("alarms");
     else if (a === "sleep") setTimeout(() => setIdle(true), 50);
     else if (a === "bg") nextBg();
+    else if (a === "calnow") { const sc = t.closest(".calcard").querySelector(".cscroll"); if (sc) sc.scrollTo({ top: Math.max(0, (nowMins(new Date()) / 60 - H0 - 1.5) * (S.calView === 7 ? 30 : 34)), behavior: "smooth" }); }
     else if (a === "fgo") fStart(); else if (a === "fskip") fNext(false); else if (a === "freset") fReset();
     else if (a === "readall") { inbox.forEach(m => readIds.add(m.id)); save("read", [...readIds].slice(-300)); renderInbox(); renderGlance(); syncClones(); }
   });
@@ -934,6 +1028,13 @@
     if (window.Kit && window.Kit.theme) window.Kit.theme.onChange((theme, p) => window.OSBG.palette(theme, p));
   });
 
+  /* the faint strip on the screensaver: music buttons work without waking the screen; tapping a timer opens it */
+  $("#idle").addEventListener("click", e => { const b = e.target.closest("[data-isp],[data-iact]"); if (!b) return;
+    if (b.dataset.isp) { spDo(b.dataset.isp); return; }
+    setIdle(false); const a = b.dataset.iact; if (a === "focus") goTo("focus"); else openClock(a === "alarms" ? "alarms" : "timer"); });
+  /* soft tap sound on anything pressable */
+  document.addEventListener("click", e => { const b = e.target.closest && e.target.closest("button, a.link, a.app, .ce, .ce-ad, .tapper"); if (!b) return;
+    Sound.tap(b.classList.contains("sw") ? (b.classList.contains("on") ? "off" : "on") : ""); }, true);
   $("#gear").innerHTML = I.gear;
   $("#mini").onclick = () => goTo("home");
   window.OSBG.setFps(S.motion === "calm" ? 30 : 60);
@@ -942,10 +1043,13 @@
   buildDeck();
   Spot.finish().then(() => { pullSpotify(); });
   gate();
-  pullFlags(); pullSched();
-  setInterval(() => { if (Spot.on() && !nmOn && (keys[here] === "music" || S.glance.music)) pullSpotify(); }, 8000);
+  pullFlags(); pullSched(); pullApps();
+  let spTick = 0; /* on the screensaver: check every 8s while something plays, every 32s otherwise */
+  setInterval(() => { if (!Spot.on() || nmOn) return; spTick++;
+    if (keys[here] === "music" || S.glance.music || (idle && S.idleShow.music && ((sp.st && sp.st.is_playing) || spTick % 4 === 0))) pullSpotify(); }, 8000);
+  setInterval(pullApps, 6 * 60 * 60 * 1000);
   setInterval(() => { if (Spot.on()) pullLists(); }, 30 * 60 * 1000);
-  setInterval(() => { const d = new Date(); tickClock(d); tickTimers(); tickAlarms(d); tickFocus(); tickMusic(); }, 1000);
+  setInterval(() => { const d = new Date(); tickClock(d); tickTimers(); tickAlarms(d); tickFocus(); tickMusic(); if (idle) renderIdle(); }, 1000);
   setInterval(pullLocked, 60 * 1000);
   setInterval(pullFlags, 4 * 60 * 1000);
   setInterval(pullSched, 60 * 60 * 1000);
