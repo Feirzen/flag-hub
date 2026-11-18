@@ -21,9 +21,89 @@
   "My Tastes",
   "Unsorted",
   "Flag Hub",
-  "Bilingual Blueprints"
+  "Bilingual Blueprints",
+  "HomeBox"
  ],
  "flags": [
+  {
+   "id": "c1118deeplink",
+   "project": "Flag Hub",
+   "kind": "concept",
+   "status": "open",
+   "text": "Tap the morning notification and land right on the thing that needs you, with Approve and Deny ready",
+   "detail": "The push links to the Hub with the proposal opened and scrolled into view, instead of the top of the page.",
+   "size": "S",
+   "cost": "a small piece of a light night",
+   "why": "One-tap answers from the phone.",
+   "source": "claude",
+   "created": "2026-11-18T17:30:00Z"
+  },
+  {
+   "id": "c1118archive",
+   "project": "Flag Hub",
+   "kind": "concept",
+   "status": "open",
+   "text": "Keep the flag file small: move finished flags, shipped proposals, and old runs into a separate archive file automatically each month",
+   "detail": "The Hub would load faster and saves from chats and the PC run would stop failing on the file being too big (it already happened twice). Archive still opens from the Hub.",
+   "size": "M",
+   "cost": "about one light night",
+   "why": "Never break data/flags.json; this is the fix for the saves that got stuck in data/pending.",
+   "source": "claude",
+   "created": "2026-11-18T17:30:00Z"
+  },
+  {
+   "id": "c1118siri",
+   "project": "Flag Hub",
+   "kind": "concept",
+   "status": "open",
+   "text": "Raise a flag from anywhere on your iPhone: a Shortcut for the share sheet and Siri (\"Hey Siri, flag it\") that saves straight to the Hub",
+   "detail": "Pick the app, say or type the note, done. Uses the same key the Hub already has, kept in the Shortcut on your phone only.",
+   "size": "S",
+   "cost": "a small piece of a light night",
+   "why": "Raise a flag anywhere, not just inside an app.",
+   "source": "claude",
+   "created": "2026-11-18T17:30:00Z"
+  },
+  {
+   "id": "c1118tonight",
+   "project": "Flag Hub",
+   "kind": "concept",
+   "status": "open",
+   "text": "Tonight's plan: a preview of what the night shift will work on tonight, in order, so you can bump or skip things before it runs",
+   "detail": "Same order rules the run uses (priority, focus apps, then the rest), shown at the top of the night shift box. Each line gets a skip-tonight button.",
+   "size": "M",
+   "cost": "about one light night",
+   "why": "Fewer taps from flag to shipped, and always clear whose turn it is.",
+   "source": "claude",
+   "created": "2026-11-18T17:30:00Z"
+  },
+  {
+   "id": "fmw16steamrb",
+   "project": "RetroBat",
+   "kind": "fix",
+   "status": "open",
+   "source": "claude",
+   "created": "2026-11-16T09:20:00Z",
+   "text": "Bug: Steam has a hard time connecting with RetroBat. Launching Steam games from RetroBat throws lots of little popups and issues, none of them controller friendly. Make Steam launches from RetroBat smooth and controller-only (check how Steam is started, any Steam popups, focus returning to RetroBat on exit). Related: the cloud sync error flag fmvv9xqib."
+  },
+  {
+   "id": "fmw16spanish",
+   "project": "Big ideas",
+   "kind": "idea",
+   "status": "open",
+   "source": "claude",
+   "created": "2026-11-16T09:20:00Z",
+   "text": "Pimsleur-style Spanish course for Ri: original ~20 minute audio lessons (prompt, pause to answer out loud, correct answer, words returning at growing intervals), Latin American voices, MP3s served through Jellyfin. Need first: her level, accent, goal, and minutes per day."
+  },
+  {
+   "id": "fmw16immich",
+   "project": "Big ideas",
+   "kind": "idea",
+   "status": "open",
+   "source": "claude",
+   "created": "2026-11-16T09:20:00Z",
+   "text": "Immich: self-hosted Google Photos on the Z240. Auto phone backup, face recognition, partner sharing like iCloud's shared library, and a free-up-space feature. Only start once backups are solid (new internal drive + dad's 4TB backup), and keep iCloud until then."
+  },
   {
    "id": "fmvzugs7y",
    "project": "Study Decks",
@@ -2833,6 +2913,7 @@
   "3DS Setup": "pc",
   "Jellyfin": "pc",
   "Home Assistant": "pc",
-  "Big ideas": "idea"
+  "Big ideas": "idea",
+  "HomeBox": "pc"
  }
 }

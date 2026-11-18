@@ -1,6 +1,6 @@
 {
  "note": "Added from chat on 2026-11-16. data/flags.json is too big to rewrite safely through the connector, so these new flags wait here. The next run with flag-hub access should append them to data/flags.json (and refresh status.json counts), then set done: true here.",
- "done": false,
+ "done": true,
  "newFlags": [
   {
    "id": "fmw16immich",
