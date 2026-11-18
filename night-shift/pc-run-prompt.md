@@ -30,6 +30,7 @@ You are the PC run of the night shift for Naverog, on his PC (HP Z240, Windows 1
 - Order, and inside each step focus apps first, then on apps, oldest first: reworks, priority flags, normal "fix" flags (including ones he planted from a suggestion: `source: "concept"`), then suggestions (step 6, Go Big only).
 - For HomeBox, work the backlog in its roadmap (apps.json `roadmap`) and its `vision.now` before inventing anything new.
 - Skip any flag whose `skipUntil` is later than now (he tapped Skip tonight).
+- Some flags carry `images`: paths in flag-hub (often `shots/`, screenshots he marked up on his phone). Look at them before working the flag.
 - Flags that really need him (buying something, recording video, a decision only he can make): if the flag has no `note`, set note once to "This needs you, not the PC run. Move it to For me?" and skip it.
 
 ## 5. Fix directly vs. propose

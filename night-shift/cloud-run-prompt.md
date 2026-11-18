@@ -44,6 +44,7 @@ These run even for paused apps only if he approved or denied something there bef
   5. Suggestions (step 5), Go Big only
 - If he committed to an app's repo in the last 24 hours (commits not starting "Night shift:" and not automatic data or log updates), he's mid-edit: make anything for that app a proposal instead of pushing to main.
 - Skip any flag whose `skipUntil` is later than now (he tapped Skip tonight).
+- Some flags carry `images`: paths in flag-hub (often `shots/`, screenshots he marked up on his phone). Look at them before working the flag.
 - Leave the Hub's check-in fields (`reviewedAt`, `reviewEvery`, `prevKind`) alone. App flags carry `where.page` and `where.element` (a CSS path) pointing at the exact spot.
 
 ## 4. Fix directly vs. propose
