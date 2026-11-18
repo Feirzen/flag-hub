@@ -291,7 +291,7 @@
     "Bilingual Blueprints"
    ],
    "lane": "cloud",
-   "state": "off",
+   "state": "on",
    "glyph": "build",
    "vision": {
     "never": [
