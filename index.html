@@ -276,7 +276,7 @@ textarea.idea:focus,.sug textarea:focus{border-color:var(--idea);outline:none;bo
 /* ---------- app library ---------- */
 .lanes{grid-template-columns:repeat(4,1fr)}
 .lanes .ai{display:inline-flex}
-body.v-apps .wrap > section:not(#libBox){display:none!important}
+body.v-apps .wrap > section:not(#libBox):not(#siriBox){display:none!important}
 body:not(.v-apps) #libBox{display:none!important}
 .lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:14px 8px;padding-top:4px}
 .app{display:flex;flex-direction:column;align-items:center;gap:7px;background:none;border:0;padding:4px 0;cursor:pointer;color:var(--ink2);font:500 12.5px/1.2 var(--fb);text-align:center;-webkit-tap-highlight-color:transparent}
@@ -313,6 +313,25 @@ body:not(.v-apps) #libBox{display:none!important}
 .adetail .links{display:flex;gap:12px;flex-wrap:wrap;font-size:13px}
 .adetail .links a{color:var(--ink2)}
 @media (prefers-reduced-motion:reduce){.app.focus .ico::after{animation:none}.sug.leaving{animation:none;opacity:0}}
+
+/* ---------- tonight's plan ---------- */
+.tonight{margin-top:10px;border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--card2)}
+.tonight h3{margin:0 0 6px;font:600 12px var(--fm);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);display:flex;justify-content:space-between}
+.tl{display:grid;grid-template-columns:18px minmax(0,1fr) auto;gap:8px;align-items:center;padding:6px 0;border-top:1px solid var(--line);font-size:13.5px;animation:in .3s ease}
+.tl:first-of-type{border-top:0}
+.tl .k{font:600 12px var(--fm);color:var(--ink3);text-align:center}
+.tl .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink2)}
+.tl .t b{font-weight:600;color:var(--ink)}
+.tl.skip .t{text-decoration:line-through;opacity:.5}
+.tl .btn{padding:3px 9px;font-size:12px}
+.tl.more{color:var(--ink3);font-size:12.5px;grid-template-columns:18px 1fr}
+/* ---------- siri inbox ---------- */
+body.v-apps .wrap > section#siriBox{display:block!important}
+body:not(.v-apps) #siriBox{display:none!important}
+#siriBox ol{margin:6px 0 0;padding-left:20px;font-size:14px;color:var(--ink2)}
+#siriBox ol li{margin:5px 0}
+#siriBox code{font:12.5px var(--fm);background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 5px;word-break:break-all}
+.heard{font-style:italic;color:var(--ink2)}
 </style>
 </head>
 <body>
@@ -350,6 +369,7 @@ body:not(.v-apps) #libBox{display:none!important}
     <p class="note">One switch for both the cloud run and the PC run, every night. Go Big also lets Claude add a couple of suggestions when there's usage left. Pick which apps it works on in the Apps tab.</p>
     <p class="lastrun" id="lastrun">No night shift runs yet.</p>
     <div class="digest" id="digest" hidden></div>
+    <div class="tonight" id="tonight" hidden></div>
   </section>
 
   <section aria-labelledby="wy" id="wyBox">
@@ -369,6 +389,13 @@ body:not(.v-apps) #libBox{display:none!important}
     <p class="note">Tap an app to change it. <b style="color:var(--flag)">Focus</b> apps go first at every step of the night shift. <b>Paused</b> apps get skipped completely. Everything else runs as normal.</p>
     <div id="libGrid"></div>
     <div id="libDetail"></div>
+  </section>
+
+  <section aria-labelledby="sr" id="siriBox">
+    <h2 id="sr"><span class="ht"><i class="hd" style="--c:var(--idea)"></i>Siri inbox</span> <span class="n" id="siriN"></span></h2>
+    <p class="note">Say "Flag it" to Siri, then talk. Say who it's for (for Claude, for me, or idea), the app, and "priority" if it is. The Hub files clear ones the moment it opens. Anything it can't place waits here, and the night shift sorts it.</p>
+    <div id="siriList" class="list"></div>
+    <details id="siriHow"><summary>Set up "Flag it" on your iPhone</summary><div id="siriSteps"></div></details>
   </section>
 
   <section aria-labelledby="wc" id="wcBox">
@@ -454,6 +481,7 @@ let busy = false;
 
 const MODE_TXT = { off: "Night shift is off.", light: "Light: a couple of small fixes a night.", big: "Go Big: bigger builds tonight." };
 function renderMode() {
+  renderTonight();
   document.querySelectorAll(".mode").forEach(b => b.setAttribute("aria-pressed", b.dataset.m === S.mode));
   document.querySelectorAll("#nsPill i").forEach(i => i.classList.toggle("on", i.dataset.m === S.mode));
 }
@@ -561,7 +589,7 @@ function flagRow(f, doneView, reviewView) {
   const doneBtn = `<button class="ic" data-a="done" aria-label="Mark done">${ICON.done}</button>`;
   const swapTo = isMine(f) || isIdea(f) ? "Hand to Claude" : "Move to my flags";
   const editing = !doneView && !reviewView && S.editing === f.id;
-  const acts = doneView ? `<button class="ic" data-a="reopen" aria-label="Reopen">${ICON.undo}</button>`
+  const acts = doneView ? (f._arch ? "" : `<button class="ic" data-a="reopen" aria-label="Reopen">${ICON.undo}</button>`)
     : reviewView ? `<button class="ic keep" data-a="keepask" aria-label="Keep it" title="Keep it">${ICON.keep}</button>${doneBtn}${delBtn}`
     : editing ? ""
     : `<button class="ic" data-a="swap" aria-label="${swapTo}" title="${swapTo}">${ICON.swap}</button><button class="ic ${f.priority ? "pri-on" : ""}" data-a="pri" aria-label="${f.priority ? "Remove priority" : "Make priority"}" title="${f.priority ? "Priority: do this first" : "Do this first"}">${ICON.bolt}</button>${doneBtn}${delBtn}`;
@@ -588,8 +616,8 @@ function renderFlags() {
   $("#openN").textContent = fresh.length + stale.length || "";
   const none = idea ? "No ideas yet. Tap the flag button and pick Idea." : S.who === "you" ? "Nothing on your list here. Tap the flag button and pick For me." : S.lane === "pc" ? "No PC flags. Tap the flag button and pick PC run." : "No open flags. Tap the flag button, or plant one from any app's gear menu.";
   $("#flags").innerHTML = open.length ? open.map(f => flagRow(f, false)).join("") : `<p class="empty">${S.filter === "all" ? none : "Nothing here for " + esc(S.filter) + "."}</p>`;
-  const done = S.flags.filter(f => (f.status === "done" || f.status === "dismissed") && inLane(f)).sort((a, b) => (b.resolvedAt || "").localeCompare(a.resolvedAt || "")).slice(0, 15);
-  $("#doneBox").hidden = !done.length;
+  const done = [...S.flags, ...S.arch.flags].filter(f => (f.status === "done" || f.status === "dismissed") && inLane(f)).sort((a, b) => (b.resolvedAt || "").localeCompare(a.resolvedAt || "")).slice(0, 15);
+  $("#doneBox").hidden = false;
   $("#done").innerHTML = done.map(f => flagRow(f, true)).join("");
 }
 const PICI = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/></svg>';
@@ -630,7 +658,7 @@ function propCard(p) {
 }
 function archRow(p) {
   const st = p.status === "shipped" ? '<span class="state shipped">Merged</span>' : '<span class="state denied">Denied</span>';
-  return `<div class="arow" data-id="${p.id}">${st}<span class="at">${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.title)}</a>` : esc(p.title)}</span>${p.status === "denied" ? `<button class="btn sm ghost" data-a="undo">Reopen</button>` : ""}</div>`;
+  return `<div class="arow" data-id="${p.id}">${st}<span class="at">${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.title)}</a>` : esc(p.title)}</span>${p.status === "denied" && !p._arch ? `<button class="btn sm ghost" data-a="undo">Reopen</button>` : ""}</div>`;
 }
 function renderProps() {
   const a = document.activeElement; if (a && a.classList && a.classList.contains("pnote")) return; /* don't wipe a note mid-typing */
@@ -639,13 +667,13 @@ function renderProps() {
   const here = S.props.filter(p => propLane(p) === S.lane);
   const mine = here.filter(p => p.status === "waiting").sort((a, b) => (b.created || "").localeCompare(a.created || ""));
   const claude = here.filter(claudeTurn).sort(newest);
-  const arch = here.filter(p => p.status === "shipped" || p.status === "denied").sort((a, b) => (b.shippedAt || b.decidedAt || b.created || "").localeCompare(a.shippedAt || a.decidedAt || a.created || "")).slice(0, 25);
+  const arch = [...here, ...S.arch.proposals.filter(p => propLane(p) === S.lane)].filter(p => p.status === "shipped" || p.status === "denied").sort((a, b) => (b.shippedAt || b.decidedAt || b.created || "").localeCompare(a.shippedAt || a.decidedAt || a.created || "")).slice(0, 25);
   $("#propN").textContent = mine.length ? mine.length : "";
   $("#clN").textContent = claude.length ? claude.length : "";
   $("#props").innerHTML = mine.length ? mine.map(propCard).join("") : `<p class="empty">Nothing needs you. New proposals show up here.</p>`;
   $("#cprops").innerHTML = claude.length ? claude.map(propCard).join("") : `<p class="empty">Nothing here. Once you approve or send something back, it waits here until the night shift handles it.</p>`;
-  $("#archBox").hidden = !arch.length;
-  $("#archSum").textContent = `Archive (${arch.length}${arch.length === 25 ? "+" : ""} merged or denied)`;
+  $("#archBox").hidden = false;
+  $("#archSum").textContent = `Archive (${S.arch.loaded ? arch.length + (arch.length === 25 ? "+" : "") : "older"} merged or denied)`;
   $("#arch").innerHTML = arch.map(archRow).join("");
 }
 /* screenshots open full size on tap; a glowing ring marks the spot when the proposal says where (p.spots) */
@@ -682,7 +710,7 @@ function renderLabels() {
       : `<button class="ic ${sure ? "sure" : ""}" data-lab-del aria-label="${sure ? "Tap again to delete" : "Delete label"}">${ICON.del}</button>`}</div>`;
   }).join("");
 }
-function renderAll() { renderSugs(); renderLib(); renderLanes(); renderMode(); renderTally(); renderRuns(); renderWho(); renderChips(); renderFlags(); renderProps(); renderApp(); renderLabels(); }
+function renderAll() { renderSugs(); renderLib(); renderSiri(); renderTonight(); renderLanes(); renderMode(); renderTally(); renderRuns(); renderWho(); renderChips(); renderFlags(); renderProps(); renderApp(); renderLabels(); }
 
 
 /* ---------- concept flags: Claude's suggestions ----------
@@ -856,6 +884,140 @@ document.addEventListener("input", e => {
   const btn = t.closest(".sug").querySelector('[data-a="plant"]'); btn.textContent = t.value.trim() ? "Plant with notes" : "Plant it";
 });
 
+
+/* ---------- archive: finished flags and proposals older than 2 weeks live in data/archive.json ---------- */
+S.arch = { flags: [], proposals: [], loaded: false };
+async function loadArchive() {
+  if (S.arch.loaded) return; S.arch.loaded = true;
+  try { const { data } = await store.read("data/archive.json"); S.arch.flags = (data.flags || []).map(f => ({ ...f, _arch: 1 })); S.arch.proposals = (data.proposals || []).map(p => ({ ...p, _arch: 1 })); renderFlags(); renderProps(); } catch (e) {}
+}
+["#archBox", "#doneBox"].forEach(id => { const el = document.querySelector(id); if (el) el.addEventListener("toggle", () => { if (el.open) loadArchive(); }); });
+
+/* ---------- tonight's plan: what the night shift will pick up, using the same rules it follows ---------- */
+const BUDGET = { cloud: { light: 2, big: 5 }, pc: { light: 1, big: 3 } };
+const appState = label => { const a = appOf(label); return a ? (a.state || "on") : null; };
+const skipped = f => f.skipUntil && new Date(f.skipUntil) > new Date();
+function tonightQueue(lane) {
+  const ok = label => { const st = appState(label); return st ? st !== "off" : lane === "pc"; }; /* cloud labels need an app with a repo */
+  const rank = f => (appState(f.project) === "focus" ? 0 : 1);
+  const decide = S.props.filter(p => propLane(p) === lane && ["approved", "ready"].includes(p.status) && appState(p.project) !== "off");
+  const redo = S.props.filter(p => propLane(p) === lane && p.status === "redo" && appState(p.project) !== "off");
+  const flags = S.flags.filter(f => f.status === "open" && f.kind !== "you" && !isIdea(f) && laneOf(f) === lane && ok(f.project))
+    .sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0) || rank(a) - rank(b) || (a.created || "").localeCompare(b.created || ""));
+  return { decide, redo, flags };
+}
+function renderTonight() {
+  const box = $("#tonight"); if (!box) return;
+  if (S.lane !== "cloud" && S.lane !== "pc") { box.hidden = true; return; }
+  box.hidden = false;
+  if (S.mode === "off") { box.innerHTML = `<h3>Tonight</h3><p class="note" style="margin:0">Night shift is off, so nothing runs tonight.</p>`; return; }
+  const lane = S.lane, q = tonightQueue(lane), cap = BUDGET[lane][S.mode] || 2;
+  const lines = []; let used = 0, priUsed = false;
+  q.decide.forEach(p => lines.push(`<div class="tl"><span class="k">✓</span><span class="t"><b>${esc(p.project)}</b> · put in: ${esc(p.title)}</span><span></span></div>`));
+  q.redo.forEach(p => { if (used < cap) { used++; lines.push(`<div class="tl"><span class="k">${used}</span><span class="t"><b>${esc(p.project)}</b> · rework: ${esc(p.title)}</span><span></span></div>`); } });
+  const later = [];
+  q.flags.forEach(f => {
+    const sk = skipped(f);
+    const fits = !sk && (used < cap || (f.priority && !priUsed));
+    if (sk) { lines.push(`<div class="tl skip" data-id="${f.id}"><span class="k">–</span><span class="t"><b>${esc(f.project)}</b> · ${esc(f.text)}</span><button class="btn sm ghost" data-a="unskip">Undo</button></div>`); return; }
+    if (!fits) { later.push(f); return; }
+    if (used >= cap) priUsed = true; else { used++; if (f.priority) priUsed = true; }
+    lines.push(`<div class="tl" data-id="${f.id}"><span class="k">${f.priority ? "⚡" : used}</span><span class="t"><b>${esc(f.project)}</b> · ${esc(f.text)}</span><button class="btn sm ghost" data-a="skip">Skip tonight</button></div>`);
+  });
+  if (later.length) lines.push(`<div class="tl more"><span></span><span>${later.length} more wait${later.length === 1 ? "s" : ""} for another night</span></div>`);
+  if (S.mode === "big") lines.push(`<div class="tl more"><span class="k" style="color:var(--idea)">✦</span><span>Plus up to ${lane === "pc" ? 1 : 2} suggestion${lane === "pc" ? "" : "s"} if there's room</span></div>`);
+  box.innerHTML = `<h3><span>Tonight's plan</span><span>${S.mode === "big" ? "Go Big" : "Light"} · ${cap} slots</span></h3>` + (lines.length ? lines.join("") : `<p class="note" style="margin:0">Nothing to do here tonight.</p>`);
+}
+
+/* ---------- Siri inbox: the "Flag it" Shortcut drops one small text file per note into data/siri/.
+   The Hub files the clear ones right away; unclear ones wait for the night shift to sort. ---------- */
+S.siri = [];
+const API_C = "https://api.github.com/repos/Feirzen/flag-hub/contents/";
+const ghHead = () => ({ Authorization: "Bearer " + store.token(), Accept: "application/vnd.github+json" });
+const b64dec = b => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g, "")), c => c.charCodeAt(0)));
+const norm = x => String(x || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+function parseSiri(raw) {
+  /* control words count at the start or end of what you said (or "this is for me" / "make it a priority"), so
+     "make the button easier for me" stays a Claude flag and "the priority list is broken" isn't marked priority */
+  const LEAD = /^\s*(for claude|for me|for myself|remind me to|remind me|reminder|to ?do|idea|what if|someday|high priority|priority|urgent)\b[\s,.:;!-]*/i;
+  let rest = raw.trim(), lead = [];
+  for (let i = 0; i < 4; i++) { const m = rest.match(LEAD); if (!m) break; lead.push(m[1].toLowerCase()); if (!/^(what if|someday)$/i.test(m[1])) rest = rest.slice(m[0].length); else break; }
+  let tail = rest.match(/[\s,.;-]*\b(it'?s |this is |make it )?(a )?(high )?(priority|urgent|asap)[.!]?\s*$/i);
+  if (tail) rest = rest.slice(0, tail.index);
+  const low = " " + raw.toLowerCase() + " ";
+  const has = re => lead.some(w => re.test(w));
+  const kind = has(/^(for me|for myself|remind me|reminder|to ?do)/) || /\b(this is|this one'?s|it'?s) for me\b/.test(low) ? "you"
+    : has(/^for claude/) ? "fix"
+    : has(/^(idea|what if|someday)/) || /\b(an|new) idea\b/.test(low) ? "idea" : "fix";
+  const priority = !!tail || has(/priority|urgent/) || /\b(make it|this is|it'?s) (a )?(high )?priority\b/.test(low);
+  const n = norm(raw); let best = null, bestLen = 0;
+  const names = [];
+  S.apps.forEach(a => [a.name, ...(a.labels || []), ...(a.say || [])].forEach(x => names.push([x, (a.labels || [a.name])[0]])));
+  S.projects.forEach(p => names.push([p, p]));
+  Object.entries(S.otherSay || {}).forEach(([label, xs]) => xs.forEach(x => names.push([x, label])));
+  names.forEach(([x, label]) => { const k = norm(x); if (k.length >= 3 && n.includes(k) && k.length > bestLen) { best = label; bestLen = k.length; } });
+  let project = best;
+  if (!project && kind === "idea") project = IDEA_HOME;
+  if (!project && kind === "you") project = "Unsorted";
+  const ln = /\b(on (the|my) (pc|computer)|pc run)\b/.test(low) ? "pc" : null;
+  let text = rest.replace(/\s{2,}/g, " ").replace(/^[\s,.:;-]+|[\s,;:-]+$/g, "");
+  text = text ? text[0].toUpperCase() + text.slice(1) : raw;
+  return { project, kind, priority, lane: ln, text };
+}
+async function pullSiri() {
+  if (!store.token()) return;
+  let files;
+  try { const r = await fetch(API_C + "data/siri?ref=main&t=" + Date.now(), { headers: ghHead(), cache: "no-store" }); if (!r.ok) { S.siri = []; renderSiri(); return; } files = (await r.json()).filter(f => f.type === "file" && /\.(txt|json)$/.test(f.name)); }
+  catch (e) { return; }
+  const got = [];
+  for (const f of files) {
+    try { const r = await fetch(API_C + f.path + "?ref=main", { headers: ghHead(), cache: "no-store" }); const j = await r.json(); let raw = b64dec(j.content).trim();
+      if (f.name.endsWith(".json")) { try { raw = JSON.parse(raw).text || raw; } catch (e) {} }
+      got.push({ name: f.name, path: f.path, sha: j.sha, raw, at: f.name.replace(/\.(txt|json)$/, "") }); } catch (e) {}
+  }
+  const sure = [], unsure = [];
+  got.forEach(g => { if (!g.raw) { sure.push({ ...g, empty: 1 }); return; } const p = parseSiri(g.raw); (p.project ? sure : unsure).push({ ...g, p }); });
+  if (sure.some(g => !g.empty)) {
+    const now = new Date().toISOString();
+    const ok = await save(d => { d.flags = d.flags || []; const have = new Set(d.flags.map(x => x.id));
+      sure.filter(g => !g.empty).forEach(g => { const id = "s" + norm(g.at).slice(-14); if (have.has(id)) return;
+        const fl = { id, project: g.p.project, text: g.p.text, kind: g.p.kind, status: "open", source: "siri", heard: g.raw, created: now };
+        if (g.p.priority) fl.priority = true; if (g.p.lane && g.p.kind !== "idea" && g.p.lane !== workLane(g.p.project)) fl.lane = g.p.lane;
+        d.flags.unshift(fl); if (!(d.projects || []).includes(fl.project)) (d.projects = d.projects || []).push(fl.project); }); }, "Siri: filed " + sure.length);
+    if (!ok) return;
+  }
+  for (const g of sure) await delSiri(g);
+  S.siri = unsure; renderSiri();
+}
+async function delSiri(g) {
+  try { await fetch(API_C + g.path, { method: "DELETE", headers: { ...ghHead(), "Content-Type": "application/json" }, body: JSON.stringify({ message: "Siri inbox: sorted " + g.name, sha: g.sha, branch: "main" }) }); } catch (e) {}
+}
+function renderSiri() {
+  const L = $("#siriList"); if (!L) return;
+  $("#siriN").textContent = S.siri.length || "";
+  L.innerHTML = S.siri.length ? S.siri.map(g => `<div class="item" data-siri="${esc(g.name)}"><div class="txt heard">“${esc(g.raw)}”</div><div class="acts"><button class="ic" data-sa="del" aria-label="Delete">${ICON.del}</button></div><div class="meta"><span>Couldn't tell which app. The night shift will sort it.</span></div></div>`).join("")
+    : `<p class="empty">Empty. Everything you've said has been filed.</p>`;
+  $("#siriSteps").innerHTML = SIRI_STEPS;
+}
+const SIRI_STEPS = `<ol>
+  <li>Open the <b>Shortcuts</b> app, tap <b>+</b>, and name it <b>Flag it</b>.</li>
+  <li>Add <b>Dictate Text</b>. Set Stop Listening to <b>After Pause</b>.</li>
+  <li>Add <b>Base64 Encode</b> (input: Dictated Text). Tap the arrow on it and set <b>Line Breaks</b> to <b>None</b>.</li>
+  <li>Add <b>Current Date</b>, then <b>Format Date</b>: Custom, <code>yyyyMMdd-HHmmss</code>.</li>
+  <li>Add <b>Get Contents of URL</b>. URL: <code>https://api.github.com/repos/Feirzen/flag-hub/contents/data/siri/[Formatted Date].txt</code> (tap the end of the URL and insert the Formatted Date variable).</li>
+  <li>Tap <b>Show More</b>. Method: <b>PUT</b>. Headers: <code>Authorization</code> = <code>Bearer</code> + a space + your Flag Hub key (the same github_pat key this Hub uses), and <code>Accept</code> = <code>application/vnd.github+json</code>.</li>
+  <li>Request Body: <b>JSON</b>. Add <code>message</code> (Text) = <code>Siri flag</code>, and <code>content</code> (Text) = the Base64 Encoded variable.</li>
+  <li>Last, add <b>Show Notification</b>: <code>Flagged</code>. Then just say <b>"Hey Siri, Flag it"</b>.</li>
+</ol><p class="note">Say it like: "For Claude, Study Decks, the pause button sticks. Priority." Or "For me, buy Wii remote batteries." Or "Idea, HomeBox could show a movie of the week."</p>`;
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-sa]"); if (b) { const row = b.closest("[data-siri]"); const g = S.siri.find(x => x.name === row.dataset.siri); if (g) { row.style.opacity = .4; await delSiri(g); S.siri = S.siri.filter(x => x !== g); renderSiri(); } return; }
+  const t = e.target.closest("#tonight [data-a]"); if (!t) return;
+  const id = t.closest("[data-id]").dataset.id, until = new Date(Date.now() + 24 * 3600e3).toISOString();
+  t.disabled = true;
+  await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; if (t.dataset.a === "skip") f.skipUntil = until; else delete f.skipUntil; }, t.dataset.a === "skip" ? "Skip tonight" : "Unskip");
+  renderTonight();
+}, true);
+
 /* ---------- actions ---------- */
 async function setMode(m) {
   if (m === S.mode) return;
@@ -927,7 +1089,7 @@ document.addEventListener("click", async e => {
     else { S.who = wb.dataset.k; S.filter = "all"; renderChips(); renderFlags(); }
     return;
   }
-  const b = e.target.closest("[data-a]"); if (!b || b.closest(".fk") || b.closest("#sgBox") || b.closest("#libDetail")) return;
+  const b = e.target.closest("[data-a]"); if (!b || b.closest(".fk") || b.closest("#sgBox") || b.closest("#libDetail") || b.closest("#tonight")) return;
   const row = b.closest("[data-id]"); const id = row && row.dataset.id; const a = b.dataset.a;
   const now = new Date().toISOString();
   const edit = (coll, fn) => d => { const it = (d[coll] || []).find(x => x.id === id); if (it) fn(it, d); };
@@ -1084,7 +1246,8 @@ async function load() {
   try { const { data } = await store.read("data/flags.json"); apply(data); }
   catch (e) { if (e.code === "token") { showConnect("That key stopped working. Make a new one below."); } else $("#syncNote").textContent = "Couldn't reach GitHub. Showing last view."; }
   try { const { data } = await store.read("status.json"); S.mode = data.mode || "light"; renderMode(); } catch (e) {}
-  try { const { data } = await store.read("data/apps.json"); S.apps = data.apps || []; renderLib(); renderLanes(); renderTally(); } catch (e) {}
+  try { const { data } = await store.read("data/apps.json"); S.apps = data.apps || []; S.otherSay = data.otherSay || {}; renderLib(); renderLanes(); renderTally(); renderTonight(); } catch (e) {}
+  if (!busy) pullSiri();
   try {
     const r = await fetch("https://api.github.com/repos/Feirzen/flag-hub/issues?state=open&labels=flag&per_page=50");
     if (r.ok) { const arr = await r.json(); S.appFlags = arr.filter(i => !i.pull_request).map(i => ({ title: i.title, url: i.html_url, created: i.created_at })); $("#appBox").hidden = !S.appFlags.length; renderApp(); renderTally(); }

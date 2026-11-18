@@ -1,5 +1,5 @@
 {
- "_about": "App library for the Flag Hub and night shift. state: on (normal), focus (look here first at every step), off (paused: don't build or look). lane: cloud or pc. labels: the flag labels that belong to this app. vision: what it's for, what it must never become, current priorities. Suggestions must tie back to the vision. denied: suggestions he turned down (never re-propose these).",
+ "_about": "App library for the Flag Hub and night shift. state: on (normal), focus (look here first at every step), off (paused: don't build or look). lane: cloud or pc. labels: the flag labels that belong to this app. vision: what it's for, what it must never become, current priorities. Suggestions must tie back to the vision. denied: suggestions he turned down (never re-propose these). say: spoken nicknames the Siri inbox matches. otherSay: nicknames for labels that aren't apps.",
  "apps": [
   {
    "id": "study-decks",
@@ -24,7 +24,12 @@
      "Party mode later (decide controllers vs phones first)"
     ],
     "for": "Quiz decks for my BYU classes that make studying feel like a game, so I actually want to open it before a test."
-   }
+   },
+   "say": [
+    "study deck",
+    "quiz app",
+    "battle mode"
+   ]
   },
   {
    "id": "music-space",
@@ -49,7 +54,12 @@
      "Soft, sparing sounds only"
     ],
     "for": "My campfire guitar teacher: songs I can actually play, quick practice tools, and a path that keeps me coming back a few times a week."
-   }
+   },
+   "say": [
+    "music app",
+    "guitar app",
+    "tuner"
+   ]
   },
   {
    "id": "bulk-manager",
@@ -74,7 +84,12 @@
      "Clear progress on lifts at a glance"
     ],
     "for": "A lean tracker for my bulk: weight trend, lifts, and protein, readable in a few seconds."
-   }
+   },
+   "say": [
+    "bulk",
+    "workout app",
+    "lift log"
+   ]
   },
   {
    "id": "panicbutton",
@@ -97,7 +112,10 @@
      "Only gentle polish; it works, so leave it mostly alone"
     ],
     "for": "One calm tap when things get hard: a ladder of things that help, and a quiet log of what worked."
-   }
+   },
+   "say": [
+    "panic"
+   ]
   },
   {
    "id": "my-tastes",
@@ -119,7 +137,11 @@
      "Easy adding from my phone"
     ],
     "for": "My shelf of favorite shows and movies, with recs that actually fit my taste."
-   }
+   },
+   "say": [
+    "tastes",
+    "my shows"
+   ]
   },
   {
    "id": "flag-hub",
@@ -143,7 +165,20 @@
      "Suggestions that match my taste"
     ],
     "for": "Home base for building: raise a flag anywhere, Claude handles it overnight, and I answer with one tap."
-   }
+   },
+   "say": [
+    "the hub",
+    "flags app",
+    "flag app"
+   ],
+   "denied": [
+    {
+     "id": "c1118deeplink",
+     "text": "Notification links straight to the proposal",
+     "note": "Doesn't want notifications.",
+     "at": "2026-11-18T17:20:00Z"
+    }
+   ]
   },
   {
    "id": "claude-os",
@@ -168,7 +203,12 @@
      "Prettier ambient visuals"
     ],
     "for": "My always-on desk display: clock, weather, my day, timers, and fun visuals, like an Echo Show I control."
-   }
+   },
+   "say": [
+    "desk display",
+    "desk clock",
+    "kiosk"
+   ]
   },
   {
    "id": "retrobat-wizard",
@@ -193,7 +233,10 @@
      "Polished icons"
     ],
     "for": "The friendly setup and library app for my RetroBat drive, so family and friends can just play."
-   }
+   },
+   "say": [
+    "wizard"
+   ]
   },
   {
    "id": "retrobat",
@@ -215,7 +258,12 @@
      "Missing games and the family filter"
     ],
     "for": "The game setup itself: every console I care about, controller-only, ready for family nights."
-   }
+   },
+   "say": [
+    "retro bat",
+    "emulation",
+    "emulator"
+   ]
   },
   {
    "id": "homebox",
@@ -239,7 +287,14 @@
     ],
     "for": "Our family entertainment center on the Z240: Jellyfin movies, RetroBat, karaoke, built for real connection, creating more and consuming less."
    },
-   "roadmap": "https://claude.ai/artifact/H9Xv9kxS49BwLs53nMxW3Y"
+   "roadmap": "https://claude.ai/artifact/H9Xv9kxS49BwLs53nMxW3Y",
+   "say": [
+    "home box",
+    "jellyfin",
+    "movie server",
+    "jellyseerr",
+    "homepage"
+   ]
   },
   {
    "id": "interview-prep",
@@ -260,7 +315,10 @@
      "Done for now; interviews are over"
     ],
     "for": "Audio prep tracks for my CAA interviews."
-   }
+   },
+   "say": [
+    "interview"
+   ]
   },
   {
    "id": "notemaker",
@@ -282,7 +340,10 @@
      "Built with me in chat, not overnight"
     ],
     "for": "Work tool for the scribe team to prep progress notes."
-   }
+   },
+   "say": [
+    "note maker"
+   ]
   },
   {
    "id": "blueprints",
@@ -301,7 +362,10 @@
      "Paused until it has a repo"
     ],
     "for": "My side business sites for small businesses."
-   }
+   },
+   "say": [
+    "blueprints"
+   ]
   },
   {
    "id": "trip-board",
@@ -320,7 +384,33 @@
     ],
     "now": [],
     "for": "Travel deal board."
-   }
+   },
+   "say": [
+    "trip board"
+   ]
   }
- ]
+ ],
+ "otherSay": {
+  "3DS Setup": [
+   "3ds"
+  ],
+  "Spotify": [
+   "spotify",
+   "playlist"
+  ],
+  "Screen Time": [
+   "screen time"
+  ],
+  "Home Assistant": [
+   "home assistant",
+   "smart home"
+  ],
+  "Money Hacking": [
+   "churning",
+   "money hacking"
+  ],
+  "Brother's CRM": [
+   "brother"
+  ]
+ }
 }
