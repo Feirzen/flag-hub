@@ -225,7 +225,7 @@
     "Jellyfin"
    ],
    "lane": "pc",
-   "state": "on",
+   "state": "off",
    "glyph": "house",
    "vision": {
     "never": [
