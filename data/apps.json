@@ -128,7 +128,7 @@
     "Flag Hub"
    ],
    "lane": "cloud",
-   "state": "on",
+   "state": "focus",
    "repo": "Feirzen/flag-hub",
    "url": "https://feirzen.github.io/flag-hub/",
    "icon": "https://feirzen.github.io/flag-hub/icons/apple-touch-icon.png",
