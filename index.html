@@ -739,6 +739,7 @@ function sugCard(c) {
     ${editing ? `<textarea class="stext" maxlength="1500" aria-label="Edit the idea">${esc(c.text + (c.detail ? "\n\n" + c.detail : ""))}</textarea>
       <div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="scancel">Cancel</button><button class="btn sm idea" data-a="ssave">Save</button></div>`
     : `<p class="pitch"><span>${esc(c.text)}</span><button class="pen" data-a="sedit" aria-label="Edit this idea" title="Edit">${ICON.pen}</button></p>${c.detail ? `<p class="why" style="color:var(--ink2)">${esc(c.detail)}</p>` : ""}`}
+    ${c.helps ? (h => h ? `<p class="why"><b>Helps with your flag:</b> ${esc(h.text.length > 90 ? h.text.slice(0, 88) + "…" : h.text)}</p>` : "")(S.flags.find(f => f.id === c.helps)) : ""}
     ${c.why ? `<p class="why"><b>Why:</b> ${esc(c.why)}</p>` : ""}
     ${mock}
     <textarea class="snote" data-snote="${c.id}" placeholder="Your notes (optional): what you'd change, or why not" maxlength="1500">${esc(note)}</textarea>
@@ -782,7 +783,7 @@ async function sugAction(a, id, b) {
   if (a === "plant") {
     b.disabled = true; card.classList.add("leaving");
     const ok = await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return;
-      f.concept = { pitch: f.text, detail: f.detail, size: f.size, cost: f.cost, why: f.why, mockup: f.mockup, created: f.created };
+      f.concept = { pitch: f.text, detail: f.detail, size: f.size, cost: f.cost, why: f.why, mockup: f.mockup, helps: f.helps, created: f.created };
       if (f.detail) f.text = f.text + "\n\n" + f.detail;
       if (note) f.text += "\n\nMy notes: " + note;
       ["detail", "size", "cost", "why", "mockup"].forEach(k => delete f[k]);
