@@ -336,9 +336,11 @@ body:not(.v-apps) #siriBox{display:none!important}
 /* ================= v3 layout: home screen + apps, no tabs ================= */
 :root{--yes:#2fa86a;--yesInk:#fff;--no:#e5484d;--noInk:#fff;--mineIdea:#4fa3ff;--clIdea:#ffaa66}
 body.v3 .lanes{display:none}
-.topbtn{position:fixed;z-index:60;top:calc(14px + env(safe-area-inset-top,0px));right:calc(66px + env(safe-area-inset-right,0px));width:46px;height:46px;border-radius:15px;border:1px solid var(--line);background:var(--card);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,background .2s}
+.topright{position:fixed;z-index:60;top:calc(14px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));display:flex;gap:10px}
+.topbtn{position:relative;width:46px;height:46px;border-radius:15px;border:1px solid var(--line);background:var(--card);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,background .2s}
 .topbtn:active{transform:scale(.94)}
-.topbtn svg{width:22px;height:22px}
+.topbtn svg{width:22px;height:22px;transition:transform .55s cubic-bezier(.175,.885,.32,1.275)}
+.topbtn.fk-open svg{transform:rotate(180deg)}
 .topbtn .badge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--clIdea);color:#2a1300;font:700 11px/18px var(--fm)}
 header{padding-right:120px}
 .view{display:flex;flex-direction:column;gap:18px;animation:vin .32s cubic-bezier(.2,.8,.2,1)}
@@ -460,7 +462,7 @@ header{padding-right:120px}
 </head>
 <body class="v3">
 <button class="raise" id="raiseBtn" aria-label="Raise a flag" title="Raise a flag"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 3h12l-2.5 4.5L17 12H5" fill="currentColor"/></svg></button>
-<button class="topbtn" id="appsBtn" aria-label="Your apps" title="Your apps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg><span class="badge" id="appsBadge" hidden></span></button>
+<div class="topright"><button class="topbtn" id="appsBtn" aria-label="Your apps" title="Your apps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg><span class="badge" id="appsBadge" hidden></span></button><button class="topbtn" id="gearBtn" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
 <div class="wrap">
   <section class="connect" id="connect" aria-labelledby="cn" hidden>
     <h2 id="cn">Connect this device</h2>
@@ -508,7 +510,7 @@ header{padding-right:120px}
 </div>
 
 <script>
-window.KitConfig = window.KitConfig || {};
+window.KitConfig = Object.assign(window.KitConfig || {}, { gear: "#gearBtn" });
 </script>
 <script src="kit/kit.js" data-app="flag-hub" data-name="Flag Hub"></script>
 <script>
@@ -869,7 +871,7 @@ function render() {
   if (ae && ae.tagName === "TEXTAREA" && ae.closest("#view")) return; /* never wipe typing */
   const r = route();
   $("#view").innerHTML = r.v === "apps" ? appsView() : r.v === "app" ? appView(r.id) : r.v === "all" ? allView() : homeView();
-  $("#appsBtn").style.visibility = r.v === "home" ? "visible" : "hidden";
+  $("#appsBtn").hidden = r.v !== "home";
   const n = S.concepts.filter(c => c.status === "open").length;
   $("#appsBadge").hidden = !n; $("#appsBadge").textContent = n;
   if (r.v === "home") startFy(); else clearInterval(fyTimer);
@@ -1194,19 +1196,19 @@ async function pullSiri() {
 async function delSiri(g) { try { await fetch(API_C + g.path, { method: "DELETE", headers: { ...ghHead(), "Content-Type": "application/json" }, body: JSON.stringify({ message: "Siri inbox: sorted " + g.name, sha: g.sha, branch: "main" }) }); } catch (e) {} }
 function siriBox() {
   return `<section class="setup"><h2><span class="ht"><i class="hd" style="--c:var(--clIdea)"></i>Siri inbox</span><span class="n">${S.siri.length || ""}</span></h2>
-    <p class="note">Say "Hey Siri, Flag it," then talk. Clear notes get filed the moment the Hub opens. Anything it can't place waits here, and the night shift sorts it.</p>
+    <p class="note">Say "Hey Siri, Plant a Flag," then talk. Clear notes get filed the moment the Hub opens. Anything it can't place waits here, and the night shift sorts it.</p>
     ${S.siri.map(g => `<div class="item" data-siri="${esc(g.name)}"><div class="txt heard">“${esc(g.raw)}”</div><div class="acts"><button class="ic" data-a="siridel" aria-label="Delete">${ICON.del}</button></div><div class="meta"><span>Claude sorts it tonight</span></div></div>`).join("")}
-    <details><summary>Set up "Flag it" on your iPhone</summary>${SIRI_STEPS}</details></section>`;
+    <details><summary>Set up "Plant a Flag" on your iPhone</summary>${SIRI_STEPS}</details></section>`;
 }
 const SIRI_STEPS = `<ol>
-  <li>Open the <b>Shortcuts</b> app, tap <b>+</b>, and name it <b>Flag it</b>.</li>
+  <li>Open the <b>Shortcuts</b> app, tap <b>+</b>, and name it <b>Plant a Flag</b>.</li>
   <li>Add <b>Dictate Text</b>. Set Stop Listening to <b>After Pause</b>.</li>
   <li>Add <b>Base64 Encode</b> (input: Dictated Text). Tap the arrow on it and set <b>Line Breaks</b> to <b>None</b>.</li>
   <li>Add <b>Current Date</b>, then <b>Format Date</b>: Custom, <code>yyyyMMdd-HHmmss</code>.</li>
   <li>Add <b>Get Contents of URL</b>. URL: <code>https://api.github.com/repos/Feirzen/flag-hub/contents/data/siri/</code> then insert the <b>Formatted Date</b> variable, then type <code>.txt</code>.</li>
   <li>Tap <b>Show More</b>. Method: <b>PUT</b>. Headers: <code>Authorization</code> = <code>Bearer</code>, a space, and your Flag Hub key (the github_pat key). Add <code>Accept</code> = <code>application/vnd.github+json</code>.</li>
   <li>Request Body: <b>JSON</b>. Add <code>message</code> (Text) = <code>Siri flag</code>, and <code>content</code> (Text) = the <b>Base64 Encoded</b> variable.</li>
-  <li>Last, add <b>Show Notification</b>: <code>Flagged</code>. Now say <b>"Hey Siri, Flag it"</b>.</li>
+  <li>Last, add <b>Show Notification</b>: <code>Flagged</code>. Now say <b>"Hey Siri, Plant a Flag"</b>.</li>
 </ol><p class="note">Say it like: "For Claude, Study Decks, the pause button sticks, priority." Or "For me, buy Wii remote batteries." Or "Idea, HomeBox could show a movie of the week."</p>`;
 const SHARE_STEPS = `<ol>
   <li>In <b>Shortcuts</b>, tap <b>+</b> and name it <b>Flag this</b>. Tap the <b>i</b> (details) and turn on <b>Show in Share Sheet</b>. Set it to receive <b>Images</b>.</li>
@@ -1214,7 +1216,7 @@ const SHARE_STEPS = `<ol>
   <li>Add <b>Resize Image</b>: width <code>1170</code> (keeps it small and quick).</li>
   <li>Add <b>Base64 Encode</b>, Line Breaks: <b>None</b>.</li>
   <li>Add <b>Current Date</b>, then <b>Format Date</b>: Custom, <code>yyyyMMdd-HHmmss</code>.</li>
-  <li>Add <b>Get Contents of URL</b>: <code>https://api.github.com/repos/Feirzen/flag-hub/contents/shots/</code> + <b>Formatted Date</b> + <code>.jpg</code>. Method <b>PUT</b>, the same two headers as "Flag it", and a JSON body with <code>message</code> = <code>Shared screenshot</code> and <code>content</code> = <b>Base64 Encoded</b>.</li>
+  <li>Add <b>Get Contents of URL</b>: <code>https://api.github.com/repos/Feirzen/flag-hub/contents/shots/</code> + <b>Formatted Date</b> + <code>.jpg</code>. Method <b>PUT</b>, the same two headers as "Plant a Flag", and a JSON body with <code>message</code> = <code>Shared screenshot</code> and <code>content</code> = <b>Base64 Encoded</b>.</li>
   <li>Add <b>Open URLs</b>: <code>https://feirzen.github.io/flag-hub/?shot=</code> + <b>Formatted Date</b> + <code>.jpg</code>.</li>
   <li>To use it: take a screenshot, tap it, draw on it, tap <b>Share</b>, pick <b>Flag this</b>.</li>
 </ol><p class="note">Heads up: flag-hub is a public repo, so anyone with the link could see shared screenshots. Don't share anything private this way.</p>`;
