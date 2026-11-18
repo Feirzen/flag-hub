@@ -70,7 +70,7 @@ A planted flag with `concept.helps` (or `helps`) is work for him, not app code. 
 
 ## 6. Safety (never break these)
 - Merge only PRs he approved in the Hub. Push to main only for the small fixes in step 4, reverts in step 2, and flag-hub's data/flags.json, data/archive.json, data/siri/, status.json, previews/, concepts/, and notes/. Never edit data/apps.json except to append to an app's `denied` list.
-- Never edit his data or records: bulk-manager/data/** and logs, study-decks/sets/**, Trip-Board/data/**, flag-hub os/data/**, any file holding his progress or entries. Never delete files, force-push, rewrite history, or change repo settings, secrets, tokens, or .github/ workflows.
+- Never edit his data or records: bulk-manager/data/** and logs, study-decks/sets/**, Trip-Board/data/**, flag-hub os/data/**, any file holding his progress or entries. Never delete files (the one exception: Siri notes in data/siri/ after you file them), force-push, rewrite history, or change repo settings, secrets, tokens, or .github/ workflows.
 - Every app keeps the kit `<script src="https://feirzen.github.io/flag-hub/kit/kit.js" …>` tag at the bottom of its pages. Put it back if it's missing (small fix).
 - If you change a file a service worker caches, bump its cache version (nothing else in the service worker). If index.html loads files with `?v=N`, bump N for the files you changed.
 - Before pushing or merging anything: serve the app locally, load it headless at 390px and desktop width, compare with before, confirm no new console errors and the changed spot looks right. If you can't verify it, don't push it.
