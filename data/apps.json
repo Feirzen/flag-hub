@@ -83,7 +83,7 @@
     "Panic Button"
    ],
    "lane": "cloud",
-   "state": "on",
+   "state": "off",
    "repo": "Feirzen/panicbutton",
    "url": "https://feirzen.github.io/panicbutton/",
    "icon": "https://feirzen.github.io/panicbutton/icons/apple-touch-icon.png",
