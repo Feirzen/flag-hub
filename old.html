@@ -1,0 +1,1272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Flag Hub (old version)</title>
+<meta name="description" content="Every flag across your apps and projects, plus the night shift switch.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Flag Hub">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png?v=2" sizes="32x32">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
+<link rel="manifest" href="manifest.webmanifest">
+<meta property="og:title" content="Flag Hub">
+<meta property="og:description" content="Every flag across your apps and projects, plus the night shift switch.">
+<meta property="og:image" content="https://feirzen.github.io/flag-hub/icons/og-image.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column like a field clipboard; night-shift switch on top, then what needs you, then the flags. */
+:root{
+  --card:var(--surface,#18181f); --card2:var(--surface2,#131318); --line:var(--border,#26262f); --ink:var(--text,#ececf1); --ink2:var(--dim,#b9b9c4); --ink3:var(--muted,#7d7d89);
+  --flag:#ff5a3c; --flagInk:#ffffff; --flagBg:color-mix(in srgb,#ff5a3c 15%,var(--card));
+  --okc:var(--ok,#4fd1a0); --okBg:color-mix(in srgb,var(--okc) 15%,var(--card)); --warn:var(--star,#f2b544); --warnBg:color-mix(in srgb,var(--warn) 15%,var(--card));
+  --teal:#2bb5a0; --tealInk:color-mix(in srgb,#2bb5a0 78%,var(--ink)); --tealBg:color-mix(in srgb,#2bb5a0 16%,var(--card));
+  --off:var(--muted,#7d7d89); --big:#8b6cff; --bigBg:color-mix(in srgb,#8b6cff 16%,var(--card));
+  --fd:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif; --fb:"Instrument Sans",ui-sans-serif,system-ui,sans-serif; --fm:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--bg,#0f0f13)}
+body{margin:0;background:var(--bg,#0f0f13);color:var(--ink);font:15px/1.5 var(--fb);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:calc(48px + env(safe-area-inset-bottom,0px));transition:background .5s,color .5s}
+.wrap{max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding-top:6px;padding-right:56px}
+h1{font:700 34px/1 var(--fd);letter-spacing:-.02em;margin:0;display:flex;align-items:center;gap:10px;text-wrap:balance}
+h1 svg{color:var(--flag);flex:none}
+.tally{font:500 12px/1.4 var(--fm);color:var(--ink3);font-variant-numeric:tabular-nums}
+.tally b{color:var(--ink);font-weight:500}
+section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px}
+h2{font:600 13px/1 var(--fb);letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin:0;display:flex;justify-content:space-between;align-items:center}
+h2 span.n{font:500 12px var(--fm);letter-spacing:0;color:var(--ink3);text-transform:none}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mode{border:1.5px solid var(--line);background:var(--card2);color:var(--ink);border-radius:14px;padding:12px 8px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font:600 15px var(--fd);transition:transform .15s,border-color .2s,background .2s}
+.mode small{font:400 11.5px/1.3 var(--fb);color:var(--ink3);text-align:center}
+.mode:active{transform:scale(.97)}
+.mode[aria-pressed="true"][data-m="off"]{border-color:var(--off);background:var(--card)}
+.mode[aria-pressed="true"][data-m="light"]{border-color:var(--okc);background:var(--okBg)}
+.mode[aria-pressed="true"][data-m="big"]{border-color:var(--big);background:var(--bigBg)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.mode[aria-pressed="true"][data-m="off"] .dot{background:var(--off)}
+.mode[aria-pressed="true"][data-m="light"] .dot{background:var(--okc)}
+.mode[aria-pressed="true"][data-m="big"] .dot{background:var(--big)}
+.lastrun{font-size:13px;color:var(--ink2);margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--card2);color:var(--ink2);border-radius:999px;padding:6px 11px;font:500 13px var(--fb);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip.add{border-style:dashed}
+textarea,input[type=text]{width:100%;border:1px solid var(--line);background:var(--card2);color:var(--ink);border-radius:12px;padding:11px 12px;font:15px/1.45 var(--fb);outline:none}
+textarea{min-height:84px;resize:vertical}
+textarea:focus,input[type=text]:focus{border-color:var(--flag)}
+.row{display:flex;gap:8px;align-items:center}
+.btn{white-space:nowrap;border:0;border-radius:12px;padding:11px 16px;font:600 15px var(--fb);cursor:pointer;background:var(--flag);color:var(--flagInk);transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:10px}
+.err{color:var(--flag);font-size:13px;min-height:1em;margin:0}
+.list{display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"meta acts" "txt txt";gap:6px 10px;align-items:center;padding:12px 0;border-top:1px solid var(--line);animation:in .35s ease}
+.item:first-child{border-top:0;padding-top:2px}
+@keyframes in{from{opacity:.0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.item .txt{grid-area:txt;min-width:0;overflow-wrap:anywhere}
+.item>.meta{grid-area:meta}
+.item>.acts{grid-area:acts}
+.meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font:500 11.5px var(--fm);color:var(--ink3)}
+.tag{background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--ink2)}
+.tag.app{background:var(--flagBg);border-color:transparent;color:var(--flag)}
+.tag.prop{background:var(--warnBg);border-color:transparent;color:var(--warn)}
+.acts{display:flex;gap:6px;align-items:center}
+.ic{width:32px;height:32px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--ink2);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ic.sure{background:var(--flag);color:var(--flagInk);border-color:var(--flag)}
+.empty{color:var(--ink3);font-size:14px;margin:0;padding:6px 0}
+.prop{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.prop h3{margin:0;font:600 16px/1.3 var(--fd)}
+.prop p{margin:0;color:var(--ink2);font-size:14px}
+.prop a{color:var(--ink);font-size:13px}
+.state{font:600 12px var(--fb);padding:3px 8px;border-radius:6px;align-self:flex-start}
+.state.approved{background:var(--okBg);color:var(--okc)}
+.state.denied{background:var(--card);color:var(--ink3);border:1px solid var(--line)}
+.filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.filters .chip{flex:none}
+details summary{cursor:pointer;color:var(--ink3);font-size:13px}
+.note{font-size:12.5px;color:var(--ink3);margin:0}
+:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+[hidden]{display:none!important}
+.tag.pri{background:var(--flagBg);border-color:transparent;color:var(--flag)}
+.item.is-pri .txt{font-weight:500}
+.ic.pri-on{background:var(--flag);color:var(--flagInk);border-color:var(--flag)}
+.prirow{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--ink2);cursor:pointer}
+.prirow input{accent-color:var(--flag);width:18px;height:18px}
+.digest{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:10px}
+.digest .dl{display:flex;gap:8px;align-items:baseline;font-size:14px;color:var(--ink2)}
+.digest .dk{flex:none;font:600 11px var(--fm);text-transform:uppercase;letter-spacing:.04em;padding:2px 6px;border-radius:6px;background:var(--card2);color:var(--ink3)}
+.digest .dk.fixed,.digest .dk.shipped,.digest .dk.merged{background:var(--okBg);color:var(--okc)}
+.digest .dk.proposed{background:var(--warnBg);color:var(--warn)}
+.digest .dk.failed{background:var(--flagBg);color:var(--flag)}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pics{display:inline-flex;align-items:center;gap:4px;width:auto;padding:0 9px;font:500 12px var(--fm)}
+.pics svg{flex:none}
+/* whose turn is it: one plain line on every proposal */
+.turn{display:flex;gap:8px;align-items:flex-start;font:600 14px/1.35 var(--fb);color:var(--ink)}
+.turn i{width:9px;height:9px;border-radius:50%;flex:none;margin-top:5px;background:var(--c)}
+.turn small{display:block;font:400 12.5px/1.4 var(--fb);color:var(--ink3);margin-top:2px}
+.prop .links{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.prop .links a{font-size:13px;color:var(--ink3)}
+.prop.claude{gap:6px}
+.said.clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+a.btn{text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+/* archive: merged and denied, one short line each, folded away */
+#archBox{margin-top:2px}
+.arow{display:flex;gap:8px;align-items:center;padding:7px 0;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink2)}
+.arow:first-child{border-top:0}
+.arow .at{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arow .at a{color:inherit}
+.arow .state{flex:none;font-size:11px;padding:2px 6px}
+.arow .btn{flex:none;padding:4px 9px;font-size:12px}
+.state.shipped{background:var(--okBg);color:var(--okc)}
+/* screenshot viewer: opens on tap, glowing ring shows where the change is */
+.sv{position:fixed;inset:0;z-index:2147483000;background:rgba(8,8,12,.97);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;gap:10px;padding:calc(14px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));overflow-y:auto;animation:in .2s ease}
+.sv .bar{width:100%;max-width:520px;display:flex;gap:8px;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:2}
+.sv .seg{display:flex;gap:4px;background:#1b1b22;border:1px solid #2c2c36;border-radius:12px;padding:4px}
+.sv .seg button{border:0;background:transparent;color:#b9b9c4;border-radius:9px;padding:7px 14px;font:600 14px var(--fb);cursor:pointer}
+.sv .seg button[aria-pressed="true"]{background:#ececf1;color:#0f0f13}
+.sv .x{width:38px;height:38px;border-radius:12px;border:1px solid #2c2c36;background:#1b1b22;color:#ececf1;font:600 20px/1 var(--fb);cursor:pointer}
+.sv .hint{font-size:12.5px;color:#b9b9c4;margin:0;text-align:center}
+.sv .pic{position:relative;width:100%;max-width:520px;flex:none}
+.sv .pic img{width:100%;display:block;border-radius:12px;background:#18181f}
+.spot{position:absolute;border-radius:50%;border:3px solid #ffd23f;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 0 0 3px rgba(255,210,63,.3),0 0 22px 6px rgba(255,210,63,.55),inset 0 0 14px rgba(255,210,63,.35);animation:glow 1.5s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 6px rgba(255,210,63,.18),0 0 34px 12px rgba(255,210,63,.75),inset 0 0 18px rgba(255,210,63,.45)}}
+.shots figure{margin:0;display:flex;flex-direction:column;gap:4px}
+.shots img{width:100%;border-radius:10px;border:1px solid var(--line);display:block;background:var(--card)}
+.shots figcaption{font:500 11px var(--fm);color:var(--ink3)}
+.connect{border-color:var(--flag)}
+.connect ol{margin:0;padding-left:20px;color:var(--ink2);font-size:14px;display:flex;flex-direction:column;gap:6px}
+.connect code{font:12.5px var(--fm);background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 5px}
+footer{display:flex;justify-content:space-between;gap:10px;color:var(--ink3);font-size:12.5px;flex-wrap:wrap}
+footer button{background:none;border:0;color:var(--ink3);text-decoration:underline;cursor:pointer;font:inherit;padding:0}
+.tag.kind-you{background:var(--tealBg);border-color:transparent;color:var(--tealInk)}
+/* project colors */
+.tag.proj{background:var(--pBg);border-color:transparent;color:var(--pInk)}
+.pd{width:8px;height:8px;border-radius:50%;background:var(--pc);display:inline-block;flex:none}
+.chip{display:inline-flex;align-items:center;gap:6px}
+.chip[data-p][aria-pressed="true"],.chip[data-f][aria-pressed="true"]:not([data-f="all"]){background:var(--pBg);color:var(--pInk);border-color:var(--pc)}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.chips.scroll::-webkit-scrollbar,.filters::-webkit-scrollbar{display:none}
+.chips.scroll .chip{flex:none}
+/* section marks */
+.ht{display:flex;align-items:center;gap:8px}
+.hd{width:8px;height:8px;border-radius:3px;background:var(--c);transform:rotate(45deg);flex:none}
+/* who: for Claude (orange) vs for me (teal) */
+.who{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:4px}
+.who button{border:0;background:transparent;color:var(--ink3);border-radius:9px;padding:8px 6px;font:600 14px var(--fb);cursor:pointer;display:flex;gap:6px;align-items:center;justify-content:center;transition:background .25s,color .25s}
+.who button svg{transition:color .25s}
+.who button[aria-pressed="true"][data-k="claude"]{background:var(--flagBg);color:var(--flag)}
+.who button[aria-pressed="true"][data-k="you"]{background:var(--tealBg);color:var(--tealInk)}
+.who .wn{font:500 12px var(--fm);opacity:.75}
+.btn.teal{background:var(--teal);color:#fff}
+.prirow input.teal{accent-color:var(--teal)}
+textarea.teal:focus{border-color:var(--teal)}
+.fg{flex:none;color:var(--flag);display:inline-flex}
+.item.mine .fg{color:var(--teal)}
+.item.mine .ic.pri-on{background:var(--teal);border-color:var(--teal)}
+/* check-in for old flags */
+.review{border:1px dashed color-mix(in srgb,var(--warn) 60%,transparent);background:var(--warnBg);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:4px}
+.review h3{margin:0;font:600 15px/1.3 var(--fd);color:var(--ink);display:flex;justify-content:space-between;align-items:center}
+.review .note{margin-bottom:4px}
+.review .item{border-top-color:color-mix(in srgb,var(--warn) 25%,var(--line))}
+.ic.keep{color:var(--warn)}
+.age{color:var(--warn)}
+.keeps{grid-column:1/-1;display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--ink2);animation:in .25s ease}
+.keeps .chip{padding:4px 10px;font-size:12.5px;border-color:color-mix(in srgb,var(--warn) 50%,var(--line));color:var(--warn)}
+.pnote{min-height:64px;font-size:14px}
+.pnote:focus{border-color:var(--warn)}
+.state.redo{background:var(--warnBg);color:var(--warn)}
+.state.ready{background:var(--warnBg);color:var(--warn)}
+.said{font-style:italic;font-size:13px!important;color:var(--ink3)!important}
+.tag.kind-idea{background:transparent}
+/* folding sections: tap a heading to fold it, the Hub remembers */
+h2.fold{cursor:pointer;user-select:none;-webkit-user-select:none}
+h2.fold .ht::after{content:"";width:7px;height:7px;border-right:1.8px solid var(--ink3);border-bottom:1.8px solid var(--ink3);transform:translateY(-2px) rotate(45deg);transition:transform .25s;margin-left:2px}
+section.shut h2.fold .ht::after{transform:translateY(1px) rotate(-45deg)}
+section.shut>:not(h2){display:none!important}
+section.shut{gap:0}
+/* folded night shift: a small three-part pill shows which mode is on */
+.nsPill{display:none;margin-left:auto;gap:2px;padding:2px;border:1px solid var(--line);border-radius:999px;background:var(--card2)}
+section.shut .nsPill{display:inline-flex}
+section.shut #modeSaved:empty{display:none}
+.nsPill i{font:600 10.5px/1 var(--fb);font-style:normal;letter-spacing:.04em;padding:4px 7px;border-radius:999px;color:var(--ink3);opacity:.55;transition:background .2s,color .2s,opacity .2s}
+.nsPill i.on{opacity:1;color:var(--bg)}
+.nsPill i.on[data-m="off"]{background:var(--off)}
+.nsPill i.on[data-m="light"]{background:var(--okc)}
+.nsPill i.on[data-m="big"]{background:var(--big)}
+/* ideas: dotted outline flag, kept apart from the work */
+.who{grid-template-columns:repeat(3,1fr)}
+.who button[aria-pressed="true"][data-k="idea"]{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink3) 70%,transparent)}
+.item.idea .fg{color:var(--ink2)}
+.btn.idea{background:var(--ink);color:var(--bg)}
+textarea.idea:focus{border-color:var(--ink2)}
+/* Claude's note on a flag */
+.cnote{grid-column:1/-1;font-size:13.5px;color:var(--ink2);background:var(--card2);border:1px solid var(--line);border-left:3px solid var(--flag);border-radius:8px;padding:7px 10px;white-space:pre-line}
+.cnote b{font-weight:600;color:var(--ink)}
+/* edit a flag in place */
+.fedit{grid-area:txt;display:flex;flex-direction:column;gap:8px;animation:in .25s ease}
+.who button{white-space:nowrap}
+.pen{display:inline-flex;vertical-align:-3px;margin-left:6px;padding:2px;border:0;background:none;color:var(--ink3);cursor:pointer;border-radius:6px}
+.pen svg{width:15px;height:15px}
+.pen:hover{color:var(--ink)}
+.fedit .ftext{min-height:110px}
+.fedit select{border:1px solid var(--line);background:var(--card2);color:var(--ink);border-radius:10px;padding:8px 10px;font:14px var(--fb);max-width:100%}
+.fedit .chip{padding:4px 10px;font-size:12.5px}
+/* labels */
+.lab{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:8px;align-items:center}
+.lab input[type=color]{width:32px;height:32px;border:1px solid var(--line);border-radius:10px;background:var(--card2);padding:3px;cursor:pointer}
+.lab input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.lab input[type=color]::-webkit-color-swatch{border:0;border-radius:6px}
+.lab input[type=text]{padding:7px 10px;font-size:14px;border-radius:10px}
+.lab .ln{font:500 11.5px var(--fm);color:var(--ink3);min-width:2.5em;text-align:right}
+/* three lanes: Cloud runs, PC runs, Ideas */
+header{padding-left:58px}
+.raise{position:fixed;z-index:50;top:calc(14px + env(safe-area-inset-top,0px));left:max(14px,env(safe-area-inset-left,0px));width:46px;height:46px;border-radius:15px;border:0;background:var(--flag);color:var(--flagInk);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 18px color-mix(in srgb,var(--flag) 35%,transparent);transition:transform .12s}
+.raise:active{transform:scale(.94)}
+.lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px;position:sticky;top:calc(6px + env(safe-area-inset-top,0px));z-index:40}
+.lanes button{border:0;background:transparent;color:var(--ink3);border-radius:10px;padding:9px 6px;font:600 15px var(--fd);cursor:pointer;display:flex;gap:6px;align-items:center;justify-content:center;position:relative;transition:background .2s,color .2s}
+.lanes button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.lanes .wn{font:500 12px var(--fm);opacity:.7}
+/* once the lane bar sticks to the top on a phone, it tucks toward the center so the flag and gear buttons keep their corners */
+.lanes{transition:margin .25s ease,top .25s ease}
+@media (max-width:760px){.lanes.stuck{margin-inline:58px;top:calc(15px + env(safe-area-inset-top,0px));box-shadow:0 6px 18px rgba(0,0,0,.25)}.lanes.stuck button{padding-inline:2px;font-size:14px}}
+.lanes .ping{position:absolute;top:6px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--warn)}
+.who.two{grid-template-columns:1fr 1fr}
+.sheetbg{position:fixed;inset:0;z-index:2147482000;background:rgba(8,8,12,.6);display:flex;align-items:flex-start;justify-content:center;padding:calc(72px + env(safe-area-inset-top,0px)) 12px 12px;overflow-y:auto;animation:in .2s ease}
+.sheet{width:100%;max-width:560px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.sheet h2{cursor:default}
+.sheet .x{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--ink2);font:600 18px/1 var(--fb);cursor:pointer}
+.lab{grid-template-columns:auto minmax(0,1fr) auto auto auto}
+.lab select{border:1px solid var(--line);background:var(--card2);color:var(--ink2);border-radius:10px;padding:6px 4px;font:13px var(--fb)}
+.who button[data-nl][aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink3)}
+.fedit .lanerow{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--ink3)}
+
+/* ---------- concept flags (Claude's suggestions) ---------- */
+:root{--idea:#9b6bff;--ideaInk:color-mix(in srgb,#9b6bff 70%,var(--ink));--ideaBg:color-mix(in srgb,#9b6bff 14%,var(--card))}
+.sug{position:relative;background:var(--card2);border:1px solid color-mix(in srgb,var(--idea) 30%,var(--line));border-radius:14px;padding:12px 12px 12px 15px;display:flex;flex-direction:column;gap:8px;animation:in .35s ease;overflow:hidden}
+.sug::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--idea),color-mix(in srgb,var(--idea) 40%,transparent))}
+.sug .pitch{margin:0;font:600 15.5px/1.35 var(--fd);color:var(--ink);display:flex;gap:6px;align-items:flex-start;justify-content:space-between}
+.sug .why{margin:0;font-size:13px;color:var(--ink3)}
+.sug .why b{color:var(--ideaInk);font-weight:600}
+.sug .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--ink3)}
+.sz{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 8px;font:600 11.5px var(--fm);background:var(--ideaBg);color:var(--ideaInk)}
+.sz i{display:inline-block;width:6px;height:6px;border-radius:2px;background:currentColor;opacity:.35}
+.sz i.on{opacity:1}
+.btn.idea{background:var(--idea);color:#fff}
+textarea.idea:focus,.sug textarea:focus{border-color:var(--idea);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--idea) 22%,transparent)}
+.sug .stext{width:100%;min-height:70px}
+.sug .mock{display:flex;gap:8px;align-items:center}
+.sug .mock img{width:64px;height:64px;object-fit:cover;border-radius:10px;border:1px solid var(--line);cursor:zoom-in}
+.tag.kind-concept{background:var(--ideaBg);border-color:transparent;color:var(--ideaInk)}
+.item.from-concept .fg{color:var(--idea)}
+#sgBox .denied{font-size:13px;color:var(--ink3)}
+#sgBox .drow{display:flex;gap:8px;align-items:center;padding:7px 0;border-top:1px solid var(--line)}
+#sgBox .drow span{flex:1;min-width:0}
+#sgBox .drow small{display:block;color:var(--ink3)}
+@keyframes plant{0%{transform:none;opacity:1}40%{transform:translateY(-6px) scale(.98)}100%{transform:translateY(14px) scale(.96);opacity:0}}
+.sug.leaving{animation:plant .45s cubic-bezier(.4,0,.2,1) forwards;pointer-events:none}
+
+/* ---------- app library ---------- */
+.lanes{grid-template-columns:repeat(4,1fr)}
+.lanes .ai{display:inline-flex}
+body.v-apps .wrap > section:not(#libBox):not(#siriBox){display:none!important}
+body:not(.v-apps) #libBox{display:none!important}
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:14px 8px;padding-top:4px}
+.app{display:flex;flex-direction:column;align-items:center;gap:7px;background:none;border:0;padding:4px 0;cursor:pointer;color:var(--ink2);font:500 12.5px/1.2 var(--fb);text-align:center;-webkit-tap-highlight-color:transparent}
+.app .ico{position:relative;width:58px;height:58px;border-radius:15px;display:grid;place-items:center;background:var(--card2);border:1px solid var(--line);box-shadow:0 4px 14px var(--shadow,rgba(0,0,0,.2));transition:transform .25s cubic-bezier(.3,1.4,.5,1),filter .35s ease,opacity .35s ease,box-shadow .35s ease;overflow:hidden}
+.app .ico img{width:100%;height:100%;object-fit:cover;display:block}
+.app .ico svg{width:30px;height:30px}
+.app:active .ico{transform:scale(.92)}
+.app.off .ico{filter:grayscale(1);opacity:.38;box-shadow:none}
+.app.off .nm{opacity:.5}
+.app.focus .ico{box-shadow:0 0 0 2.5px var(--flag),0 0 22px color-mix(in srgb,var(--flag) 45%,transparent)}
+.app.focus .nm{font-weight:700;color:var(--ink)}
+.app.focus .ico::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-120%);animation:sheen 3.6s ease-in-out infinite}
+@keyframes sheen{0%,60%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+.app[aria-pressed="true"] .ico{transform:translateY(-3px)}
+.app .badge{position:absolute;top:-1px;right:-1px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--idea);color:#fff;font:700 11px/18px var(--fm)}
+.app .wrapi{position:relative}
+.lgroup{font:600 12px var(--fm);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);margin:14px 0 2px}
+.adetail{margin-top:14px;background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px;animation:in .3s ease}
+.adetail .hd2{display:flex;gap:12px;align-items:center}
+.adetail .hd2 .ico{width:46px;height:46px;border-radius:12px}
+.adetail h3{margin:0;font:600 18px var(--fd)}
+.adetail .sub{font-size:12.5px;color:var(--ink3)}
+.seg3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px}
+.seg3 button{border:0;background:transparent;color:var(--ink3);border-radius:9px;padding:9px 4px;font:600 14px var(--fb);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:background .2s,color .2s}
+.seg3 button small{font:500 11px var(--fb);opacity:.8}
+.seg3 button[aria-pressed="true"][data-st="off"]{background:var(--ink3);color:var(--bg)}
+.seg3 button[aria-pressed="true"][data-st="on"]{background:var(--ink);color:var(--bg)}
+.seg3 button[aria-pressed="true"][data-st="focus"]{background:var(--flag);color:#fff}
+.vis h4{margin:0 0 4px;font:600 12px var(--fm);letter-spacing:.05em;text-transform:uppercase;color:var(--ink3)}
+.vis p,.vis ul{margin:0 0 10px;font-size:14px;color:var(--ink2)}
+.vis ul{padding-left:18px}
+.vis li{margin:2px 0}
+.vis textarea{width:100%;min-height:58px;margin-bottom:8px}
+.adetail .links{display:flex;gap:12px;flex-wrap:wrap;font-size:13px}
+.adetail .links a{color:var(--ink2)}
+@media (prefers-reduced-motion:reduce){.app.focus .ico::after{animation:none}.sug.leaving{animation:none;opacity:0}}
+
+/* ---------- tonight's plan ---------- */
+.tonight{margin-top:10px;border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--card2)}
+.tonight h3{margin:0 0 6px;font:600 12px var(--fm);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);display:flex;justify-content:space-between}
+.tl{display:grid;grid-template-columns:18px minmax(0,1fr) auto;gap:8px;align-items:center;padding:6px 0;border-top:1px solid var(--line);font-size:13.5px;animation:in .3s ease}
+.tl:first-of-type{border-top:0}
+.tl .k{font:600 12px var(--fm);color:var(--ink3);text-align:center}
+.tl .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink2)}
+.tl .t b{font-weight:600;color:var(--ink)}
+.tl.skip .t{text-decoration:line-through;opacity:.5}
+.tl .btn{padding:3px 9px;font-size:12px}
+.tl.more{color:var(--ink3);font-size:12.5px;grid-template-columns:18px 1fr}
+/* ---------- siri inbox ---------- */
+body.v-apps .wrap > section#siriBox{display:block!important}
+body:not(.v-apps) #siriBox{display:none!important}
+#siriBox ol{margin:6px 0 0;padding-left:20px;font-size:14px;color:var(--ink2)}
+#siriBox ol li{margin:5px 0}
+#siriBox code{font:12.5px var(--fm);background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 5px;word-break:break-all}
+.heard{font-style:italic;color:var(--ink2)}
+</style>
+</head>
+<body>
+<script src="kit/kit.js" data-app="flag-hub" data-name="Flag Hub"></script>
+
+<button class="raise" id="raiseBtn" aria-label="Raise a flag" title="Raise a flag"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 3h12l-2.5 4.5L17 12H5" fill="currentColor"/></svg></button>
+<div class="wrap">
+  <header>
+    <h1>Flag Hub</h1>
+    <div class="tally" id="tally">loading…</div>
+  </header>
+  <div class="lanes" id="laneTabs" role="tablist" aria-label="Show"></div>
+
+  <section class="connect" id="connect" aria-labelledby="cn" hidden>
+    <h2 id="cn">Connect this device</h2>
+    <p class="note" style="font-size:14px;color:var(--ink2)">One time per device. This lets the Hub and every one of your apps save flags straight to your flag-hub repo. The key stays on this device and only works on flag-hub.</p>
+    <ol>
+      <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener" style="color:var(--ink)">GitHub's new token page</a>.</li>
+      <li>Name it <code>Flag Hub</code>. Expiration: the longest it allows.</li>
+      <li>Repository access: <b>Only select repositories</b>, then pick <code>flag-hub</code>.</li>
+      <li>Permissions: <b>Contents</b>, set to <b>Read and write</b>. Leave everything else alone.</li>
+      <li>Tap Generate, copy the key, and paste it here.</li>
+    </ol>
+    <div class="row"><input type="text" id="tokenIn" placeholder="github_pat_…" autocomplete="off" spellcheck="false"><button class="btn sm" id="tokenSave">Connect</button></div>
+    <p class="err" id="tokenErr"></p>
+  </section>
+
+  <section aria-labelledby="ns">
+    <h2 id="ns"><span class="ht"><i class="hd" style="--c:var(--big)"></i>Night shift</span> <span class="n" id="modeSaved"></span><span class="nsPill" id="nsPill" aria-hidden="true"><i data-m="off">Off</i><i data-m="light">Light</i><i data-m="big">Big</i></span></h2>
+    <div class="modes" role="group" aria-label="Night shift mode">
+      <button class="mode" data-m="off" aria-pressed="false"><span class="dot"></span>Off<small>Skip tonight</small></button>
+      <button class="mode" data-m="light" aria-pressed="true"><span class="dot"></span>Light<small>About 2 things a night</small></button>
+      <button class="mode" data-m="big" aria-pressed="false"><span class="dot"></span>Go Big<small>About 5 things a night</small></button>
+    </div>
+    <p class="note">One switch for both the cloud run and the PC run, every night. Go Big also lets Claude add a couple of suggestions when there's usage left. Pick which apps it works on in the Apps tab.</p>
+    <p class="lastrun" id="lastrun">No night shift runs yet.</p>
+    <div class="digest" id="digest" hidden></div>
+    <div class="tonight" id="tonight" hidden></div>
+  </section>
+
+  <section aria-labelledby="wy" id="wyBox">
+    <h2 id="wy"><span class="ht"><i class="hd" style="--c:var(--warn)"></i>Waiting on you</span> <span class="n" id="propN"></span></h2>
+    <div id="props" class="list"><p class="empty">Nothing waiting. Proposals from the night shift land here for a quick yes or no.</p></div>
+  </section>
+
+  <section aria-labelledby="sg" id="sgBox" hidden>
+    <h2 id="sg"><span class="ht"><i class="hd" style="--c:var(--idea)"></i>Suggestions from Claude</span> <span class="n" id="sgN"></span></h2>
+    <p class="note">Ideas only. Nothing gets built until you plant one. Tweak the words first if you want, plant it and it becomes a normal flag, or turn it down and it never comes back.</p>
+    <div id="sugs" class="list" style="gap:10px"></div>
+    <details id="denBox" hidden><summary id="denSum">Turned down</summary><div id="den" class="denied"></div></details>
+  </section>
+
+  <section aria-labelledby="lib" id="libBox">
+    <h2 id="lib"><span class="ht"><i class="hd" style="--c:var(--flag)"></i>App library</span> <span class="n" id="libN"></span></h2>
+    <p class="note">Tap an app to change it. <b style="color:var(--flag)">Focus</b> apps go first at every step of the night shift. <b>Paused</b> apps get skipped completely. Everything else runs as normal.</p>
+    <div id="libGrid"></div>
+    <div id="libDetail"></div>
+  </section>
+
+  <section aria-labelledby="sr" id="siriBox">
+    <h2 id="sr"><span class="ht"><i class="hd" style="--c:var(--idea)"></i>Siri inbox</span> <span class="n" id="siriN"></span></h2>
+    <p class="note">Say "Flag it" to Siri, then talk. Say who it's for (for Claude, for me, or idea), the app, and "priority" if it is. The Hub files clear ones the moment it opens. Anything it can't place waits here, and the night shift sorts it.</p>
+    <div id="siriList" class="list"></div>
+    <details id="siriHow"><summary>Set up "Flag it" on your iPhone</summary><div id="siriSteps"></div></details>
+  </section>
+
+  <section aria-labelledby="wc" id="wcBox">
+    <h2 id="wc"><span class="ht"><i class="hd" style="--c:var(--okc)"></i>Waiting on Claude</span> <span class="n" id="clN"></span></h2>
+    <div id="cprops" class="list"><p class="empty">Nothing here. Once you approve or send something back, it waits here until the night shift handles it.</p></div>
+    <details id="archBox" hidden><summary id="archSum">Archive</summary><div id="arch" style="margin-top:6px"></div></details>
+  </section>
+
+  <section aria-labelledby="of">
+    <h2 id="of"><span class="ht"><i class="hd" style="--c:var(--okc)"></i><span id="ofT">Open flags</span></span> <span class="n" id="openN"></span></h2>
+    <div class="review" id="review" hidden></div>
+    <div class="who" id="tabWho" role="group" aria-label="Show flags for"></div>
+    <div class="filters" id="filters"></div>
+    <div id="flags" class="list"><p class="empty">No open flags yet. Tap the flag button, or plant one from any app's gear menu.</p></div>
+    <details id="doneBox"><summary>Recently resolved</summary><div id="done" class="list" style="margin-top:8px"></div></details>
+  </section>
+
+  <section aria-labelledby="lb" id="labelBox">
+    <h2 id="lb"><span class="ht"><i class="hd" style="--c:var(--ink3)"></i>Labels</span> <span class="n" id="labN"></span></h2>
+    <p class="note">Tap a color to change it, or edit a name and press Enter. Deleting a label moves its flags to Unsorted. The menu on each label sets where it lives: Cloud, PC, or Ideas. The night shift finds each app's code by its label (Study Decks, Music Space, and so on), so keep those names as they are.</p>
+    <div id="labs" class="list" style="gap:8px"></div>
+    <div class="row"><input type="text" id="newLab" placeholder="New label" maxlength="40"><button class="btn sm" id="addLab">Add</button></div>
+  </section>
+
+  <section aria-labelledby="af" id="appBox" hidden>
+    <h2 id="af"><span class="ht"><i class="hd" style="--c:var(--ink3)"></i>Sent through GitHub</span> <span class="n" id="appN"></span></h2>
+    <div id="appFlags" class="list"></div>
+  </section>
+  <div class="sheetbg" id="raiseSheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rf">
+    <h2 id="rf"><span class="ht"><i class="hd" style="--c:var(--flag)" id="rfMark"></i>Raise a flag</span><button class="x" id="raiseX" aria-label="Close">×</button></h2>
+    <div class="who" id="newWho" role="group" aria-label="Who is this flag for"></div>
+    <div class="who two" id="newLane" role="group" aria-label="Where it runs"></div>
+    <div class="chips scroll" id="projChips" role="group" aria-label="Project"></div>
+    <div class="row" id="newProjRow" hidden><input type="text" id="newProj" placeholder="Project name, like Claude OS" maxlength="40"><button class="btn sm" id="addProj">Add</button></div>
+    <textarea id="flagText" placeholder="What did you notice, or what's the idea?" maxlength="1500"></textarea>
+    <label class="prirow"><input type="checkbox" id="flagPri"> <span id="priTxt">Priority: fit this in as soon as possible</span></label>
+    <p class="err" id="flagErr"></p>
+    <div class="row" style="justify-content:space-between"><span class="note" id="sendNote">Small stuff gets fixed overnight. Big stuff comes back as a proposal.</span><button class="btn" id="send">Raise flag</button></div>
+  </div>
+  </div>
+  <footer><span id="syncNote">Not synced yet</span><button id="disconnect" hidden>Disconnect this device</button></footer>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ago = t => { if (!t) return ""; const m = Math.round((Date.now() - new Date(t)) / 60000); if (m < 1) return "just now"; if (m < 60) return m + "m ago"; const h = Math.round(m / 60); if (h < 24) return h + "h ago"; const d = Math.round(h / 24); return d < 30 ? d + "d ago" : new Date(t).toLocaleDateString(); };
+const S = { keeping: null, notes: {}, mode: "light", projects: [], colors: {}, flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude", editing: null, draft: null, labSure: null, lanes: {}, lane: "cloud", newLane: "cloud", concepts: [], apps: [], appSel: null, vEdit: null, sNotes: {}, sEdit: null };
+try { const l = localStorage.getItem("fh.lane"); if (["cloud", "pc", "idea", "apps"].includes(l)) S.lane = l; } catch (e) {}
+const FIRST_REVIEW = 21, NEXT_REVIEW = 45;
+const KEEP_OPTS = [[21, "3 wks"], [45, "6 wks"], [90, "3 mo"]];
+const IDEA_HOME = "Big ideas"; /* where an idea goes when no label is picked */
+const isMine = f => f.kind === "you";
+const isIdea = f => f.kind === "idea";
+const isConcept = f => f.kind === "concept";
+const tabOf = f => isMine(f) ? "you" : isIdea(f) ? "idea" : "claude";
+const isOpen = f => f.status !== "done" && f.status !== "dismissed";
+const touched = f => f.reviewedAt || f.created || "";
+/* first check-in after 21 days; after that, whatever you picked when you kept it (6 weeks if you didn't pick) */
+const reviewGap = f => f.reviewedAt ? (f.reviewEvery || NEXT_REVIEW) : FIRST_REVIEW;
+const isStale = f => isOpen(f) && f.status === "open" && touched(f) && (Date.now() - new Date(touched(f))) > reviewGap(f) * 864e5;
+/* each project gets its own color (skips orange and teal, which mean Claude and you) */
+const PAL = ["#f2b544", "#9bd35a", "#4fb3ff", "#7c8cff", "#a77bff", "#ff6fae", "#e58f6b", "#d6c35a", "#5fd38a", "#c792ea", "#6ca0ff", "#ff8f8f"];
+function autoColor(name) { let h = 0; for (const ch of String(name)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return PAL[h % PAL.length]; }
+function pc(name) {
+  const set = S.colors[name], c = /^#[0-9a-f]{6}$/i.test(set || "") ? set : autoColor(name);
+  return `--pc:${c};--pBg:color-mix(in srgb,${c} 16%,var(--card));--pInk:color-mix(in srgb,${c} 72%,var(--ink))`;
+}
+const FLAGI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 3h12l-2.5 4.5L17 12H5" fill="currentColor"/></svg>';
+const IDEAI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3" stroke-dasharray="2.2 3"/><path d="M5 3h12l-2.5 4.5L17 12H5" stroke-dasharray="2.2 2.6"/></svg>';
+const iconFor = k => k === "idea" ? IDEAI : FLAGI;
+/* lanes: every label lives in Cloud (the nightly run can reach it), PC (only the PC run can), or Ideas. A flag can override its label's lane. */
+const LANE_NAMES = { cloud: "Cloud", pc: "PC", idea: "Ideas" };
+const labLane = p => ["pc", "idea"].includes(S.lanes[p]) ? S.lanes[p] : "cloud";
+const workLane = p => labLane(p) === "pc" ? "pc" : "cloud"; /* where a work flag with this label goes by default */
+const laneOf = f => isIdea(f) ? "idea" : f.lane === "pc" || f.lane === "cloud" ? f.lane : workLane(f.project);
+const propLane = p => p.lane === "pc" || p.lane === "cloud" ? p.lane : p.applyOn === "pc" ? "pc" : workLane(p.project);
+const runLane = r => r.lane || (/^RetroBat/i.test(r.summary || "") ? "pc" : "cloud");
+const inLane = f => laneOf(f) === S.lane;
+const store = Kit.store;
+let busy = false;
+
+const MODE_TXT = { off: "Night shift is off.", light: "Light: a couple of small fixes a night.", big: "Go Big: bigger builds tonight." };
+function renderMode() {
+  renderTonight();
+  document.querySelectorAll(".mode").forEach(b => b.setAttribute("aria-pressed", b.dataset.m === S.mode));
+  document.querySelectorAll("#nsPill i").forEach(i => i.classList.toggle("on", i.dataset.m === S.mode));
+}
+function renderTally() {
+  if (S.lane === "apps") { const c = st => S.apps.filter(a => (a.state || "on") === st).length; $("#tally").innerHTML = `<b>${S.apps.length}</b> apps · <b style="color:var(--flag)">${c("focus")}</b> focus · <b>${c("off")}</b> paused`; return; }
+  const open = S.flags.filter(f => f.status === "open");
+  if (S.lane === "idea") { $("#tally").innerHTML = `<b>${open.filter(isIdea).length}</b> ideas · Claude only gets to these when the cloud flags run out`; return; }
+  const here = open.filter(inLane), mine = here.filter(isMine).length, theirs = here.length - mine + (S.lane === "cloud" ? S.appFlags.length : 0);
+  const wait = S.props.filter(p => p.status === "waiting" && propLane(p) === S.lane).length;
+  $("#tally").innerHTML = `<b style="color:var(--flag)">${theirs}</b> for Claude · <b style="color:var(--tealInk)">${mine}</b> for you · <b${wait ? ' style="color:var(--warn)"' : ""}>${wait}</b> on you`;
+}
+function renderRuns() {
+  const idea = S.lane === "idea";
+  $("#lastrun").hidden = idea;
+  if (idea) { $("#digest").hidden = true; return; }
+  const want = S.lane === "pc" ? "pc" : "cloud", r = S.runs.find(x => runLane(x) === want);
+  $("#lastrun").textContent = r ? `Last run ${ago(r.at)}: ${r.summary}` : `No ${want === "pc" ? "PC" : "cloud"} runs yet.`;
+  const since = Date.now() - 30 * 3600 * 1000;
+  const items = S.runs.filter(x => new Date(x.at) > since && runLane(x) === want).flatMap(x => x.items || []);
+  const d = $("#digest"); d.hidden = !items.length;
+  d.innerHTML = items.map(i => `<div class="dl"><span class="dk ${esc(i.kind)}">${esc(i.kind)}</span><span><b style="font-weight:600;color:var(--ink)">${esc(i.project)}</b> ${esc(i.text)}</span></div>`).join("");
+}
+function renderLanes() {
+  const n = { cloud: 0, pc: 0, idea: 0 }, ping = {};
+  S.flags.filter(f => f.status === "open").forEach(f => n[laneOf(f)]++);
+  n.cloud += S.appFlags.length;
+  S.props.filter(p => p.status === "waiting").forEach(p => ping[propLane(p)] = 1);
+  S.concepts.filter(c => c.status === "open").forEach(c => ping[conceptLane(c)] = ping[conceptLane(c)] || "s");
+  $("#laneTabs").innerHTML = Object.entries(LANE_NAMES).map(([k, t]) => `<button role="tab" data-lane="${k}" aria-selected="${S.lane === k}">${t} <span class="wn">${n[k]}</span>${ping[k] ? `<i class="ping" ${ping[k] === "s" ? 'style="background:var(--idea)" title="New suggestions from Claude"' : 'title="Something is waiting on you"'}></i>` : ""}</button>`).join("")
+    + `<button role="tab" data-lane="apps" aria-selected="${S.lane === "apps"}" aria-label="App library"><span class="ai">${GRIDI}</span>Apps</button>`;
+  document.body.classList.toggle("v-apps", S.lane === "apps");
+  const work = S.lane !== "idea";
+  $("#wyBox").hidden = !work; $("#wcBox").hidden = !work;
+  $("#appBox").hidden = S.lane !== "cloud" || !S.appFlags.length;
+  $("#ofT").textContent = work ? "Open flags" : "Ideas";
+}
+function whoBtns(box, cur, counts) {
+  /* the tab row carries counts, so it uses the short names to fit a phone */
+  box.innerHTML = (counts ? [["claude", "Claude"], ["you", "Me"]] : [["claude", "For Claude"], ["you", "For me"], ["idea", "Idea"]]).map(([k, t]) =>
+    `<button data-k="${k}" aria-pressed="${cur === k}">${iconFor(k)}${t}${counts ? ` <span class="wn">${counts[k]}</span>` : ""}</button>`).join("");
+}
+const SEND_TXT = { claude: "Raise flag", you: "Add for me", idea: "Add idea" };
+function renderWho() {
+  whoBtns($("#newWho"), S.newWho);
+  const nl = $("#newLane"); nl.hidden = S.newWho === "idea";
+  nl.innerHTML = [["cloud", "Cloud run"], ["pc", "PC run"]].map(([k, t]) => `<button data-nl="${k}" aria-pressed="${S.newLane === k}">${t}</button>`).join("");
+  const k = S.newWho, you = k === "you", idea = k === "idea";
+  $("#rfMark").style.setProperty("--c", you ? "var(--teal)" : idea ? "var(--ink2)" : "var(--flag)");
+  ["teal", "idea"].forEach(c => { const on = c === "teal" ? you : idea; $("#send").classList.toggle(c, on); $("#flagText").classList.toggle(c, on); });
+  $("#flagPri").classList.toggle("teal", you);
+  $("#send").textContent = SEND_TXT[k];
+  $("#priTxt").textContent = k === "claude" ? "Priority: fit this in as soon as possible" : "Priority: keep it at the top";
+  $("#sendNote").textContent = you ? "Just a reminder for you. The night shift skips these."
+    : idea ? `Concepts and someday ideas, kept apart from the work. No label needed (it goes in ${IDEA_HOME}).`
+    : "Small stuff gets fixed overnight. Big stuff comes back as a proposal.";
+  $("#flagText").placeholder = you ? "What do you need to do?" : idea ? "What's the idea?" : "What did you notice?";
+}
+function lastUsed() {
+  const m = {}; S.flags.forEach(f => { if ((f.created || "") > (m[f.project] || "")) m[f.project] = f.created; }); return m;
+}
+function renderChips() {
+  const box = $("#projChips"), used = lastUsed();
+  const sheetLane = S.newWho === "idea" ? "idea" : S.newLane;
+  const order = S.projects.filter(p => labLane(p) === sheetLane || p === S.pick).map((p, i) => [p, i]).sort((a, b) => (used[b[0]] || "").localeCompare(used[a[0]] || "") || a[1] - b[1]).map(x => x[0]);
+  box.innerHTML = `<button class="chip add" id="addChip">+ New</button>` + order.map(p => `<button class="chip" style="${pc(p)}" aria-pressed="${S.pick === p}" data-p="${esc(p)}"><i class="pd"></i>${esc(p)}</button>`).join("");
+  box.querySelectorAll("[data-p]").forEach(b => b.onclick = () => { S.pick = S.pick === b.dataset.p ? null : b.dataset.p; $("#flagErr").textContent = ""; renderChips(); });
+  $("#addChip").onclick = () => { const r = $("#newProjRow"); r.hidden = !r.hidden; if (!r.hidden) $("#newProj").focus(); };
+  const inTab = S.flags.filter(f => isOpen(f) && !isStale(f) && inLane(f) && (S.lane === "idea" || tabOf(f) === S.who));
+  const fs = ["all", ...new Set(inTab.map(f => f.project))];
+  if (!fs.includes(S.filter)) S.filter = "all";
+  $("#filters").innerHTML = fs.length > 2 ? fs.map(p => p === "all" ? `<button class="chip" aria-pressed="${S.filter === p}" data-f="all">All</button>`
+    : `<button class="chip" style="${pc(p)}" aria-pressed="${S.filter === p}" data-f="${esc(p)}"><i class="pd"></i>${esc(p)}</button>`).join("") : "";
+  $("#filters").querySelectorAll("[data-f]").forEach(b => b.onclick = () => { S.filter = b.dataset.f; renderChips(); renderFlags(); });
+}
+const ICON = {
+  bolt: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+  done: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>',
+  del: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+  swap: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h13"/><path d="m17 20 4-4-4-4"/><path d="M21 16H8"/></svg>',
+  keep: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 8v4l3 2"/></svg>',
+  undo: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>',
+  pen: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>',
+};
+/* the pencil: change the words, the label, or who it's for, right in the list */
+function editor(f) {
+  const d = S.draft || { text: f.text, project: f.project, who: tabOf(f), lane: laneOf(f) === "pc" ? "pc" : "cloud" };
+  const projs = S.projects.includes(d.project) ? S.projects : [d.project, ...S.projects];
+  return `<div class="fedit">
+    <textarea class="ftext" maxlength="1500" aria-label="Flag text">${esc(d.text)}</textarea>
+    <div class="row" style="flex-wrap:wrap">
+      <select class="fproj" aria-label="Label">${projs.map(p => `<option ${p === d.project ? "selected" : ""}>${esc(p)}</option>`).join("")}</select>
+      <div class="chips" role="group" aria-label="Who is this for">${[["claude", "For Claude"], ["you", "For me"], ["idea", "Idea"]].map(([k, t]) => `<button class="chip" data-a="ewho" data-k="${k}" aria-pressed="${d.who === k}">${t}</button>`).join("")}</div>
+    </div>
+    ${d.who === "idea" ? "" : `<div class="lanerow">Runs on <div class="chips">${[["cloud", "Cloud"], ["pc", "PC"]].map(([k, t]) => `<button class="chip" data-a="elane" data-k="${k}" aria-pressed="${d.lane === k}">${t}</button>`).join("")}</div></div>`}
+    <div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="ecancel">Cancel</button><button class="btn sm" data-a="esave">Save</button></div>
+  </div>`;
+}
+function flagRow(f, doneView, reviewView) {
+  const src = f.source === "reminders" ? "from Reminders" : f.source === "app" ? "sent from the app" : f.source === "concept" ? "planted from a suggestion" : "";
+  const kind = isMine(f) ? (reviewView || doneView ? '<span class="tag kind-you">for you</span>' : "") : isIdea(f) && (reviewView || doneView) ? '<span class="tag kind-idea">idea</span>' : "";
+  const days = Math.round((Date.now() - new Date(touched(f))) / 864e5);
+  const st = f.status === "proposed" ? '<span class="tag prop">proposal sent</span>' : f.status === "doing" ? '<span class="tag prop">in progress</span>' : "";
+  const pri = f.priority ? '<span class="tag pri">priority</span>' : "";
+  const delBtn = `<button class="ic ${S.sure === f.id ? "sure" : ""}" data-a="del" aria-label="${S.sure === f.id ? "Tap again to delete" : "Delete"}">${ICON.del}</button>`;
+  const doneBtn = `<button class="ic" data-a="done" aria-label="Mark done">${ICON.done}</button>`;
+  const swapTo = isMine(f) || isIdea(f) ? "Hand to Claude" : "Move to my flags";
+  const editing = !doneView && !reviewView && S.editing === f.id;
+  const acts = doneView ? (f._arch ? "" : `<button class="ic" data-a="reopen" aria-label="Reopen">${ICON.undo}</button>`)
+    : reviewView ? `<button class="ic keep" data-a="keepask" aria-label="Keep it" title="Keep it">${ICON.keep}</button>${doneBtn}${delBtn}`
+    : editing ? ""
+    : `<button class="ic" data-a="swap" aria-label="${swapTo}" title="${swapTo}">${ICON.swap}</button><button class="ic ${f.priority ? "pri-on" : ""}" data-a="pri" aria-label="${f.priority ? "Remove priority" : "Make priority"}" title="${f.priority ? "Priority: do this first" : "Do this first"}">${ICON.bolt}</button>${doneBtn}${delBtn}`;
+  const note = f.note && !editing ? `<div class="cnote"><b>Claude:</b> ${esc(f.note)}</div>` : "";
+  return `<div class="item ${f.priority && !doneView ? "is-pri" : ""} ${isMine(f) ? "mine" : ""} ${isIdea(f) ? "idea" : ""} ${f.source === "concept" ? "from-concept" : ""}" data-id="${f.id}">${editing ? editor(f) : `<div class="txt">${esc(f.text)}${!doneView && !reviewView ? `<button class="pen" data-a="edit" aria-label="Edit this flag" title="Edit">${ICON.pen}</button>` : ""}</div>`}
+    <div class="acts">${acts}</div>${note}
+    <div class="meta"><span class="fg">${iconFor(tabOf(f))}</span><span class="tag proj" style="${pc(f.project)}">${esc(f.project)}</span>${pri}${kind}${st}${src && !reviewView ? `<span>${src}</span>` : ""}${reviewView ? `<span class="age">${days}d untouched</span>` : `<span>${ago(doneView ? f.resolvedAt : f.created)}</span>`}${f.resolution ? `<span>· ${esc(f.resolution)}</span>` : ""}</div>${reviewView && S.keeping === f.id ? `<div class="keeps"><span>Ask again in</span>${KEEP_OPTS.map(([d, t]) => `<button class="chip" data-a="keep" data-days="${d}">${t}</button>`).join("")}</div>` : ""}</div>`;
+}
+function renderFlags() {
+  const ae = document.activeElement; if (S.editing && ae && ae.closest && ae.closest(".fedit")) return; /* don't wipe an edit mid-typing */
+  const idea = S.lane === "idea";
+  if (!idea && S.who === "idea") S.who = "claude";
+  const fresh = S.flags.filter(f => isOpen(f) && !isStale(f) && inLane(f));
+  const counts = { claude: 0, you: 0, idea: 0 }; fresh.forEach(f => counts[tabOf(f)]++);
+  $("#tabWho").hidden = idea;
+  whoBtns($("#tabWho"), S.who, counts);
+  const stale = S.flags.filter(f => isStale(f) && inLane(f)).sort((a, b) => touched(a).localeCompare(touched(b)));
+  const rv = $("#review"); rv.hidden = !stale.length;
+  rv.innerHTML = stale.length ? `<h3>Still need these? <span class="n" style="font:500 12px var(--fm);color:var(--warn)">${stale.length}</span></h3>
+    <p class="note">Flags that have sat untouched for a while. Keep one and pick when it checks in next.</p>
+    <div class="list">${stale.slice(0, 3).map(f => flagRow(f, false, true)).join("")}</div>${stale.length > 3 ? `<p class="note">${stale.length - 3} more after these.</p>` : ""}` : "";
+  const open = fresh.filter(f => (idea || tabOf(f) === S.who) && (S.filter === "all" || f.project === S.filter))
+    .sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0));
+  $("#openN").textContent = fresh.length + stale.length || "";
+  const none = idea ? "No ideas yet. Tap the flag button and pick Idea." : S.who === "you" ? "Nothing on your list here. Tap the flag button and pick For me." : S.lane === "pc" ? "No PC flags. Tap the flag button and pick PC run." : "No open flags. Tap the flag button, or plant one from any app's gear menu.";
+  $("#flags").innerHTML = open.length ? open.map(f => flagRow(f, false)).join("") : `<p class="empty">${S.filter === "all" ? none : "Nothing here for " + esc(S.filter) + "."}</p>`;
+  const done = [...S.flags, ...S.arch.flags].filter(f => (f.status === "done" || f.status === "dismissed") && inLane(f)).sort((a, b) => (b.resolvedAt || "").localeCompare(a.resolvedAt || "")).slice(0, 15);
+  $("#doneBox").hidden = false;
+  $("#done").innerHTML = done.map(f => flagRow(f, true)).join("");
+}
+const PICI = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/></svg>';
+const CAN_UNDO = ["approved", "ready", "redo", "denied"]; /* decided, but Claude hasn't acted yet */
+const isPR = p => /\/pull\/\d+/.test(p.link || "");
+const claudeTurn = p => p.status === "approved" || p.status === "ready" || p.status === "redo";
+/* one plain line per card that answers "who has the ball, and what happens next" */
+function turnLine(p) {
+  const T = (c, big, small) => `<div class="turn"><i style="--c:${c}"></i><span>${big}${small ? `<small>${small}</small>` : ""}</span></div>`;
+  const pc = propLane(p) === "pc";
+  if (p.status === "waiting") return T("var(--warn)", "Your turn: approve, add notes, or deny",
+    pc ? "Approve and the PC run puts it in next time (Wed or Sat night). Add notes first and it makes your tweaks too."
+       : "Approve and Claude merges it tonight. Add notes first and Claude makes your tweaks, then merges. Can't wait? Merge it yourself on GitHub.");
+  if (p.status === "redo") return T("var(--okc)", "Claude's turn: reworking it with your notes", "Nothing for you to do. The new version comes back up top for a look.");
+  if (claudeTurn(p)) return pc ? T("var(--okc)", p.feedback ? "Claude's turn: the PC run adds your tweaks and puts it in" : "Claude's turn: the PC run puts it in", "Nothing for you to do. It runs Wednesday and Saturday nights.")
+    : T("var(--okc)", p.feedback ? "Claude's turn: making your tweaks, then merging tonight" : "Claude's turn: merging it tonight", "Nothing for you to do. Can't wait? Merge it yourself on GitHub, Claude will notice.");
+  return "";
+}
+function picsBtn(p) {
+  const n = (p.images || []).length;
+  return n ? `<button class="ic pics" data-a="shots" aria-label="See ${n} screenshots" title="Screenshots">${PICI}${n}</button>` : "";
+}
+function propCard(p) {
+  if (claudeTurn(p)) return `<div class="prop claude" data-id="${p.id}">
+      <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.decidedAt || p.created)}</span></div>
+      <h3>${esc(p.title)}</h3>${turnLine(p)}
+      ${p.feedback ? `<p class="said clamp" data-a="unclamp">Your notes: “${esc(p.feedback)}”</p>` : ""}
+      <div class="row" style="flex-wrap:wrap"><button class="btn sm ghost" data-a="undo">Change my mind</button>${p.status !== "redo" && isPR(p) ? `<a class="btn sm ghost" href="${esc(p.link)}" target="_blank" rel="noopener">Merge it myself</a>` : ""}</div>
+    </div>`;
+  return `<div class="prop" data-id="${p.id}">
+      <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.created)}</span>${p.revision ? `<span>· version ${p.revision}</span>` : ""}</div>
+      <h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p>
+      <div class="links">${picsBtn(p)}${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">See the full change</a>` : ""}</div>
+      ${turnLine(p)}
+      <textarea class="pnote" data-note="${p.id}" placeholder="Notes for Claude (optional): what you like, what to change" maxlength="1500">${esc(S.notes[p.id] || "")}</textarea>
+      <div class="row"><button class="btn sm" data-a="approve">${S.notes[p.id] ? "Approve with notes" : "Approve"}</button><button class="btn sm ghost" data-a="deny">${S.notes[p.id] ? "Redo with notes" : "Deny"}</button></div>
+    </div>`;
+}
+function archRow(p) {
+  const st = p.status === "shipped" ? '<span class="state shipped">Merged</span>' : '<span class="state denied">Denied</span>';
+  return `<div class="arow" data-id="${p.id}">${st}<span class="at">${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.title)}</a>` : esc(p.title)}</span>${p.status === "denied" && !p._arch ? `<button class="btn sm ghost" data-a="undo">Reopen</button>` : ""}</div>`;
+}
+function renderProps() {
+  const a = document.activeElement; if (a && a.classList && a.classList.contains("pnote")) return; /* don't wipe a note mid-typing */
+  const newest = (a, b) => (b.decidedAt || b.created || "").localeCompare(a.decidedAt || a.created || "");
+  /* ready to merge sits on top: it's the one that's fully done except for your tap */
+  const here = S.props.filter(p => propLane(p) === S.lane);
+  const mine = here.filter(p => p.status === "waiting").sort((a, b) => (b.created || "").localeCompare(a.created || ""));
+  const claude = here.filter(claudeTurn).sort(newest);
+  const arch = [...here, ...S.arch.proposals.filter(p => propLane(p) === S.lane)].filter(p => p.status === "shipped" || p.status === "denied").sort((a, b) => (b.shippedAt || b.decidedAt || b.created || "").localeCompare(a.shippedAt || a.decidedAt || a.created || "")).slice(0, 25);
+  $("#propN").textContent = mine.length ? mine.length : "";
+  $("#clN").textContent = claude.length ? claude.length : "";
+  $("#props").innerHTML = mine.length ? mine.map(propCard).join("") : `<p class="empty">Nothing needs you. New proposals show up here.</p>`;
+  $("#cprops").innerHTML = claude.length ? claude.map(propCard).join("") : `<p class="empty">Nothing here. Once you approve or send something back, it waits here until the night shift handles it.</p>`;
+  $("#archBox").hidden = false;
+  $("#archSum").textContent = `Archive (${S.arch.loaded ? arch.length + (arch.length === 25 ? "+" : "") : "older"} merged or denied)`;
+  $("#arch").innerHTML = arch.map(archRow).join("");
+}
+/* screenshots open full size on tap; a glowing ring marks the spot when the proposal says where (p.spots) */
+function openShots(p, start) {
+  const imgs = p.images || []; if (!imgs.length) return;
+  const label = k => imgs.length === 2 ? (k ? "After" : "Before") : "Shot " + (k + 1);
+  const spots = (p.spots || []).filter(s => s && isFinite(s.x) && isFinite(s.y));
+  let cur = start != null ? start : imgs.length - 1;
+  const v = document.createElement("div"); v.className = "sv"; v.setAttribute("role", "dialog"); v.setAttribute("aria-label", "Screenshots: " + p.title);
+  const draw = () => {
+    v.innerHTML = `<div class="bar"><div class="seg">${imgs.map((_, k) => `<button data-k="${k}" aria-pressed="${k === cur}">${label(k)}</button>`).join("")}</div><button class="x" aria-label="Close">×</button></div>
+      ${spots.length ? `<p class="hint">The glowing ring shows where to look.</p>` : ""}
+      <div class="pic"><img src="${esc(imgs[cur])}" alt="${label(cur)}">${spots.map(s => `<span class="spot" style="left:${s.x * 100}%;top:${s.y * 100}%;width:${(s.r || .12) * 200}%;aspect-ratio:1"></span>`).join("")}</div>`;
+  };
+  const close = () => { v.remove(); document.removeEventListener("keydown", key); };
+  const key = e => { if (e.key === "Escape") close(); else if (e.key === "ArrowLeft" || e.key === "ArrowRight") { cur = (cur + (e.key === "ArrowRight" ? 1 : imgs.length - 1)) % imgs.length; draw(); } };
+  v.addEventListener("click", e => { const k = e.target.closest("[data-k]"); if (k) { cur = +k.dataset.k; draw(); return; } if (e.target === v || e.target.closest(".x")) close(); });
+  document.addEventListener("keydown", key);
+  draw(); document.body.appendChild(v); v.querySelector(".x").focus();
+}
+function renderApp() {
+  $("#appN").textContent = S.appFlags.length ? S.appFlags.length : "";
+  if (!S.appFlags.length) return;
+  $("#appFlags").innerHTML = S.appFlags.map(i => `<div class="item"><div class="txt">${esc(i.title.replace(/^\[[^\]]+\]\s*/, ""))}</div><div class="acts"><a class="ic" href="${esc(i.url)}" target="_blank" rel="noopener" aria-label="Open on GitHub"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></div><div class="meta"><span class="tag app">${esc((i.title.match(/^\[([^\]]+)\]/) || [, "app"])[1])}</span><span>${ago(i.created)}</span></div></div>`).join("");
+}
+function renderLabels() {
+  const ae = document.activeElement; if (ae && ae.closest && ae.closest("#labs") && ae.type === "text") return;
+  const n = {}; S.flags.filter(isOpen).forEach(f => n[f.project] = (n[f.project] || 0) + 1);
+  const labs = S.projects.filter(p => labLane(p) === S.lane);
+  $("#labN").textContent = labs.length || "";
+  $("#labs").innerHTML = labs.map(p => {
+    const c = /^#[0-9a-f]{6}$/i.test(S.colors[p] || "") ? S.colors[p] : autoColor(p), sure = S.labSure === p;
+    return `<div class="lab" data-lab="${esc(p)}"><input type="color" value="${c}" aria-label="Color for ${esc(p)}"><input type="text" value="${esc(p)}" maxlength="40" aria-label="Name"><span class="ln" title="open flags">${n[p] || 0}</span><select class="lsel" aria-label="Where ${esc(p)} lives">${Object.entries(LANE_NAMES).map(([k, t]) => `<option value="${k}" ${labLane(p) === k ? "selected" : ""}>${t}</option>`).join("")}</select>${p === "Unsorted" ? `<span class="ic" style="visibility:hidden"></span>`
+      : `<button class="ic ${sure ? "sure" : ""}" data-lab-del aria-label="${sure ? "Tap again to delete" : "Delete label"}">${ICON.del}</button>`}</div>`;
+  }).join("");
+}
+function renderAll() { renderSugs(); renderLib(); renderSiri(); renderTonight(); renderLanes(); renderMode(); renderTally(); renderRuns(); renderWho(); renderChips(); renderFlags(); renderProps(); renderApp(); renderLabels(); }
+
+
+/* ---------- concept flags: Claude's suggestions ----------
+   A concept is a flag with kind "concept" that only the night shift creates:
+   { id, project, kind: "concept", status: "open" | "denied", text (one-line pitch), detail?, size: "S"|"M"|"L",
+     cost (rough usage, plain words), why (how it ties to the app's vision), mockup? (one image or page), created }
+   Plant it -> it becomes a normal orange flag (kind "fix") carrying your edits and notes.
+   Deny it -> status "denied" plus your note, and it's copied into that app's "denied" list in data/apps.json
+   so the night shift never suggests it again. */
+const GRIDI = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>';
+const SPARKI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>';
+const SIZE_TXT = { S: "Small", M: "Medium", L: "Large" };
+const appOf = label => S.apps.find(a => (a.labels || [a.name]).includes(label));
+const conceptLane = c => c.lane === "pc" || c.lane === "cloud" ? c.lane : (appOf(c.project) || {}).lane === "pc" ? "pc" : workLane(c.project);
+function sizeChip(sz) {
+  const n = { S: 1, M: 2, L: 3 }[sz] || 0; if (!n) return "";
+  return `<span class="sz" title="${SIZE_TXT[sz]} build">${[1, 2, 3].map(i => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}${SIZE_TXT[sz]}</span>`;
+}
+function sugCard(c) {
+  const editing = S.sEdit === c.id, note = S.sNotes[c.id] || "";
+  const mock = c.mockup ? (/\.(png|jpe?g|webp|gif|svg)$/i.test(c.mockup)
+    ? `<div class="mock"><img src="${esc(c.mockup)}" alt="Mockup" data-a="smock"><span class="note">Quick mockup. Tap to see it big.</span></div>`
+    : `<div class="mock"><a href="${esc(c.mockup)}" target="_blank" rel="noopener" style="color:var(--ideaInk);font-size:13px">Open the quick mockup</a></div>`) : "";
+  return `<div class="sug" data-id="${c.id}">
+    <div class="meta"><span class="tag proj" style="${pc(c.project)}">${esc(c.project)}</span>${sizeChip(c.size)}${c.cost ? `<span>· ${esc(c.cost)}</span>` : ""}<span>· ${ago(c.created)}</span></div>
+    ${editing ? `<textarea class="stext" maxlength="1500" aria-label="Edit the idea">${esc(c.text + (c.detail ? "\n\n" + c.detail : ""))}</textarea>
+      <div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="scancel">Cancel</button><button class="btn sm idea" data-a="ssave">Save</button></div>`
+    : `<p class="pitch"><span>${esc(c.text)}</span><button class="pen" data-a="sedit" aria-label="Edit this idea" title="Edit">${ICON.pen}</button></p>${c.detail ? `<p class="why" style="color:var(--ink2)">${esc(c.detail)}</p>` : ""}`}
+    ${c.helps ? (h => h ? `<p class="why"><b>Helps with your flag:</b> ${esc(h.text.length > 90 ? h.text.slice(0, 88) + "…" : h.text)}</p>` : "")(S.flags.find(f => f.id === c.helps)) : ""}
+    ${c.why ? `<p class="why"><b>Why:</b> ${esc(c.why)}</p>` : ""}
+    ${mock}
+    <textarea class="snote" data-snote="${c.id}" placeholder="Your notes (optional): what you'd change, or why not" maxlength="1500">${esc(note)}</textarea>
+    <div class="row"><button class="btn sm idea" data-a="plant">${note.trim() ? "Plant with notes" : "Plant it"}</button><button class="btn sm ghost" data-a="sdeny">Not for me</button></div>
+  </div>`;
+}
+function renderSugs() {
+  const box = $("#sgBox"); if (!box) return;
+  const a = document.activeElement; if (a && a.closest && a.closest("#sugs") && a.tagName === "TEXTAREA") return; /* don't wipe typing */
+  const here = c => S.lane === "idea" || conceptLane(c) === S.lane;
+  const open = S.concepts.filter(c => c.status === "open" && here(c)).sort((x, y) => (y.created || "").localeCompare(x.created || ""));
+  const den = S.concepts.filter(c => c.status === "denied" && here(c)).sort((x, y) => (y.deniedAt || "").localeCompare(x.deniedAt || "")).slice(0, 12);
+  box.hidden = S.lane === "apps" || (!open.length && !den.length);
+  $("#sgN").textContent = open.length || "";
+  $("#sugs").innerHTML = open.length ? open.map(sugCard).join("") : `<p class="empty">No new suggestions. On Go Big nights with usage left, Claude adds a couple here.</p>`;
+  $("#denBox").hidden = !den.length;
+  $("#denSum").textContent = `Turned down (${den.length})`;
+  $("#den").innerHTML = den.map(c => `<div class="drow" data-id="${c.id}"><span>${esc(c.text)}${c.denyNote ? `<small>You: ${esc(c.denyNote)}</small>` : ""}</span><button class="btn sm ghost" data-a="sback">Bring back</button></div>`).join("");
+}
+async function saveApps(fn, msg) {
+  if (!store.token()) { showConnect("Connect this device to save changes."); return false; }
+  try { const d = await store.change("data/apps.json", fn, msg); S.apps = d.apps || []; renderLib(); renderTally(); return true; }
+  catch (e) { if (e.code === "token") showConnect("That key didn't work. Make a new one below."); else $("#syncNote").textContent = "Didn't save. Try again."; return false; }
+}
+async function sugAction(a, id, b) {
+  const c = S.concepts.find(x => x.id === id); if (!c) return;
+  const now = new Date().toISOString(), note = (S.sNotes[id] || "").trim();
+  const card = b.closest(".sug");
+  if (a === "sedit") { S.sEdit = id; renderSugs(); const t = document.querySelector(`#sugs [data-id="${id}"] .stext`); if (t) { t.style.height = Math.min(t.scrollHeight + 4, 320) + "px"; t.focus(); } return; }
+  if (a === "scancel") { S.sEdit = null; b.blur(); renderSugs(); return; }
+  if (a === "smock") { openShots({ title: c.text, images: [c.mockup] }, 0); return; }
+  if (a === "ssave") {
+    const v = (card.querySelector(".stext").value || "").trim(); if (!v) return;
+    const [first, ...rest] = v.split(/\n\s*\n/); b.disabled = true; b.textContent = "Saving…";
+    const ok = await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; f.text = first.trim(); const det = rest.join("\n\n").trim(); if (det) f.detail = det; else delete f.detail; f.editedAt = now; }, "Suggestion edited");
+    if (ok) { S.sEdit = null; document.activeElement && document.activeElement.blur(); renderSugs(); } else { b.disabled = false; b.textContent = "Save"; }
+    return;
+  }
+  if (a === "sback") { save(d => { const f = (d.flags || []).find(x => x.id === id); if (f) { f.status = "open"; delete f.deniedAt; delete f.denyNote; } }, "Suggestion brought back");
+    saveApps(d => { (d.apps || []).forEach(ap => { if (ap.denied) ap.denied = ap.denied.filter(x => x.id !== id); }); }, "Suggestion brought back"); return; }
+  if (a === "plant") {
+    b.disabled = true; card.classList.add("leaving");
+    const ok = await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return;
+      f.concept = { pitch: f.text, detail: f.detail, size: f.size, cost: f.cost, why: f.why, mockup: f.mockup, helps: f.helps, created: f.created };
+      if (f.detail) f.text = f.text + "\n\n" + f.detail;
+      if (note) f.text += "\n\nMy notes: " + note;
+      ["detail", "size", "cost", "why", "mockup"].forEach(k => delete f[k]);
+      f.kind = "fix"; f.status = "open"; f.source = "concept"; f.plantedAt = now; f.created = now; f.reviewedAt = now;
+    }, "Suggestion planted: " + c.project);
+    if (ok) { delete S.sNotes[id]; renderAll(); } else { card.classList.remove("leaving"); b.disabled = false; }
+    return;
+  }
+  if (a === "sdeny") {
+    b.disabled = true; card.classList.add("leaving");
+    const ok = await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; f.status = "denied"; f.deniedAt = now; if (note) f.denyNote = note; }, "Suggestion turned down");
+    if (ok) {
+      delete S.sNotes[id]; renderAll();
+      const ap = appOf(c.project);
+      if (ap) saveApps(d => { const x = (d.apps || []).find(y => y.id === ap.id); if (!x) return; x.denied = (x.denied || []).filter(y => y.id !== id); x.denied.push({ id, text: c.text, note: note || undefined, at: now }); }, "Remember turned-down idea: " + ap.name);
+    } else { card.classList.remove("leaving"); b.disabled = false; }
+  }
+}
+
+/* ---------- app library ---------- */
+const GLYPH = {
+  pad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10a5 5 0 0 1 4.8 6.4l-.9 3a2.4 2.4 0 0 1-4.2.8L15 16H9l-1.7 2.2a2.4 2.4 0 0 1-4.2-.8l-.9-3A5 5 0 0 1 7 8z"/><path d="M7.5 11v3M6 12.5h3"/><circle cx="16" cy="11.5" r=".6" fill="currentColor"/><circle cx="17.8" cy="13.3" r=".6" fill="currentColor"/></svg>',
+  house: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5.5 9.5V20h13V9.5"/><rect x="8.5" y="12" width="7" height="5" rx="1"/><path d="M11 13.6l2 1-2 1z" fill="currentColor"/></svg>',
+  heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg>',
+  build: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6M2 20h20"/></svg>',
+  plane: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5 3 11l1.5-1.5 8 .5 4-4a2 2 0 0 1 3 3l-4 4 .5 8L14.5 22 12 14.5"/></svg>',
+};
+function appIcon(a) {
+  const c = (S.colors[(a.labels || [])[0]] && /^#[0-9a-f]{6}$/i.test(S.colors[a.labels[0]])) ? S.colors[a.labels[0]] : autoColor(a.name);
+  const fallback = GLYPH[a.glyph] || `<b style="font:700 22px var(--fd)">${esc(a.name[0])}</b>`;
+  return a.icon ? `<img src="${esc(a.icon)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{innerHTML:${esc(JSON.stringify(fallback))}}))">`
+    : `<span style="color:${c};display:grid;place-items:center;width:100%;height:100%;background:color-mix(in srgb,${c} 16%,var(--card))">${fallback}</span>`;
+}
+function renderLib() {
+  const g = $("#libGrid"); if (!g) return;
+  const ae = document.activeElement; if (ae && ae.closest && ae.closest("#libDetail") && ae.tagName === "TEXTAREA") return;
+  const nOpen = {}, nSug = {};
+  S.flags.filter(f => f.status === "open" && f.kind !== "you").forEach(f => { const a = appOf(f.project); if (a) nOpen[a.id] = (nOpen[a.id] || 0) + 1; });
+  S.concepts.filter(c => c.status === "open").forEach(c => { const a = appOf(c.project); if (a) nSug[a.id] = (nSug[a.id] || 0) + 1; });
+  $("#libN").textContent = S.apps.length || "";
+  const tile = a => `<button class="app ${a.state || "on"}" data-app="${esc(a.id)}" aria-pressed="${S.appSel === a.id}" aria-label="${esc(a.name)}: ${{ on: "on", off: "paused", focus: "focus" }[a.state || "on"]}">
+      <span class="wrapi"><span class="ico">${appIcon(a)}</span>${nSug[a.id] ? `<span class="badge" title="New suggestions">${nSug[a.id]}</span>` : ""}</span><span class="nm">${esc(a.name)}</span></button>`;
+  const grp = (t, list) => list.length ? `<div class="lgroup">${t}</div><div class="lib">${list.map(tile).join("")}</div>` : "";
+  g.innerHTML = S.apps.length ? grp("Cloud", S.apps.filter(a => a.lane !== "pc")) + grp("PC", S.apps.filter(a => a.lane === "pc")) : `<p class="empty">Loading your apps…</p>`;
+  const a = S.apps.find(x => x.id === S.appSel), box = $("#libDetail");
+  if (!a) { box.innerHTML = ""; return; }
+  const v = a.vision || {}, st = a.state || "on", ve = S.vEdit === a.id, list = arr => (arr || []).filter(Boolean);
+  box.innerHTML = `<div class="adetail" data-appd="${esc(a.id)}">
+    <div class="hd2"><span class="app ${st}" style="pointer-events:none"><span class="ico">${appIcon(a)}</span></span><div><h3>${esc(a.name)}</h3><div class="sub">${a.lane === "pc" ? "PC run" : "Cloud run"} · ${nOpen[a.id] || 0} open flag${nOpen[a.id] === 1 ? "" : "s"}${nSug[a.id] ? ` · ${nSug[a.id]} suggestions` : ""}</div></div></div>
+    <div class="seg3" role="group" aria-label="Night shift for ${esc(a.name)}">
+      <button data-st="off" aria-pressed="${st === "off"}">Paused<small>Skip it</small></button>
+      <button data-st="on" aria-pressed="${st === "on"}">On<small>Normal</small></button>
+      <button data-st="focus" aria-pressed="${st === "focus"}">Focus<small>Look here first</small></button>
+    </div>
+    <div class="vis">
+      <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:6px"><h4 style="margin:0">North star</h4>${ve ? "" : `<button class="pen" data-a="vedit" aria-label="Edit the north star" title="Edit" style="opacity:1">${ICON.pen}</button>`}</div>
+      ${ve ? `<h4>What it's for</h4><textarea data-v="for" maxlength="600">${esc(v.for || "")}</textarea>
+        <h4>Never (one per line)</h4><textarea data-v="never" maxlength="1200">${esc(list(v.never).join("\n"))}</textarea>
+        <h4>Right now (one per line)</h4><textarea data-v="now" maxlength="1200">${esc(list(v.now).join("\n"))}</textarea>
+        <div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="vcancel">Cancel</button><button class="btn sm" data-a="vsave">Save</button></div>`
+      : `<h4>What it's for</h4><p>${esc(v.for || "Not written yet.")}</p>
+        ${list(v.never).length ? `<h4>Never</h4><ul>${list(v.never).map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+        ${list(v.now).length ? `<h4>Right now</h4><ul>${list(v.now).map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+        ${(a.denied || []).length ? `<h4>Turned down</h4><p style="font-size:13px;color:var(--ink3)">${a.denied.length} idea${a.denied.length > 1 ? "s" : ""} Claude won't suggest again.</p>` : ""}`}
+    </div>
+    <div class="links">${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener">Open the app</a>` : ""}${a.repo ? `<a href="https://github.com/${esc(a.repo)}" target="_blank" rel="noopener">Code on GitHub</a>` : ""}${a.roadmap ? `<a href="${esc(a.roadmap)}" target="_blank" rel="noopener">Roadmap</a>` : ""}</div>
+  </div>`;
+}
+async function setAppState(id, st) {
+  const a = S.apps.find(x => x.id === id); if (!a || (a.state || "on") === st) return;
+  const prev = a.state; a.state = st; renderLib(); renderTally();
+  const ok = await saveApps(d => { const x = (d.apps || []).find(y => y.id === id); if (x) x.state = st; }, `${a.name}: ${{ on: "on", off: "paused", focus: "focus" }[st]}`);
+  if (!ok) { a.state = prev; renderLib(); renderTally(); }
+}
+document.addEventListener("click", async e => {
+  const t = e.target.closest("button.app[data-app]");
+  if (t) { S.appSel = S.appSel === t.dataset.app ? null : t.dataset.app; S.vEdit = null; renderLib(); if (S.appSel) setTimeout(() => $("#libDetail").scrollIntoView({ behavior: "smooth", block: "nearest" }), 60); return; }
+  const sb = e.target.closest(".seg3 [data-st]"); if (sb) { const d = sb.closest("[data-appd]"); if (d) setAppState(d.dataset.appd, sb.dataset.st); return; }
+  const v = e.target.closest("#libDetail [data-a]");
+  if (v) {
+    const id = v.closest("[data-appd]").dataset.appd, a = v.dataset.a;
+    if (a === "vedit") { S.vEdit = id; renderLib(); const ta = $("#libDetail textarea"); if (ta) ta.focus(); }
+    else if (a === "vcancel") { S.vEdit = null; v.blur(); renderLib(); }
+    else if (a === "vsave") {
+      const box = v.closest(".adetail"), val = k => box.querySelector(`[data-v="${k}"]`).value, lines = k => val(k).split("\n").map(x => x.trim()).filter(Boolean);
+      const nv = { for: val("for").trim(), never: lines("never"), now: lines("now") };
+      v.disabled = true; v.textContent = "Saving…"; document.activeElement && document.activeElement.blur();
+      const ok = await saveApps(d => { const x = (d.apps || []).find(y => y.id === id); if (x) x.vision = nv; }, "North star: " + (S.apps.find(x => x.id === id) || {}).name);
+      if (ok) { S.vEdit = null; renderLib(); } else { v.disabled = false; v.textContent = "Save"; }
+    }
+    return;
+  }
+  const s = e.target.closest("#sgBox [data-a]");
+  if (s) { const row = s.closest("[data-id]"); if (row) sugAction(s.dataset.a, row.dataset.id, s); }
+}, true);
+document.addEventListener("input", e => {
+  const t = e.target; if (!t.dataset || !t.dataset.snote) return;
+  S.sNotes[t.dataset.snote] = t.value;
+  const btn = t.closest(".sug").querySelector('[data-a="plant"]'); btn.textContent = t.value.trim() ? "Plant with notes" : "Plant it";
+});
+
+
+/* ---------- archive: finished flags and proposals older than 2 weeks live in data/archive.json ---------- */
+S.arch = { flags: [], proposals: [], loaded: false };
+async function loadArchive() {
+  if (S.arch.loaded) return; S.arch.loaded = true;
+  try { const { data } = await store.read("data/archive.json"); S.arch.flags = (data.flags || []).map(f => ({ ...f, _arch: 1 })); S.arch.proposals = (data.proposals || []).map(p => ({ ...p, _arch: 1 })); renderFlags(); renderProps(); } catch (e) {}
+}
+["#archBox", "#doneBox"].forEach(id => { const el = document.querySelector(id); if (el) el.addEventListener("toggle", () => { if (el.open) loadArchive(); }); });
+
+/* ---------- tonight's plan: what the night shift will pick up, using the same rules it follows ---------- */
+const BUDGET = { cloud: { light: 2, big: 5 }, pc: { light: 1, big: 3 } };
+const appState = label => { const a = appOf(label); return a ? (a.state || "on") : null; };
+const skipped = f => f.skipUntil && new Date(f.skipUntil) > new Date();
+function tonightQueue(lane) {
+  const ok = label => { const st = appState(label); return st ? st !== "off" : lane === "pc"; }; /* cloud labels need an app with a repo */
+  const rank = f => (appState(f.project) === "focus" ? 0 : 1);
+  const decide = S.props.filter(p => propLane(p) === lane && ["approved", "ready"].includes(p.status) && appState(p.project) !== "off");
+  const redo = S.props.filter(p => propLane(p) === lane && p.status === "redo" && appState(p.project) !== "off");
+  const flags = S.flags.filter(f => f.status === "open" && f.kind !== "you" && !isIdea(f) && laneOf(f) === lane && ok(f.project))
+    .sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0) || rank(a) - rank(b) || (a.created || "").localeCompare(b.created || ""));
+  return { decide, redo, flags };
+}
+function renderTonight() {
+  const box = $("#tonight"); if (!box) return;
+  if (S.lane !== "cloud" && S.lane !== "pc") { box.hidden = true; return; }
+  box.hidden = false;
+  if (S.mode === "off") { box.innerHTML = `<h3>Tonight</h3><p class="note" style="margin:0">Night shift is off, so nothing runs tonight.</p>`; return; }
+  const lane = S.lane, q = tonightQueue(lane), cap = BUDGET[lane][S.mode] || 2;
+  const lines = []; let used = 0, priUsed = false;
+  q.decide.forEach(p => lines.push(`<div class="tl"><span class="k">✓</span><span class="t"><b>${esc(p.project)}</b> · put in: ${esc(p.title)}</span><span></span></div>`));
+  q.redo.forEach(p => { if (used < cap) { used++; lines.push(`<div class="tl"><span class="k">${used}</span><span class="t"><b>${esc(p.project)}</b> · rework: ${esc(p.title)}</span><span></span></div>`); } });
+  const later = [];
+  q.flags.forEach(f => {
+    const sk = skipped(f);
+    const fits = !sk && (used < cap || (f.priority && !priUsed));
+    if (sk) { lines.push(`<div class="tl skip" data-id="${f.id}"><span class="k">–</span><span class="t"><b>${esc(f.project)}</b> · ${esc(f.text)}</span><button class="btn sm ghost" data-a="unskip">Undo</button></div>`); return; }
+    if (!fits) { later.push(f); return; }
+    if (used >= cap) priUsed = true; else { used++; if (f.priority) priUsed = true; }
+    lines.push(`<div class="tl" data-id="${f.id}"><span class="k">${f.priority ? "⚡" : used}</span><span class="t"><b>${esc(f.project)}</b> · ${esc(f.text)}</span><button class="btn sm ghost" data-a="skip">Skip tonight</button></div>`);
+  });
+  if (later.length) lines.push(`<div class="tl more"><span></span><span>${later.length} more wait${later.length === 1 ? "s" : ""} for another night</span></div>`);
+  if (S.mode === "big") lines.push(`<div class="tl more"><span class="k" style="color:var(--idea)">✦</span><span>Plus up to ${lane === "pc" ? 1 : 2} suggestion${lane === "pc" ? "" : "s"} if there's room</span></div>`);
+  box.innerHTML = `<h3><span>Tonight's plan</span><span>${S.mode === "big" ? "Go Big" : "Light"} · ${cap} slots</span></h3>` + (lines.length ? lines.join("") : `<p class="note" style="margin:0">Nothing to do here tonight.</p>`);
+}
+
+/* ---------- Siri inbox: the "Flag it" Shortcut drops one small text file per note into data/siri/.
+   The Hub files the clear ones right away; unclear ones wait for the night shift to sort. ---------- */
+S.siri = [];
+const API_C = "https://api.github.com/repos/Feirzen/flag-hub/contents/";
+const ghHead = () => ({ Authorization: "Bearer " + store.token(), Accept: "application/vnd.github+json" });
+const b64dec = b => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g, "")), c => c.charCodeAt(0)));
+const norm = x => String(x || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+function parseSiri(raw) {
+  /* control words count at the start or end of what you said (or "this is for me" / "make it a priority"), so
+     "make the button easier for me" stays a Claude flag and "the priority list is broken" isn't marked priority */
+  const LEAD = /^\s*(for claude|for me|for myself|remind me to|remind me|reminder|to ?do|idea|what if|someday|high priority|priority|urgent)\b[\s,.:;!-]*/i;
+  let rest = raw.trim(), lead = [];
+  for (let i = 0; i < 4; i++) { const m = rest.match(LEAD); if (!m) break; lead.push(m[1].toLowerCase()); if (!/^(what if|someday)$/i.test(m[1])) rest = rest.slice(m[0].length); else break; }
+  let tail = rest.match(/[\s,.;-]*\b(it'?s |this is |make it )?(a )?(high )?(priority|urgent|asap)[.!]?\s*$/i);
+  if (tail) rest = rest.slice(0, tail.index);
+  const low = " " + raw.toLowerCase() + " ";
+  const has = re => lead.some(w => re.test(w));
+  const kind = has(/^(for me|for myself|remind me|reminder|to ?do)/) || /\b(this is|this one'?s|it'?s) for me\b/.test(low) ? "you"
+    : has(/^for claude/) ? "fix"
+    : has(/^(idea|what if|someday)/) || /\b(an|new) idea\b/.test(low) ? "idea" : "fix";
+  const priority = !!tail || has(/priority|urgent/) || /\b(make it|this is|it'?s) (a )?(high )?priority\b/.test(low);
+  const n = norm(raw); let best = null, bestLen = 0;
+  const names = [];
+  S.apps.forEach(a => [a.name, ...(a.labels || []), ...(a.say || [])].forEach(x => names.push([x, (a.labels || [a.name])[0]])));
+  S.projects.forEach(p => names.push([p, p]));
+  Object.entries(S.otherSay || {}).forEach(([label, xs]) => xs.forEach(x => names.push([x, label])));
+  names.forEach(([x, label]) => { const k = norm(x); if (k.length >= 3 && n.includes(k) && k.length > bestLen) { best = label; bestLen = k.length; } });
+  let project = best;
+  if (!project && kind === "idea") project = IDEA_HOME;
+  if (!project && kind === "you") project = "Unsorted";
+  const ln = /\b(on (the|my) (pc|computer)|pc run)\b/.test(low) ? "pc" : null;
+  let text = rest.replace(/\s{2,}/g, " ").replace(/^[\s,.:;-]+|[\s,;:-]+$/g, "");
+  text = text ? text[0].toUpperCase() + text.slice(1) : raw;
+  return { project, kind, priority, lane: ln, text };
+}
+async function pullSiri() {
+  if (!store.token()) return;
+  let files;
+  try { const r = await fetch(API_C + "data/siri?ref=main&t=" + Date.now(), { headers: ghHead(), cache: "no-store" }); if (!r.ok) { S.siri = []; renderSiri(); return; } files = (await r.json()).filter(f => f.type === "file" && /\.(txt|json)$/.test(f.name)); }
+  catch (e) { return; }
+  const got = [];
+  for (const f of files) {
+    try { const r = await fetch(API_C + f.path + "?ref=main", { headers: ghHead(), cache: "no-store" }); const j = await r.json(); let raw = b64dec(j.content).trim();
+      if (f.name.endsWith(".json")) { try { raw = JSON.parse(raw).text || raw; } catch (e) {} }
+      got.push({ name: f.name, path: f.path, sha: j.sha, raw, at: f.name.replace(/\.(txt|json)$/, "") }); } catch (e) {}
+  }
+  const sure = [], unsure = [];
+  got.forEach(g => { if (!g.raw) { sure.push({ ...g, empty: 1 }); return; } const p = parseSiri(g.raw); (p.project ? sure : unsure).push({ ...g, p }); });
+  if (sure.some(g => !g.empty)) {
+    const now = new Date().toISOString();
+    const ok = await save(d => { d.flags = d.flags || []; const have = new Set(d.flags.map(x => x.id));
+      sure.filter(g => !g.empty).forEach(g => { const id = "s" + norm(g.at).slice(-14); if (have.has(id)) return;
+        const fl = { id, project: g.p.project, text: g.p.text, kind: g.p.kind, status: "open", source: "siri", heard: g.raw, created: now };
+        if (g.p.priority) fl.priority = true; if (g.p.lane && g.p.kind !== "idea" && g.p.lane !== workLane(g.p.project)) fl.lane = g.p.lane;
+        d.flags.unshift(fl); if (!(d.projects || []).includes(fl.project)) (d.projects = d.projects || []).push(fl.project); }); }, "Siri: filed " + sure.length);
+    if (!ok) return;
+  }
+  for (const g of sure) await delSiri(g);
+  S.siri = unsure; renderSiri();
+}
+async function delSiri(g) {
+  try { await fetch(API_C + g.path, { method: "DELETE", headers: { ...ghHead(), "Content-Type": "application/json" }, body: JSON.stringify({ message: "Siri inbox: sorted " + g.name, sha: g.sha, branch: "main" }) }); } catch (e) {}
+}
+function renderSiri() {
+  const L = $("#siriList"); if (!L) return;
+  $("#siriN").textContent = S.siri.length || "";
+  L.innerHTML = S.siri.length ? S.siri.map(g => `<div class="item" data-siri="${esc(g.name)}"><div class="txt heard">“${esc(g.raw)}”</div><div class="acts"><button class="ic" data-sa="del" aria-label="Delete">${ICON.del}</button></div><div class="meta"><span>Couldn't tell which app. The night shift will sort it.</span></div></div>`).join("")
+    : `<p class="empty">Empty. Everything you've said has been filed.</p>`;
+  $("#siriSteps").innerHTML = SIRI_STEPS;
+}
+const SIRI_STEPS = `<ol>
+  <li>Open the <b>Shortcuts</b> app, tap <b>+</b>, and name it <b>Flag it</b>.</li>
+  <li>Add <b>Dictate Text</b>. Set Stop Listening to <b>After Pause</b>.</li>
+  <li>Add <b>Base64 Encode</b> (input: Dictated Text). Tap the arrow on it and set <b>Line Breaks</b> to <b>None</b>.</li>
+  <li>Add <b>Current Date</b>, then <b>Format Date</b>: Custom, <code>yyyyMMdd-HHmmss</code>.</li>
+  <li>Add <b>Get Contents of URL</b>. URL: <code>https://api.github.com/repos/Feirzen/flag-hub/contents/data/siri/[Formatted Date].txt</code> (tap the end of the URL and insert the Formatted Date variable).</li>
+  <li>Tap <b>Show More</b>. Method: <b>PUT</b>. Headers: <code>Authorization</code> = <code>Bearer</code> + a space + your Flag Hub key (the same github_pat key this Hub uses), and <code>Accept</code> = <code>application/vnd.github+json</code>.</li>
+  <li>Request Body: <b>JSON</b>. Add <code>message</code> (Text) = <code>Siri flag</code>, and <code>content</code> (Text) = the Base64 Encoded variable.</li>
+  <li>Last, add <b>Show Notification</b>: <code>Flagged</code>. Then just say <b>"Hey Siri, Flag it"</b>.</li>
+</ol><p class="note">Say it like: "For Claude, Study Decks, the pause button sticks. Priority." Or "For me, buy Wii remote batteries." Or "Idea, HomeBox could show a movie of the week."</p>`;
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-sa]"); if (b) { const row = b.closest("[data-siri]"); const g = S.siri.find(x => x.name === row.dataset.siri); if (g) { row.style.opacity = .4; await delSiri(g); S.siri = S.siri.filter(x => x !== g); renderSiri(); } return; }
+  const t = e.target.closest("#tonight [data-a]"); if (!t) return;
+  const id = t.closest("[data-id]").dataset.id, until = new Date(Date.now() + 24 * 3600e3).toISOString();
+  t.disabled = true;
+  await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; if (t.dataset.a === "skip") f.skipUntil = until; else delete f.skipUntil; }, t.dataset.a === "skip" ? "Skip tonight" : "Unskip");
+  renderTonight();
+}, true);
+
+/* ---------- actions ---------- */
+async function setMode(m) {
+  if (m === S.mode) return;
+  if (!store.token()) { showConnect("Connect this device to change the night shift."); return; }
+  const prev = S.mode; S.mode = m; renderMode(); $("#modeSaved").textContent = "Saving…";
+  try {
+    await store.change("status.json", st => { st.mode = m; st.openFlags = openCount(); st.waiting = S.props.filter(p => p.status === "waiting").length; st.updated = new Date().toISOString(); }, "Night shift mode: " + m);
+    $("#modeSaved").textContent = "Saved";
+  } catch (e) { S.mode = prev; renderMode(); $("#modeSaved").textContent = e.code === "token" ? "Key didn't work" : "Didn't save. Try again."; if (e.code === "token") showConnect("That key didn't work. Make a new one below."); }
+}
+function openCount() { return S.flags.filter(f => f.status === "open").length + S.appFlags.length; }
+async function save(fn, msg) {
+  if (!store.token()) { showConnect("Connect this device to save changes."); return false; }
+  busy = true;
+  try { const d = await store.change("data/flags.json", fn, msg); apply(d); return true; }
+  catch (e) { if (e.code === "token") showConnect("That key didn't work. Make a new one below."); else $("#syncNote").textContent = "Didn't save. Try again."; return false; }
+  finally { busy = false; }
+}
+async function sendFlag() {
+  const text = $("#flagText").value.trim(), err = $("#flagErr");
+  const k = S.newWho, you = k === "you";
+  const project = S.pick || (k === "idea" ? IDEA_HOME : "");
+  if (!project) { err.textContent = "Pick a label first."; return; }
+  if (!text) { err.textContent = "Type what you noticed first."; $("#flagText").focus(); return; }
+  $("#send").disabled = true; $("#send").textContent = "Saving…";
+  const f = { id: "f" + Date.now().toString(36), project, text, kind: k === "claude" ? "fix" : k, status: "open", source: "hub", created: new Date().toISOString() };
+  if ($("#flagPri").checked) f.priority = true;
+  if (k !== "idea" && S.newLane !== workLane(project)) f.lane = S.newLane;
+  const ok = await save(d => { d.flags = d.flags || []; d.flags.unshift(f); d.projects = d.projects || []; if (!d.projects.includes(project)) d.projects.push(project); }, (k === "idea" ? "Idea: " : "Flag: ") + project);
+  const label = SEND_TXT[k];
+  if (ok) { $("#flagText").value = ""; $("#flagPri").checked = false; err.textContent = ""; $("#send").textContent = k === "claude" ? "Raised" : "Added"; setTimeout(() => $("#send").textContent = SEND_TXT[S.newWho], 1400); const goLane = k === "idea" ? "idea" : S.newLane; if (k !== "idea") S.who = k; S.filter = "all"; setTimeout(closeRaise, 500); if (S.lane !== goLane) setLane(goLane); else renderAll(); }
+  else { $("#send").textContent = label; if (store.token()) err.textContent = "That flag didn't save. Try again in a moment."; }
+  $("#send").disabled = false;
+}
+async function addProject() {
+  const name = $("#newProj").value.trim();
+  if (!name) { $("#newProj").focus(); return; }
+  if (!S.projects.includes(name)) S.projects = [...S.projects, name];
+  const ln = S.newWho === "idea" ? "idea" : S.newLane; if (ln !== "cloud" && !S.lanes[name]) S.lanes[name] = ln;
+  S.pick = name; $("#newProj").value = ""; $("#newProjRow").hidden = true; renderChips();
+  save(d => { d.projects = d.projects || []; if (!d.projects.includes(name)) d.projects.push(name); if (ln !== "cloud") { d.lanes = d.lanes || {}; if (!d.lanes[name]) d.lanes[name] = ln; } }, "Add project: " + name);
+}
+/* the raise sheet opens from the flag button, set to whichever tab you're on */
+function openRaise() {
+  if (S.lane === "idea") S.newWho = "idea"; else { S.newLane = S.lane; if (S.newWho === "idea") S.newWho = "claude"; }
+  if (S.pick && !(labLane(S.pick) === (S.newWho === "idea" ? "idea" : S.newLane))) S.pick = null;
+  renderWho(); renderChips();
+  $("#raiseSheet").hidden = false; setTimeout(() => $("#flagText").focus(), 50);
+}
+function closeRaise() { $("#raiseSheet").hidden = true; $("#flagErr").textContent = ""; }
+function setLane(l) {
+  if (l === "apps") { S.lane = l; try { localStorage.setItem("fh.lane", l); } catch (e) {} renderAll(); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+  S.lane = l; S.filter = "all"; S.editing = null; S.draft = null;
+  try { localStorage.setItem("fh.lane", l); } catch (e) {}
+  renderAll(); renderMode();
+}
+$("#raiseBtn").onclick = openRaise;
+$("#raiseX").onclick = closeRaise;
+$("#raiseSheet").addEventListener("click", e => { if (e.target.id === "raiseSheet") closeRaise(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#raiseSheet").hidden) closeRaise(); });
+$("#laneTabs").addEventListener("click", e => { const b = e.target.closest("[data-lane]"); if (b) setLane(b.dataset.lane); });
+document.addEventListener("click", async e => {
+  const m = e.target.closest(".mode"); if (m) return setMode(m.dataset.m);
+  const nb = e.target.closest("[data-nl]");
+  if (nb) { S.newLane = nb.dataset.nl; if (S.pick && labLane(S.pick) !== S.newLane) S.pick = null; renderWho(); renderChips(); return; }
+  const wb = e.target.closest(".who button");
+  if (wb) {
+    if (wb.parentElement.id === "newWho") { const was = S.newWho; S.newWho = wb.dataset.k; if ((was === "idea") !== (S.newWho === "idea")) S.pick = null; renderWho(); renderChips(); }
+    else { S.who = wb.dataset.k; S.filter = "all"; renderChips(); renderFlags(); }
+    return;
+  }
+  const b = e.target.closest("[data-a]"); if (!b || b.closest(".fk") || b.closest("#sgBox") || b.closest("#libDetail") || b.closest("#tonight")) return;
+  const row = b.closest("[data-id]"); const id = row && row.dataset.id; const a = b.dataset.a;
+  const now = new Date().toISOString();
+  const edit = (coll, fn) => d => { const it = (d[coll] || []).find(x => x.id === id); if (it) fn(it, d); };
+  if (a === "pri") save(edit("flags", f => { if (f.priority) delete f.priority; else f.priority = true; f.reviewedAt = now; }), "Flag priority");
+  else if (a === "keepask") { S.keeping = S.keeping === id ? null : id; renderFlags(); }
+  else if (a === "keep") { const d = +b.dataset.days || NEXT_REVIEW; S.keeping = null; save(edit("flags", f => { f.reviewedAt = now; f.reviewEvery = d; }), "Flag kept"); }
+  else if (a === "edit") { const f = S.flags.find(x => x.id === id); if (!f) return; S.editing = id; S.draft = { text: f.text, project: f.project, who: tabOf(f) }; renderFlags(); const t = document.querySelector(`#flags [data-id="${id}"] .ftext`); if (t) { t.style.height = Math.min(t.scrollHeight + 4, 360) + "px"; t.focus(); t.setSelectionRange(t.value.length, t.value.length); } }
+  else if (a === "ewho") { S.draft.who = b.dataset.k; b.blur(); renderFlags(); }
+  else if (a === "elane") { S.draft.lane = b.dataset.k; b.parentElement.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b)); }
+  else if (a === "ecancel") { S.editing = null; S.draft = null; b.blur(); renderFlags(); }
+  else if (a === "esave") {
+    const d = S.draft, text = (d.text || "").trim(); if (!text) { row.querySelector(".ftext").focus(); return; }
+    b.disabled = true; b.textContent = "Saving…";
+    const ok = await save(edit("flags", f => {
+      f.text = text; f.project = d.project; f.editedAt = now; f.reviewedAt = now;
+      if (d.who === "idea" || d.lane === workLane(d.project)) delete f.lane; else f.lane = d.lane;
+      if (d.who !== tabOf(f)) { f.kind = d.who === "claude" ? (f.prevKind && f.prevKind !== "you" && f.prevKind !== "idea" ? f.prevKind : "fix") : d.who; delete f.prevKind; }
+    }), "Flag edited");
+    if (ok) { S.editing = null; S.draft = null; document.activeElement && document.activeElement.blur(); renderAll(); }
+    else { b.disabled = false; b.textContent = "Save"; }
+  }
+  else if (a === "swap" && isIdea(S.flags.find(x => x.id === id) || {})) save(edit("flags", f => { f.kind = "fix"; delete f.prevKind; f.reviewedAt = now; }), "Idea handed to Claude");
+  else if (a === "swap") save(edit("flags", f => { if (f.kind === "you") { f.kind = f.prevKind || "fix"; delete f.prevKind; } else { f.prevKind = f.kind; f.kind = "you"; } f.reviewedAt = now; }), "Flag moved");
+  else if (a === "done") save(edit("flags", f => { f.status = "done"; f.resolvedAt = now; f.resolution = "marked done by you"; }), "Flag done");
+  else if (a === "reopen") save(edit("flags", f => { f.status = "open"; delete f.resolvedAt; delete f.resolution; }), "Flag reopened");
+  else if (a === "del") {
+    if (S.sure !== id) { S.sure = id; renderFlags(); setTimeout(() => { if (S.sure === id) { S.sure = null; renderFlags(); } }, 3000); return; }
+    S.sure = null; save(d => { d.flags = (d.flags || []).filter(f => f.id !== id); }, "Flag deleted");
+  }
+  else if (a === "merged") {
+    const ok = await save(d => { const p = (d.proposals || []).find(x => x.id === id); if (!p) return; p.status = "shipped"; p.shippedAt = now; p.mergedBy = "you";
+      (d.flags || []).forEach(f => { if ((p.flagIds || []).includes(f.id) && f.status !== "done") { f.status = "done"; f.resolvedAt = now; f.resolution = "Shipped: " + p.title; } }); }, "Proposal merged");
+    if (ok) renderAll();
+  }
+  else if (a === "shots") { const p = S.props.find(x => x.id === id); if (p) openShots(p); }
+  else if (a === "unclamp") b.classList.toggle("clamp");
+  else if (a === "undo") {
+    const was = S.props.find(x => x.id === id); let moved = false;
+    const ok = await save(edit("proposals", p => { if (!CAN_UNDO.includes(p.status)) return; moved = true; (p.history = p.history || []).push({ at: now, status: "reopened", from: p.status }); p.status = "waiting"; delete p.feedback; delete p.decidedAt; }), "Proposal reopened");
+    if (ok && moved) { if (was && was.feedback) S.notes[id] = was.feedback; renderProps(); const t = document.querySelector(`#props [data-note="${id}"]`); if (t) { t.scrollIntoView({ block: "center", behavior: "smooth" }); t.focus(); } }
+    else if (ok) renderProps();
+  }
+  else if (a === "approve" || a === "deny") {
+    const note = (S.notes[id] || "").trim();
+    const status = a === "approve" ? "approved" : note ? "redo" : "denied";
+    const ok = await save(edit("proposals", p => { p.status = status; p.decidedAt = now; if (note) { p.feedback = note; (p.history = p.history || []).push({ at: now, status, feedback: note }); } }), { approved: "Proposal approved", redo: "Proposal sent back with notes", denied: "Proposal denied" }[status]);
+    if (ok) { delete S.notes[id]; renderProps(); }
+  }
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.classList && t.classList.contains("ftext") && S.draft) { S.draft.text = t.value; return; }
+  if (!t.classList || !t.classList.contains("pnote")) return;
+  S.notes[t.dataset.note] = t.value;
+  const card = t.closest(".prop"), has = !!t.value.trim();
+  card.querySelector('[data-a="approve"]').textContent = has ? "Approve with notes" : "Approve";
+  card.querySelector('[data-a="deny"]').textContent = has ? "Redo with notes" : "Deny";
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.classList.contains("fproj") && S.draft) { S.draft.project = t.value; return; }
+  const lab = t.closest("[data-lab]"); if (!lab) return;
+  const name = lab.dataset.lab;
+  if (t.classList.contains("lsel")) { const v = t.value; if (v === "cloud") delete S.lanes[name]; else S.lanes[name] = v; renderAll(); save(d => { d.lanes = d.lanes || {}; if (v === "cloud") delete d.lanes[name]; else d.lanes[name] = v; }, `Label ${name} moved to ${LANE_NAMES[v]}`); return; }
+  if (t.type === "color") { S.colors[name] = t.value; renderChips(); renderFlags(); save(d => { d.colors = d.colors || {}; d.colors[name] = t.value; }, "Label color: " + name); }
+  else if (t.type === "text") renameLabel(name, t.value.trim(), t);
+});
+/* ---------- labels ---------- */
+function renameLabel(old, nu, input) {
+  if (!nu || nu === old) { input.value = old; return; }
+  const move = p => p === old ? nu : p;
+  if (S.pick === old) S.pick = nu;
+  if (S.filter === old) S.filter = nu;
+  if (S.lanes[old]) { S.lanes[nu] = S.lanes[old]; delete S.lanes[old]; }
+  input.blur();
+  save(d => {
+    d.projects = [...new Set((d.projects || []).map(move))];
+    (d.flags || []).forEach(f => f.project = move(f.project));
+    (d.proposals || []).forEach(p => p.project = move(p.project));
+    if (d.lanes && d.lanes[old]) { d.lanes[nu] = d.lanes[old]; delete d.lanes[old]; }
+    if (d.colors && d.colors[old]) { if (!d.colors[nu]) d.colors[nu] = d.colors[old]; delete d.colors[old]; }
+  }, `Label renamed: ${old} to ${nu}`);
+}
+function deleteLabel(name) {
+  if (S.labSure !== name) { S.labSure = name; renderLabels(); setTimeout(() => { if (S.labSure === name) { S.labSure = null; renderLabels(); } }, 3000); return; }
+  S.labSure = null; if (S.pick === name) S.pick = null; if (S.filter === name) S.filter = "all";
+  save(d => {
+    const moved = (d.flags || []).filter(f => f.project === name);
+    moved.forEach(f => f.project = "Unsorted");
+    d.projects = (d.projects || []).filter(p => p !== name);
+    if (moved.length && !d.projects.includes("Unsorted")) d.projects.push("Unsorted");
+    if (d.colors) delete d.colors[name];
+  }, "Label deleted: " + name);
+}
+function addLabel() {
+  const name = $("#newLab").value.trim(); if (!name) { $("#newLab").focus(); return; }
+  $("#newLab").value = "";
+  if (S.projects.includes(name)) return;
+  const ln = S.lane; S.projects = [...S.projects, name]; if (ln !== "cloud") S.lanes[name] = ln; renderLabels(); renderChips();
+  save(d => { d.projects = d.projects || []; if (!d.projects.includes(name)) d.projects.push(name); if (ln !== "cloud") { d.lanes = d.lanes || {}; d.lanes[name] = ln; } }, "Add label: " + name);
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-lab-del]"); if (b) deleteLabel(b.closest("[data-lab]").dataset.lab); });
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.closest && e.target.closest("[data-lab]") && e.target.type === "text") e.target.blur(); }); /* blur fires change */
+$("#addLab").onclick = addLabel;
+$("#newLab").addEventListener("keydown", e => { if (e.key === "Enter") addLabel(); });
+
+/* ---------- lane bar: tuck in once it sticks to the top ---------- */
+(() => {
+  const bar = $("#laneTabs"); if (!bar) return;
+  let on = false, tick = 0;
+  const check = () => { tick = 0; const stuck = window.scrollY > 4 && bar.getBoundingClientRect().top <= parseFloat(getComputedStyle(bar).top) + 10; if (stuck !== on) { on = stuck; bar.classList.toggle("stuck", on); } };
+  addEventListener("scroll", () => { if (!tick) tick = requestAnimationFrame(check); }, { passive: true });
+  addEventListener("resize", check); check();
+})();
+
+/* ---------- folding sections ---------- */
+const FOLD_KEY = "fh.folded";
+let folded; try { folded = JSON.parse(localStorage.getItem(FOLD_KEY)); } catch (e) {}
+if (!Array.isArray(folded)) folded = ["lb"]; /* labels start folded */
+document.querySelectorAll("section > h2[id]").forEach(h => {
+  if (h.id === "cn") return; /* the connect box stays open */
+  h.classList.add("fold"); h.setAttribute("role", "button"); h.tabIndex = 0;
+  const sec = h.parentElement, set = shut => { sec.classList.toggle("shut", shut); h.setAttribute("aria-expanded", !shut); };
+  set(folded.includes(h.id));
+  const flip = () => { const shut = !sec.classList.contains("shut"); set(shut); folded = shut ? [...new Set([...folded, h.id])] : folded.filter(x => x !== h.id); try { localStorage.setItem(FOLD_KEY, JSON.stringify(folded)); } catch (e) {} };
+  h.addEventListener("click", flip);
+  h.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
+});
+$("#send").onclick = sendFlag;
+$("#addProj").onclick = addProject;
+$("#newProj").addEventListener("keydown", e => { if (e.key === "Enter") addProject(); });
+$("#flagText").addEventListener("input", () => $("#flagErr").textContent = "");
+
+/* ---------- data ---------- */
+function apply(d) {
+  S.projects = d.projects || [];
+  S.colors = d.colors || {};
+  S.lanes = d.lanes || {};
+  const all = d.flags || [];
+  S.concepts = all.filter(isConcept);
+  S.flags = all.filter(f => !isConcept(f)).sort((a, b) => (b.created || "").localeCompare(a.created || ""));
+  S.props = d.proposals || [];
+  S.runs = (d.runs || []).slice().sort((a, b) => (b.at || "").localeCompare(a.at || ""));
+  $("#syncNote").textContent = "Synced " + new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  renderAll();
+}
+function showConnect(msg) {
+  const c = $("#connect"); c.hidden = false;
+  if (msg) $("#tokenErr").textContent = msg;
+  c.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+async function load() {
+  if (busy) return;
+  try { const { data } = await store.read("data/flags.json"); apply(data); }
+  catch (e) { if (e.code === "token") { showConnect("That key stopped working. Make a new one below."); } else $("#syncNote").textContent = "Couldn't reach GitHub. Showing last view."; }
+  try { const { data } = await store.read("status.json"); S.mode = data.mode || "light"; renderMode(); } catch (e) {}
+  try { const { data } = await store.read("data/apps.json"); S.apps = data.apps || []; S.otherSay = data.otherSay || {}; renderLib(); renderLanes(); renderTally(); renderTonight(); } catch (e) {}
+  if (!busy) pullSiri();
+  try {
+    const r = await fetch("https://api.github.com/repos/Feirzen/flag-hub/issues?state=open&labels=flag&per_page=50");
+    if (r.ok) { const arr = await r.json(); S.appFlags = arr.filter(i => !i.pull_request).map(i => ({ title: i.title, url: i.html_url, created: i.created_at })); $("#appBox").hidden = !S.appFlags.length; renderApp(); renderTally(); }
+  } catch (e) {}
+}
+$("#tokenSave").onclick = async () => {
+  const t = $("#tokenIn").value.trim(), err = $("#tokenErr");
+  if (!/^(github_pat_|ghp_)/.test(t)) { err.textContent = "That doesn't look like a GitHub key. It starts with github_pat_"; return; }
+  store.setToken(t); err.textContent = "Checking…";
+  try { await store.read("data/flags.json"); err.textContent = ""; $("#connect").hidden = true; $("#tokenIn").value = ""; $("#disconnect").hidden = false; load(); }
+  catch (e) { store.setToken(""); err.textContent = "GitHub didn't accept that key. Check that it's for flag-hub with Contents: Read and write."; }
+};
+$("#disconnect").onclick = () => { store.setToken(""); $("#disconnect").hidden = true; $("#connect").hidden = false; };
+if (store.token()) $("#disconnect").hidden = false; else $("#connect").hidden = false;
+renderAll();
+load();
+setInterval(() => { if (!document.hidden) load(); }, 60000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+</script>
+</body>
+</html>

@@ -332,19 +332,138 @@ body:not(.v-apps) #siriBox{display:none!important}
 #siriBox ol li{margin:5px 0}
 #siriBox code{font:12.5px var(--fm);background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 5px;word-break:break-all}
 .heard{font-style:italic;color:var(--ink2)}
+
+/* ================= v3 layout: home screen + apps, no tabs ================= */
+:root{--yes:#2fa86a;--yesInk:#fff;--no:#e5484d;--noInk:#fff;--mineIdea:#4fa3ff;--clIdea:#ffaa66}
+body.v3 .lanes{display:none}
+.topright{position:fixed;z-index:60;top:calc(14px + env(safe-area-inset-top,0px));right:max(14px,env(safe-area-inset-right,0px));display:flex;gap:10px}
+.topbtn{position:relative;width:46px;height:46px;border-radius:15px;border:1px solid var(--line);background:var(--card);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,background .2s}
+.topbtn:active{transform:scale(.94)}
+.topbtn svg{width:22px;height:22px;transition:transform .55s cubic-bezier(.175,.885,.32,1.275)}
+.topbtn.fk-open svg{transform:rotate(180deg)}
+.topbtn .badge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--clIdea);color:#2a1300;font:700 11px/18px var(--fm)}
+header{padding-right:120px}
+.view{display:flex;flex-direction:column;gap:18px;animation:vin .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes vin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.back{align-self:flex-start;min-height:46px;margin-left:58px;display:inline-flex;align-items:center;gap:6px;border:0;background:none;color:var(--ink2);font:600 15px var(--fb);cursor:pointer;padding:6px 0}
+.back svg{width:20px;height:20px}
+.vhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.vhead h1{font-size:28px}
+/* needs you */
+.need{background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;animation:in .35s ease}
+.need h3{margin:0;font:600 17px/1.3 var(--fd)}
+.need p{margin:0;color:var(--ink2);font-size:14.5px;line-height:1.5}
+.need .tools{display:flex;gap:8px;align-items:center}
+.need .tools .ic{width:38px;height:38px;border-radius:12px}
+.need .tools .ic svg{width:19px;height:19px}
+.need .tools .ic[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.yn{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.yn button{white-space:nowrap;border:0;border-radius:13px;padding:12px 8px;font:600 15px var(--fb);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:transform .12s,filter .2s}
+.yn button:active{transform:scale(.97)}
+.yn .no{background:var(--no);color:var(--noInk)}
+.yn .yes{background:var(--yes);color:var(--yesInk)}
+.yn svg{width:18px;height:18px}
+.need .forgood{align-self:center;border:0;background:none;color:var(--ink3);font:500 13px var(--fb);text-decoration:underline;cursor:pointer}
+.need.leaving{animation:out .4s ease forwards}
+@keyframes out{to{opacity:0;transform:translateX(30px) scale(.98)}}
+.mini{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px dashed var(--line);border-radius:14px;cursor:pointer;color:var(--ink2);font-size:14px;background:none;width:100%;text-align:left}
+.mini b{color:var(--ink);font-weight:600}
+.mini .go{margin-left:auto;color:var(--ink3)}
+/* for you carousel */
+.fy{position:relative;background:var(--tealBg);border:1px solid color-mix(in srgb,var(--teal) 35%,var(--line));border-radius:16px;padding:14px 14px 12px;min-height:118px;cursor:pointer;overflow:hidden}
+.fy .slide{display:flex;flex-direction:column;gap:8px;transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.fy .slide.hide{opacity:0;transform:translateY(10px)}
+.fy .t{font:600 16.5px/1.35 var(--fd);color:var(--ink)}
+.fy .helper{font-size:13px;color:var(--tealInk)}
+.fy .bot{display:flex;align-items:center;gap:8px}
+.fy .dots{display:flex;gap:5px;margin-left:auto}
+.fy .dots i{width:6px;height:6px;border-radius:50%;background:var(--teal);opacity:.3;transition:opacity .4s,width .4s}
+.fy .dots i.on{opacity:1;width:16px;border-radius:3px}
+.fy .ic{background:var(--card);width:34px;height:34px}
+.fy .more{font-size:12.5px;color:var(--tealInk);font-weight:600}
+/* tonight */
+.modes.compact{grid-template-columns:repeat(3,1fr)}
+.modes.compact .mode{padding:9px 6px;font-size:14px;flex-direction:row;justify-content:center;gap:7px}
+.tonight{margin-top:0}
+.tl .ln{display:inline-flex;color:var(--ink3);margin-right:4px;vertical-align:-2px}
+.tl .ln svg{width:14px;height:14px}
+/* all flags */
+.seg4{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:4px}
+.seg4 button{border:0;background:none;color:var(--ink3);border-radius:9px;padding:8px 2px;font:600 13.5px var(--fb);cursor:pointer}
+.seg4 button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.ic.pics2{width:auto;padding:0 8px;gap:4px;font:500 12px var(--fm)}
+/* apps view */
+.lanepick{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.lanepick button{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:14px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;color:var(--ink2);font:600 15px var(--fd);transition:border-color .25s,background .25s,transform .15s}
+.lanepick button:active{transform:scale(.97)}
+.lanepick svg{width:46px;height:46px;transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.lanepick button[aria-pressed="true"]{border-color:var(--ink);background:var(--card2);color:var(--ink)}
+.lanepick button[aria-pressed="true"] svg{transform:scale(1.08)}
+.lanepick small{font:500 12px var(--fm);color:var(--ink3)}
+.app.space .ico{border-style:dashed}
+/* app page */
+.ahead{display:flex;gap:14px;align-items:center}
+.ahead .ico{width:64px;height:64px;border-radius:17px;flex:none}
+.ahead h1{font-size:28px}
+.ahead .sub{font:500 12px var(--fm);color:var(--ink3);margin-top:4px}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.sec>h2 .n{font:500 12px var(--fm);color:var(--ink3);text-transform:none;letter-spacing:0}
+.someday{display:flex;flex-direction:column;gap:10px}
+.sd{border:1.5px dashed var(--mineIdea);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:color-mix(in srgb,var(--mineIdea) 6%,transparent)}
+.sd.cl{border-color:var(--clIdea);background:color-mix(in srgb,var(--clIdea) 7%,transparent)}
+.sd .sdwho{font:600 11px var(--fm);letter-spacing:.04em;text-transform:uppercase;color:var(--mineIdea)}
+.sd.cl .sdwho{color:var(--clIdea)}
+.sd .txt{font-size:15px;color:var(--ink)}
+.sd .row .ic{width:30px;height:30px}
+.sd.cl .pitch{margin:0;font:600 15px/1.35 var(--fd);display:flex;gap:6px;justify-content:space-between}
+.sd.cl .why{margin:0;font-size:13px;color:var(--ink3)}
+.sd.cl .why b{color:var(--clIdea)}
+.sd.cl textarea{min-height:56px}
+.btn.plant{background:var(--clIdea);color:#2a1300}
+.ship span:nth-child(2){overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ship{display:flex;gap:8px;font-size:13.5px;color:var(--ink2);padding:5px 0;border-top:1px solid var(--line)}
+.ship:first-of-type{border-top:0}
+.ship i{color:var(--okc);font-style:normal}
+.addbtn{border:1px dashed var(--line);background:none;color:var(--ink2);border-radius:14px;padding:12px;font:600 14px var(--fb);cursor:pointer}
+/* raise sheet: one box */
+.heard{display:flex;flex-direction:column;gap:8px}
+.heard .lbl{font:600 11px var(--fm);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.whoseg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:4px}
+.whoseg button{border:0;background:none;border-radius:9px;padding:8px 4px;font:600 13.5px var(--fb);color:var(--ink3);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px}
+.whoseg button[aria-pressed="true"][data-k="claude"]{background:var(--flag);color:#fff}
+.whoseg button[aria-pressed="true"][data-k="you"]{background:var(--teal);color:#fff}
+.whoseg button[aria-pressed="true"][data-k="idea"]{background:var(--mineIdea);color:#fff}
+.chip.guess{box-shadow:0 0 0 2px color-mix(in srgb,var(--clIdea) 60%,transparent)}
+.togs{display:flex;gap:8px;flex-wrap:wrap}
+.tog{border:1px solid var(--line);background:var(--card2);color:var(--ink2);border-radius:999px;padding:7px 12px;font:600 13px var(--fb);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.tog[aria-pressed="true"]{background:var(--flagBg);color:var(--flag);border-color:transparent}
+.tog.pc[aria-pressed="true"]{background:var(--card);color:var(--ink);border-color:var(--ink)}
+.boxrow{position:relative}
+.boxrow textarea{padding-right:52px;min-height:96px}
+.mic{position:absolute;right:8px;bottom:8px;width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink2);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.mic.on{background:var(--no);color:#fff;border-color:transparent;animation:pulse 1.4s ease infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--no) 25%,transparent)}}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+.chips.scroll .chip{flex:none}
+/* share popup */
+.shotprev{width:100%;max-height:46vh;object-fit:contain;border-radius:12px;border:1px solid var(--line);background:#000}
+.pick{display:flex;flex-direction:column;max-height:34vh;overflow-y:auto;border:1px solid var(--line);border-radius:12px}
+.pick button{border:0;border-top:1px solid var(--line);background:none;color:var(--ink);text-align:left;padding:10px 12px;font:14px/1.35 var(--fb);cursor:pointer;display:flex;gap:8px;align-items:baseline}
+.pick button:first-child{border-top:0}
+.pick button small{color:var(--ink3);font:500 11px var(--fm);flex:none}
+.seg2{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:4px}
+.seg2 button{border:0;background:none;border-radius:9px;padding:8px;font:600 14px var(--fb);color:var(--ink3);cursor:pointer}
+.seg2 button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.setup ol{margin:6px 0 0;padding-left:20px;font-size:14px;color:var(--ink2)}
+.setup ol li{margin:6px 0}
+.setup code{font:12.5px var(--fm);background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 5px;word-break:break-all}
+@media (prefers-reduced-motion:reduce){.fy .slide{transition:none}.view{animation:none}}
 </style>
 </head>
-<body>
-<script src="kit/kit.js" data-app="flag-hub" data-name="Flag Hub"></script>
-
+<body class="v3">
 <button class="raise" id="raiseBtn" aria-label="Raise a flag" title="Raise a flag"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 3h12l-2.5 4.5L17 12H5" fill="currentColor"/></svg></button>
+<div class="topright"><button class="topbtn" id="appsBtn" aria-label="Your apps" title="Your apps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg><span class="badge" id="appsBadge" hidden></span></button><button class="topbtn" id="gearBtn" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
 <div class="wrap">
-  <header>
-    <h1>Flag Hub</h1>
-    <div class="tally" id="tally">loading…</div>
-  </header>
-  <div class="lanes" id="laneTabs" role="tablist" aria-label="Show"></div>
-
   <section class="connect" id="connect" aria-labelledby="cn" hidden>
     <h2 id="cn">Connect this device</h2>
     <p class="note" style="font-size:14px;color:var(--ink2)">One time per device. This lets the Hub and every one of your apps save flags straight to your flag-hub repo. The key stays on this device and only works on flag-hub.</p>
@@ -358,219 +477,138 @@ body:not(.v-apps) #siriBox{display:none!important}
     <div class="row"><input type="text" id="tokenIn" placeholder="github_pat_…" autocomplete="off" spellcheck="false"><button class="btn sm" id="tokenSave">Connect</button></div>
     <p class="err" id="tokenErr"></p>
   </section>
-
-  <section aria-labelledby="ns">
-    <h2 id="ns"><span class="ht"><i class="hd" style="--c:var(--big)"></i>Night shift</span> <span class="n" id="modeSaved"></span><span class="nsPill" id="nsPill" aria-hidden="true"><i data-m="off">Off</i><i data-m="light">Light</i><i data-m="big">Big</i></span></h2>
-    <div class="modes" role="group" aria-label="Night shift mode">
-      <button class="mode" data-m="off" aria-pressed="false"><span class="dot"></span>Off<small>Skip tonight</small></button>
-      <button class="mode" data-m="light" aria-pressed="true"><span class="dot"></span>Light<small>About 2 things a night</small></button>
-      <button class="mode" data-m="big" aria-pressed="false"><span class="dot"></span>Go Big<small>About 5 things a night</small></button>
-    </div>
-    <p class="note">One switch for both the cloud run and the PC run, every night. Go Big also lets Claude add a couple of suggestions when there's usage left. Pick which apps it works on in the Apps tab.</p>
-    <p class="lastrun" id="lastrun">No night shift runs yet.</p>
-    <div class="digest" id="digest" hidden></div>
-    <div class="tonight" id="tonight" hidden></div>
-  </section>
-
-  <section aria-labelledby="wy" id="wyBox">
-    <h2 id="wy"><span class="ht"><i class="hd" style="--c:var(--warn)"></i>Waiting on you</span> <span class="n" id="propN"></span></h2>
-    <div id="props" class="list"><p class="empty">Nothing waiting. Proposals from the night shift land here for a quick yes or no.</p></div>
-  </section>
-
-  <section aria-labelledby="sg" id="sgBox" hidden>
-    <h2 id="sg"><span class="ht"><i class="hd" style="--c:var(--idea)"></i>Suggestions from Claude</span> <span class="n" id="sgN"></span></h2>
-    <p class="note">Ideas only. Nothing gets built until you plant one. Tweak the words first if you want, plant it and it becomes a normal flag, or turn it down and it never comes back.</p>
-    <div id="sugs" class="list" style="gap:10px"></div>
-    <details id="denBox" hidden><summary id="denSum">Turned down</summary><div id="den" class="denied"></div></details>
-  </section>
-
-  <section aria-labelledby="lib" id="libBox">
-    <h2 id="lib"><span class="ht"><i class="hd" style="--c:var(--flag)"></i>App library</span> <span class="n" id="libN"></span></h2>
-    <p class="note">Tap an app to change it. <b style="color:var(--flag)">Focus</b> apps go first at every step of the night shift. <b>Paused</b> apps get skipped completely. Everything else runs as normal.</p>
-    <div id="libGrid"></div>
-    <div id="libDetail"></div>
-  </section>
-
-  <section aria-labelledby="sr" id="siriBox">
-    <h2 id="sr"><span class="ht"><i class="hd" style="--c:var(--idea)"></i>Siri inbox</span> <span class="n" id="siriN"></span></h2>
-    <p class="note">Say "Flag it" to Siri, then talk. Say who it's for (for Claude, for me, or idea), the app, and "priority" if it is. The Hub files clear ones the moment it opens. Anything it can't place waits here, and the night shift sorts it.</p>
-    <div id="siriList" class="list"></div>
-    <details id="siriHow"><summary>Set up "Flag it" on your iPhone</summary><div id="siriSteps"></div></details>
-  </section>
-
-  <section aria-labelledby="wc" id="wcBox">
-    <h2 id="wc"><span class="ht"><i class="hd" style="--c:var(--okc)"></i>Waiting on Claude</span> <span class="n" id="clN"></span></h2>
-    <div id="cprops" class="list"><p class="empty">Nothing here. Once you approve or send something back, it waits here until the night shift handles it.</p></div>
-    <details id="archBox" hidden><summary id="archSum">Archive</summary><div id="arch" style="margin-top:6px"></div></details>
-  </section>
-
-  <section aria-labelledby="of">
-    <h2 id="of"><span class="ht"><i class="hd" style="--c:var(--okc)"></i><span id="ofT">Open flags</span></span> <span class="n" id="openN"></span></h2>
-    <div class="review" id="review" hidden></div>
-    <div class="who" id="tabWho" role="group" aria-label="Show flags for"></div>
-    <div class="filters" id="filters"></div>
-    <div id="flags" class="list"><p class="empty">No open flags yet. Tap the flag button, or plant one from any app's gear menu.</p></div>
-    <details id="doneBox"><summary>Recently resolved</summary><div id="done" class="list" style="margin-top:8px"></div></details>
-  </section>
-
-  <section aria-labelledby="lb" id="labelBox">
-    <h2 id="lb"><span class="ht"><i class="hd" style="--c:var(--ink3)"></i>Labels</span> <span class="n" id="labN"></span></h2>
-    <p class="note">Tap a color to change it, or edit a name and press Enter. Deleting a label moves its flags to Unsorted. The menu on each label sets where it lives: Cloud, PC, or Ideas. The night shift finds each app's code by its label (Study Decks, Music Space, and so on), so keep those names as they are.</p>
-    <div id="labs" class="list" style="gap:8px"></div>
-    <div class="row"><input type="text" id="newLab" placeholder="New label" maxlength="40"><button class="btn sm" id="addLab">Add</button></div>
-  </section>
-
-  <section aria-labelledby="af" id="appBox" hidden>
-    <h2 id="af"><span class="ht"><i class="hd" style="--c:var(--ink3)"></i>Sent through GitHub</span> <span class="n" id="appN"></span></h2>
-    <div id="appFlags" class="list"></div>
-  </section>
-  <div class="sheetbg" id="raiseSheet" hidden>
-  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rf">
-    <h2 id="rf"><span class="ht"><i class="hd" style="--c:var(--flag)" id="rfMark"></i>Raise a flag</span><button class="x" id="raiseX" aria-label="Close">×</button></h2>
-    <div class="who" id="newWho" role="group" aria-label="Who is this flag for"></div>
-    <div class="who two" id="newLane" role="group" aria-label="Where it runs"></div>
-    <div class="chips scroll" id="projChips" role="group" aria-label="Project"></div>
-    <div class="row" id="newProjRow" hidden><input type="text" id="newProj" placeholder="Project name, like Claude OS" maxlength="40"><button class="btn sm" id="addProj">Add</button></div>
-    <textarea id="flagText" placeholder="What did you notice, or what's the idea?" maxlength="1500"></textarea>
-    <label class="prirow"><input type="checkbox" id="flagPri"> <span id="priTxt">Priority: fit this in as soon as possible</span></label>
-    <p class="err" id="flagErr"></p>
-    <div class="row" style="justify-content:space-between"><span class="note" id="sendNote">Small stuff gets fixed overnight. Big stuff comes back as a proposal.</span><button class="btn" id="send">Raise flag</button></div>
-  </div>
-  </div>
+  <main id="view"></main>
   <footer><span id="syncNote">Not synced yet</span><button id="disconnect" hidden>Disconnect this device</button></footer>
 </div>
 
+<div class="sheetbg" id="raiseSheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rf">
+    <h2 id="rf"><span class="ht"><i class="hd" style="--c:var(--flag)" id="rfMark"></i>Raise a flag</span><button class="x" id="raiseX" aria-label="Close">×</button></h2>
+    <div class="boxrow"><textarea id="flagText" placeholder="Type or talk: for Claude, study decks, the pause button sticks, priority" maxlength="1500"></textarea><button class="mic" id="mic" aria-label="Talk" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></div>
+    <div class="heard">
+      <span class="lbl" id="heardLbl">Who it's for</span>
+      <div class="whoseg" id="newWho" role="group" aria-label="Who is this for"></div>
+      <span class="lbl">App</span>
+      <div class="chips scroll" id="projChips" role="group" aria-label="App or label"></div>
+      <div class="row" id="newProjRow" hidden><input type="text" id="newProj" placeholder="New label, like Claude OS" maxlength="40"><button class="btn sm" id="addProj">Add</button></div>
+      <div class="togs"><button class="tog" id="priTog" aria-pressed="false">⚡ Priority</button><button class="tog pc" id="pcTog" aria-pressed="false" hidden>Runs on the PC</button></div>
+    </div>
+    <p class="err" id="flagErr"></p>
+    <div class="row" style="justify-content:space-between"><span class="note" id="sendNote">Small stuff gets fixed overnight. Big stuff comes back for a yes or no.</span><button class="btn" id="send">Raise flag</button></div>
+  </div>
+</div>
+
+<div class="sheetbg" id="shotSheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sh">
+    <h2 id="sh"><span class="ht"><i class="hd" style="--c:var(--clIdea)"></i>From your share sheet</span><button class="x" id="shotX" aria-label="Close">×</button></h2>
+    <img class="shotprev" id="shotImg" alt="The screenshot you shared">
+    <div class="seg2" id="shotMode"><button data-sm="new" aria-pressed="true">New flag</button><button data-sm="attach" aria-pressed="false">Add to a flag</button></div>
+    <div id="shotNew"><p class="note">Next, write what it's about. The screenshot rides along with it.</p></div>
+    <div id="shotAttach" hidden><input type="text" id="shotFind" placeholder="Search your open flags"><div class="pick" id="shotPick"></div></div>
+    <p class="err" id="shotErr"></p>
+  </div>
+</div>
+
 <script>
-if (/[?&]shot=/.test(location.search)) location.replace("next.html" + location.search);
+window.KitConfig = Object.assign(window.KitConfig || {}, { gear: "#gearBtn" });
 </script>
+<script src="kit/kit.js" data-app="flag-hub" data-name="Flag Hub"></script>
 <script>
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ago = t => { if (!t) return ""; const m = Math.round((Date.now() - new Date(t)) / 60000); if (m < 1) return "just now"; if (m < 60) return m + "m ago"; const h = Math.round(m / 60); if (h < 24) return h + "h ago"; const d = Math.round(h / 24); return d < 30 ? d + "d ago" : new Date(t).toLocaleDateString(); };
-const S = { keeping: null, notes: {}, mode: "light", projects: [], colors: {}, flags: [], props: [], runs: [], appFlags: [], pick: null, filter: "all", sure: null, who: "claude", newWho: "claude", editing: null, draft: null, labSure: null, lanes: {}, lane: "cloud", newLane: "cloud", concepts: [], apps: [], appSel: null, vEdit: null, sNotes: {}, sEdit: null };
-try { const l = localStorage.getItem("fh.lane"); if (["cloud", "pc", "idea", "apps"].includes(l)) S.lane = l; } catch (e) {}
-const FIRST_REVIEW = 21, NEXT_REVIEW = 45;
-const KEEP_OPTS = [[21, "3 wks"], [45, "6 wks"], [90, "3 mo"]];
-const IDEA_HOME = "Big ideas"; /* where an idea goes when no label is picked */
-const isMine = f => f.kind === "you";
-const isIdea = f => f.kind === "idea";
-const isConcept = f => f.kind === "concept";
+const S = { mode: "light", projects: [], colors: {}, lanes: {}, flags: [], concepts: [], props: [], runs: [], apps: [], otherSay: {}, notes: {}, noteOpen: {}, sNotes: {}, sEdit: null,
+  editing: null, draft: null, sure: null, keeping: null, labSure: null, allTab: "claude", allApp: "all", appLane: "cloud", vEdit: null, fyI: 0,
+  newWho: "claude", pick: null, pri: false, pcRun: false, manual: {}, siri: [], arch: { flags: [], proposals: [], loaded: false } };
+try { const l = localStorage.getItem("fh.appLane"); if (l === "pc" || l === "cloud") S.appLane = l; } catch (e) {}
+const store = Kit.store;
+let busy = false;
+const FIRST_REVIEW = 21, NEXT_REVIEW = 45, KEEP_OPTS = [[21, "3 wks"], [45, "6 wks"], [90, "3 mo"]];
+const IDEA_HOME = "Big ideas";
+const isMine = f => f.kind === "you", isIdea = f => f.kind === "idea", isConcept = f => f.kind === "concept";
 const tabOf = f => isMine(f) ? "you" : isIdea(f) ? "idea" : "claude";
 const isOpen = f => f.status !== "done" && f.status !== "dismissed";
 const touched = f => f.reviewedAt || f.created || "";
-/* first check-in after 21 days; after that, whatever you picked when you kept it (6 weeks if you didn't pick) */
 const reviewGap = f => f.reviewedAt ? (f.reviewEvery || NEXT_REVIEW) : FIRST_REVIEW;
 const isStale = f => isOpen(f) && f.status === "open" && touched(f) && (Date.now() - new Date(touched(f))) > reviewGap(f) * 864e5;
-/* each project gets its own color (skips orange and teal, which mean Claude and you) */
 const PAL = ["#f2b544", "#9bd35a", "#4fb3ff", "#7c8cff", "#a77bff", "#ff6fae", "#e58f6b", "#d6c35a", "#5fd38a", "#c792ea", "#6ca0ff", "#ff8f8f"];
 function autoColor(name) { let h = 0; for (const ch of String(name)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return PAL[h % PAL.length]; }
-function pc(name) {
-  const set = S.colors[name], c = /^#[0-9a-f]{6}$/i.test(set || "") ? set : autoColor(name);
-  return `--pc:${c};--pBg:color-mix(in srgb,${c} 16%,var(--card));--pInk:color-mix(in srgb,${c} 72%,var(--ink))`;
-}
-const FLAGI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 3h12l-2.5 4.5L17 12H5" fill="currentColor"/></svg>';
-const IDEAI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3" stroke-dasharray="2.2 3"/><path d="M5 3h12l-2.5 4.5L17 12H5" stroke-dasharray="2.2 2.6"/></svg>';
-const iconFor = k => k === "idea" ? IDEAI : FLAGI;
-/* lanes: every label lives in Cloud (the nightly run can reach it), PC (only the PC run can), or Ideas. A flag can override its label's lane. */
-const LANE_NAMES = { cloud: "Cloud", pc: "PC", idea: "Ideas" };
+const colorOf = name => /^#[0-9a-f]{6}$/i.test(S.colors[name] || "") ? S.colors[name] : autoColor(name);
+function pc(name) { const c = colorOf(name); return `--pc:${c};--pBg:color-mix(in srgb,${c} 16%,var(--card));--pInk:color-mix(in srgb,${c} 72%,var(--ink))`; }
 const labLane = p => ["pc", "idea"].includes(S.lanes[p]) ? S.lanes[p] : "cloud";
-const workLane = p => labLane(p) === "pc" ? "pc" : "cloud"; /* where a work flag with this label goes by default */
+const workLane = p => labLane(p) === "pc" ? "pc" : "cloud";
 const laneOf = f => isIdea(f) ? "idea" : f.lane === "pc" || f.lane === "cloud" ? f.lane : workLane(f.project);
 const propLane = p => p.lane === "pc" || p.lane === "cloud" ? p.lane : p.applyOn === "pc" ? "pc" : workLane(p.project);
 const runLane = r => r.lane || (/^RetroBat/i.test(r.summary || "") ? "pc" : "cloud");
-const inLane = f => laneOf(f) === S.lane;
-const store = Kit.store;
-let busy = false;
-
-const MODE_TXT = { off: "Night shift is off.", light: "Light: a couple of small fixes a night.", big: "Go Big: bigger builds tonight." };
-function renderMode() {
-  renderTonight();
-  document.querySelectorAll(".mode").forEach(b => b.setAttribute("aria-pressed", b.dataset.m === S.mode));
-  document.querySelectorAll("#nsPill i").forEach(i => i.classList.toggle("on", i.dataset.m === S.mode));
-}
-function renderTally() {
-  if (S.lane === "apps") { const c = st => S.apps.filter(a => (a.state || "on") === st).length; $("#tally").innerHTML = `<b>${S.apps.length}</b> apps · <b style="color:var(--flag)">${c("focus")}</b> focus · <b>${c("off")}</b> paused`; return; }
-  const open = S.flags.filter(f => f.status === "open");
-  if (S.lane === "idea") { $("#tally").innerHTML = `<b>${open.filter(isIdea).length}</b> ideas · Claude only gets to these when the cloud flags run out`; return; }
-  const here = open.filter(inLane), mine = here.filter(isMine).length, theirs = here.length - mine + (S.lane === "cloud" ? S.appFlags.length : 0);
-  const wait = S.props.filter(p => p.status === "waiting" && propLane(p) === S.lane).length;
-  $("#tally").innerHTML = `<b style="color:var(--flag)">${theirs}</b> for Claude · <b style="color:var(--tealInk)">${mine}</b> for you · <b${wait ? ' style="color:var(--warn)"' : ""}>${wait}</b> on you`;
-}
-function renderRuns() {
-  const idea = S.lane === "idea";
-  $("#lastrun").hidden = idea;
-  if (idea) { $("#digest").hidden = true; return; }
-  const want = S.lane === "pc" ? "pc" : "cloud", r = S.runs.find(x => runLane(x) === want);
-  $("#lastrun").textContent = r ? `Last run ${ago(r.at)}: ${r.summary}` : `No ${want === "pc" ? "PC" : "cloud"} runs yet.`;
-  const since = Date.now() - 30 * 3600 * 1000;
-  const items = S.runs.filter(x => new Date(x.at) > since && runLane(x) === want).flatMap(x => x.items || []);
-  const d = $("#digest"); d.hidden = !items.length;
-  d.innerHTML = items.map(i => `<div class="dl"><span class="dk ${esc(i.kind)}">${esc(i.kind)}</span><span><b style="font-weight:600;color:var(--ink)">${esc(i.project)}</b> ${esc(i.text)}</span></div>`).join("");
-}
-function renderLanes() {
-  const n = { cloud: 0, pc: 0, idea: 0 }, ping = {};
-  S.flags.filter(f => f.status === "open").forEach(f => n[laneOf(f)]++);
-  n.cloud += S.appFlags.length;
-  S.props.filter(p => p.status === "waiting").forEach(p => ping[propLane(p)] = 1);
-  S.concepts.filter(c => c.status === "open").forEach(c => ping[conceptLane(c)] = ping[conceptLane(c)] || "s");
-  $("#laneTabs").innerHTML = Object.entries(LANE_NAMES).map(([k, t]) => `<button role="tab" data-lane="${k}" aria-selected="${S.lane === k}">${t} <span class="wn">${n[k]}</span>${ping[k] ? `<i class="ping" ${ping[k] === "s" ? 'style="background:var(--idea)" title="New suggestions from Claude"' : 'title="Something is waiting on you"'}></i>` : ""}</button>`).join("")
-    + `<button role="tab" data-lane="apps" aria-selected="${S.lane === "apps"}" aria-label="App library"><span class="ai">${GRIDI}</span>Apps</button>`;
-  document.body.classList.toggle("v-apps", S.lane === "apps");
-  const work = S.lane !== "idea";
-  $("#wyBox").hidden = !work; $("#wcBox").hidden = !work;
-  $("#appBox").hidden = S.lane !== "cloud" || !S.appFlags.length;
-  $("#ofT").textContent = work ? "Open flags" : "Ideas";
-}
-function whoBtns(box, cur, counts) {
-  /* the tab row carries counts, so it uses the short names to fit a phone */
-  box.innerHTML = (counts ? [["claude", "Claude"], ["you", "Me"]] : [["claude", "For Claude"], ["you", "For me"], ["idea", "Idea"]]).map(([k, t]) =>
-    `<button data-k="${k}" aria-pressed="${cur === k}">${iconFor(k)}${t}${counts ? ` <span class="wn">${counts[k]}</span>` : ""}</button>`).join("");
-}
-const SEND_TXT = { claude: "Raise flag", you: "Add for me", idea: "Add idea" };
-function renderWho() {
-  whoBtns($("#newWho"), S.newWho);
-  const nl = $("#newLane"); nl.hidden = S.newWho === "idea";
-  nl.innerHTML = [["cloud", "Cloud run"], ["pc", "PC run"]].map(([k, t]) => `<button data-nl="${k}" aria-pressed="${S.newLane === k}">${t}</button>`).join("");
-  const k = S.newWho, you = k === "you", idea = k === "idea";
-  $("#rfMark").style.setProperty("--c", you ? "var(--teal)" : idea ? "var(--ink2)" : "var(--flag)");
-  ["teal", "idea"].forEach(c => { const on = c === "teal" ? you : idea; $("#send").classList.toggle(c, on); $("#flagText").classList.toggle(c, on); });
-  $("#flagPri").classList.toggle("teal", you);
-  $("#send").textContent = SEND_TXT[k];
-  $("#priTxt").textContent = k === "claude" ? "Priority: fit this in as soon as possible" : "Priority: keep it at the top";
-  $("#sendNote").textContent = you ? "Just a reminder for you. The night shift skips these."
-    : idea ? `Concepts and someday ideas, kept apart from the work. No label needed (it goes in ${IDEA_HOME}).`
-    : "Small stuff gets fixed overnight. Big stuff comes back as a proposal.";
-  $("#flagText").placeholder = you ? "What do you need to do?" : idea ? "What's the idea?" : "What did you notice?";
-}
-function lastUsed() {
-  const m = {}; S.flags.forEach(f => { if ((f.created || "") > (m[f.project] || "")) m[f.project] = f.created; }); return m;
-}
-function renderChips() {
-  const box = $("#projChips"), used = lastUsed();
-  const sheetLane = S.newWho === "idea" ? "idea" : S.newLane;
-  const order = S.projects.filter(p => labLane(p) === sheetLane || p === S.pick).map((p, i) => [p, i]).sort((a, b) => (used[b[0]] || "").localeCompare(used[a[0]] || "") || a[1] - b[1]).map(x => x[0]);
-  box.innerHTML = `<button class="chip add" id="addChip">+ New</button>` + order.map(p => `<button class="chip" style="${pc(p)}" aria-pressed="${S.pick === p}" data-p="${esc(p)}"><i class="pd"></i>${esc(p)}</button>`).join("");
-  box.querySelectorAll("[data-p]").forEach(b => b.onclick = () => { S.pick = S.pick === b.dataset.p ? null : b.dataset.p; $("#flagErr").textContent = ""; renderChips(); });
-  $("#addChip").onclick = () => { const r = $("#newProjRow"); r.hidden = !r.hidden; if (!r.hidden) $("#newProj").focus(); };
-  const inTab = S.flags.filter(f => isOpen(f) && !isStale(f) && inLane(f) && (S.lane === "idea" || tabOf(f) === S.who));
-  const fs = ["all", ...new Set(inTab.map(f => f.project))];
-  if (!fs.includes(S.filter)) S.filter = "all";
-  $("#filters").innerHTML = fs.length > 2 ? fs.map(p => p === "all" ? `<button class="chip" aria-pressed="${S.filter === p}" data-f="all">All</button>`
-    : `<button class="chip" style="${pc(p)}" aria-pressed="${S.filter === p}" data-f="${esc(p)}"><i class="pd"></i>${esc(p)}</button>`).join("") : "";
-  $("#filters").querySelectorAll("[data-f]").forEach(b => b.onclick = () => { S.filter = b.dataset.f; renderChips(); renderFlags(); });
-}
+const appOf = label => S.apps.find(a => (a.labels || [a.name]).includes(label));
+const labelsOf = a => a.labels || [a.name];
+const appState = label => { const a = appOf(label); return a ? (a.state || "on") : null; };
+const claudeTurn = p => ["approved", "ready", "redo"].includes(p.status);
+const CAN_UNDO = ["approved", "ready", "redo", "denied"];
+const isPR = p => /\/pull\/\d+/.test(p.link || "");
+const SV = (d, w = 18) => `<svg width="${w}" height="${w}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const ICON = {
-  bolt: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
-  done: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>',
-  del: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
-  swap: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h13"/><path d="m17 20 4-4-4-4"/><path d="M21 16H8"/></svg>',
-  keep: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 8v4l3 2"/></svg>',
-  undo: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>',
-  pen: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>',
+  bolt: SV('<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>', 16), done: SV('<path d="M5 12l5 5L20 7"/>', 16),
+  del: SV('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>', 16), swap: SV('<path d="M7 4 3 8l4 4"/><path d="M3 8h13"/><path d="m17 20 4-4-4-4"/><path d="M21 16H8"/>', 16),
+  keep: SV('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 8v4l3 2"/>', 16), undo: SV('<path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/>', 16),
+  pen: SV('<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/>', 16), pic: SV('<rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/>'),
+  note: SV('<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/>'), link: SV('<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>'),
+  yes: SV('<path d="M5 12l5 5L20 7"/>'), no: SV('<path d="M6 6l12 12M18 6 6 18"/>'), back: SV('<path d="M15 5l-7 7 7 7"/>', 20), chev: SV('<path d="M9 5l7 7-7 7"/>', 16),
+  cloud: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 36h21a8 8 0 0 0 1-15.9A11 11 0 0 0 15.2 18 9 9 0 0 0 14 36z"/><path d="M20 30l4-4 4 4M24 26v8" opacity=".55"/></svg>',
+  pc: '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="9" width="36" height="24" rx="3.5"/><path d="M18 40h12M24 33v7"/><path d="M13 27l6-6 4 4 7-8" opacity=".55"/></svg>',
+  cloudS: SV('<path d="M7 18h10a4 4 0 0 0 .5-8A5.5 5.5 0 0 0 7.6 9 4.5 4.5 0 0 0 7 18z"/>', 14), pcS: SV('<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>', 14),
 };
-/* the pencil: change the words, the label, or who it's for, right in the list */
+const FLAGI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3"/><path d="M5 3h12l-2.5 4.5L17 12H5" fill="currentColor"/></svg>';
+const IDEAI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22V3" stroke-dasharray="2.2 3"/><path d="M5 3h12l-2.5 4.5L17 12H5" stroke-dasharray="2.2 2.6"/></svg>';
+const iconFor = k => k === "idea" ? IDEAI : FLAGI;
+const GLYPH = {
+  pad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10a5 5 0 0 1 4.8 6.4l-.9 3a2.4 2.4 0 0 1-4.2.8L15 16H9l-1.7 2.2a2.4 2.4 0 0 1-4.2-.8l-.9-3A5 5 0 0 1 7 8z"/><path d="M7.5 11v3M6 12.5h3"/><circle cx="16" cy="11.5" r=".6" fill="currentColor"/><circle cx="17.8" cy="13.3" r=".6" fill="currentColor"/></svg>',
+  house: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5.5 9.5V20h13V9.5"/><rect x="8.5" y="12" width="7" height="5" rx="1"/><path d="M11 13.6l2 1-2 1z" fill="currentColor"/></svg>',
+  heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg>',
+  build: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6M2 20h20"/></svg>',
+  plane: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5 3 11l1.5-1.5 8 .5 4-4a2 2 0 0 1 3 3l-4 4 .5 8L14.5 22 12 14.5"/></svg>',
+};
+function appIcon(a) {
+  const c = colorOf(labelsOf(a)[0]);
+  const fallback = GLYPH[a.glyph] || `<b style="font:700 22px var(--fd)">${esc((a.name || "?")[0])}</b>`;
+  return a.icon ? `<img src="${esc(a.icon)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{innerHTML:${esc(JSON.stringify(fallback))}}))">`
+    : `<span style="color:${c};display:grid;place-items:center;width:100%;height:100%;background:color-mix(in srgb,${c} 16%,var(--card))">${fallback}</span>`;
+}
+/* spaces: labels that aren't apps (3DS Setup, Spotify...) still get a tile */
+function spaces() {
+  const taken = new Set(S.apps.flatMap(labelsOf));
+  return S.projects.filter(p => !taken.has(p)).map(p => ({ id: "label:" + p, name: p, labels: [p], lane: labLane(p) === "pc" ? "pc" : "cloud", space: true, state: "on" }));
+}
+const everyApp = () => [...S.apps, ...spaces()];
+const appById = id => everyApp().find(a => a.id === id);
+const inApp = (a, label) => labelsOf(a).includes(label);
+
+/* ================= routing: #apps, #app/<id>, #all ================= */
+function route() { const h = decodeURIComponent(location.hash.slice(1)); return h.startsWith("app/") ? { v: "app", id: h.slice(4) } : h === "apps" ? { v: "apps" } : h.startsWith("all") ? { v: "all" } : { v: "home" }; }
+function go(hash) { if (("#" + hash) === location.hash || (!hash && !location.hash)) return render(); location.hash = hash; }
+addEventListener("hashchange", () => { S.editing = null; S.vEdit = null; render(); window.scrollTo({ top: 0 }); });
+
+/* ================= shared pieces ================= */
+function picsBtn(imgs, a, extra = "") { const n = (imgs || []).length; return n ? `<button class="ic" data-a="${a}" ${extra} aria-label="See screenshots" title="Screenshots">${ICON.pic}</button>` : ""; }
+function needCard(p) {
+  const note = S.notes[p.id] || "", open = S.noteOpen[p.id] || !!note.trim(), has = !!note.trim();
+  return `<div class="need" data-pid="${p.id}">
+    <div class="meta" style="grid-column:auto"><span class="tag proj" style="${pc(p.project)}">${esc(p.project)}</span><span>${ago(p.created)}</span>${p.revision ? `<span>· version ${p.revision}</span>` : ""}</div>
+    <h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p>
+    <div class="tools">${picsBtn(p.images, "shots")}${p.link ? `<a class="ic" href="${esc(p.link)}" target="_blank" rel="noopener" aria-label="See the full change" title="See the full change">${ICON.link}</a>` : ""}<button class="ic" data-a="note" aria-pressed="${open}" aria-label="Add notes" title="Notes for Claude">${ICON.note}</button></div>
+    ${open ? `<textarea class="pnote" data-note="${p.id}" placeholder="Notes for Claude: what you like, what to change" maxlength="1500">${esc(note)}</textarea>` : ""}
+    <div class="yn"><button class="no" data-a="deny">${ICON.no}<span>${has ? "Redo with notes" : "Nope"}</span></button><button class="yes" data-a="approve">${ICON.yes}<span>${has ? "Yes, with notes" : "Yes"}</span></button></div>
+    ${has ? `<button class="forgood" data-a="denyforgood">Or deny it for good</button>` : ""}
+  </div>`;
+}
+function claudeCard(p) {
+  const what = p.status === "redo" ? "Reworking it with your notes" : propLane(p) === "pc" ? "The PC run puts it in" : p.feedback ? "Making your tweaks, then merging tonight" : "Merging it tonight";
+  return `<div class="item" data-pid="${p.id}"><div class="txt"><b style="font-weight:600">${esc(p.title)}</b><br><span class="note">${what}</span></div>
+    <div class="acts"><button class="btn sm ghost" data-a="undo">Change my mind</button></div>
+    <div class="meta"><span class="tag proj" style="${pc(p.project)}">${esc(p.project)}</span><span>${ago(p.decidedAt || p.created)}</span></div></div>`;
+}
 function editor(f) {
-  const d = S.draft || { text: f.text, project: f.project, who: tabOf(f), lane: laneOf(f) === "pc" ? "pc" : "cloud" };
+  const d = S.draft;
   const projs = S.projects.includes(d.project) ? S.projects : [d.project, ...S.projects];
   return `<div class="fedit">
     <textarea class="ftext" maxlength="1500" aria-label="Flag text">${esc(d.text)}</textarea>
@@ -582,9 +620,9 @@ function editor(f) {
     <div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="ecancel">Cancel</button><button class="btn sm" data-a="esave">Save</button></div>
   </div>`;
 }
-function flagRow(f, doneView, reviewView) {
-  const src = f.source === "reminders" ? "from Reminders" : f.source === "app" ? "sent from the app" : f.source === "concept" ? "planted from a suggestion" : "";
-  const kind = isMine(f) ? (reviewView || doneView ? '<span class="tag kind-you">for you</span>' : "") : isIdea(f) && (reviewView || doneView) ? '<span class="tag kind-idea">idea</span>' : "";
+function flagRow(f, opt = {}) {
+  const doneView = opt.done, reviewView = opt.review;
+  const src = f.source === "siri" ? "from Siri" : f.source === "reminders" ? "from Reminders" : f.source === "app" ? "sent from the app" : f.source === "concept" ? "planted from an idea" : f.source === "share" ? "from your share sheet" : "";
   const days = Math.round((Date.now() - new Date(touched(f))) / 864e5);
   const st = f.status === "proposed" ? '<span class="tag prop">proposal sent</span>' : f.status === "doing" ? '<span class="tag prop">in progress</span>' : "";
   const pri = f.priority ? '<span class="tag pri">priority</span>' : "";
@@ -594,98 +632,18 @@ function flagRow(f, doneView, reviewView) {
   const editing = !doneView && !reviewView && S.editing === f.id;
   const acts = doneView ? (f._arch ? "" : `<button class="ic" data-a="reopen" aria-label="Reopen">${ICON.undo}</button>`)
     : reviewView ? `<button class="ic keep" data-a="keepask" aria-label="Keep it" title="Keep it">${ICON.keep}</button>${doneBtn}${delBtn}`
-    : editing ? ""
-    : `<button class="ic" data-a="swap" aria-label="${swapTo}" title="${swapTo}">${ICON.swap}</button><button class="ic ${f.priority ? "pri-on" : ""}" data-a="pri" aria-label="${f.priority ? "Remove priority" : "Make priority"}" title="${f.priority ? "Priority: do this first" : "Do this first"}">${ICON.bolt}</button>${doneBtn}${delBtn}`;
+    : editing ? "" : `${picsBtn(f.images, "fshots")}<button class="ic" data-a="swap" aria-label="${swapTo}" title="${swapTo}">${ICON.swap}</button><button class="ic ${f.priority ? "pri-on" : ""}" data-a="pri" aria-label="${f.priority ? "Remove priority" : "Make priority"}">${ICON.bolt}</button>${doneBtn}${delBtn}`;
   const note = f.note && !editing ? `<div class="cnote"><b>Claude:</b> ${esc(f.note)}</div>` : "";
-  return `<div class="item ${f.priority && !doneView ? "is-pri" : ""} ${isMine(f) ? "mine" : ""} ${isIdea(f) ? "idea" : ""} ${f.source === "concept" ? "from-concept" : ""}" data-id="${f.id}">${editing ? editor(f) : `<div class="txt">${esc(f.text)}${!doneView && !reviewView ? `<button class="pen" data-a="edit" aria-label="Edit this flag" title="Edit">${ICON.pen}</button>` : ""}</div>`}
+  return `<div class="item ${f.priority && !doneView ? "is-pri" : ""} ${isMine(f) ? "mine" : ""} ${isIdea(f) ? "idea" : ""}" data-id="${f.id}">${editing ? editor(f) : `<div class="txt">${esc(f.text)}${!doneView && !reviewView ? `<button class="pen" data-a="edit" aria-label="Edit this flag" title="Edit">${ICON.pen}</button>` : ""}</div>`}
     <div class="acts">${acts}</div>${note}
-    <div class="meta"><span class="fg">${iconFor(tabOf(f))}</span><span class="tag proj" style="${pc(f.project)}">${esc(f.project)}</span>${pri}${kind}${st}${src && !reviewView ? `<span>${src}</span>` : ""}${reviewView ? `<span class="age">${days}d untouched</span>` : `<span>${ago(doneView ? f.resolvedAt : f.created)}</span>`}${f.resolution ? `<span>· ${esc(f.resolution)}</span>` : ""}</div>${reviewView && S.keeping === f.id ? `<div class="keeps"><span>Ask again in</span>${KEEP_OPTS.map(([d, t]) => `<button class="chip" data-a="keep" data-days="${d}">${t}</button>`).join("")}</div>` : ""}</div>`;
+    <div class="meta"><span class="fg">${iconFor(tabOf(f))}</span>${opt.noLabel ? "" : `<span class="tag proj" style="${pc(f.project)}">${esc(f.project)}</span>`}${pri}${st}${src && !reviewView ? `<span>${src}</span>` : ""}${reviewView ? `<span class="age">${days}d untouched</span>` : `<span>${ago(doneView ? f.resolvedAt : f.created)}</span>`}${f.resolution ? `<span>· ${esc(f.resolution)}</span>` : ""}</div>${reviewView && S.keeping === f.id ? `<div class="keeps"><span>Ask again in</span>${KEEP_OPTS.map(([d, t]) => `<button class="chip" data-a="keep" data-days="${d}">${t}</button>`).join("")}</div>` : ""}</div>`;
 }
-function renderFlags() {
-  const ae = document.activeElement; if (S.editing && ae && ae.closest && ae.closest(".fedit")) return; /* don't wipe an edit mid-typing */
-  const idea = S.lane === "idea";
-  if (!idea && S.who === "idea") S.who = "claude";
-  const fresh = S.flags.filter(f => isOpen(f) && !isStale(f) && inLane(f));
-  const counts = { claude: 0, you: 0, idea: 0 }; fresh.forEach(f => counts[tabOf(f)]++);
-  $("#tabWho").hidden = idea;
-  whoBtns($("#tabWho"), S.who, counts);
-  const stale = S.flags.filter(f => isStale(f) && inLane(f)).sort((a, b) => touched(a).localeCompare(touched(b)));
-  const rv = $("#review"); rv.hidden = !stale.length;
-  rv.innerHTML = stale.length ? `<h3>Still need these? <span class="n" style="font:500 12px var(--fm);color:var(--warn)">${stale.length}</span></h3>
-    <p class="note">Flags that have sat untouched for a while. Keep one and pick when it checks in next.</p>
-    <div class="list">${stale.slice(0, 3).map(f => flagRow(f, false, true)).join("")}</div>${stale.length > 3 ? `<p class="note">${stale.length - 3} more after these.</p>` : ""}` : "";
-  const open = fresh.filter(f => (idea || tabOf(f) === S.who) && (S.filter === "all" || f.project === S.filter))
-    .sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0));
-  $("#openN").textContent = fresh.length + stale.length || "";
-  const none = idea ? "No ideas yet. Tap the flag button and pick Idea." : S.who === "you" ? "Nothing on your list here. Tap the flag button and pick For me." : S.lane === "pc" ? "No PC flags. Tap the flag button and pick PC run." : "No open flags. Tap the flag button, or plant one from any app's gear menu.";
-  $("#flags").innerHTML = open.length ? open.map(f => flagRow(f, false)).join("") : `<p class="empty">${S.filter === "all" ? none : "Nothing here for " + esc(S.filter) + "."}</p>`;
-  const done = [...S.flags, ...S.arch.flags].filter(f => (f.status === "done" || f.status === "dismissed") && inLane(f)).sort((a, b) => (b.resolvedAt || "").localeCompare(a.resolvedAt || "")).slice(0, 15);
-  $("#doneBox").hidden = false;
-  $("#done").innerHTML = done.map(f => flagRow(f, true)).join("");
-}
-const PICI = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/></svg>';
-const CAN_UNDO = ["approved", "ready", "redo", "denied"]; /* decided, but Claude hasn't acted yet */
-const isPR = p => /\/pull\/\d+/.test(p.link || "");
-const claudeTurn = p => p.status === "approved" || p.status === "ready" || p.status === "redo";
-/* one plain line per card that answers "who has the ball, and what happens next" */
-function turnLine(p) {
-  const T = (c, big, small) => `<div class="turn"><i style="--c:${c}"></i><span>${big}${small ? `<small>${small}</small>` : ""}</span></div>`;
-  const pc = propLane(p) === "pc";
-  if (p.status === "waiting") return T("var(--warn)", "Your turn: approve, add notes, or deny",
-    pc ? "Approve and the PC run puts it in next time (Wed or Sat night). Add notes first and it makes your tweaks too."
-       : "Approve and Claude merges it tonight. Add notes first and Claude makes your tweaks, then merges. Can't wait? Merge it yourself on GitHub.");
-  if (p.status === "redo") return T("var(--okc)", "Claude's turn: reworking it with your notes", "Nothing for you to do. The new version comes back up top for a look.");
-  if (claudeTurn(p)) return pc ? T("var(--okc)", p.feedback ? "Claude's turn: the PC run adds your tweaks and puts it in" : "Claude's turn: the PC run puts it in", "Nothing for you to do. It runs Wednesday and Saturday nights.")
-    : T("var(--okc)", p.feedback ? "Claude's turn: making your tweaks, then merging tonight" : "Claude's turn: merging it tonight", "Nothing for you to do. Can't wait? Merge it yourself on GitHub, Claude will notice.");
-  return "";
-}
-function picsBtn(p) {
-  const n = (p.images || []).length;
-  return n ? `<button class="ic pics" data-a="shots" aria-label="See ${n} screenshots" title="Screenshots">${PICI}${n}</button>` : "";
-}
-function propCard(p) {
-  if (claudeTurn(p)) return `<div class="prop claude" data-id="${p.id}">
-      <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.decidedAt || p.created)}</span></div>
-      <h3>${esc(p.title)}</h3>${turnLine(p)}
-      ${p.feedback ? `<p class="said clamp" data-a="unclamp">Your notes: “${esc(p.feedback)}”</p>` : ""}
-      <div class="row" style="flex-wrap:wrap"><button class="btn sm ghost" data-a="undo">Change my mind</button>${p.status !== "redo" && isPR(p) ? `<a class="btn sm ghost" href="${esc(p.link)}" target="_blank" rel="noopener">Merge it myself</a>` : ""}</div>
-    </div>`;
-  return `<div class="prop" data-id="${p.id}">
-      <div class="meta" style="grid-column:auto"><span class="tag">${esc(p.project)}</span><span>${ago(p.created)}</span>${p.revision ? `<span>· version ${p.revision}</span>` : ""}</div>
-      <h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p>
-      <div class="links">${picsBtn(p)}${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">See the full change</a>` : ""}</div>
-      ${turnLine(p)}
-      <textarea class="pnote" data-note="${p.id}" placeholder="Notes for Claude (optional): what you like, what to change" maxlength="1500">${esc(S.notes[p.id] || "")}</textarea>
-      <div class="row"><button class="btn sm" data-a="approve">${S.notes[p.id] ? "Approve with notes" : "Approve"}</button><button class="btn sm ghost" data-a="deny">${S.notes[p.id] ? "Redo with notes" : "Deny"}</button></div>
-    </div>`;
-}
-function archRow(p) {
-  const st = p.status === "shipped" ? '<span class="state shipped">Merged</span>' : '<span class="state denied">Denied</span>';
-  return `<div class="arow" data-id="${p.id}">${st}<span class="at">${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.title)}</a>` : esc(p.title)}</span>${p.status === "denied" && !p._arch ? `<button class="btn sm ghost" data-a="undo">Reopen</button>` : ""}</div>`;
-}
-function renderProps() {
-  const a = document.activeElement; if (a && a.classList && a.classList.contains("pnote")) return; /* don't wipe a note mid-typing */
-  const newest = (a, b) => (b.decidedAt || b.created || "").localeCompare(a.decidedAt || a.created || "");
-  /* ready to merge sits on top: it's the one that's fully done except for your tap */
-  const here = S.props.filter(p => propLane(p) === S.lane);
-  const mine = here.filter(p => p.status === "waiting").sort((a, b) => (b.created || "").localeCompare(a.created || ""));
-  const claude = here.filter(claudeTurn).sort(newest);
-  const arch = [...here, ...S.arch.proposals.filter(p => propLane(p) === S.lane)].filter(p => p.status === "shipped" || p.status === "denied").sort((a, b) => (b.shippedAt || b.decidedAt || b.created || "").localeCompare(a.shippedAt || a.decidedAt || a.created || "")).slice(0, 25);
-  $("#propN").textContent = mine.length ? mine.length : "";
-  $("#clN").textContent = claude.length ? claude.length : "";
-  $("#props").innerHTML = mine.length ? mine.map(propCard).join("") : `<p class="empty">Nothing needs you. New proposals show up here.</p>`;
-  $("#cprops").innerHTML = claude.length ? claude.map(propCard).join("") : `<p class="empty">Nothing here. Once you approve or send something back, it waits here until the night shift handles it.</p>`;
-  $("#archBox").hidden = false;
-  $("#archSum").textContent = `Archive (${S.arch.loaded ? arch.length + (arch.length === 25 ? "+" : "") : "older"} merged or denied)`;
-  $("#arch").innerHTML = arch.map(archRow).join("");
-}
-/* screenshots open full size on tap; a glowing ring marks the spot when the proposal says where (p.spots) */
 function openShots(p, start) {
   const imgs = p.images || []; if (!imgs.length) return;
-  const label = k => imgs.length === 2 ? (k ? "After" : "Before") : "Shot " + (k + 1);
+  const label = k => imgs.length === 2 ? (k ? "After" : "Before") : imgs.length === 1 ? "Screenshot" : "Shot " + (k + 1);
   const spots = (p.spots || []).filter(s => s && isFinite(s.x) && isFinite(s.y));
   let cur = start != null ? start : imgs.length - 1;
-  const v = document.createElement("div"); v.className = "sv"; v.setAttribute("role", "dialog"); v.setAttribute("aria-label", "Screenshots: " + p.title);
+  const v = document.createElement("div"); v.className = "sv"; v.setAttribute("role", "dialog"); v.setAttribute("aria-label", "Screenshots: " + (p.title || p.text || ""));
   const draw = () => {
     v.innerHTML = `<div class="bar"><div class="seg">${imgs.map((_, k) => `<button data-k="${k}" aria-pressed="${k === cur}">${label(k)}</button>`).join("")}</div><button class="x" aria-label="Close">×</button></div>
       ${spots.length ? `<p class="hint">The glowing ring shows where to look.</p>` : ""}
@@ -697,290 +655,532 @@ function openShots(p, start) {
   document.addEventListener("keydown", key);
   draw(); document.body.appendChild(v); v.querySelector(".x").focus();
 }
-function renderApp() {
-  $("#appN").textContent = S.appFlags.length ? S.appFlags.length : "";
-  if (!S.appFlags.length) return;
-  $("#appFlags").innerHTML = S.appFlags.map(i => `<div class="item"><div class="txt">${esc(i.title.replace(/^\[[^\]]+\]\s*/, ""))}</div><div class="acts"><a class="ic" href="${esc(i.url)}" target="_blank" rel="noopener" aria-label="Open on GitHub"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></div><div class="meta"><span class="tag app">${esc((i.title.match(/^\[([^\]]+)\]/) || [, "app"])[1])}</span><span>${ago(i.created)}</span></div></div>`).join("");
-}
-function renderLabels() {
-  const ae = document.activeElement; if (ae && ae.closest && ae.closest("#labs") && ae.type === "text") return;
-  const n = {}; S.flags.filter(isOpen).forEach(f => n[f.project] = (n[f.project] || 0) + 1);
-  const labs = S.projects.filter(p => labLane(p) === S.lane);
-  $("#labN").textContent = labs.length || "";
-  $("#labs").innerHTML = labs.map(p => {
-    const c = /^#[0-9a-f]{6}$/i.test(S.colors[p] || "") ? S.colors[p] : autoColor(p), sure = S.labSure === p;
-    return `<div class="lab" data-lab="${esc(p)}"><input type="color" value="${c}" aria-label="Color for ${esc(p)}"><input type="text" value="${esc(p)}" maxlength="40" aria-label="Name"><span class="ln" title="open flags">${n[p] || 0}</span><select class="lsel" aria-label="Where ${esc(p)} lives">${Object.entries(LANE_NAMES).map(([k, t]) => `<option value="${k}" ${labLane(p) === k ? "selected" : ""}>${t}</option>`).join("")}</select>${p === "Unsorted" ? `<span class="ic" style="visibility:hidden"></span>`
-      : `<button class="ic ${sure ? "sure" : ""}" data-lab-del aria-label="${sure ? "Tap again to delete" : "Delete label"}">${ICON.del}</button>`}</div>`;
-  }).join("");
-}
-function renderAll() { renderSugs(); renderLib(); renderSiri(); renderTonight(); renderLanes(); renderMode(); renderTally(); renderRuns(); renderWho(); renderChips(); renderFlags(); renderProps(); renderApp(); renderLabels(); }
 
-
-/* ---------- concept flags: Claude's suggestions ----------
-   A concept is a flag with kind "concept" that only the night shift creates:
-   { id, project, kind: "concept", status: "open" | "denied", text (one-line pitch), detail?, size: "S"|"M"|"L",
-     cost (rough usage, plain words), why (how it ties to the app's vision), mockup? (one image or page), created }
-   Plant it -> it becomes a normal orange flag (kind "fix") carrying your edits and notes.
-   Deny it -> status "denied" plus your note, and it's copied into that app's "denied" list in data/apps.json
-   so the night shift never suggests it again. */
-const GRIDI = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>';
-const SPARKI = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>';
-const SIZE_TXT = { S: "Small", M: "Medium", L: "Large" };
-const appOf = label => S.apps.find(a => (a.labels || [a.name]).includes(label));
-const conceptLane = c => c.lane === "pc" || c.lane === "cloud" ? c.lane : (appOf(c.project) || {}).lane === "pc" ? "pc" : workLane(c.project);
-function sizeChip(sz) {
-  const n = { S: 1, M: 2, L: 3 }[sz] || 0; if (!n) return "";
-  return `<span class="sz" title="${SIZE_TXT[sz]} build">${[1, 2, 3].map(i => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}${SIZE_TXT[sz]}</span>`;
-}
-function sugCard(c) {
-  const editing = S.sEdit === c.id, note = S.sNotes[c.id] || "";
-  const mock = c.mockup ? (/\.(png|jpe?g|webp|gif|svg)$/i.test(c.mockup)
-    ? `<div class="mock"><img src="${esc(c.mockup)}" alt="Mockup" data-a="smock"><span class="note">Quick mockup. Tap to see it big.</span></div>`
-    : `<div class="mock"><a href="${esc(c.mockup)}" target="_blank" rel="noopener" style="color:var(--ideaInk);font-size:13px">Open the quick mockup</a></div>`) : "";
-  return `<div class="sug" data-id="${c.id}">
-    <div class="meta"><span class="tag proj" style="${pc(c.project)}">${esc(c.project)}</span>${sizeChip(c.size)}${c.cost ? `<span>· ${esc(c.cost)}</span>` : ""}<span>· ${ago(c.created)}</span></div>
-    ${editing ? `<textarea class="stext" maxlength="1500" aria-label="Edit the idea">${esc(c.text + (c.detail ? "\n\n" + c.detail : ""))}</textarea>
-      <div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="scancel">Cancel</button><button class="btn sm idea" data-a="ssave">Save</button></div>`
-    : `<p class="pitch"><span>${esc(c.text)}</span><button class="pen" data-a="sedit" aria-label="Edit this idea" title="Edit">${ICON.pen}</button></p>${c.detail ? `<p class="why" style="color:var(--ink2)">${esc(c.detail)}</p>` : ""}`}
-    ${c.helps ? (h => h ? `<p class="why"><b>Helps with your flag:</b> ${esc(h.text.length > 90 ? h.text.slice(0, 88) + "…" : h.text)}</p>` : "")(S.flags.find(f => f.id === c.helps)) : ""}
-    ${c.why ? `<p class="why"><b>Why:</b> ${esc(c.why)}</p>` : ""}
-    ${mock}
-    <textarea class="snote" data-snote="${c.id}" placeholder="Your notes (optional): what you'd change, or why not" maxlength="1500">${esc(note)}</textarea>
-    <div class="row"><button class="btn sm idea" data-a="plant">${note.trim() ? "Plant with notes" : "Plant it"}</button><button class="btn sm ghost" data-a="sdeny">Not for me</button></div>
-  </div>`;
-}
-function renderSugs() {
-  const box = $("#sgBox"); if (!box) return;
-  const a = document.activeElement; if (a && a.closest && a.closest("#sugs") && a.tagName === "TEXTAREA") return; /* don't wipe typing */
-  const here = c => S.lane === "idea" || conceptLane(c) === S.lane;
-  const open = S.concepts.filter(c => c.status === "open" && here(c)).sort((x, y) => (y.created || "").localeCompare(x.created || ""));
-  const den = S.concepts.filter(c => c.status === "denied" && here(c)).sort((x, y) => (y.deniedAt || "").localeCompare(x.deniedAt || "")).slice(0, 12);
-  box.hidden = S.lane === "apps" || (!open.length && !den.length);
-  $("#sgN").textContent = open.length || "";
-  $("#sugs").innerHTML = open.length ? open.map(sugCard).join("") : `<p class="empty">No new suggestions. On Go Big nights with usage left, Claude adds a couple here.</p>`;
-  $("#denBox").hidden = !den.length;
-  $("#denSum").textContent = `Turned down (${den.length})`;
-  $("#den").innerHTML = den.map(c => `<div class="drow" data-id="${c.id}"><span>${esc(c.text)}${c.denyNote ? `<small>You: ${esc(c.denyNote)}</small>` : ""}</span><button class="btn sm ghost" data-a="sback">Bring back</button></div>`).join("");
-}
-async function saveApps(fn, msg) {
-  if (!store.token()) { showConnect("Connect this device to save changes."); return false; }
-  try { const d = await store.change("data/apps.json", fn, msg); S.apps = d.apps || []; renderLib(); renderTally(); return true; }
-  catch (e) { if (e.code === "token") showConnect("That key didn't work. Make a new one below."); else $("#syncNote").textContent = "Didn't save. Try again."; return false; }
-}
-async function sugAction(a, id, b) {
-  const c = S.concepts.find(x => x.id === id); if (!c) return;
-  const now = new Date().toISOString(), note = (S.sNotes[id] || "").trim();
-  const card = b.closest(".sug");
-  if (a === "sedit") { S.sEdit = id; renderSugs(); const t = document.querySelector(`#sugs [data-id="${id}"] .stext`); if (t) { t.style.height = Math.min(t.scrollHeight + 4, 320) + "px"; t.focus(); } return; }
-  if (a === "scancel") { S.sEdit = null; b.blur(); renderSugs(); return; }
-  if (a === "smock") { openShots({ title: c.text, images: [c.mockup] }, 0); return; }
-  if (a === "ssave") {
-    const v = (card.querySelector(".stext").value || "").trim(); if (!v) return;
-    const [first, ...rest] = v.split(/\n\s*\n/); b.disabled = true; b.textContent = "Saving…";
-    const ok = await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; f.text = first.trim(); const det = rest.join("\n\n").trim(); if (det) f.detail = det; else delete f.detail; f.editedAt = now; }, "Suggestion edited");
-    if (ok) { S.sEdit = null; document.activeElement && document.activeElement.blur(); renderSugs(); } else { b.disabled = false; b.textContent = "Save"; }
-    return;
-  }
-  if (a === "sback") { save(d => { const f = (d.flags || []).find(x => x.id === id); if (f) { f.status = "open"; delete f.deniedAt; delete f.denyNote; } }, "Suggestion brought back");
-    saveApps(d => { (d.apps || []).forEach(ap => { if (ap.denied) ap.denied = ap.denied.filter(x => x.id !== id); }); }, "Suggestion brought back"); return; }
-  if (a === "plant") {
-    b.disabled = true; card.classList.add("leaving");
-    const ok = await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return;
-      f.concept = { pitch: f.text, detail: f.detail, size: f.size, cost: f.cost, why: f.why, mockup: f.mockup, helps: f.helps, created: f.created };
-      if (f.detail) f.text = f.text + "\n\n" + f.detail;
-      if (note) f.text += "\n\nMy notes: " + note;
-      ["detail", "size", "cost", "why", "mockup"].forEach(k => delete f[k]);
-      f.kind = "fix"; f.status = "open"; f.source = "concept"; f.plantedAt = now; f.created = now; f.reviewedAt = now;
-    }, "Suggestion planted: " + c.project);
-    if (ok) { delete S.sNotes[id]; renderAll(); } else { card.classList.remove("leaving"); b.disabled = false; }
-    return;
-  }
-  if (a === "sdeny") {
-    b.disabled = true; card.classList.add("leaving");
-    const ok = await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; f.status = "denied"; f.deniedAt = now; if (note) f.denyNote = note; }, "Suggestion turned down");
-    if (ok) {
-      delete S.sNotes[id]; renderAll();
-      const ap = appOf(c.project);
-      if (ap) saveApps(d => { const x = (d.apps || []).find(y => y.id === ap.id); if (!x) return; x.denied = (x.denied || []).filter(y => y.id !== id); x.denied.push({ id, text: c.text, note: note || undefined, at: now }); }, "Remember turned-down idea: " + ap.name);
-    } else { card.classList.remove("leaving"); b.disabled = false; }
-  }
-}
-
-/* ---------- app library ---------- */
-const GLYPH = {
-  pad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h10a5 5 0 0 1 4.8 6.4l-.9 3a2.4 2.4 0 0 1-4.2.8L15 16H9l-1.7 2.2a2.4 2.4 0 0 1-4.2-.8l-.9-3A5 5 0 0 1 7 8z"/><path d="M7.5 11v3M6 12.5h3"/><circle cx="16" cy="11.5" r=".6" fill="currentColor"/><circle cx="17.8" cy="13.3" r=".6" fill="currentColor"/></svg>',
-  house: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5.5 9.5V20h13V9.5"/><rect x="8.5" y="12" width="7" height="5" rx="1"/><path d="M11 13.6l2 1-2 1z" fill="currentColor"/></svg>',
-  heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></svg>',
-  build: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6M2 20h20"/></svg>',
-  plane: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5 3 11l1.5-1.5 8 .5 4-4a2 2 0 0 1 3 3l-4 4 .5 8L14.5 22 12 14.5"/></svg>',
-};
-function appIcon(a) {
-  const c = (S.colors[(a.labels || [])[0]] && /^#[0-9a-f]{6}$/i.test(S.colors[a.labels[0]])) ? S.colors[a.labels[0]] : autoColor(a.name);
-  const fallback = GLYPH[a.glyph] || `<b style="font:700 22px var(--fd)">${esc(a.name[0])}</b>`;
-  return a.icon ? `<img src="${esc(a.icon)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{innerHTML:${esc(JSON.stringify(fallback))}}))">`
-    : `<span style="color:${c};display:grid;place-items:center;width:100%;height:100%;background:color-mix(in srgb,${c} 16%,var(--card))">${fallback}</span>`;
-}
-function renderLib() {
-  const g = $("#libGrid"); if (!g) return;
-  const ae = document.activeElement; if (ae && ae.closest && ae.closest("#libDetail") && ae.tagName === "TEXTAREA") return;
-  const nOpen = {}, nSug = {};
-  S.flags.filter(f => f.status === "open" && f.kind !== "you").forEach(f => { const a = appOf(f.project); if (a) nOpen[a.id] = (nOpen[a.id] || 0) + 1; });
-  S.concepts.filter(c => c.status === "open").forEach(c => { const a = appOf(c.project); if (a) nSug[a.id] = (nSug[a.id] || 0) + 1; });
-  $("#libN").textContent = S.apps.length || "";
-  const tile = a => `<button class="app ${a.state || "on"}" data-app="${esc(a.id)}" aria-pressed="${S.appSel === a.id}" aria-label="${esc(a.name)}: ${{ on: "on", off: "paused", focus: "focus" }[a.state || "on"]}">
-      <span class="wrapi"><span class="ico">${appIcon(a)}</span>${nSug[a.id] ? `<span class="badge" title="New suggestions">${nSug[a.id]}</span>` : ""}</span><span class="nm">${esc(a.name)}</span></button>`;
-  const grp = (t, list) => list.length ? `<div class="lgroup">${t}</div><div class="lib">${list.map(tile).join("")}</div>` : "";
-  g.innerHTML = S.apps.length ? grp("Cloud", S.apps.filter(a => a.lane !== "pc")) + grp("PC", S.apps.filter(a => a.lane === "pc")) : `<p class="empty">Loading your apps…</p>`;
-  const a = S.apps.find(x => x.id === S.appSel), box = $("#libDetail");
-  if (!a) { box.innerHTML = ""; return; }
-  const v = a.vision || {}, st = a.state || "on", ve = S.vEdit === a.id, list = arr => (arr || []).filter(Boolean);
-  box.innerHTML = `<div class="adetail" data-appd="${esc(a.id)}">
-    <div class="hd2"><span class="app ${st}" style="pointer-events:none"><span class="ico">${appIcon(a)}</span></span><div><h3>${esc(a.name)}</h3><div class="sub">${a.lane === "pc" ? "PC run" : "Cloud run"} · ${nOpen[a.id] || 0} open flag${nOpen[a.id] === 1 ? "" : "s"}${nSug[a.id] ? ` · ${nSug[a.id]} suggestions` : ""}</div></div></div>
-    <div class="seg3" role="group" aria-label="Night shift for ${esc(a.name)}">
-      <button data-st="off" aria-pressed="${st === "off"}">Paused<small>Skip it</small></button>
-      <button data-st="on" aria-pressed="${st === "on"}">On<small>Normal</small></button>
-      <button data-st="focus" aria-pressed="${st === "focus"}">Focus<small>Look here first</small></button>
-    </div>
-    <div class="vis">
-      <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:6px"><h4 style="margin:0">North star</h4>${ve ? "" : `<button class="pen" data-a="vedit" aria-label="Edit the north star" title="Edit" style="opacity:1">${ICON.pen}</button>`}</div>
-      ${ve ? `<h4>What it's for</h4><textarea data-v="for" maxlength="600">${esc(v.for || "")}</textarea>
-        <h4>Never (one per line)</h4><textarea data-v="never" maxlength="1200">${esc(list(v.never).join("\n"))}</textarea>
-        <h4>Right now (one per line)</h4><textarea data-v="now" maxlength="1200">${esc(list(v.now).join("\n"))}</textarea>
-        <div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="vcancel">Cancel</button><button class="btn sm" data-a="vsave">Save</button></div>`
-      : `<h4>What it's for</h4><p>${esc(v.for || "Not written yet.")}</p>
-        ${list(v.never).length ? `<h4>Never</h4><ul>${list(v.never).map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
-        ${list(v.now).length ? `<h4>Right now</h4><ul>${list(v.now).map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
-        ${(a.denied || []).length ? `<h4>Turned down</h4><p style="font-size:13px;color:var(--ink3)">${a.denied.length} idea${a.denied.length > 1 ? "s" : ""} Claude won't suggest again.</p>` : ""}`}
-    </div>
-    <div class="links">${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener">Open the app</a>` : ""}${a.repo ? `<a href="https://github.com/${esc(a.repo)}" target="_blank" rel="noopener">Code on GitHub</a>` : ""}${a.roadmap ? `<a href="${esc(a.roadmap)}" target="_blank" rel="noopener">Roadmap</a>` : ""}</div>
-  </div>`;
-}
-async function setAppState(id, st) {
-  const a = S.apps.find(x => x.id === id); if (!a || (a.state || "on") === st) return;
-  const prev = a.state; a.state = st; renderLib(); renderTally();
-  const ok = await saveApps(d => { const x = (d.apps || []).find(y => y.id === id); if (x) x.state = st; }, `${a.name}: ${{ on: "on", off: "paused", focus: "focus" }[st]}`);
-  if (!ok) { a.state = prev; renderLib(); renderTally(); }
-}
-document.addEventListener("click", async e => {
-  const t = e.target.closest("button.app[data-app]");
-  if (t) { S.appSel = S.appSel === t.dataset.app ? null : t.dataset.app; S.vEdit = null; renderLib(); if (S.appSel) setTimeout(() => $("#libDetail").scrollIntoView({ behavior: "smooth", block: "nearest" }), 60); return; }
-  const sb = e.target.closest(".seg3 [data-st]"); if (sb) { const d = sb.closest("[data-appd]"); if (d) setAppState(d.dataset.appd, sb.dataset.st); return; }
-  const v = e.target.closest("#libDetail [data-a]");
-  if (v) {
-    const id = v.closest("[data-appd]").dataset.appd, a = v.dataset.a;
-    if (a === "vedit") { S.vEdit = id; renderLib(); const ta = $("#libDetail textarea"); if (ta) ta.focus(); }
-    else if (a === "vcancel") { S.vEdit = null; v.blur(); renderLib(); }
-    else if (a === "vsave") {
-      const box = v.closest(".adetail"), val = k => box.querySelector(`[data-v="${k}"]`).value, lines = k => val(k).split("\n").map(x => x.trim()).filter(Boolean);
-      const nv = { for: val("for").trim(), never: lines("never"), now: lines("now") };
-      v.disabled = true; v.textContent = "Saving…"; document.activeElement && document.activeElement.blur();
-      const ok = await saveApps(d => { const x = (d.apps || []).find(y => y.id === id); if (x) x.vision = nv; }, "North star: " + (S.apps.find(x => x.id === id) || {}).name);
-      if (ok) { S.vEdit = null; renderLib(); } else { v.disabled = false; v.textContent = "Save"; }
-    }
-    return;
-  }
-  const s = e.target.closest("#sgBox [data-a]");
-  if (s) { const row = s.closest("[data-id]"); if (row) sugAction(s.dataset.a, row.dataset.id, s); }
-}, true);
-document.addEventListener("input", e => {
-  const t = e.target; if (!t.dataset || !t.dataset.snote) return;
-  S.sNotes[t.dataset.snote] = t.value;
-  const btn = t.closest(".sug").querySelector('[data-a="plant"]'); btn.textContent = t.value.trim() ? "Plant with notes" : "Plant it";
-});
-
-
-/* ---------- archive: finished flags and proposals older than 2 weeks live in data/archive.json ---------- */
-S.arch = { flags: [], proposals: [], loaded: false };
-async function loadArchive() {
-  if (S.arch.loaded) return; S.arch.loaded = true;
-  try { const { data } = await store.read("data/archive.json"); S.arch.flags = (data.flags || []).map(f => ({ ...f, _arch: 1 })); S.arch.proposals = (data.proposals || []).map(p => ({ ...p, _arch: 1 })); renderFlags(); renderProps(); } catch (e) {}
-}
-["#archBox", "#doneBox"].forEach(id => { const el = document.querySelector(id); if (el) el.addEventListener("toggle", () => { if (el.open) loadArchive(); }); });
-
-/* ---------- tonight's plan: what the night shift will pick up, using the same rules it follows ---------- */
+/* ================= tonight's plan ================= */
 const BUDGET = { cloud: { light: 2, big: 5 }, pc: { light: 1, big: 3 } };
-const appState = label => { const a = appOf(label); return a ? (a.state || "on") : null; };
+const MODE_NAME = { off: "Off", light: "Light", big: "Heavy" };
 const skipped = f => f.skipUntil && new Date(f.skipUntil) > new Date();
-function tonightQueue(lane) {
-  const ok = label => { const st = appState(label); return st ? st !== "off" : lane === "pc"; }; /* cloud labels need an app with a repo */
+function tonightLines(lane) {
+  const ok = label => { const st = appState(label); return st ? st !== "off" : lane === "pc"; };
   const rank = f => (appState(f.project) === "focus" ? 0 : 1);
   const decide = S.props.filter(p => propLane(p) === lane && ["approved", "ready"].includes(p.status) && appState(p.project) !== "off");
   const redo = S.props.filter(p => propLane(p) === lane && p.status === "redo" && appState(p.project) !== "off");
   const flags = S.flags.filter(f => f.status === "open" && f.kind !== "you" && !isIdea(f) && laneOf(f) === lane && ok(f.project))
     .sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0) || rank(a) - rank(b) || (a.created || "").localeCompare(b.created || ""));
-  return { decide, redo, flags };
-}
-function renderTonight() {
-  const box = $("#tonight"); if (!box) return;
-  if (S.lane !== "cloud" && S.lane !== "pc") { box.hidden = true; return; }
-  box.hidden = false;
-  if (S.mode === "off") { box.innerHTML = `<h3>Tonight</h3><p class="note" style="margin:0">Night shift is off, so nothing runs tonight.</p>`; return; }
-  const lane = S.lane, q = tonightQueue(lane), cap = BUDGET[lane][S.mode] || 2;
-  const lines = []; let used = 0, priUsed = false;
-  q.decide.forEach(p => lines.push(`<div class="tl"><span class="k">✓</span><span class="t"><b>${esc(p.project)}</b> · put in: ${esc(p.title)}</span><span></span></div>`));
-  q.redo.forEach(p => { if (used < cap) { used++; lines.push(`<div class="tl"><span class="k">${used}</span><span class="t"><b>${esc(p.project)}</b> · rework: ${esc(p.title)}</span><span></span></div>`); } });
-  const later = [];
-  q.flags.forEach(f => {
-    const sk = skipped(f);
-    const fits = !sk && (used < cap || (f.priority && !priUsed));
-    if (sk) { lines.push(`<div class="tl skip" data-id="${f.id}"><span class="k">–</span><span class="t"><b>${esc(f.project)}</b> · ${esc(f.text)}</span><button class="btn sm ghost" data-a="unskip">Undo</button></div>`); return; }
-    if (!fits) { later.push(f); return; }
+  const cap = BUDGET[lane][S.mode] || 2, L = []; let used = 0, priUsed = false, later = 0;
+  const ic = lane === "pc" ? ICON.pcS : ICON.cloudS;
+  decide.forEach(p => L.push(`<div class="tl"><span class="k">✓</span><span class="t"><span class="ln">${ic}</span><b>${esc(p.project)}</b> · put in: ${esc(p.title)}</span><span></span></div>`));
+  redo.forEach(p => { if (used < cap) { used++; L.push(`<div class="tl"><span class="k">•</span><span class="t"><span class="ln">${ic}</span><b>${esc(p.project)}</b> · rework: ${esc(p.title)}</span><span></span></div>`); } });
+  flags.forEach(f => {
+    if (skipped(f)) { L.push(`<div class="tl skip" data-id="${f.id}"><span class="k">–</span><span class="t"><span class="ln">${ic}</span><b>${esc(f.project)}</b> · ${esc(f.text)}</span><button class="btn sm ghost" data-a="unskip">Undo</button></div>`); return; }
+    const fits = used < cap || (f.priority && !priUsed); if (!fits) { later++; return; }
     if (used >= cap) priUsed = true; else { used++; if (f.priority) priUsed = true; }
-    lines.push(`<div class="tl" data-id="${f.id}"><span class="k">${f.priority ? "⚡" : used}</span><span class="t"><b>${esc(f.project)}</b> · ${esc(f.text)}</span><button class="btn sm ghost" data-a="skip">Skip tonight</button></div>`);
+    L.push(`<div class="tl" data-id="${f.id}"><span class="k">${f.priority ? "⚡" : "•"}</span><span class="t"><span class="ln">${ic}</span><b>${esc(f.project)}</b> · ${esc(f.text)}</span><button class="btn sm ghost" data-a="skip">Skip tonight</button></div>`);
   });
-  if (later.length) lines.push(`<div class="tl more"><span></span><span>${later.length} more wait${later.length === 1 ? "s" : ""} for another night</span></div>`);
-  if (S.mode === "big") lines.push(`<div class="tl more"><span class="k" style="color:var(--idea)">✦</span><span>Plus up to ${lane === "pc" ? 1 : 2} suggestion${lane === "pc" ? "" : "s"} if there's room</span></div>`);
-  box.innerHTML = `<h3><span>Tonight's plan</span><span>${S.mode === "big" ? "Go Big" : "Light"} · ${cap} slots</span></h3>` + (lines.length ? lines.join("") : `<p class="note" style="margin:0">Nothing to do here tonight.</p>`);
+  return { L, later };
+}
+function tonightBox() {
+  const runs = S.runs.slice(0, 2), last = runs[0];
+  const items = S.runs.filter(x => new Date(x.at) > Date.now() - 30 * 3600e3).flatMap(x => x.items || []);
+  let body;
+  if (S.mode === "off") body = `<p class="note" style="margin:0">Night shift is off, so nothing runs tonight.</p>`;
+  else {
+    const c = tonightLines("cloud"), p = tonightLines("pc"), later = c.later + p.later;
+    const lines = [...c.L, ...p.L];
+    if (later) lines.push(`<div class="tl more"><span></span><span>${later} more wait${later === 1 ? "s" : ""} for another night</span></div>`);
+    if (S.mode === "big") lines.push(`<div class="tl more"><span class="k" style="color:var(--clIdea)">✦</span><span>Plus a few ideas from Claude if there's room</span></div>`);
+    body = lines.length ? lines.join("") : `<p class="note" style="margin:0">Nothing to do tonight.</p>`;
+  }
+  return `<section aria-labelledby="ns"><h2 id="ns"><span class="ht"><i class="hd" style="--c:var(--big)"></i>Tonight</span><span class="n" id="modeSaved"></span></h2>
+    <div class="modes compact" role="group" aria-label="Night shift">${["off", "light", "big"].map(m => `<button class="mode" data-m="${m}" aria-pressed="${S.mode === m}"><span class="dot"></span>${MODE_NAME[m]}</button>`).join("")}</div>
+    <div class="tonight" id="tonight">${body}</div>
+    ${last ? `<details><summary>Last run ${ago(last.at)}: ${esc(last.summary || "")}</summary><div class="digest">${items.map(i => `<div class="dl"><span class="dk ${esc(i.kind)}">${esc(i.kind)}</span><span><b style="font-weight:600;color:var(--ink)">${esc(i.project)}</b> ${esc(i.text)}</span></div>`).join("") || '<p class="note">Nothing in the last day.</p>'}</div></details>` : ""}
+  </section>`;
 }
 
-/* ---------- Siri inbox: the "Flag it" Shortcut drops one small text file per note into data/siri/.
-   The Hub files the clear ones right away; unclear ones wait for the night shift to sort. ---------- */
-S.siri = [];
-const API_C = "https://api.github.com/repos/Feirzen/flag-hub/contents/";
-const ghHead = () => ({ Authorization: "Bearer " + store.token(), Accept: "application/vnd.github+json" });
-const b64dec = b => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g, "")), c => c.charCodeAt(0)));
+/* ================= HOME ================= */
+function fyList() {
+  /* your flags, most relevant first: priority, ones Claude helped with, then the longest untouched */
+  const you = S.flags.filter(f => f.status === "open" && isMine(f));
+  const helped = f => /notes\//.test(f.note || "");
+  const score = f => (f.priority ? 100 : 0) + (helped(f) ? 40 : 0) + (isStale(f) ? 20 : 0) + Math.min(30, (Date.now() - new Date(touched(f))) / 864e5);
+  return you.sort((a, b) => score(b) - score(a)).slice(0, 8);
+}
+function homeView() {
+  const wait = S.props.filter(p => p.status === "waiting").sort((a, b) => (b.created || "").localeCompare(a.created || ""));
+  const theirs = S.props.filter(claudeTurn);
+  const sug = S.concepts.filter(c => c.status === "open");
+  const sugApps = [...new Set(sug.map(c => (appOf(c.project) || { id: "label:" + c.project }).id))];
+  const stale = S.flags.filter(isStale);
+  const open = S.flags.filter(f => f.status === "open");
+  const fy = fyList(), youAll = open.filter(isMine).length;
+  const f0 = fy[S.fyI % Math.max(1, fy.length)];
+  return `<div class="view">
+    <header><h1>Flag Hub</h1><div class="tally"><b style="color:var(--warn)">${wait.length}</b> need you · <b style="color:var(--flag)">${open.filter(f => tabOf(f) === "claude").length}</b> for Claude · <b style="color:var(--tealInk)">${youAll}</b> for you</div></header>
+    <section aria-labelledby="ny"><h2 id="ny"><span class="ht"><i class="hd" style="--c:var(--warn)"></i>Needs you</span><span class="n">${wait.length || ""}</span></h2>
+      ${wait.length ? wait.map(needCard).join("") : `<p class="empty">You're all caught up. New proposals from the night shift land here.</p>`}
+      ${sug.length ? `<button class="mini" data-go="${sugApps.length === 1 ? "app/" + esc(sugApps[0]) : "apps"}"><span style="color:var(--clIdea)">✦</span><span><b>${sug.length} new idea${sug.length > 1 ? "s" : ""} from Claude</b> in Someday</span><span class="go">${ICON.chev}</span></button>` : ""}
+      ${stale.length ? `<button class="mini" data-go="all/review"><span>${ICON.keep}</span><span><b>${stale.length} old flag${stale.length > 1 ? "s" : ""}</b> to keep or clear</span><span class="go">${ICON.chev}</span></button>` : ""}
+      ${theirs.length ? `<details><summary>Waiting on Claude (${theirs.length})</summary><div class="list" style="margin-top:6px">${theirs.map(claudeCard).join("")}</div></details>` : ""}
+    </section>
+    <section aria-labelledby="fy"><h2 id="fy"><span class="ht"><i class="hd" style="--c:var(--teal)"></i>For you</span><span class="n">${youAll || ""}</span></h2>
+      ${f0 ? `<div class="fy" id="fyCard" role="button" tabindex="0" aria-label="Open your list">
+        <div class="slide" id="fySlide">${fySlide(f0)}</div>
+        <div class="bot"><button class="ic" data-a="fydone" aria-label="Mark done" title="Done">${ICON.done}</button><span class="more">See all ${youAll}</span><span class="dots">${fy.map((_, i) => `<i class="${i === S.fyI % fy.length ? "on" : ""}"></i>`).join("")}</span></div>
+      </div>` : `<p class="empty">Nothing on your list. Raise a flag and pick For me, or tell Siri.</p>`}
+    </section>
+    ${tonightBox()}
+    <button class="mini" data-go="all"><span>${FLAGI}</span><span><b>All flags</b> · everything for Claude, for you, and done</span><span class="go">${ICON.chev}</span></button>
+  </div>`;
+}
+function fySlide(f) {
+  return `<span class="tag proj" style="${pc(f.project)};align-self:flex-start">${esc(f.project)}</span><div class="t">${f.priority ? "⚡ " : ""}${esc(f.text)}</div>${/notes\//.test(f.note || "") ? `<div class="helper">✦ Claude did a piece of this</div>` : ""}`;
+}
+let fyTimer = null;
+function startFy() {
+  clearInterval(fyTimer);
+  fyTimer = setInterval(() => {
+    const card = $("#fyCard"), fy = fyList(); if (!card || fy.length < 2 || card.matches(":hover") || document.hidden) return;
+    const sl = $("#fySlide"); sl.classList.add("hide");
+    setTimeout(() => { S.fyI = (S.fyI + 1) % fy.length; sl.innerHTML = fySlide(fy[S.fyI]); card.querySelectorAll(".dots i").forEach((d, i) => d.classList.toggle("on", i === S.fyI)); sl.classList.remove("hide"); }, 600);
+  }, 6500);
+}
+
+/* ================= ALL FLAGS ================= */
+function allView() {
+  const review = location.hash === "#all/review";
+  const stale = S.flags.filter(isStale).sort((a, b) => touched(a).localeCompare(touched(b)));
+  const tab = S.allTab;
+  const base = tab === "done" ? [...S.flags, ...S.arch.flags].filter(f => !isOpen(f)) : S.flags.filter(f => isOpen(f) && !isStale(f) && tabOf(f) === tab);
+  const labs = [...new Set(base.map(f => f.project))];
+  if (!labs.includes(S.allApp)) S.allApp = "all";
+  const list = base.filter(f => S.allApp === "all" || f.project === S.allApp)
+    .sort((a, b) => tab === "done" ? (b.resolvedAt || "").localeCompare(a.resolvedAt || "") : (b.priority ? 1 : 0) - (a.priority ? 1 : 0) || (b.created || "").localeCompare(a.created || ""));
+  const cnt = k => S.flags.filter(f => isOpen(f) && !isStale(f) && tabOf(f) === k).length;
+  const props = [...S.props, ...S.arch.proposals].filter(p => p.status === "shipped" || p.status === "denied").sort((a, b) => (b.shippedAt || b.decidedAt || b.created || "").localeCompare(a.shippedAt || a.decidedAt || a.created || "")).slice(0, 30);
+  return `<div class="view">
+    <button class="back" data-go="">${ICON.back}Home</button>
+    <div class="vhead"><h1>All flags</h1></div>
+    ${stale.length ? `<section class="review" ${review ? 'style="border-color:var(--warn)"' : ""}><details ${review ? "open" : ""}><summary style="color:var(--ink);font-weight:600">Still need these? <span style="font:500 12px var(--fm);color:var(--warn)">${stale.length}</span></summary>
+      <p class="note" style="margin:8px 0">These have sat untouched a while. Keep one and pick when it checks in next.</p>
+      <div class="list">${stale.map(f => flagRow(f, { review: true })).join("")}</div></details></section>` : ""}
+    <div class="seg4" role="group" aria-label="Show">${[["claude", "Claude", cnt("claude")], ["you", "Me", cnt("you")], ["idea", "Ideas", cnt("idea")], ["done", "Done", ""]].map(([k, t, n]) => `<button data-at="${k}" aria-pressed="${tab === k}">${t}${n !== "" ? ` <span class="wn">${n}</span>` : ""}</button>`).join("")}</div>
+    ${labs.length > 1 ? `<div class="filters">${["all", ...labs].map(p => p === "all" ? `<button class="chip" data-af="all" aria-pressed="${S.allApp === "all"}">All</button>` : `<button class="chip" style="${pc(p)}" data-af="${esc(p)}" aria-pressed="${S.allApp === p}"><i class="pd"></i>${esc(p)}</button>`).join("")}</div>` : ""}
+    <section><div class="list" id="flags">${list.length ? list.slice(0, tab === "done" ? 40 : 999).map(f => flagRow(f, { done: tab === "done" })).join("") : `<p class="empty">Nothing here.</p>`}</div>
+      ${tab === "done" ? `<details id="archBox"><summary>Proposals: merged or denied</summary><div style="margin-top:6px">${props.map(p => `<div class="arow"><span class="state ${p.status === "shipped" ? "shipped" : "denied"}">${p.status === "shipped" ? "Merged" : "Denied"}</span><span class="at">${p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${esc(p.title)}</a>` : esc(p.title)}</span></div>`).join("")}</div></details>` : ""}
+    </section>
+  </div>`;
+}
+
+/* ================= APPS ================= */
+function counts(a) {
+  const own = x => inApp(a, x.project);
+  return { need: S.props.filter(p => p.status === "waiting" && own(p)).length, sug: S.concepts.filter(c => c.status === "open" && own(c)).length,
+    open: S.flags.filter(f => f.status === "open" && own(f)).length };
+}
+function tile(a) {
+  const c = counts(a), n = c.need + c.sug;
+  return `<button class="app ${a.state || "on"} ${a.space ? "space" : ""}" data-go="app/${esc(a.id)}" aria-label="${esc(a.name)}">
+    <span class="wrapi"><span class="ico">${appIcon(a)}</span>${n ? `<span class="badge" style="${c.need ? "background:var(--warn);color:#2a1d00" : "background:var(--clIdea);color:#2a1300"}">${n}</span>` : ""}</span><span class="nm">${esc(a.name)}</span></button>`;
+}
+function appsView() {
+  const lane = S.appLane, all = everyApp();
+  const inL = a => (a.lane === "pc" ? "pc" : "cloud") === lane;
+  const apps = all.filter(a => !a.space && inL(a)), sp = all.filter(a => a.space && inL(a));
+  const n = l => all.filter(a => (a.lane === "pc" ? "pc" : "cloud") === l && !a.space).length;
+  return `<div class="view">
+    <button class="back" data-go="">${ICON.back}Home</button>
+    <div class="lanepick" role="group" aria-label="Where it runs">
+      <button data-al="cloud" aria-pressed="${lane === "cloud"}">${ICON.cloud}Cloud<small>${n("cloud")} apps · runs every night</small></button>
+      <button data-al="pc" aria-pressed="${lane === "pc"}">${ICON.pc}PC<small>${n("pc")} apps · runs on your PC</small></button>
+    </div>
+    <section><div class="lib">${apps.map(tile).join("") || '<p class="empty">No apps here yet.</p>'}</div>
+      ${sp.length ? `<div class="lgroup">Other spaces</div><div class="lib">${sp.map(tile).join("")}</div>` : ""}
+      <p class="note">Orange ring: Focus, worked on first. Greyed out: Paused, skipped. Tap an app to change it.</p></section>
+    ${siriBox()}
+    <section class="setup"><h2><span class="ht"><i class="hd" style="--c:var(--clIdea)"></i>Share sheet</span></h2>
+      <p class="note">Screenshot, draw on it, share it to "Flag this", and the Hub opens so you can make a new flag or add it to one.</p>
+      <details><summary>Set up "Flag this" on your iPhone</summary>${SHARE_STEPS}</details></section>
+    <section><details><summary>Labels and colors</summary><div id="labs" class="list" style="gap:8px;margin-top:10px">${labelRows()}</div>
+      <div class="row" style="margin-top:8px"><input type="text" id="newLab" placeholder="New label" maxlength="40"><button class="btn sm" id="addLab">Add</button></div></details></section>
+  </div>`;
+}
+function labelRows() {
+  const n = {}; S.flags.filter(isOpen).forEach(f => n[f.project] = (n[f.project] || 0) + 1);
+  return S.projects.map(p => { const sure = S.labSure === p;
+    return `<div class="lab" data-lab="${esc(p)}"><input type="color" value="${colorOf(p)}" aria-label="Color for ${esc(p)}"><input type="text" value="${esc(p)}" maxlength="40" aria-label="Name"><span class="ln" title="open flags">${n[p] || 0}</span>${p === "Unsorted" ? `<span class="ic" style="visibility:hidden"></span>` : `<button class="ic ${sure ? "sure" : ""}" data-lab-del aria-label="${sure ? "Tap again to delete" : "Delete label"}">${ICON.del}</button>`}</div>`; }).join("");
+}
+
+/* ================= APP PAGE ================= */
+function somedayCard(f) {
+  if (isConcept(f)) {
+    const editing = S.sEdit === f.id, note = S.sNotes[f.id] || "";
+    const helps = f.helps && S.flags.find(x => x.id === f.helps);
+    return `<div class="sd cl" data-cid="${f.id}"><span class="sdwho">Claude's idea${f.size ? ` · ${{ S: "small", M: "medium", L: "large" }[f.size] || ""}` : ""}${f.cost ? ` · ${esc(f.cost)}` : ""}</span>
+      ${editing ? `<textarea class="stext" maxlength="1500" aria-label="Edit the idea">${esc(f.text + (f.detail ? "\n\n" + f.detail : ""))}</textarea><div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="scancel">Cancel</button><button class="btn sm plant" data-a="ssave">Save</button></div>`
+        : `<p class="pitch"><span>${esc(f.text)}</span><button class="pen" data-a="sedit" aria-label="Edit this idea">${ICON.pen}</button></p>${f.detail ? `<p class="why" style="color:var(--ink2)">${esc(f.detail)}</p>` : ""}`}
+      ${helps ? `<p class="why"><b>Helps with:</b> ${esc(helps.text.length > 90 ? helps.text.slice(0, 88) + "…" : helps.text)}</p>` : ""}
+      ${f.why ? `<p class="why"><b>Why:</b> ${esc(f.why)}</p>` : ""}
+      ${f.mockup ? `<div class="row"><button class="ic pics2" data-a="smock">${ICON.pic} Mockup</button></div>` : ""}
+      <textarea class="snote" data-snote="${f.id}" placeholder="Your notes (optional)" maxlength="1500">${esc(note)}</textarea>
+      <div class="yn"><button class="no" data-a="sdeny">${ICON.no}<span>Not for me</span></button><button class="yes" data-a="plant">${ICON.yes}<span>${note.trim() ? "Plant with notes" : "Plant it"}</span></button></div></div>`;
+  }
+  const editing = S.editing === f.id;
+  return `<div class="sd" data-id="${f.id}"><span class="sdwho">Your idea · ${ago(f.created)}</span>${editing ? editor(f) : `<div class="txt">${esc(f.text)}</div>
+    <div class="row" style="justify-content:flex-end;gap:6px"><button class="ic" data-a="edit" aria-label="Edit">${ICON.pen}</button><button class="ic" data-a="swap" aria-label="Hand to Claude" title="Hand to Claude">${ICON.swap}</button><button class="ic" data-a="done" aria-label="Done">${ICON.done}</button><button class="ic ${S.sure === f.id ? "sure" : ""}" data-a="del" aria-label="Delete">${ICON.del}</button></div>`}${f.note ? `<div class="cnote"><b>Claude:</b> ${esc(f.note)}</div>` : ""}</div>`;
+}
+function appView(id) {
+  const a = appById(id); if (!a) return `<div class="view"><button class="back" data-go="apps">${ICON.back}Apps</button><p class="empty">That app isn't here anymore.</p></div>`;
+  const own = x => inApp(a, x.project), st = a.state || "on", v = a.vision || {}, ve = S.vEdit === a.id;
+  const wait = S.props.filter(p => p.status === "waiting" && own(p));
+  const work = S.flags.filter(f => isOpen(f) && tabOf(f) === "claude" && own(f)).sort((x, y) => (y.priority ? 1 : 0) - (x.priority ? 1 : 0));
+  const theirs = S.props.filter(p => claudeTurn(p) && own(p));
+  const mine = S.flags.filter(f => isOpen(f) && isMine(f) && own(f));
+  const ideas = [...S.concepts.filter(c => c.status === "open" && own(c)), ...S.flags.filter(f => isOpen(f) && isIdea(f) && own(f))];
+  const shipped = [...S.props.filter(p => p.status === "shipped" && own(p)).map(p => ({ t: p.title, at: p.shippedAt || p.decidedAt || p.created })),
+    ...S.flags.filter(f => f.status === "done" && tabOf(f) === "claude" && own(f)).map(f => ({ t: f.text, at: f.resolvedAt }))].sort((x, y) => (y.at || "").localeCompare(x.at || "")).slice(0, 5);
+  const list = arr => (arr || []).filter(Boolean);
+  return `<div class="view" data-appd="${esc(a.id)}">
+    <button class="back" data-go="apps">${ICON.back}Apps</button>
+    <div class="ahead"><span class="app ${st}" style="pointer-events:none"><span class="ico">${appIcon(a)}</span></span><div><h1>${esc(a.name)}</h1><div class="sub">${a.lane === "pc" ? "PC run" : "Cloud run"}${a.space ? " · no code for Claude to change" : ""}</div></div></div>
+    ${a.space ? "" : `<div class="seg3" role="group" aria-label="Night shift for ${esc(a.name)}">
+      <button data-st="off" aria-pressed="${st === "off"}">Paused<small>Skip it</small></button><button data-st="on" aria-pressed="${st === "on"}">On<small>Normal</small></button><button data-st="focus" aria-pressed="${st === "focus"}">Focus<small>Look here first</small></button></div>`}
+    ${a.space ? "" : `<section class="vis"><details ${ve ? "open" : ""}><summary>North star${v.for ? `: <span style="color:var(--ink2)">${esc(v.for.length > 70 ? v.for.slice(0, 68) + "…" : v.for)}</span>` : ""}</summary><div style="margin-top:10px">
+      ${ve ? `<h4>What it's for</h4><textarea data-v="for" maxlength="600">${esc(v.for || "")}</textarea><h4>Never (one per line)</h4><textarea data-v="never" maxlength="1200">${esc(list(v.never).join("\n"))}</textarea><h4>Right now (one per line)</h4><textarea data-v="now" maxlength="1200">${esc(list(v.now).join("\n"))}</textarea>
+        <div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="vcancel">Cancel</button><button class="btn sm" data-a="vsave">Save</button></div>`
+      : `<h4>What it's for</h4><p>${esc(v.for || "Not written yet.")}</p>${list(v.never).length ? `<h4>Never</h4><ul>${list(v.never).map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}${list(v.now).length ? `<h4>Right now</h4><ul>${list(v.now).map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+        <div class="row" style="justify-content:space-between"><span class="note">${(a.denied || []).length ? `${a.denied.length} turned-down idea${a.denied.length > 1 ? "s" : ""} won't come back.` : ""}</span><button class="btn sm ghost" data-a="vedit">${ICON.pen} Edit</button></div>`}
+      </div></details>
+      <div class="links" style="display:flex;gap:14px;font-size:13px">${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener" style="color:var(--ink2)">Open the app</a>` : ""}${a.repo ? `<a href="https://github.com/${esc(a.repo)}" target="_blank" rel="noopener" style="color:var(--ink2)">Code on GitHub</a>` : ""}${a.roadmap ? `<a href="${esc(a.roadmap)}" target="_blank" rel="noopener" style="color:var(--ink2)">Roadmap</a>` : ""}</div></section>`}
+    ${wait.length ? `<section><h2><span class="ht"><i class="hd" style="--c:var(--warn)"></i>Needs you</span><span class="n">${wait.length}</span></h2>${wait.map(needCard).join("")}</section>` : ""}
+    <section><h2><span class="ht"><i class="hd" style="--c:var(--flag)"></i>Claude's working on</span><span class="n">${work.length + theirs.length || ""}</span></h2>
+      <div class="list">${work.map(f => flagRow(f, { noLabel: labelsOf(a).length === 1 })).join("")}${theirs.map(claudeCard).join("")}</div>${work.length + theirs.length ? "" : `<p class="empty">Nothing right now.</p>`}</section>
+    <section><h2><span class="ht"><i class="hd" style="--c:var(--teal)"></i>Your list</span><span class="n">${mine.length || ""}</span></h2>
+      <div class="list">${mine.map(f => flagRow(f, { noLabel: labelsOf(a).length === 1 })).join("")}</div>${mine.length ? "" : `<p class="empty">Nothing on your list here.</p>`}</section>
+    <section><h2><span class="ht"><i class="hd" style="--c:var(--mineIdea)"></i>Someday</span><span class="n">${ideas.length || ""}</span></h2>
+      <p class="note"><span style="color:var(--mineIdea)">Blue</span> ideas are yours. <span style="color:var(--clIdea)">Orange</span> ones are Claude's: plant one and it becomes a real flag, or turn it down for good.</p>
+      <div class="someday">${ideas.map(somedayCard).join("") || '<p class="empty">No ideas yet.</p>'}</div></section>
+    ${shipped.length ? `<section><h2><span class="ht"><i class="hd" style="--c:var(--okc)"></i>Shipped lately</span></h2><div>${shipped.map(s => `<div class="ship"><i>✓</i><span>${esc(s.t)}</span><span class="note" style="margin-left:auto;flex:none">${ago(s.at)}</span></div>`).join("")}</div></section>` : ""}
+    <button class="addbtn" data-raise="${esc(labelsOf(a)[0])}">+ Raise a flag for ${esc(a.name)}</button>
+  </div>`;
+}
+
+/* ================= render ================= */
+function render() {
+  const ae = document.activeElement;
+  if (ae && ae.tagName === "TEXTAREA" && ae.closest("#view")) return; /* never wipe typing */
+  const r = route();
+  $("#view").innerHTML = r.v === "apps" ? appsView() : r.v === "app" ? appView(r.id) : r.v === "all" ? allView() : homeView();
+  $("#appsBtn").hidden = r.v !== "home";
+  const n = S.concepts.filter(c => c.status === "open").length;
+  $("#appsBadge").hidden = !n; $("#appsBadge").textContent = n;
+  if (r.v === "home") startFy(); else clearInterval(fyTimer);
+  if (r.v === "all" || r.v === "app") loadArchive();
+  wireLabels();
+}
+
+/* ================= saving ================= */
+async function save(fn, msg) {
+  if (!store.token()) { showConnect("Connect this device to save changes."); return false; }
+  busy = true;
+  try { const d = await store.change("data/flags.json", fn, msg); apply(d); return true; }
+  catch (e) { if (e.code === "token") showConnect("That key didn't work. Make a new one below."); else $("#syncNote").textContent = "Didn't save. Try again."; return false; }
+  finally { busy = false; }
+}
+async function saveApps(fn, msg) {
+  if (!store.token()) { showConnect("Connect this device to save changes."); return false; }
+  try { const d = await store.change("data/apps.json", fn, msg); S.apps = d.apps || []; render(); return true; }
+  catch (e) { $("#syncNote").textContent = "Didn't save. Try again."; return false; }
+}
+async function setMode(m) {
+  if (m === S.mode) return;
+  if (!store.token()) { showConnect("Connect this device to change the night shift."); return; }
+  const prev = S.mode; S.mode = m; render(); const ms = () => $("#modeSaved"); if (ms()) ms().textContent = "Saving…";
+  try {
+    await store.change("status.json", st => { st.mode = m; st.openFlags = S.flags.filter(f => f.status === "open").length; st.waiting = S.props.filter(p => p.status === "waiting").length; st.updated = new Date().toISOString(); }, "Night shift mode: " + m);
+    if (ms()) ms().textContent = "Saved";
+  } catch (e) { S.mode = prev; render(); if (ms()) ms().textContent = "Didn't save. Try again."; }
+}
+async function loadArchive() {
+  if (S.arch.loaded) return; S.arch.loaded = true;
+  try { const { data } = await store.read("data/archive.json"); S.arch.flags = (data.flags || []).map(f => ({ ...f, _arch: 1 })); S.arch.proposals = (data.proposals || []).map(p => ({ ...p, _arch: 1 })); render(); } catch (e) {}
+}
+
+/* ================= clicks ================= */
+document.addEventListener("click", async e => {
+  const t = e.target;
+  const g = t.closest("[data-go]"); if (g) { e.preventDefault(); go(g.dataset.go); return; }
+  if (t.closest("#appsBtn")) { go("apps"); return; }
+  const rz = t.closest("[data-raise]"); if (rz) { openRaise(rz.dataset.raise); return; }
+  const m = t.closest(".mode"); if (m) return setMode(m.dataset.m);
+  const al = t.closest("[data-al]"); if (al) { S.appLane = al.dataset.al; try { localStorage.setItem("fh.appLane", S.appLane); } catch (e) {} render(); return; }
+  const at = t.closest("[data-at]"); if (at) { S.allTab = at.dataset.at; S.allApp = "all"; render(); return; }
+  const af = t.closest("[data-af]"); if (af) { S.allApp = af.dataset.af; render(); return; }
+  const sb = t.closest(".seg3 [data-st]"); if (sb) { setAppState(sb.closest("[data-appd]").dataset.appd, sb.dataset.st); return; }
+  const fy = t.closest("#fyCard");
+  if (fy && !t.closest("[data-a]")) { S.allTab = "you"; go("all"); return; }
+  const b = t.closest("[data-a]"); if (!b) return;
+  const a = b.dataset.a, now = new Date().toISOString();
+  /* proposals */
+  const pr = b.closest("[data-pid]");
+  if (pr) return propAction(a, pr.dataset.pid, b, now);
+  /* concepts (Claude's ideas) */
+  const cr = b.closest("[data-cid]");
+  if (cr) return conceptAction(a, cr.dataset.cid, b, now);
+  /* tonight skip */
+  if (a === "skip" || a === "unskip") { const id = b.closest("[data-id]").dataset.id; b.disabled = true;
+    await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; if (a === "skip") f.skipUntil = new Date(Date.now() + 24 * 3600e3).toISOString(); else delete f.skipUntil; }, a === "skip" ? "Skip tonight" : "Unskip"); return; }
+  if (a === "fydone") { const f = fyList()[S.fyI % Math.max(1, fyList().length)]; if (f) { S.fyI = 0; save(d => { const x = (d.flags || []).find(y => y.id === f.id); if (x) { x.status = "done"; x.resolvedAt = now; x.resolution = "marked done by you"; } }, "Flag done"); } return; }
+  /* north star */
+  if (a === "vedit") { S.vEdit = b.closest("[data-appd]").dataset.appd; render(); return; }
+  if (a === "vcancel") { S.vEdit = null; b.blur(); render(); return; }
+  if (a === "vsave") { const id = b.closest("[data-appd]").dataset.appd, box = b.closest(".vis"), val = k => box.querySelector(`[data-v="${k}"]`).value, lines = k => val(k).split("\n").map(x => x.trim()).filter(Boolean);
+    const nv = { for: val("for").trim(), never: lines("never"), now: lines("now") }; b.disabled = true; document.activeElement.blur();
+    if (await saveApps(d => { const x = (d.apps || []).find(y => y.id === id); if (x) x.vision = nv; }, "North star: " + id)) { S.vEdit = null; render(); } else b.disabled = false; return; }
+  if (a === "sdel") return;
+  /* siri */
+  if (a === "siridel") { const name = b.closest("[data-siri]").dataset.siri, s = S.siri.find(x => x.name === name); if (s) { await delSiri(s); S.siri = S.siri.filter(x => x !== s); render(); } return; }
+  /* flags */
+  const row = b.closest("[data-id]"); const id = row && row.dataset.id; if (!id) return;
+  const edit = fn => d => { const it = (d.flags || []).find(x => x.id === id); if (it) fn(it, d); };
+  const f = S.flags.find(x => x.id === id) || {};
+  if (a === "pri") save(edit(f => { if (f.priority) delete f.priority; else f.priority = true; f.reviewedAt = now; }), "Flag priority");
+  else if (a === "fshots") openShots({ title: f.text, images: f.images }, 0);
+  else if (a === "keepask") { S.keeping = S.keeping === id ? null : id; render(); }
+  else if (a === "keep") { const dd = +b.dataset.days || NEXT_REVIEW; S.keeping = null; save(edit(f => { f.reviewedAt = now; f.reviewEvery = dd; }), "Flag kept"); }
+  else if (a === "edit") { S.editing = id; S.draft = { text: f.text, project: f.project, who: tabOf(f), lane: laneOf(f) === "pc" ? "pc" : "cloud" }; render(); const ta = document.querySelector(`[data-id="${id}"] .ftext`); if (ta) { ta.style.height = Math.min(ta.scrollHeight + 4, 360) + "px"; ta.focus(); } }
+  else if (a === "ewho") { S.draft.who = b.dataset.k; S.draft.text = row.querySelector(".ftext").value; b.blur(); render(); }
+  else if (a === "elane") { S.draft.lane = b.dataset.k; b.parentElement.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b)); }
+  else if (a === "ecancel") { S.editing = null; S.draft = null; b.blur(); render(); }
+  else if (a === "esave") {
+    const d = S.draft; d.text = row.querySelector(".ftext").value; const text = d.text.trim(); if (!text) return;
+    b.disabled = true; b.textContent = "Saving…";
+    const ok = await save(edit(f => { f.text = text; f.project = d.project; f.editedAt = now; f.reviewedAt = now;
+      if (d.who === "idea" || d.lane === workLane(d.project)) delete f.lane; else f.lane = d.lane;
+      if (d.who !== tabOf(f)) { f.kind = d.who === "claude" ? "fix" : d.who; delete f.prevKind; } }), "Flag edited");
+    if (ok) { S.editing = null; S.draft = null; document.activeElement.blur(); render(); } else { b.disabled = false; b.textContent = "Save"; }
+  }
+  else if (a === "swap" && isIdea(f)) save(edit(f => { f.kind = "fix"; f.reviewedAt = now; }), "Idea handed to Claude");
+  else if (a === "swap") save(edit(f => { if (f.kind === "you") { f.kind = f.prevKind || "fix"; delete f.prevKind; } else { f.prevKind = f.kind; f.kind = "you"; } f.reviewedAt = now; }), "Flag moved");
+  else if (a === "done") save(edit(f => { f.status = "done"; f.resolvedAt = now; f.resolution = "marked done by you"; }), "Flag done");
+  else if (a === "reopen") save(edit(f => { f.status = "open"; delete f.resolvedAt; delete f.resolution; }), "Flag reopened");
+  else if (a === "del") {
+    if (S.sure !== id) { S.sure = id; render(); setTimeout(() => { if (S.sure === id) { S.sure = null; render(); } }, 3000); return; }
+    S.sure = null; save(d => { d.flags = (d.flags || []).filter(x => x.id !== id); }, "Flag deleted");
+  }
+});
+async function propAction(a, id, b, now) {
+  const p = S.props.find(x => x.id === id) || {};
+  const edit = fn => d => { const it = (d.proposals || []).find(x => x.id === id); if (it) fn(it, d); };
+  if (a === "shots") return openShots(p);
+  if (a === "note") { S.noteOpen[id] = !S.noteOpen[id] || !!(S.notes[id] || "").trim(); render(); const ta = document.querySelector(`[data-note="${id}"]`); if (ta) ta.focus(); return; }
+  if (a === "undo") { const ok = await save(edit(p => { if (!CAN_UNDO.includes(p.status)) return; (p.history = p.history || []).push({ at: now, status: "reopened", from: p.status }); p.status = "waiting"; delete p.feedback; delete p.decidedAt; }), "Proposal reopened"); if (ok && p.feedback) { S.notes[id] = p.feedback; render(); } return; }
+  if (["approve", "deny", "denyforgood"].includes(a)) {
+    const note = (S.notes[id] || "").trim();
+    const status = a === "approve" ? "approved" : a === "denyforgood" ? "denied" : note ? "redo" : "denied";
+    const card = b.closest(".need"); card && card.classList.add("leaving");
+    const ok = await save(edit(p => { p.status = status; p.decidedAt = now; if (note) { p.feedback = note; (p.history = p.history || []).push({ at: now, status, feedback: note }); } }), { approved: "Proposal approved", redo: "Proposal sent back with notes", denied: "Proposal denied" }[status]);
+    if (ok) { delete S.notes[id]; delete S.noteOpen[id]; render(); } else card && card.classList.remove("leaving");
+  }
+}
+async function conceptAction(a, id, b, now) {
+  const c = S.concepts.find(x => x.id === id); if (!c) return;
+  const note = (S.sNotes[id] || "").trim(), card = b.closest(".sd");
+  if (a === "sedit") { S.sEdit = id; render(); const ta = document.querySelector(`[data-cid="${id}"] .stext`); if (ta) { ta.style.height = Math.min(ta.scrollHeight + 4, 320) + "px"; ta.focus(); } return; }
+  if (a === "scancel") { S.sEdit = null; b.blur(); render(); return; }
+  if (a === "smock") { if (/\.(png|jpe?g|webp|gif|svg)$/i.test(c.mockup)) openShots({ title: c.text, images: [c.mockup] }, 0); else window.open(c.mockup, "_blank"); return; }
+  if (a === "ssave") { const v = (card.querySelector(".stext").value || "").trim(); if (!v) return; const [first, ...rest] = v.split(/\n\s*\n/);
+    document.activeElement.blur(); if (await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; f.text = first.trim(); const det = rest.join("\n\n").trim(); if (det) f.detail = det; else delete f.detail; f.editedAt = now; }, "Idea edited")) { S.sEdit = null; render(); } return; }
+  if (a === "plant") { card.classList.add("leaving");
+    const ok = await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return;
+      f.concept = { pitch: f.text, detail: f.detail, size: f.size, cost: f.cost, why: f.why, mockup: f.mockup, helps: f.helps, created: f.created };
+      if (f.detail) f.text += "\n\n" + f.detail; if (note) f.text += "\n\nMy notes: " + note;
+      ["detail", "size", "cost", "why", "mockup"].forEach(k => delete f[k]);
+      f.kind = "fix"; f.status = "open"; f.source = "concept"; f.plantedAt = now; f.created = now; f.reviewedAt = now; }, "Idea planted: " + c.project);
+    if (ok) { delete S.sNotes[id]; render(); } else card.classList.remove("leaving"); return; }
+  if (a === "sdeny") { card.classList.add("leaving");
+    const ok = await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; f.status = "denied"; f.deniedAt = now; if (note) f.denyNote = note; }, "Idea turned down");
+    if (ok) { delete S.sNotes[id]; const ap = appOf(c.project);
+      if (ap) saveApps(d => { const x = (d.apps || []).find(y => y.id === ap.id); if (!x) return; x.denied = (x.denied || []).filter(y => y.id !== id); x.denied.push({ id, text: c.text, note: note || undefined, at: now }); }, "Remember turned-down idea: " + ap.name);
+      else render(); } else card.classList.remove("leaving"); }
+}
+async function setAppState(id, st) {
+  const a = S.apps.find(x => x.id === id); if (!a || (a.state || "on") === st) return;
+  const prev = a.state; a.state = st; render();
+  const ok = await saveApps(d => { const x = (d.apps || []).find(y => y.id === id); if (x) x.state = st; }, `${a.name}: ${{ on: "on", off: "paused", focus: "focus" }[st]}`);
+  if (!ok) { a.state = prev; render(); }
+}
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset && t.dataset.note) { S.notes[t.dataset.note] = t.value; const card = t.closest(".need"), has = !!t.value.trim();
+    card.querySelector('[data-a="approve"] span').textContent = has ? "Yes, with notes" : "Yes"; card.querySelector('[data-a="deny"] span').textContent = has ? "Redo with notes" : "Nope";
+    let fg = card.querySelector(".forgood"); if (has && !fg) card.insertAdjacentHTML("beforeend", `<button class="forgood" data-a="denyforgood">Or deny it for good</button>`); else if (!has && fg) fg.remove(); return; }
+  if (t.dataset && t.dataset.snote) { S.sNotes[t.dataset.snote] = t.value; t.closest(".sd").querySelector('[data-a="plant"] span').textContent = t.value.trim() ? "Plant with notes" : "Plant it"; }
+});
+document.addEventListener("change", e => { if (e.target.classList.contains("fproj") && S.draft) S.draft.project = e.target.value; });
+/* re-render after typing ends, so a background sync that was skipped catches up */
+document.addEventListener("focusout", e => { if (e.target.tagName === "TEXTAREA" && e.target.closest("#view")) setTimeout(() => { const a = document.activeElement; if (!a || a.tagName !== "TEXTAREA") render(); }, 250); });
+
+/* ================= labels ================= */
+function wireLabels() {
+  const add = $("#addLab"); if (!add) return;
+  const addLabel = () => { const name = $("#newLab").value.trim(); if (!name || S.projects.includes(name)) return; $("#newLab").value = ""; save(d => { d.projects = d.projects || []; d.projects.push(name); }, "Add label: " + name); };
+  add.onclick = addLabel; $("#newLab").onkeydown = e => { if (e.key === "Enter") addLabel(); };
+  document.querySelectorAll("#labs [data-lab]").forEach(row => {
+    const name = row.dataset.lab;
+    row.querySelector('input[type=color]').onchange = e => { S.colors[name] = e.target.value; save(d => { d.colors = d.colors || {}; d.colors[name] = e.target.value; }, "Label color: " + name); };
+    const tx = row.querySelector('input[type=text]');
+    tx.onkeydown = e => { if (e.key === "Enter") tx.blur(); };
+    tx.onchange = () => { const nu = tx.value.trim(); if (!nu || nu === name) { tx.value = name; return; } const mv = p => p === name ? nu : p;
+      save(d => { d.projects = [...new Set((d.projects || []).map(mv))]; (d.flags || []).forEach(f => f.project = mv(f.project)); (d.proposals || []).forEach(p => p.project = mv(p.project));
+        if (d.lanes && d.lanes[name]) { d.lanes[nu] = d.lanes[name]; delete d.lanes[name]; } if (d.colors && d.colors[name]) { d.colors[nu] = d.colors[name]; delete d.colors[name]; } }, `Label renamed: ${name} to ${nu}`); };
+    const del = row.querySelector("[data-lab-del]"); if (del) del.onclick = () => {
+      if (S.labSure !== name) { S.labSure = name; render(); setTimeout(() => { if (S.labSure === name) { S.labSure = null; render(); } }, 3000); return; }
+      S.labSure = null; save(d => { (d.flags || []).forEach(f => { if (f.project === name) f.project = "Unsorted"; }); d.projects = (d.projects || []).filter(p => p !== name); if (!d.projects.includes("Unsorted")) d.projects.push("Unsorted"); }, "Label deleted: " + name); };
+  });
+}
+
+/* ================= raise: one box that sorts itself ================= */
 const norm = x => String(x || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 function parseSiri(raw) {
-  /* control words count at the start or end of what you said (or "this is for me" / "make it a priority"), so
-     "make the button easier for me" stays a Claude flag and "the priority list is broken" isn't marked priority */
   const LEAD = /^\s*(for claude|for me|for myself|remind me to|remind me|reminder|to ?do|idea|what if|someday|high priority|priority|urgent)\b[\s,.:;!-]*/i;
   let rest = raw.trim(), lead = [];
   for (let i = 0; i < 4; i++) { const m = rest.match(LEAD); if (!m) break; lead.push(m[1].toLowerCase()); if (!/^(what if|someday)$/i.test(m[1])) rest = rest.slice(m[0].length); else break; }
-  let tail = rest.match(/[\s,.;-]*\b(it'?s |this is |make it )?(a )?(high )?(priority|urgent|asap)[.!]?\s*$/i);
+  const tail = rest.match(/[\s,.;-]*\b(it'?s |this is |make it )?(a )?(high )?(priority|urgent|asap)[.!]?\s*$/i);
   if (tail) rest = rest.slice(0, tail.index);
-  const low = " " + raw.toLowerCase() + " ";
-  const has = re => lead.some(w => re.test(w));
+  const low = " " + raw.toLowerCase() + " ", has = re => lead.some(w => re.test(w));
   const kind = has(/^(for me|for myself|remind me|reminder|to ?do)/) || /\b(this is|this one'?s|it'?s) for me\b/.test(low) ? "you"
-    : has(/^for claude/) ? "fix"
-    : has(/^(idea|what if|someday)/) || /\b(an|new) idea\b/.test(low) ? "idea" : "fix";
+    : has(/^for claude/) ? "fix" : has(/^(idea|what if|someday)/) || /\b(an|new) idea\b/.test(low) ? "idea" : null;
   const priority = !!tail || has(/priority|urgent/) || /\b(make it|this is|it'?s) (a )?(high )?priority\b/.test(low);
-  const n = norm(raw); let best = null, bestLen = 0;
-  const names = [];
-  S.apps.forEach(a => [a.name, ...(a.labels || []), ...(a.say || [])].forEach(x => names.push([x, (a.labels || [a.name])[0]])));
+  const n = norm(raw), names = []; let best = null, bestLen = 0;
+  S.apps.forEach(a => [a.name, ...labelsOf(a), ...(a.say || [])].forEach(x => names.push([x, labelsOf(a)[0]])));
   S.projects.forEach(p => names.push([p, p]));
   Object.entries(S.otherSay || {}).forEach(([label, xs]) => xs.forEach(x => names.push([x, label])));
   names.forEach(([x, label]) => { const k = norm(x); if (k.length >= 3 && n.includes(k) && k.length > bestLen) { best = label; bestLen = k.length; } });
-  let project = best;
-  if (!project && kind === "idea") project = IDEA_HOME;
-  if (!project && kind === "you") project = "Unsorted";
   const ln = /\b(on (the|my) (pc|computer)|pc run)\b/.test(low) ? "pc" : null;
   let text = rest.replace(/\s{2,}/g, " ").replace(/^[\s,.:;-]+|[\s,;:-]+$/g, "");
   text = text ? text[0].toUpperCase() + text.slice(1) : raw;
-  return { project, kind, priority, lane: ln, text };
+  return { project: best, kind, priority, lane: ln, text, cleaned: lead.length > 0 || !!tail };
 }
+const WHO = [["claude", "For Claude"], ["you", "For me"], ["idea", "Idea"]];
+const SEND_TXT = { claude: "Raise flag", you: "Add for me", idea: "Add idea" };
+function renderRaise() {
+  $("#newWho").innerHTML = WHO.map(([k, t]) => `<button data-k="${k}" aria-pressed="${S.newWho === k}">${iconFor(k)}${t}</button>`).join("");
+  const used = {}; S.flags.forEach(f => { if ((f.created || "") > (used[f.project] || "")) used[f.project] = f.created; });
+  const order = [...S.projects].sort((a, b) => (b === S.pick) - (a === S.pick) || (used[b] || "").localeCompare(used[a] || ""));
+  $("#projChips").innerHTML = order.map(p => `<button class="chip ${S.guess === p && S.pick === p ? "guess" : ""}" style="${pc(p)}" aria-pressed="${S.pick === p}" data-p="${esc(p)}"><i class="pd"></i>${esc(p)}</button>`).join("") + `<button class="chip add" id="addChip">+ New</button>`;
+  $("#priTog").setAttribute("aria-pressed", S.pri);
+  const showPc = S.newWho !== "idea" && S.pick && workLane(S.pick) === "cloud";
+  $("#pcTog").hidden = !showPc; $("#pcTog").setAttribute("aria-pressed", S.pcRun && showPc);
+  $("#send").textContent = SEND_TXT[S.newWho];
+  $("#send").className = "btn" + (S.newWho === "you" ? " teal" : "");
+  $("#send").style.background = S.newWho === "idea" ? "var(--mineIdea)" : "";
+  $("#rfMark").style.setProperty("--c", S.newWho === "you" ? "var(--teal)" : S.newWho === "idea" ? "var(--mineIdea)" : "var(--flag)");
+  $("#sendNote").textContent = S.newWho === "you" ? "A reminder for you. Claude may offer to help with a piece of it." : S.newWho === "idea" ? "Goes in the app's Someday list." : "Small stuff gets fixed overnight. Big stuff comes back for a yes or no.";
+  $("#heardLbl").textContent = Object.keys(S.manual).length < 3 && $("#flagText").value.trim() ? "Heard it as (tap to change)" : "Who it's for";
+  const scroll = $("#projChips").querySelector('[aria-pressed="true"]'); if (scroll) scroll.scrollIntoView({ block: "nearest", inline: "nearest" });
+}
+function guessFromText() {
+  const v = $("#flagText").value; if (!v.trim()) return;
+  const p = parseSiri(v);
+  if (!S.manual.who && p.kind) S.newWho = p.kind === "fix" ? "claude" : p.kind;
+  if (!S.manual.pick && p.project) { S.pick = p.project; S.guess = p.project; }
+  if (!S.manual.pri) S.pri = p.priority;
+  if (!S.manual.pc && p.lane === "pc") S.pcRun = true;
+  renderRaise();
+}
+function openRaise(label) {
+  S.manual = {}; S.newWho = "claude"; S.pri = false; S.pcRun = false; S.guess = null; S.pick = label || null;
+  if (label) S.manual.pick = true;
+  $("#flagText").value = ""; $("#flagErr").textContent = "";
+  $("#rf .ht").lastChild.textContent = S.shot ? "Raise a flag with your screenshot" : "Raise a flag";
+  renderRaise(); $("#raiseSheet").hidden = false; setTimeout(() => $("#flagText").focus(), 60);
+}
+function closeRaise() { $("#raiseSheet").hidden = true; stopMic(); if (S.shot) { S.shot = null; history.replaceState(null, "", location.pathname + location.hash); } }
+async function sendFlag(extra) {
+  const raw = $("#flagText").value.trim(), err = $("#flagErr");
+  const k = S.newWho, project = S.pick || (k === "idea" ? IDEA_HOME : k === "you" ? "Unsorted" : "");
+  if (!project) { err.textContent = "Pick an app first."; return; }
+  if (!raw) { err.textContent = "Type what you noticed first."; $("#flagText").focus(); return; }
+  const p = parseSiri(raw), text = p.cleaned && p.text ? p.text : raw;
+  $("#send").disabled = true; $("#send").textContent = "Saving…";
+  const f = { id: "f" + Date.now().toString(36), project, text, kind: k === "claude" ? "fix" : k, status: "open", source: extra && extra.source || "hub", created: new Date().toISOString() };
+  if (S.pri) f.priority = true;
+  if (k !== "idea" && S.pcRun && workLane(project) === "cloud") f.lane = "pc";
+  if (extra && extra.images) f.images = extra.images;
+  const ok = await save(d => { d.flags = d.flags || []; d.flags.unshift(f); d.projects = d.projects || []; if (!d.projects.includes(project)) d.projects.push(project); }, (k === "idea" ? "Idea: " : "Flag: ") + project);
+  $("#send").disabled = false;
+  if (ok) { $("#send").textContent = "Saved"; setTimeout(closeRaise, 450); S.shot = null; }
+  else { $("#send").textContent = SEND_TXT[k]; if (store.token()) err.textContent = "That didn't save. Try again in a moment."; }
+}
+$("#raiseBtn").onclick = () => openRaise();
+$("#raiseX").onclick = closeRaise;
+$("#raiseSheet").addEventListener("click", e => { if (e.target.id === "raiseSheet") closeRaise(); });
+$("#newWho").addEventListener("click", e => { const b = e.target.closest("[data-k]"); if (!b) return; S.newWho = b.dataset.k; S.manual.who = true; renderRaise(); });
+$("#projChips").addEventListener("click", e => { const b = e.target.closest("[data-p]"); if (b) { S.pick = S.pick === b.dataset.p ? null : b.dataset.p; S.manual.pick = true; S.guess = null; $("#flagErr").textContent = ""; renderRaise(); return; }
+  if (e.target.closest("#addChip")) { const r = $("#newProjRow"); r.hidden = !r.hidden; if (!r.hidden) $("#newProj").focus(); } });
+$("#addProj").onclick = () => { const name = $("#newProj").value.trim(); if (!name) return; if (!S.projects.includes(name)) S.projects = [...S.projects, name]; S.pick = name; S.manual.pick = true; $("#newProj").value = ""; $("#newProjRow").hidden = true; renderRaise(); };
+$("#priTog").onclick = () => { S.pri = !S.pri; S.manual.pri = true; renderRaise(); };
+$("#pcTog").onclick = () => { S.pcRun = !S.pcRun; S.manual.pc = true; renderRaise(); };
+let guessT; $("#flagText").addEventListener("input", () => { $("#flagErr").textContent = ""; clearTimeout(guessT); guessT = setTimeout(guessFromText, 250); });
+$("#send").onclick = () => sendFlag(S.shot ? { images: [S.shot.path], source: "share" } : null);
+document.addEventListener("keydown", e => { if (e.key === "Escape") { if (!$("#raiseSheet").hidden) closeRaise(); if (!$("#shotSheet").hidden) closeShot(); } });
+/* talk: uses the browser's speech recognition when it has one (the keyboard mic always works too) */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition; let rec = null;
+if (SR) $("#mic").hidden = false;
+function stopMic() { if (rec) { try { rec.stop(); } catch (e) {} rec = null; $("#mic").classList.remove("on"); } }
+$("#mic").onclick = () => {
+  if (rec) return stopMic();
+  rec = new SR(); rec.lang = "en-US"; rec.interimResults = true; const base = $("#flagText").value ? $("#flagText").value + " " : "";
+  rec.onresult = e => { let s = ""; for (const r of e.results) s += r[0].transcript; $("#flagText").value = base + s; guessFromText(); };
+  rec.onend = () => { rec = null; $("#mic").classList.remove("on"); };
+  $("#mic").classList.add("on"); try { rec.start(); } catch (e) { stopMic(); }
+};
+
+/* ================= share sheet: ?shot=<file> opens this ================= */
+const API_C = "https://api.github.com/repos/Feirzen/flag-hub/contents/";
+const ghHead = () => ({ Authorization: "Bearer " + store.token(), Accept: "application/vnd.github+json" });
+async function openShot(name) {
+  if (!/^[\w.-]+\.(jpe?g|png|heic|webp)$/i.test(name)) return;
+  const path = "shots/" + name; S.shot = { path, name };
+  $("#shotSheet").hidden = false; $("#shotErr").textContent = "Loading the screenshot…";
+  setShotMode("new");
+  try { const r = await fetch(API_C + path + "?ref=main", { headers: { ...ghHead(), Accept: "application/vnd.github.raw" }, cache: "no-store" });
+    if (!r.ok) throw 0; $("#shotImg").src = URL.createObjectURL(await r.blob()); $("#shotErr").textContent = ""; }
+  catch (e) { $("#shotImg").removeAttribute("src"); $("#shotErr").textContent = store.token() ? "Couldn't load it yet. Close and try again in a few seconds." : "Connect this device first."; }
+}
+function setShotMode(m) {
+  document.querySelectorAll("#shotMode [data-sm]").forEach(b => b.setAttribute("aria-pressed", b.dataset.sm === m));
+  $("#shotNew").hidden = m !== "new"; $("#shotAttach").hidden = m !== "attach";
+  if (m === "new") { $("#shotNew").innerHTML = `<button class="btn" id="shotGo" style="width:100%">Write the flag</button>`; $("#shotGo").onclick = () => { $("#shotSheet").hidden = true; openRaise(); }; }
+  else drawPick();
+}
+function drawPick() {
+  const q = ($("#shotFind").value || "").toLowerCase();
+  const list = S.flags.filter(f => isOpen(f) && (!q || (f.text + " " + f.project).toLowerCase().includes(q))).slice(0, 40);
+  $("#shotPick").innerHTML = list.map(f => `<button data-pick="${f.id}"><small>${esc(f.project)}</small><span>${esc(f.text.length > 90 ? f.text.slice(0, 88) + "…" : f.text)}</span></button>`).join("") || '<p class="empty" style="padding:10px">No matches.</p>';
+}
+$("#shotMode").addEventListener("click", e => { const b = e.target.closest("[data-sm]"); if (b) setShotMode(b.dataset.sm); });
+$("#shotFind").addEventListener("input", drawPick);
+$("#shotPick").addEventListener("click", async e => { const b = e.target.closest("[data-pick]"); if (!b || !S.shot) return; b.disabled = true; b.style.opacity = .5;
+  const ok = await save(d => { const f = (d.flags || []).find(x => x.id === b.dataset.pick); if (f) { f.images = [...(f.images || []), S.shot.path]; f.reviewedAt = new Date().toISOString(); } }, "Screenshot added to a flag");
+  if (ok) { $("#shotErr").textContent = "Added."; setTimeout(closeShot, 500); } else b.disabled = false; });
+function closeShot() { $("#shotSheet").hidden = true; S.shot = null; history.replaceState(null, "", location.pathname + location.hash); }
+$("#shotX").onclick = closeShot;
+$("#shotSheet").addEventListener("click", e => { if (e.target.id === "shotSheet") closeShot(); });
+
+/* ================= Siri inbox ================= */
+const b64dec = b => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g, "")), c => c.charCodeAt(0)));
 async function pullSiri() {
   if (!store.token()) return;
   let files;
-  try { const r = await fetch(API_C + "data/siri?ref=main&t=" + Date.now(), { headers: ghHead(), cache: "no-store" }); if (!r.ok) { S.siri = []; renderSiri(); return; } files = (await r.json()).filter(f => f.type === "file" && /\.(txt|json)$/.test(f.name)); }
-  catch (e) { return; }
+  try { const r = await fetch(API_C + "data/siri?ref=main&t=" + Date.now(), { headers: ghHead(), cache: "no-store" }); if (!r.ok) return; files = (await r.json()).filter(f => f.type === "file" && /\.(txt|json)$/.test(f.name)); } catch (e) { return; }
   const got = [];
-  for (const f of files) {
-    try { const r = await fetch(API_C + f.path + "?ref=main", { headers: ghHead(), cache: "no-store" }); const j = await r.json(); let raw = b64dec(j.content).trim();
-      if (f.name.endsWith(".json")) { try { raw = JSON.parse(raw).text || raw; } catch (e) {} }
-      got.push({ name: f.name, path: f.path, sha: j.sha, raw, at: f.name.replace(/\.(txt|json)$/, "") }); } catch (e) {}
-  }
+  for (const f of files) { try { const r = await fetch(API_C + f.path + "?ref=main", { headers: ghHead(), cache: "no-store" }); const j = await r.json(); let raw = b64dec(j.content).trim();
+    if (f.name.endsWith(".json")) { try { raw = JSON.parse(raw).text || raw; } catch (e) {} } got.push({ name: f.name, path: f.path, sha: j.sha, raw, at: f.name.replace(/\.(txt|json)$/, "") }); } catch (e) {} }
   const sure = [], unsure = [];
-  got.forEach(g => { if (!g.raw) { sure.push({ ...g, empty: 1 }); return; } const p = parseSiri(g.raw); (p.project ? sure : unsure).push({ ...g, p }); });
+  got.forEach(g => { if (!g.raw) { sure.push({ ...g, empty: 1 }); return; } const p = parseSiri(g.raw); const kind = p.kind || "fix";
+    const project = p.project || (kind === "idea" ? IDEA_HOME : kind === "you" ? "Unsorted" : null); (project ? sure : unsure).push({ ...g, p: { ...p, kind, project } }); });
   if (sure.some(g => !g.empty)) {
     const now = new Date().toISOString();
     const ok = await save(d => { d.flags = d.flags || []; const have = new Set(d.flags.map(x => x.id));
@@ -991,271 +1191,55 @@ async function pullSiri() {
     if (!ok) return;
   }
   for (const g of sure) await delSiri(g);
-  S.siri = unsure; renderSiri();
+  S.siri = unsure; if (route().v === "apps") render();
 }
-async function delSiri(g) {
-  try { await fetch(API_C + g.path, { method: "DELETE", headers: { ...ghHead(), "Content-Type": "application/json" }, body: JSON.stringify({ message: "Siri inbox: sorted " + g.name, sha: g.sha, branch: "main" }) }); } catch (e) {}
-}
-function renderSiri() {
-  const L = $("#siriList"); if (!L) return;
-  $("#siriN").textContent = S.siri.length || "";
-  L.innerHTML = S.siri.length ? S.siri.map(g => `<div class="item" data-siri="${esc(g.name)}"><div class="txt heard">“${esc(g.raw)}”</div><div class="acts"><button class="ic" data-sa="del" aria-label="Delete">${ICON.del}</button></div><div class="meta"><span>Couldn't tell which app. The night shift will sort it.</span></div></div>`).join("")
-    : `<p class="empty">Empty. Everything you've said has been filed.</p>`;
-  $("#siriSteps").innerHTML = SIRI_STEPS;
+async function delSiri(g) { try { await fetch(API_C + g.path, { method: "DELETE", headers: { ...ghHead(), "Content-Type": "application/json" }, body: JSON.stringify({ message: "Siri inbox: sorted " + g.name, sha: g.sha, branch: "main" }) }); } catch (e) {} }
+function siriBox() {
+  return `<section class="setup"><h2><span class="ht"><i class="hd" style="--c:var(--clIdea)"></i>Siri inbox</span><span class="n">${S.siri.length || ""}</span></h2>
+    <p class="note">Say "Hey Siri, Plant a Flag," then talk. Clear notes get filed the moment the Hub opens. Anything it can't place waits here, and the night shift sorts it.</p>
+    ${S.siri.map(g => `<div class="item" data-siri="${esc(g.name)}"><div class="txt heard">“${esc(g.raw)}”</div><div class="acts"><button class="ic" data-a="siridel" aria-label="Delete">${ICON.del}</button></div><div class="meta"><span>Claude sorts it tonight</span></div></div>`).join("")}
+    <details><summary>Set up "Plant a Flag" on your iPhone</summary>${SIRI_STEPS}</details></section>`;
 }
 const SIRI_STEPS = `<ol>
-  <li>Open the <b>Shortcuts</b> app, tap <b>+</b>, and name it <b>Flag it</b>.</li>
+  <li>Open the <b>Shortcuts</b> app, tap <b>+</b>, and name it <b>Plant a Flag</b>.</li>
   <li>Add <b>Dictate Text</b>. Set Stop Listening to <b>After Pause</b>.</li>
   <li>Add <b>Base64 Encode</b> (input: Dictated Text). Tap the arrow on it and set <b>Line Breaks</b> to <b>None</b>.</li>
   <li>Add <b>Current Date</b>, then <b>Format Date</b>: Custom, <code>yyyyMMdd-HHmmss</code>.</li>
-  <li>Add <b>Get Contents of URL</b>. URL: <code>https://api.github.com/repos/Feirzen/flag-hub/contents/data/siri/[Formatted Date].txt</code> (tap the end of the URL and insert the Formatted Date variable).</li>
-  <li>Tap <b>Show More</b>. Method: <b>PUT</b>. Headers: <code>Authorization</code> = <code>Bearer</code> + a space + your Flag Hub key (the same github_pat key this Hub uses), and <code>Accept</code> = <code>application/vnd.github+json</code>.</li>
-  <li>Request Body: <b>JSON</b>. Add <code>message</code> (Text) = <code>Siri flag</code>, and <code>content</code> (Text) = the Base64 Encoded variable.</li>
-  <li>Last, add <b>Show Notification</b>: <code>Flagged</code>. Then just say <b>"Hey Siri, Flag it"</b>.</li>
-</ol><p class="note">Say it like: "For Claude, Study Decks, the pause button sticks. Priority." Or "For me, buy Wii remote batteries." Or "Idea, HomeBox could show a movie of the week."</p>`;
-document.addEventListener("click", async e => {
-  const b = e.target.closest("[data-sa]"); if (b) { const row = b.closest("[data-siri]"); const g = S.siri.find(x => x.name === row.dataset.siri); if (g) { row.style.opacity = .4; await delSiri(g); S.siri = S.siri.filter(x => x !== g); renderSiri(); } return; }
-  const t = e.target.closest("#tonight [data-a]"); if (!t) return;
-  const id = t.closest("[data-id]").dataset.id, until = new Date(Date.now() + 24 * 3600e3).toISOString();
-  t.disabled = true;
-  await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; if (t.dataset.a === "skip") f.skipUntil = until; else delete f.skipUntil; }, t.dataset.a === "skip" ? "Skip tonight" : "Unskip");
-  renderTonight();
-}, true);
+  <li>Add <b>Get Contents of URL</b>. URL: <code>https://api.github.com/repos/Feirzen/flag-hub/contents/data/siri/</code> then insert the <b>Formatted Date</b> variable, then type <code>.txt</code>.</li>
+  <li>Tap <b>Show More</b>. Method: <b>PUT</b>. Headers: <code>Authorization</code> = <code>Bearer</code>, a space, and your Flag Hub key (the github_pat key). Add <code>Accept</code> = <code>application/vnd.github+json</code>.</li>
+  <li>Request Body: <b>JSON</b>. Add <code>message</code> (Text) = <code>Siri flag</code>, and <code>content</code> (Text) = the <b>Base64 Encoded</b> variable.</li>
+  <li>Last, add <b>Show Notification</b>: <code>Flagged</code>. Now say <b>"Hey Siri, Plant a Flag"</b>.</li>
+</ol><p class="note">Say it like: "For Claude, Study Decks, the pause button sticks, priority." Or "For me, buy Wii remote batteries." Or "Idea, HomeBox could show a movie of the week."</p>`;
+const SHARE_STEPS = `<ol>
+  <li>In <b>Shortcuts</b>, tap <b>+</b> and name it <b>Flag this</b>. Tap the <b>i</b> (details) and turn on <b>Show in Share Sheet</b>. Set it to receive <b>Images</b>.</li>
+  <li>Add <b>Convert Image</b>: Shortcut Input to <b>JPEG</b>, quality about 70%.</li>
+  <li>Add <b>Resize Image</b>: width <code>1170</code> (keeps it small and quick).</li>
+  <li>Add <b>Base64 Encode</b>, Line Breaks: <b>None</b>.</li>
+  <li>Add <b>Current Date</b>, then <b>Format Date</b>: Custom, <code>yyyyMMdd-HHmmss</code>.</li>
+  <li>Add <b>Get Contents of URL</b>: <code>https://api.github.com/repos/Feirzen/flag-hub/contents/shots/</code> + <b>Formatted Date</b> + <code>.jpg</code>. Method <b>PUT</b>, the same two headers as "Plant a Flag", and a JSON body with <code>message</code> = <code>Shared screenshot</code> and <code>content</code> = <b>Base64 Encoded</b>.</li>
+  <li>Add <b>Open URLs</b>: <code>https://feirzen.github.io/flag-hub/?shot=</code> + <b>Formatted Date</b> + <code>.jpg</code>.</li>
+  <li>To use it: take a screenshot, tap it, draw on it, tap <b>Share</b>, pick <b>Flag this</b>.</li>
+</ol><p class="note">Heads up: flag-hub is a public repo, so anyone with the link could see shared screenshots. Don't share anything private this way.</p>`;
 
-/* ---------- actions ---------- */
-async function setMode(m) {
-  if (m === S.mode) return;
-  if (!store.token()) { showConnect("Connect this device to change the night shift."); return; }
-  const prev = S.mode; S.mode = m; renderMode(); $("#modeSaved").textContent = "Saving…";
-  try {
-    await store.change("status.json", st => { st.mode = m; st.openFlags = openCount(); st.waiting = S.props.filter(p => p.status === "waiting").length; st.updated = new Date().toISOString(); }, "Night shift mode: " + m);
-    $("#modeSaved").textContent = "Saved";
-  } catch (e) { S.mode = prev; renderMode(); $("#modeSaved").textContent = e.code === "token" ? "Key didn't work" : "Didn't save. Try again."; if (e.code === "token") showConnect("That key didn't work. Make a new one below."); }
-}
-function openCount() { return S.flags.filter(f => f.status === "open").length + S.appFlags.length; }
-async function save(fn, msg) {
-  if (!store.token()) { showConnect("Connect this device to save changes."); return false; }
-  busy = true;
-  try { const d = await store.change("data/flags.json", fn, msg); apply(d); return true; }
-  catch (e) { if (e.code === "token") showConnect("That key didn't work. Make a new one below."); else $("#syncNote").textContent = "Didn't save. Try again."; return false; }
-  finally { busy = false; }
-}
-async function sendFlag() {
-  const text = $("#flagText").value.trim(), err = $("#flagErr");
-  const k = S.newWho, you = k === "you";
-  const project = S.pick || (k === "idea" ? IDEA_HOME : "");
-  if (!project) { err.textContent = "Pick a label first."; return; }
-  if (!text) { err.textContent = "Type what you noticed first."; $("#flagText").focus(); return; }
-  $("#send").disabled = true; $("#send").textContent = "Saving…";
-  const f = { id: "f" + Date.now().toString(36), project, text, kind: k === "claude" ? "fix" : k, status: "open", source: "hub", created: new Date().toISOString() };
-  if ($("#flagPri").checked) f.priority = true;
-  if (k !== "idea" && S.newLane !== workLane(project)) f.lane = S.newLane;
-  const ok = await save(d => { d.flags = d.flags || []; d.flags.unshift(f); d.projects = d.projects || []; if (!d.projects.includes(project)) d.projects.push(project); }, (k === "idea" ? "Idea: " : "Flag: ") + project);
-  const label = SEND_TXT[k];
-  if (ok) { $("#flagText").value = ""; $("#flagPri").checked = false; err.textContent = ""; $("#send").textContent = k === "claude" ? "Raised" : "Added"; setTimeout(() => $("#send").textContent = SEND_TXT[S.newWho], 1400); const goLane = k === "idea" ? "idea" : S.newLane; if (k !== "idea") S.who = k; S.filter = "all"; setTimeout(closeRaise, 500); if (S.lane !== goLane) setLane(goLane); else renderAll(); }
-  else { $("#send").textContent = label; if (store.token()) err.textContent = "That flag didn't save. Try again in a moment."; }
-  $("#send").disabled = false;
-}
-async function addProject() {
-  const name = $("#newProj").value.trim();
-  if (!name) { $("#newProj").focus(); return; }
-  if (!S.projects.includes(name)) S.projects = [...S.projects, name];
-  const ln = S.newWho === "idea" ? "idea" : S.newLane; if (ln !== "cloud" && !S.lanes[name]) S.lanes[name] = ln;
-  S.pick = name; $("#newProj").value = ""; $("#newProjRow").hidden = true; renderChips();
-  save(d => { d.projects = d.projects || []; if (!d.projects.includes(name)) d.projects.push(name); if (ln !== "cloud") { d.lanes = d.lanes || {}; if (!d.lanes[name]) d.lanes[name] = ln; } }, "Add project: " + name);
-}
-/* the raise sheet opens from the flag button, set to whichever tab you're on */
-function openRaise() {
-  if (S.lane === "idea") S.newWho = "idea"; else { S.newLane = S.lane; if (S.newWho === "idea") S.newWho = "claude"; }
-  if (S.pick && !(labLane(S.pick) === (S.newWho === "idea" ? "idea" : S.newLane))) S.pick = null;
-  renderWho(); renderChips();
-  $("#raiseSheet").hidden = false; setTimeout(() => $("#flagText").focus(), 50);
-}
-function closeRaise() { $("#raiseSheet").hidden = true; $("#flagErr").textContent = ""; }
-function setLane(l) {
-  if (l === "apps") { S.lane = l; try { localStorage.setItem("fh.lane", l); } catch (e) {} renderAll(); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
-  S.lane = l; S.filter = "all"; S.editing = null; S.draft = null;
-  try { localStorage.setItem("fh.lane", l); } catch (e) {}
-  renderAll(); renderMode();
-}
-$("#raiseBtn").onclick = openRaise;
-$("#raiseX").onclick = closeRaise;
-$("#raiseSheet").addEventListener("click", e => { if (e.target.id === "raiseSheet") closeRaise(); });
-document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#raiseSheet").hidden) closeRaise(); });
-$("#laneTabs").addEventListener("click", e => { const b = e.target.closest("[data-lane]"); if (b) setLane(b.dataset.lane); });
-document.addEventListener("click", async e => {
-  const m = e.target.closest(".mode"); if (m) return setMode(m.dataset.m);
-  const nb = e.target.closest("[data-nl]");
-  if (nb) { S.newLane = nb.dataset.nl; if (S.pick && labLane(S.pick) !== S.newLane) S.pick = null; renderWho(); renderChips(); return; }
-  const wb = e.target.closest(".who button");
-  if (wb) {
-    if (wb.parentElement.id === "newWho") { const was = S.newWho; S.newWho = wb.dataset.k; if ((was === "idea") !== (S.newWho === "idea")) S.pick = null; renderWho(); renderChips(); }
-    else { S.who = wb.dataset.k; S.filter = "all"; renderChips(); renderFlags(); }
-    return;
-  }
-  const b = e.target.closest("[data-a]"); if (!b || b.closest(".fk") || b.closest("#sgBox") || b.closest("#libDetail") || b.closest("#tonight")) return;
-  const row = b.closest("[data-id]"); const id = row && row.dataset.id; const a = b.dataset.a;
-  const now = new Date().toISOString();
-  const edit = (coll, fn) => d => { const it = (d[coll] || []).find(x => x.id === id); if (it) fn(it, d); };
-  if (a === "pri") save(edit("flags", f => { if (f.priority) delete f.priority; else f.priority = true; f.reviewedAt = now; }), "Flag priority");
-  else if (a === "keepask") { S.keeping = S.keeping === id ? null : id; renderFlags(); }
-  else if (a === "keep") { const d = +b.dataset.days || NEXT_REVIEW; S.keeping = null; save(edit("flags", f => { f.reviewedAt = now; f.reviewEvery = d; }), "Flag kept"); }
-  else if (a === "edit") { const f = S.flags.find(x => x.id === id); if (!f) return; S.editing = id; S.draft = { text: f.text, project: f.project, who: tabOf(f) }; renderFlags(); const t = document.querySelector(`#flags [data-id="${id}"] .ftext`); if (t) { t.style.height = Math.min(t.scrollHeight + 4, 360) + "px"; t.focus(); t.setSelectionRange(t.value.length, t.value.length); } }
-  else if (a === "ewho") { S.draft.who = b.dataset.k; b.blur(); renderFlags(); }
-  else if (a === "elane") { S.draft.lane = b.dataset.k; b.parentElement.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b)); }
-  else if (a === "ecancel") { S.editing = null; S.draft = null; b.blur(); renderFlags(); }
-  else if (a === "esave") {
-    const d = S.draft, text = (d.text || "").trim(); if (!text) { row.querySelector(".ftext").focus(); return; }
-    b.disabled = true; b.textContent = "Saving…";
-    const ok = await save(edit("flags", f => {
-      f.text = text; f.project = d.project; f.editedAt = now; f.reviewedAt = now;
-      if (d.who === "idea" || d.lane === workLane(d.project)) delete f.lane; else f.lane = d.lane;
-      if (d.who !== tabOf(f)) { f.kind = d.who === "claude" ? (f.prevKind && f.prevKind !== "you" && f.prevKind !== "idea" ? f.prevKind : "fix") : d.who; delete f.prevKind; }
-    }), "Flag edited");
-    if (ok) { S.editing = null; S.draft = null; document.activeElement && document.activeElement.blur(); renderAll(); }
-    else { b.disabled = false; b.textContent = "Save"; }
-  }
-  else if (a === "swap" && isIdea(S.flags.find(x => x.id === id) || {})) save(edit("flags", f => { f.kind = "fix"; delete f.prevKind; f.reviewedAt = now; }), "Idea handed to Claude");
-  else if (a === "swap") save(edit("flags", f => { if (f.kind === "you") { f.kind = f.prevKind || "fix"; delete f.prevKind; } else { f.prevKind = f.kind; f.kind = "you"; } f.reviewedAt = now; }), "Flag moved");
-  else if (a === "done") save(edit("flags", f => { f.status = "done"; f.resolvedAt = now; f.resolution = "marked done by you"; }), "Flag done");
-  else if (a === "reopen") save(edit("flags", f => { f.status = "open"; delete f.resolvedAt; delete f.resolution; }), "Flag reopened");
-  else if (a === "del") {
-    if (S.sure !== id) { S.sure = id; renderFlags(); setTimeout(() => { if (S.sure === id) { S.sure = null; renderFlags(); } }, 3000); return; }
-    S.sure = null; save(d => { d.flags = (d.flags || []).filter(f => f.id !== id); }, "Flag deleted");
-  }
-  else if (a === "merged") {
-    const ok = await save(d => { const p = (d.proposals || []).find(x => x.id === id); if (!p) return; p.status = "shipped"; p.shippedAt = now; p.mergedBy = "you";
-      (d.flags || []).forEach(f => { if ((p.flagIds || []).includes(f.id) && f.status !== "done") { f.status = "done"; f.resolvedAt = now; f.resolution = "Shipped: " + p.title; } }); }, "Proposal merged");
-    if (ok) renderAll();
-  }
-  else if (a === "shots") { const p = S.props.find(x => x.id === id); if (p) openShots(p); }
-  else if (a === "unclamp") b.classList.toggle("clamp");
-  else if (a === "undo") {
-    const was = S.props.find(x => x.id === id); let moved = false;
-    const ok = await save(edit("proposals", p => { if (!CAN_UNDO.includes(p.status)) return; moved = true; (p.history = p.history || []).push({ at: now, status: "reopened", from: p.status }); p.status = "waiting"; delete p.feedback; delete p.decidedAt; }), "Proposal reopened");
-    if (ok && moved) { if (was && was.feedback) S.notes[id] = was.feedback; renderProps(); const t = document.querySelector(`#props [data-note="${id}"]`); if (t) { t.scrollIntoView({ block: "center", behavior: "smooth" }); t.focus(); } }
-    else if (ok) renderProps();
-  }
-  else if (a === "approve" || a === "deny") {
-    const note = (S.notes[id] || "").trim();
-    const status = a === "approve" ? "approved" : note ? "redo" : "denied";
-    const ok = await save(edit("proposals", p => { p.status = status; p.decidedAt = now; if (note) { p.feedback = note; (p.history = p.history || []).push({ at: now, status, feedback: note }); } }), { approved: "Proposal approved", redo: "Proposal sent back with notes", denied: "Proposal denied" }[status]);
-    if (ok) { delete S.notes[id]; renderProps(); }
-  }
-});
-document.addEventListener("input", e => {
-  const t = e.target;
-  if (t.classList && t.classList.contains("ftext") && S.draft) { S.draft.text = t.value; return; }
-  if (!t.classList || !t.classList.contains("pnote")) return;
-  S.notes[t.dataset.note] = t.value;
-  const card = t.closest(".prop"), has = !!t.value.trim();
-  card.querySelector('[data-a="approve"]').textContent = has ? "Approve with notes" : "Approve";
-  card.querySelector('[data-a="deny"]').textContent = has ? "Redo with notes" : "Deny";
-});
-document.addEventListener("change", e => {
-  const t = e.target;
-  if (t.classList.contains("fproj") && S.draft) { S.draft.project = t.value; return; }
-  const lab = t.closest("[data-lab]"); if (!lab) return;
-  const name = lab.dataset.lab;
-  if (t.classList.contains("lsel")) { const v = t.value; if (v === "cloud") delete S.lanes[name]; else S.lanes[name] = v; renderAll(); save(d => { d.lanes = d.lanes || {}; if (v === "cloud") delete d.lanes[name]; else d.lanes[name] = v; }, `Label ${name} moved to ${LANE_NAMES[v]}`); return; }
-  if (t.type === "color") { S.colors[name] = t.value; renderChips(); renderFlags(); save(d => { d.colors = d.colors || {}; d.colors[name] = t.value; }, "Label color: " + name); }
-  else if (t.type === "text") renameLabel(name, t.value.trim(), t);
-});
-/* ---------- labels ---------- */
-function renameLabel(old, nu, input) {
-  if (!nu || nu === old) { input.value = old; return; }
-  const move = p => p === old ? nu : p;
-  if (S.pick === old) S.pick = nu;
-  if (S.filter === old) S.filter = nu;
-  if (S.lanes[old]) { S.lanes[nu] = S.lanes[old]; delete S.lanes[old]; }
-  input.blur();
-  save(d => {
-    d.projects = [...new Set((d.projects || []).map(move))];
-    (d.flags || []).forEach(f => f.project = move(f.project));
-    (d.proposals || []).forEach(p => p.project = move(p.project));
-    if (d.lanes && d.lanes[old]) { d.lanes[nu] = d.lanes[old]; delete d.lanes[old]; }
-    if (d.colors && d.colors[old]) { if (!d.colors[nu]) d.colors[nu] = d.colors[old]; delete d.colors[old]; }
-  }, `Label renamed: ${old} to ${nu}`);
-}
-function deleteLabel(name) {
-  if (S.labSure !== name) { S.labSure = name; renderLabels(); setTimeout(() => { if (S.labSure === name) { S.labSure = null; renderLabels(); } }, 3000); return; }
-  S.labSure = null; if (S.pick === name) S.pick = null; if (S.filter === name) S.filter = "all";
-  save(d => {
-    const moved = (d.flags || []).filter(f => f.project === name);
-    moved.forEach(f => f.project = "Unsorted");
-    d.projects = (d.projects || []).filter(p => p !== name);
-    if (moved.length && !d.projects.includes("Unsorted")) d.projects.push("Unsorted");
-    if (d.colors) delete d.colors[name];
-  }, "Label deleted: " + name);
-}
-function addLabel() {
-  const name = $("#newLab").value.trim(); if (!name) { $("#newLab").focus(); return; }
-  $("#newLab").value = "";
-  if (S.projects.includes(name)) return;
-  const ln = S.lane; S.projects = [...S.projects, name]; if (ln !== "cloud") S.lanes[name] = ln; renderLabels(); renderChips();
-  save(d => { d.projects = d.projects || []; if (!d.projects.includes(name)) d.projects.push(name); if (ln !== "cloud") { d.lanes = d.lanes || {}; d.lanes[name] = ln; } }, "Add label: " + name);
-}
-document.addEventListener("click", e => { const b = e.target.closest("[data-lab-del]"); if (b) deleteLabel(b.closest("[data-lab]").dataset.lab); });
-document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.closest && e.target.closest("[data-lab]") && e.target.type === "text") e.target.blur(); }); /* blur fires change */
-$("#addLab").onclick = addLabel;
-$("#newLab").addEventListener("keydown", e => { if (e.key === "Enter") addLabel(); });
-
-/* ---------- lane bar: tuck in once it sticks to the top ---------- */
-(() => {
-  const bar = $("#laneTabs"); if (!bar) return;
-  let on = false, tick = 0;
-  const check = () => { tick = 0; const stuck = window.scrollY > 4 && bar.getBoundingClientRect().top <= parseFloat(getComputedStyle(bar).top) + 10; if (stuck !== on) { on = stuck; bar.classList.toggle("stuck", on); } };
-  addEventListener("scroll", () => { if (!tick) tick = requestAnimationFrame(check); }, { passive: true });
-  addEventListener("resize", check); check();
-})();
-
-/* ---------- folding sections ---------- */
-const FOLD_KEY = "fh.folded";
-let folded; try { folded = JSON.parse(localStorage.getItem(FOLD_KEY)); } catch (e) {}
-if (!Array.isArray(folded)) folded = ["lb"]; /* labels start folded */
-document.querySelectorAll("section > h2[id]").forEach(h => {
-  if (h.id === "cn") return; /* the connect box stays open */
-  h.classList.add("fold"); h.setAttribute("role", "button"); h.tabIndex = 0;
-  const sec = h.parentElement, set = shut => { sec.classList.toggle("shut", shut); h.setAttribute("aria-expanded", !shut); };
-  set(folded.includes(h.id));
-  const flip = () => { const shut = !sec.classList.contains("shut"); set(shut); folded = shut ? [...new Set([...folded, h.id])] : folded.filter(x => x !== h.id); try { localStorage.setItem(FOLD_KEY, JSON.stringify(folded)); } catch (e) {} };
-  h.addEventListener("click", flip);
-  h.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
-});
-$("#send").onclick = sendFlag;
-$("#addProj").onclick = addProject;
-$("#newProj").addEventListener("keydown", e => { if (e.key === "Enter") addProject(); });
-$("#flagText").addEventListener("input", () => $("#flagErr").textContent = "");
-
-/* ---------- data ---------- */
+/* ================= data ================= */
 function apply(d) {
-  S.projects = d.projects || [];
-  S.colors = d.colors || {};
-  S.lanes = d.lanes || {};
+  S.projects = d.projects || []; S.colors = d.colors || {}; S.lanes = d.lanes || {};
   const all = d.flags || [];
   S.concepts = all.filter(isConcept);
   S.flags = all.filter(f => !isConcept(f)).sort((a, b) => (b.created || "").localeCompare(a.created || ""));
   S.props = d.proposals || [];
   S.runs = (d.runs || []).slice().sort((a, b) => (b.at || "").localeCompare(a.at || ""));
   $("#syncNote").textContent = "Synced " + new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
-  renderAll();
+  render();
 }
-function showConnect(msg) {
-  const c = $("#connect"); c.hidden = false;
-  if (msg) $("#tokenErr").textContent = msg;
-  c.scrollIntoView({ behavior: "smooth", block: "start" });
-}
+function showConnect(msg) { const c = $("#connect"); c.hidden = false; if (msg) $("#tokenErr").textContent = msg; c.scrollIntoView({ behavior: "smooth", block: "start" }); }
 async function load() {
   if (busy) return;
+  try { const { data } = await store.read("data/apps.json"); S.apps = data.apps || []; S.otherSay = data.otherSay || {}; } catch (e) {}
+  try { const { data } = await store.read("status.json"); S.mode = data.mode || "light"; } catch (e) {}
   try { const { data } = await store.read("data/flags.json"); apply(data); }
-  catch (e) { if (e.code === "token") { showConnect("That key stopped working. Make a new one below."); } else $("#syncNote").textContent = "Couldn't reach GitHub. Showing last view."; }
-  try { const { data } = await store.read("status.json"); S.mode = data.mode || "light"; renderMode(); } catch (e) {}
-  try { const { data } = await store.read("data/apps.json"); S.apps = data.apps || []; S.otherSay = data.otherSay || {}; renderLib(); renderLanes(); renderTally(); renderTonight(); } catch (e) {}
+  catch (e) { if (e.code === "token") showConnect("That key stopped working. Make a new one below."); else $("#syncNote").textContent = "Couldn't reach GitHub. Showing last view."; render(); }
   if (!busy) pullSiri();
-  try {
-    const r = await fetch("https://api.github.com/repos/Feirzen/flag-hub/issues?state=open&labels=flag&per_page=50");
-    if (r.ok) { const arr = await r.json(); S.appFlags = arr.filter(i => !i.pull_request).map(i => ({ title: i.title, url: i.html_url, created: i.created_at })); $("#appBox").hidden = !S.appFlags.length; renderApp(); renderTally(); }
-  } catch (e) {}
 }
 $("#tokenSave").onclick = async () => {
   const t = $("#tokenIn").value.trim(), err = $("#tokenErr");
@@ -1266,8 +1250,8 @@ $("#tokenSave").onclick = async () => {
 };
 $("#disconnect").onclick = () => { store.setToken(""); $("#disconnect").hidden = true; $("#connect").hidden = false; };
 if (store.token()) $("#disconnect").hidden = false; else $("#connect").hidden = false;
-renderAll();
-load();
+render();
+load().then(() => { const sh = new URLSearchParams(location.search).get("shot"); if (sh) openShot(sh); });
 setInterval(() => { if (!document.hidden) load(); }, 60000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
 </script>
