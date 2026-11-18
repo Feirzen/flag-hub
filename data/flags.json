@@ -2323,12 +2323,6 @@
  ],
  "runs": [
   {
-   "at": "2026-10-27T07:55:06Z",
-   "mode": "off",
-   "summary": "Skipped: night shift is off",
-   "items": []
-  },
-  {
    "at": "2026-10-28T07:56:46Z",
    "mode": "light",
    "summary": "Got two approved proposals ready to merge; the smoother Panic Button list waits a night so it doesn't clash with the timer.",
@@ -2797,6 +2791,13 @@
   },
   {
    "at": "2026-11-16T08:53:27Z",
+   "lane": "cloud",
+   "mode": "off",
+   "summary": "Skipped: night shift is off",
+   "items": []
+  },
+  {
+   "at": "2026-11-18T08:54:18Z",
    "lane": "cloud",
    "mode": "off",
    "summary": "Skipped: night shift is off",
