@@ -217,7 +217,7 @@
     "RetroBat Wizard"
    ],
    "lane": "pc",
-   "state": "on",
+   "state": "off",
    "repo": "Feirzen/retrobat-wizard",
    "url": "https://feirzen.github.io/retrobat-wizard/",
    "icon": "https://feirzen.github.io/retrobat-wizard/site/apple-touch-icon.png",
