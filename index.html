@@ -70,6 +70,9 @@ textarea:focus,input[type=text]:focus{border-color:var(--flag)}
 .item:first-child{border-top:0;padding-top:2px}
 @keyframes in{from{opacity:.0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .item .txt{grid-area:txt;min-width:0;overflow-wrap:anywhere}
+.item .lt{display:block}
+.item .lt.clamp{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.item .more{display:inline-block;margin:4px 0 0;padding:0;background:none;border:0;font:inherit;font-size:13px;color:var(--ink3);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .item>.meta{grid-area:meta}
 .item>.acts{grid-area:acts}
 .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font:500 11.5px var(--fm);color:var(--ink3)}
@@ -484,7 +487,7 @@ header{padding-right:120px}
 <div class="sheetbg" id="raiseSheet" hidden>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="rf">
     <h2 id="rf"><span class="ht"><i class="hd" style="--c:var(--flag)" id="rfMark"></i>Raise a flag</span><button class="x" id="raiseX" aria-label="Close">×</button></h2>
-    <div class="boxrow"><textarea id="flagText" placeholder="Type or talk: for Claude, study decks, the pause button sticks, priority" maxlength="1500"></textarea><button class="mic" id="mic" aria-label="Talk" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></div>
+    <div class="boxrow"><textarea id="flagText" placeholder="Type or talk: for Claude, study decks, the pause button sticks, priority" maxlength="8000"></textarea><button class="mic" id="mic" aria-label="Talk" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></div>
     <div class="heard">
       <span class="lbl" id="heardLbl">Who it's for</span>
       <div class="whoseg" id="newWho" role="group" aria-label="Who is this for"></div>
@@ -611,7 +614,7 @@ function editor(f) {
   const d = S.draft;
   const projs = S.projects.includes(d.project) ? S.projects : [d.project, ...S.projects];
   return `<div class="fedit">
-    <textarea class="ftext" maxlength="1500" aria-label="Flag text">${esc(d.text)}</textarea>
+    <textarea class="ftext" maxlength="8000" aria-label="Flag text">${esc(d.text)}</textarea>
     <div class="row" style="flex-wrap:wrap">
       <select class="fproj" aria-label="Label">${projs.map(p => `<option ${p === d.project ? "selected" : ""}>${esc(p)}</option>`).join("")}</select>
       <div class="chips" role="group" aria-label="Who is this for">${[["claude", "For Claude"], ["you", "For me"], ["idea", "Idea"]].map(([k, t]) => `<button class="chip" data-a="ewho" data-k="${k}" aria-pressed="${d.who === k}">${t}</button>`).join("")}</div>
@@ -619,6 +622,13 @@ function editor(f) {
     ${d.who === "idea" ? "" : `<div class="lanerow">Runs on <div class="chips">${[["cloud", "Cloud"], ["pc", "PC"]].map(([k, t]) => `<button class="chip" data-a="elane" data-k="${k}" aria-pressed="${d.lane === k}">${t}</button>`).join("")}</div></div>`}
     <div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="ecancel">Cancel</button><button class="btn sm" data-a="esave">Save</button></div>
   </div>`;
+}
+const LONG = 450;
+function longTxt(f) {
+  const t = f.text || "";
+  if (t.length <= LONG) return esc(t);
+  const open = S.more && S.more[f.id];
+  return `<span class="lt ${open ? "" : "clamp"}">${esc(t)}</span><button class="more" data-more="${f.id}" aria-expanded="${!!open}">${open ? "Show less" : "Show all"}</button>`;
 }
 function flagRow(f, opt = {}) {
   const doneView = opt.done, reviewView = opt.review;
@@ -634,7 +644,7 @@ function flagRow(f, opt = {}) {
     : reviewView ? `<button class="ic keep" data-a="keepask" aria-label="Keep it" title="Keep it">${ICON.keep}</button>${doneBtn}${delBtn}`
     : editing ? "" : `${picsBtn(f.images, "fshots")}<button class="ic" data-a="swap" aria-label="${swapTo}" title="${swapTo}">${ICON.swap}</button><button class="ic ${f.priority ? "pri-on" : ""}" data-a="pri" aria-label="${f.priority ? "Remove priority" : "Make priority"}">${ICON.bolt}</button>${doneBtn}${delBtn}`;
   const note = f.note && !editing ? `<div class="cnote"><b>Claude:</b> ${esc(f.note)}</div>` : "";
-  return `<div class="item ${f.priority && !doneView ? "is-pri" : ""} ${isMine(f) ? "mine" : ""} ${isIdea(f) ? "idea" : ""}" data-id="${f.id}">${editing ? editor(f) : `<div class="txt">${esc(f.text)}${!doneView && !reviewView ? `<button class="pen" data-a="edit" aria-label="Edit this flag" title="Edit">${ICON.pen}</button>` : ""}</div>`}
+  return `<div class="item ${f.priority && !doneView ? "is-pri" : ""} ${isMine(f) ? "mine" : ""} ${isIdea(f) ? "idea" : ""}" data-id="${f.id}">${editing ? editor(f) : `<div class="txt">${longTxt(f)}${!doneView && !reviewView ? `<button class="pen" data-a="edit" aria-label="Edit this flag" title="Edit">${ICON.pen}</button>` : ""}</div>`}
     <div class="acts">${acts}</div>${note}
     <div class="meta"><span class="fg">${iconFor(tabOf(f))}</span>${opt.noLabel ? "" : `<span class="tag proj" style="${pc(f.project)}">${esc(f.project)}</span>`}${pri}${st}${src && !reviewView ? `<span>${src}</span>` : ""}${reviewView ? `<span class="age">${days}d untouched</span>` : `<span>${ago(doneView ? f.resolvedAt : f.created)}</span>`}${f.resolution ? `<span>· ${esc(f.resolution)}</span>` : ""}</div>${reviewView && S.keeping === f.id ? `<div class="keeps"><span>Ask again in</span>${KEEP_OPTS.map(([d, t]) => `<button class="chip" data-a="keep" data-days="${d}">${t}</button>`).join("")}</div>` : ""}</div>`;
 }
@@ -817,7 +827,7 @@ function somedayCard(f) {
     const editing = S.sEdit === f.id, note = S.sNotes[f.id] || "";
     const helps = f.helps && S.flags.find(x => x.id === f.helps);
     return `<div class="sd cl" data-cid="${f.id}"><span class="sdwho">Claude's idea${f.size ? ` · ${{ S: "small", M: "medium", L: "large" }[f.size] || ""}` : ""}${f.cost ? ` · ${esc(f.cost)}` : ""}</span>
-      ${editing ? `<textarea class="stext" maxlength="1500" aria-label="Edit the idea">${esc(f.text + (f.detail ? "\n\n" + f.detail : ""))}</textarea><div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="scancel">Cancel</button><button class="btn sm plant" data-a="ssave">Save</button></div>`
+      ${editing ? `<textarea class="stext" maxlength="8000" aria-label="Edit the idea">${esc(f.text + (f.detail ? "\n\n" + f.detail : ""))}</textarea><div class="row" style="justify-content:flex-end"><button class="btn sm ghost" data-a="scancel">Cancel</button><button class="btn sm plant" data-a="ssave">Save</button></div>`
         : `<p class="pitch"><span>${esc(f.text)}</span><button class="pen" data-a="sedit" aria-label="Edit this idea">${ICON.pen}</button></p>${f.detail ? `<p class="why" style="color:var(--ink2)">${esc(f.detail)}</p>` : ""}`}
       ${helps ? `<p class="why"><b>Helps with:</b> ${esc(helps.text.length > 90 ? helps.text.slice(0, 88) + "…" : helps.text)}</p>` : ""}
       ${f.why ? `<p class="why"><b>Why:</b> ${esc(f.why)}</p>` : ""}
@@ -919,6 +929,7 @@ document.addEventListener("click", async e => {
   const sb = t.closest(".seg3 [data-st]"); if (sb) { setAppState(sb.closest("[data-appd]").dataset.appd, sb.dataset.st); return; }
   const fy = t.closest("#fyCard");
   if (fy && !t.closest("[data-a]")) { S.allTab = "you"; go("all"); return; }
+  const mo = t.closest("[data-more]"); if (mo) { S.more = S.more || {}; S.more[mo.dataset.more] = !S.more[mo.dataset.more]; render(); return; }
   const b = t.closest("[data-a]"); if (!b) return;
   const a = b.dataset.a, now = new Date().toISOString();
   /* proposals */
