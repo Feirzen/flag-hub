@@ -1,10 +1,11 @@
 {
  "mode": "light",
- "openFlags": 37,
- "waiting": 0,
+ "openFlags": 41,
+ "waiting": 1,
  "lastRun": {
-  "at": "2026-11-18T08:54:18Z",
-  "summary": "Skipped: night shift is off"
+  "at": "2026-11-19T08:56:50Z",
+  "summary": "Filed 5 Siri notes and built one proposal: longer flags for brain dumps."
  },
- "updated": "2026-11-18T18:52:16.005Z"
+ "updated": "2026-11-19T08:56:50Z",
+ "suggestions": 0
 }
