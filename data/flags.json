@@ -921,11 +921,12 @@
     "previews/p1120sdidle/before.png",
     "previews/p1120sdidle/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-20T08:57:18Z",
    "flagIds": [
     "fmwofdx8e"
-   ]
+   ],
+   "decidedAt": "2026-11-20T21:28:30.635Z"
   }
  ],
  "runs": [
