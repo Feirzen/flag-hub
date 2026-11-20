@@ -804,16 +804,23 @@
   {
    "id": "c1120saves",
    "project": "3DS Setup",
-   "kind": "concept",
+   "kind": "fix",
    "status": "open",
-   "text": "For your 3DS save backup flag: simple steps to back up every save with Checkpoint and copy them to your PC.",
-   "detail": "It includes how often to do it and a quick check that a backup actually restores.",
-   "size": "S",
-   "cost": "a small piece of a light night",
-   "why": "Protects hours of play before anything else on the 3DS list.",
-   "source": "night shift",
-   "created": "2026-11-20T21:47:59Z",
-   "helps": "rem-05"
+   "text": "For your 3DS save backup flag: simple steps to back up every save with Checkpoint and copy them to your PC.\n\nIt includes how often to do it and a quick check that a backup actually restores.",
+   "source": "concept",
+   "created": "2026-11-20T21:51:56.290Z",
+   "helps": "rem-05",
+   "concept": {
+    "pitch": "For your 3DS save backup flag: simple steps to back up every save with Checkpoint and copy them to your PC.",
+    "detail": "It includes how often to do it and a quick check that a backup actually restores.",
+    "size": "S",
+    "cost": "a small piece of a light night",
+    "why": "Protects hours of play before anything else on the 3DS list.",
+    "helps": "rem-05",
+    "created": "2026-11-20T21:47:59Z"
+   },
+   "plantedAt": "2026-11-20T21:51:56.290Z",
+   "reviewedAt": "2026-11-20T21:51:56.290Z"
   }
  ],
  "proposals": [
