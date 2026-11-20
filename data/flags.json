@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwofiiyt",
+   "project": "Study Decks",
+   "text": "This question here is AWESOME. With the pic and everything, such a fan. If I'm ever studying and the resources I give you have diagrams that are helpful to learn, PLEASE keep giving me questions like that.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-20T03:38:11.717Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": "div#app > div.wrap.battle > div.bgrid:nth-of-type(2) > div.bright:nth-of-type(2) > div.card.qcard:nth-of-type(1)",
+    "says": "MULTIPLE CHOICE · CH 1: FAT TRANSPORT & Β-OXIDATION The diagram has four parts hidden. Which choice correctly names A, B",
+    "screen": "1229x691 computer",
+    "look": "chameleon"
+   }
+  },
+  {
    "id": "fmwofdx8e",
    "project": "Study Decks",
    "text": "The movement here is a bit much for me, like he wont sit still. I dont mind the idle movement, but it's a little much with both the shrink and grow + the 2 animations going both pretty quickly at once. I'm down to keep both going, just slow them both down.",
