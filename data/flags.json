@@ -750,15 +750,21 @@
   {
    "id": "c1120spark",
    "project": "Bulk Manager",
-   "kind": "concept",
+   "kind": "fix",
    "status": "open",
-   "text": "A tiny 8-week trend line next to each lift, so you see if it's climbing without opening anything.",
-   "detail": "It's drawn from your logs and read only, nothing gets edited. Flat stretches show plain, never red or guilt-trippy.",
-   "size": "S",
-   "cost": "a small piece of a light night",
-   "why": "Clear progress on lifts at a glance.",
-   "source": "night shift",
-   "created": "2026-11-20T21:47:59Z"
+   "text": "A tiny 8-week trend line next to each lift, so you see if it's climbing without opening anything.\n\nIt's drawn from your logs and read only, nothing gets edited. Flat stretches show plain, never red or guilt-trippy.",
+   "source": "concept",
+   "created": "2026-11-20T21:49:25.685Z",
+   "concept": {
+    "pitch": "A tiny 8-week trend line next to each lift, so you see if it's climbing without opening anything.",
+    "detail": "It's drawn from your logs and read only, nothing gets edited. Flat stretches show plain, never red or guilt-trippy.",
+    "size": "S",
+    "cost": "a small piece of a light night",
+    "why": "Clear progress on lifts at a glance.",
+    "created": "2026-11-20T21:47:59Z"
+   },
+   "plantedAt": "2026-11-20T21:49:25.685Z",
+   "reviewedAt": "2026-11-20T21:49:25.685Z"
   },
   {
    "id": "c1120exam",
