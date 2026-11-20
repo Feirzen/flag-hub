@@ -777,14 +777,15 @@
    "id": "c1120exam",
    "project": "Claude OS",
    "kind": "concept",
-   "status": "open",
+   "status": "denied",
    "text": "A big test countdown card on the desk display, like \"Bio exam in 3 days\", with one tap to open that Study Deck.",
    "detail": "It reads from your calendar mirror. It's big enough to read from across the room and shows up only in the week before a test.",
    "size": "M",
    "cost": "about half a Go Big night",
    "why": "Study helpers for the desk display.",
    "source": "night shift",
-   "created": "2026-11-20T21:47:59Z"
+   "created": "2026-11-20T21:47:59Z",
+   "deniedAt": "2026-11-20T21:50:14.011Z"
   },
   {
    "id": "c1120ri",
