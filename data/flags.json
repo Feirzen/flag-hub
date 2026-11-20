@@ -717,16 +717,23 @@
   {
    "id": "c1120dump",
    "project": "Flag Hub",
-   "kind": "concept",
+   "kind": "fix",
    "status": "open",
-   "text": "Brain dump splitter: a long Siri ramble becomes several clean flags, each filed under the right project.",
-   "detail": "Side thoughts land in Ideas, and every piece links back to what you actually said. It's one added step for the night shift, no new setup.",
-   "size": "S",
-   "cost": "a small piece of a light night",
-   "why": "Fewer taps from flag to shipped, and it answers your Plant a Flag brainstorming question.",
-   "source": "night shift",
-   "created": "2026-11-20T21:47:59Z",
-   "helps": "s20261118142357"
+   "text": "Brain dump splitter: a long Siri ramble becomes several clean flags, each filed under the right project.\n\nSide thoughts land in Ideas, and every piece links back to what you actually said. It's one added step for the night shift, no new setup.",
+   "source": "concept",
+   "created": "2026-11-20T21:49:46.643Z",
+   "helps": "s20261118142357",
+   "concept": {
+    "pitch": "Brain dump splitter: a long Siri ramble becomes several clean flags, each filed under the right project.",
+    "detail": "Side thoughts land in Ideas, and every piece links back to what you actually said. It's one added step for the night shift, no new setup.",
+    "size": "S",
+    "cost": "a small piece of a light night",
+    "why": "Fewer taps from flag to shipped, and it answers your Plant a Flag brainstorming question.",
+    "helps": "s20261118142357",
+    "created": "2026-11-20T21:47:59Z"
+   },
+   "plantedAt": "2026-11-20T21:49:46.643Z",
+   "reviewedAt": "2026-11-20T21:49:46.643Z"
   },
   {
    "id": "c1120echo",
