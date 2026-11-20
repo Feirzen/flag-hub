@@ -49,7 +49,7 @@
    "project": "Study Decks",
    "text": "The movement here is a bit much for me, like he wont sit still. I dont mind the idle movement, but it's a little much with both the shrink and grow + the 2 animations going both pretty quickly at once. I'm down to keep both going, just slow them both down.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-11-20T03:34:36.926Z",
    "where": {
@@ -59,7 +59,9 @@
     "says": "",
     "screen": "1536x864 computer",
     "look": "chameleon"
-   }
+   },
+   "resolvedAt": "2026-11-20T21:30:33Z",
+   "resolution": "Battle idle slowed: breathe takes 3.6s and the pose swap is about once a second."
   },
   {
    "id": "s20261118160834",
@@ -921,12 +923,13 @@
     "previews/p1120sdidle/before.png",
     "previews/p1120sdidle/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-20T08:57:18Z",
    "flagIds": [
     "fmwofdx8e"
    ],
-   "decidedAt": "2026-11-20T21:28:30.635Z"
+   "decidedAt": "2026-11-20T21:28:30.635Z",
+   "shippedAt": "2026-11-20T21:30:33Z"
   }
  ],
  "runs": [
