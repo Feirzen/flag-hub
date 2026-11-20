@@ -1,11 +1,11 @@
 {
- "mode": "light",
+ "mode": "big",
  "openFlags": 41,
- "waiting": 1,
+ "waiting": 0,
  "lastRun": {
   "at": "2026-11-20T21:23:23Z",
   "summary": "Quiet night: nothing approved or sent back, and no cloud flags or ideas ready to work."
  },
- "updated": "2026-11-20T21:23:23Z",
+ "updated": "2026-11-20T21:28:41.830Z",
  "suggestions": 0
 }
