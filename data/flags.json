@@ -696,16 +696,23 @@
   {
    "id": "c1120concerts",
    "project": "Spotify",
-   "kind": "concept",
+   "kind": "fix",
    "status": "open",
    "helps": "rem-08",
-   "text": "For your concert playlists flag: I pull each show's real setlist and build one Spotify playlist per concert.",
-   "detail": "OneRepublic, Yoke Lore, Owl City, and the two YSA shows. Spotify is already connected, so it's just your OK and which dates or cities each show was.",
-   "size": "S",
-   "cost": "a small piece of a light night",
-   "why": "That flag has sat since October and it's almost all lookup work Claude can do.",
-   "source": "night shift",
-   "created": "2026-11-20T21:33:34Z"
+   "text": "For your concert playlists flag: I pull each show's real setlist and build one Spotify playlist per concert.\n\nOneRepublic, Yoke Lore, Owl City, and the two YSA shows. Spotify is already connected, so it's just your OK and which dates or cities each show was.\n\nMy notes: Yeah totally! Although I think therer are a couple issues- #1 spotify might not allow you to choose specific songs, and will make a scrmabled bad version. #2 you actually already started this project once before on my laptop, I think it was ran on my laptop, but you already got all the setlists and started on a couple playlists. It's been a long time since then though lol.",
+   "source": "concept",
+   "created": "2026-11-20T21:46:40.713Z",
+   "concept": {
+    "pitch": "For your concert playlists flag: I pull each show's real setlist and build one Spotify playlist per concert.",
+    "detail": "OneRepublic, Yoke Lore, Owl City, and the two YSA shows. Spotify is already connected, so it's just your OK and which dates or cities each show was.",
+    "size": "S",
+    "cost": "a small piece of a light night",
+    "why": "That flag has sat since October and it's almost all lookup work Claude can do.",
+    "helps": "rem-08",
+    "created": "2026-11-20T21:33:34Z"
+   },
+   "plantedAt": "2026-11-20T21:46:40.713Z",
+   "reviewedAt": "2026-11-20T21:46:40.713Z"
   }
  ],
  "proposals": [
