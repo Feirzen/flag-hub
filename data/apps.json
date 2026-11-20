@@ -208,6 +208,13 @@
     "desk display",
     "desk clock",
     "kiosk"
+   ],
+   "denied": [
+    {
+     "id": "c1120exam",
+     "text": "A big test countdown card on the desk display, like \"Bio exam in 3 days\", with one tap to open that Study Deck.",
+     "at": "2026-11-20T21:50:14.011Z"
+    }
    ]
   },
   {
