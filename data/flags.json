@@ -731,15 +731,21 @@
   {
    "id": "c1120echo",
    "project": "Study Decks",
-   "kind": "concept",
+   "kind": "fix",
    "status": "open",
-   "text": "Echo Hall: a new Tower trial room whose gates only open with questions you've missed before.",
-   "detail": "The room is built from your weak spots, so clearing it is real review right before a test. It's dark and torchlit like the Labyrinth.",
-   "size": "M",
-   "cost": "about one Go Big night",
-   "why": "More Tower trial rooms, and it makes studying the part that feels like a game.",
-   "source": "night shift",
-   "created": "2026-11-20T21:47:59Z"
+   "text": "Echo Hall: a new Tower trial room whose gates only open with questions you've missed before.\n\nThe room is built from your weak spots, so clearing it is real review right before a test. It's dark and torchlit like the Labyrinth.",
+   "source": "concept",
+   "created": "2026-11-20T21:49:09.260Z",
+   "concept": {
+    "pitch": "Echo Hall: a new Tower trial room whose gates only open with questions you've missed before.",
+    "detail": "The room is built from your weak spots, so clearing it is real review right before a test. It's dark and torchlit like the Labyrinth.",
+    "size": "M",
+    "cost": "about one Go Big night",
+    "why": "More Tower trial rooms, and it makes studying the part that feels like a game.",
+    "created": "2026-11-20T21:47:59Z"
+   },
+   "plantedAt": "2026-11-20T21:49:09.260Z",
+   "reviewedAt": "2026-11-20T21:49:09.260Z"
   },
   {
    "id": "c1120spark",
