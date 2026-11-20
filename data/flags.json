@@ -30,7 +30,7 @@
    "project": "Study Decks",
    "text": "This question here is AWESOME. With the pic and everything, such a fan. If I'm ever studying and the resources I give you have diagrams that are helpful to learn, PLEASE keep giving me questions like that.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-11-20T03:38:11.717Z",
    "where": {
@@ -40,14 +40,16 @@
     "says": "MULTIPLE CHOICE · CH 1: FAT TRANSPORT & Β-OXIDATION The diagram has four parts hidden. Which choice correctly names A, B",
     "screen": "1229x691 computer",
     "look": "chameleon"
-   }
+   },
+   "resolvedAt": "2026-11-20T08:57:18Z",
+   "resolution": "Noted for future decks: when your materials have helpful diagrams, they get hidden-label picture questions like this one."
   },
   {
    "id": "fmwofdx8e",
    "project": "Study Decks",
    "text": "The movement here is a bit much for me, like he wont sit still. I dont mind the idle movement, but it's a little much with both the shrink and grow + the 2 animations going both pretty quickly at once. I'm down to keep both going, just slow them both down.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "app",
    "created": "2026-11-20T03:34:36.926Z",
    "where": {
@@ -74,11 +76,13 @@
    "project": "Flag Hub",
    "text": "Brain dumps can run long: make flags hold longer text (or handle long ones from other sources) so nothing gets cut off. Also: does the cloud run read the Siri notes, or does its prompt need editing?",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "siri",
    "heard": "OK so now I'm just testing out the planter flag shortcut I changed it because it kept cutting me off early so I changed it so now I have to tap it to finish so as soon as you see this you can definitely delete it also one other thought that I had about it actually because now that I'm gonna be using this for brain dumping I think I'm curious about how long of a brain dump I can dictate before it runs out of characters either via the shortcut running out of characters or my flag running out of characters I know that the flags currently have a character limit and I would love to be able to either makes those longer or make it so that I can adapt for when I have longer flags they come in other sources or I don't know and also is the scheduled cloud run also like the prompt does it look at these Siri prompts or is that just assumed do we need to edit that prompt",
    "created": "2026-11-18T22:02:44Z",
-   "note": "Yes, the cloud run reads data/siri every night, no prompt edit needed. Siri notes have no length limit on the Hub side; the typed box was capped at 1,500 characters. The longer-flags proposal raises that. If dictation still stops early, that limit is in the Shortcut itself."
+   "note": "Yes, the cloud run reads data/siri every night, no prompt edit needed. Siri notes have no length limit on the Hub side; the typed box was capped at 1,500 characters. The longer-flags proposal raises that. If dictation still stops early, that limit is in the Shortcut itself.",
+   "resolvedAt": "2026-11-20T08:57:18Z",
+   "resolution": "Flags now take up to 8,000 characters and long ones fold with a Show all link."
   },
   {
    "id": "s20261118142357",
@@ -214,7 +218,7 @@
     "screen": "1396x785 computer",
     "look": "chameleon"
    },
-   "note": "The challenge rooms are all in now, so this is next. One question first: phones joining by QR code needs a small online relay the site doesn't have yet, but Xbox controllers on one screen works today. Start with controllers, or set up the relay for phones?"
+   "note": "Party mode (Raid and Duel, phones as controllers) landed Nov 19 in PR #15. Mark this done if that covers it, or tell me what's still missing."
   },
   {
    "id": "fmvzovk96",
@@ -898,32 +902,33 @@
      "r": 0.08
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-19T08:56:50Z",
    "flagIds": [
     "s20261118150244"
    ],
-   "decidedAt": "2026-11-20T03:03:23.861Z"
+   "decidedAt": "2026-11-20T03:03:23.861Z",
+   "shippedAt": "2026-11-20T08:57:18Z"
+  },
+  {
+   "id": "p1120sdidle",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Calmer battle idle animation",
+   "summary": "Fighters still breathe and swap idle poses, just slower: the grow and shrink takes 3.6s instead of 2.2s and the pose swap about once a second instead of twice. It applies to every fighter using the breathe idle, so the whole scene feels calmer.",
+   "link": "https://github.com/Feirzen/study-decks/pull/16",
+   "images": [
+    "previews/p1120sdidle/before.png",
+    "previews/p1120sdidle/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-20T08:57:18Z",
+   "flagIds": [
+    "fmwofdx8e"
+   ]
   }
  ],
  "runs": [
-  {
-   "at": "2026-10-29T07:57:25Z",
-   "mode": "light",
-   "summary": "Got the smoother Panic Button list ready to merge and built your priority Hub flag as a proposal.",
-   "items": [
-    {
-     "kind": "ready",
-     "project": "Panic Button",
-     "text": "Smoother list (progress line and gentle checks) is ready to merge."
-    },
-    {
-     "kind": "proposed",
-     "project": "Flag Hub",
-     "text": "Built your priority Hub flag: change your mind on decisions, a Waiting for Claude section, and screenshots behind a button."
-    }
-   ]
-  },
   {
    "at": "2026-10-29T21:04:32Z",
    "mode": "light",
@@ -1381,6 +1386,29 @@
      "kind": "proposed",
      "project": "Flag Hub",
      "text": "Longer flags: 8,000 characters, long ones fold with Show all."
+    }
+   ]
+  },
+  {
+   "at": "2026-11-20T08:57:18Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Merged longer flags into the Hub and built one proposal: a calmer battle idle animation.",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Flag Hub",
+     "text": "Longer flags with Show all are live (the live-site check couldn't load from the cloud; tested locally)."
+    },
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Slower breathe and pose swap so fighters stop fidgeting."
+    },
+    {
+     "kind": "fixed",
+     "project": "Study Decks",
+     "text": "Noted your love of diagram questions for future decks."
     }
    ]
   }
