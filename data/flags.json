@@ -677,15 +677,21 @@
   {
    "id": "c1120quick",
    "project": "Music Space",
-   "kind": "concept",
+   "kind": "fix",
    "status": "open",
-   "text": "A \"Short on time? 5 minutes\" button under Start that keeps your chords warm without starting a new lesson.",
-   "detail": "It runs Land It on your two weakest chords with the lesson timer, then counts toward your 3 this week. Busy days still keep the ring and streak moving.",
-   "size": "M",
-   "cost": "about half a light night",
-   "why": "Keeps the Path and streak rewarding on busy weeks, one phone screen, no new sounds.",
-   "source": "night shift",
-   "created": "2026-11-20T21:33:34Z"
+   "text": "A \"Short on time? 5 minutes\" button under Start that keeps your chords warm without starting a new lesson.\n\nIt runs Land It on your two weakest chords with the lesson timer, then counts toward your 3 this week. Busy days still keep the ring and streak moving.",
+   "source": "concept",
+   "created": "2026-11-20T21:45:06.303Z",
+   "concept": {
+    "pitch": "A \"Short on time? 5 minutes\" button under Start that keeps your chords warm without starting a new lesson.",
+    "detail": "It runs Land It on your two weakest chords with the lesson timer, then counts toward your 3 this week. Busy days still keep the ring and streak moving.",
+    "size": "M",
+    "cost": "about half a light night",
+    "why": "Keeps the Path and streak rewarding on busy weeks, one phone screen, no new sounds.",
+    "created": "2026-11-20T21:33:34Z"
+   },
+   "plantedAt": "2026-11-20T21:45:06.303Z",
+   "reviewedAt": "2026-11-20T21:45:06.303Z"
   },
   {
    "id": "c1120concerts",
