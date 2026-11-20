@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwofdx8e",
+   "project": "Study Decks",
+   "text": "The movement here is a bit much for me, like he wont sit still. I dont mind the idle movement, but it's a little much with both the shrink and grow + the 2 animations going both pretty quickly at once. I'm down to keep both going, just slow them both down.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-20T03:34:36.926Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": "div#heroSlot > div.act.a-hurtHero:nth-of-type(1) > div.body.idle-breathe > canvas",
+    "says": "",
+    "screen": "1536x864 computer",
+    "look": "chameleon"
+   }
+  },
+  {
    "id": "s20261118160834",
    "project": "RetroBat",
    "text": "For RetroBat: I'd be down to get into Xbox Kinect and other games that use cameras.",
