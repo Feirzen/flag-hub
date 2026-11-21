@@ -95,7 +95,7 @@
    "source": "siri",
    "heard": "So also for this plant a flag thing I definitely feel like I use it a lot for just brainstorming like while I'm driving or thinking so I definitely feel like a current setup is great and also I think a lot of times I'll just be brainstorming so I might need you to on the Night Shift and dissect a lot of what they write into actual actionable flags and some of the content will just be like sidenote or things that belong in other places I don't know if that means I need to do a whole new set up or if that means that just every night shift you might be interacting with a lot of different projects trying to understand all of my thoughts but",
    "created": "2026-11-18T21:23:57Z",
-   "note": "Right now each Siri note becomes one flag. To have the night shift split a brain dump into several flags, its cloud prompt needs one added line. Ask in a chat and it can be added; no new setup needed."
+   "note": "Right now each Siri note becomes one flag. To have the night shift split a brain dump into several flags, its cloud prompt needs one added line. Ask in a chat and it can be added; no new setup needed.\nClaude did a piece of this: notes/c1120dump.md"
   },
   {
    "id": "s20261118142207",
@@ -467,7 +467,7 @@
    "text": "Add all the concerts we've been to as playlists: OneRepublic, YSA Together in Christ, Yoke Lore, Owl City, Andy Grammer YSA. Claude on laptop has the chat with the setlists.",
    "id": "rem-08",
    "reviewedAt": "2026-10-30T17:46:39.542Z",
-   "note": "No repo for this, so the night shift can't do it. Move it to For me, PC, or Ideas?",
+   "note": "No repo for this, so the night shift can't do it. Move it to For me, PC, or Ideas?\nClaude did a piece of this: notes/c1120concerts.md",
    "editedAt": "2026-10-30T17:46:39.542Z"
   },
   {
@@ -678,7 +678,7 @@
    "id": "c1120quick",
    "project": "Music Space",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "text": "A \"Short on time? 5 minutes\" button under Start that keeps your chords warm without starting a new lesson.\n\nIt runs Land It on your two weakest chords with the lesson timer, then counts toward your 3 this week. Busy days still keep the ring and streak moving.",
    "source": "concept",
    "created": "2026-11-20T21:45:06.303Z",
@@ -697,7 +697,7 @@
    "id": "c1120concerts",
    "project": "Spotify",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "helps": "rem-08",
    "text": "For your concert playlists flag: I pull each show's real setlist and build one Spotify playlist per concert.\n\nOneRepublic, Yoke Lore, Owl City, and the two YSA shows. Spotify is already connected, so it's just your OK and which dates or cities each show was.\n\nMy notes: Yeah totally! Although I think therer are a couple issues- #1 spotify might not allow you to choose specific songs, and will make a scrmabled bad version. #2 you actually already started this project once before on my laptop, I think it was ran on my laptop, but you already got all the setlists and started on a couple playlists. It's been a long time since then though lol.",
    "source": "concept",
@@ -712,13 +712,15 @@
     "created": "2026-11-20T21:33:34Z"
    },
    "plantedAt": "2026-11-20T21:46:40.713Z",
-   "reviewedAt": "2026-11-20T21:46:40.713Z"
+   "reviewedAt": "2026-11-20T21:46:40.713Z",
+   "resolvedAt": "2026-11-21T09:00:05Z",
+   "resolution": "Ready: notes/c1120concerts.md"
   },
   {
    "id": "c1120dump",
    "project": "Flag Hub",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "text": "Brain dump splitter: a long Siri ramble becomes several clean flags, each filed under the right project.\n\nSide thoughts land in Ideas, and every piece links back to what you actually said. It's one added step for the night shift, no new setup.",
    "source": "concept",
    "created": "2026-11-20T21:49:46.643Z",
@@ -733,13 +735,15 @@
     "created": "2026-11-20T21:47:59Z"
    },
    "plantedAt": "2026-11-20T21:49:46.643Z",
-   "reviewedAt": "2026-11-20T21:49:46.643Z"
+   "reviewedAt": "2026-11-20T21:49:46.643Z",
+   "resolvedAt": "2026-11-21T09:00:05Z",
+   "resolution": "Ready: notes/c1120dump.md"
   },
   {
    "id": "c1120echo",
    "project": "Study Decks",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "text": "Echo Hall: a new Tower trial room whose gates only open with questions you've missed before.\n\nThe room is built from your weak spots, so clearing it is real review right before a test. It's dark and torchlit like the Labyrinth.",
    "source": "concept",
    "created": "2026-11-20T21:49:09.260Z",
@@ -821,6 +825,33 @@
    },
    "plantedAt": "2026-11-20T21:51:56.290Z",
    "reviewedAt": "2026-11-20T21:51:56.290Z"
+  },
+  {
+   "id": "c1121sync",
+   "project": "Bulk Manager",
+   "kind": "concept",
+   "status": "open",
+   "text": "A small \"Health Sync last ran Nov 10\" line at the top whenever it's been more than 2 days, so a stalled sync is obvious instead of silent.",
+   "detail": "Plain gray text with the date, no red and no warnings. It disappears the moment a sync lands, and it never touches your data.",
+   "size": "S",
+   "cost": "a small piece of a light night",
+   "why": "Makes the health sync gaps obvious. The last sync was 11 days ago and nothing on the page says so.",
+   "source": "night shift",
+   "created": "2026-11-21T09:00:05Z"
+  },
+  {
+   "id": "c1121backup",
+   "project": "Unsorted",
+   "kind": "concept",
+   "status": "open",
+   "helps": "fmvoyxbj2",
+   "text": "For your repo backup idea: I compare the simple ways to back up all your GitHub repos (second account, PC script, cloud copy) and write exact steps for the best one.",
+   "detail": "Short pros and cons, what it costs (likely free), and how it runs on its own so you never think about it.",
+   "size": "S",
+   "cost": "a small piece of a light night",
+   "why": "Protects all your app work, and that idea has been sitting since October.",
+   "source": "night shift",
+   "created": "2026-11-21T09:00:05Z"
   }
  ],
  "proposals": [
@@ -1078,32 +1109,67 @@
    ],
    "decidedAt": "2026-11-20T21:28:30.635Z",
    "shippedAt": "2026-11-20T21:30:33Z"
+  },
+  {
+   "id": "p1121msquick",
+   "project": "Music Space",
+   "lane": "cloud",
+   "title": "Short on time? A 5-minute warm-up button",
+   "summary": "A quiet \"Short on time? 5 minutes\" button now sits under Start on the Campfire path. It runs Land It on your two weakest chords with a 5-minute timer, and landing both (or 5 minutes) counts toward your 3 this week without moving your place on the path.",
+   "link": "https://github.com/Feirzen/music-space/pull/4",
+   "images": [
+    "previews/p1121msquick/before.png",
+    "previews/p1121msquick/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.5,
+     "y": 0.77,
+     "r": 0.08
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-21T09:00:05Z",
+   "flagIds": [
+    "c1120quick"
+   ]
+  },
+  {
+   "id": "p1121sdecho",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Echo Hall trial room in the Tower",
+   "summary": "A new sealed trial room where the torches gutter low and three dark mirrors each ask a question you've missed before, this chapter's first. It only shows up once you have 3+ misses, and only on floors you start after it ships.",
+   "link": "https://github.com/Feirzen/study-decks/pull/17",
+   "images": [
+    "previews/p1121sdecho/before.png",
+    "previews/p1121sdecho/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.52,
+     "y": 0.153,
+     "r": 0.04
+    },
+    {
+     "x": 0.233,
+     "y": 0.202,
+     "r": 0.04
+    },
+    {
+     "x": 0.197,
+     "y": 0.268,
+     "r": 0.04
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-21T09:00:05Z",
+   "flagIds": [
+    "c1120echo"
+   ]
   }
  ],
  "runs": [
-  {
-   "at": "2026-10-31T05:05:00Z",
-   "lane": "pc",
-   "mode": "big",
-   "summary": "Shipped the steadier game window and the website's missing icons, and built a proposal so phone pings say who sent a game request.",
-   "items": [
-    {
-     "kind": "shipped",
-     "project": "RetroBat Wizard",
-     "text": "Game window arrows no longer bring up scroll bars or resize the box."
-    },
-    {
-     "kind": "shipped",
-     "project": "RetroBat Wizard",
-     "text": "The website's Start and Games icons show again (the chest is back on Games)."
-    },
-    {
-     "kind": "proposed",
-     "project": "RetroBat Wizard",
-     "text": "Phone pings say what kind of report it is and who sent it, like \"Game request from Steven\"."
-    }
-   ]
-  },
   {
    "at": "2026-10-31T05:40:00Z",
    "lane": "pc",
@@ -1562,6 +1628,44 @@
      "kind": "suggested",
      "project": "Spotify",
      "text": "Build your concert playlists from the real setlists."
+    }
+   ]
+  },
+  {
+   "at": "2026-11-21T09:00:05Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Built two of your planted ideas as proposals, did two helper write-ups, and left two suggestions.",
+   "items": [
+    {
+     "kind": "proposed",
+     "project": "Music Space",
+     "text": "Short on time? 5-minute warm-up button, ready for a look."
+    },
+    {
+     "kind": "proposed",
+     "project": "Study Decks",
+     "text": "Echo Hall trial room built from your misses, ready for a look."
+    },
+    {
+     "kind": "fixed",
+     "project": "Flag Hub",
+     "text": "Brain dump splitter plan and drop-in step: notes/c1120dump.md."
+    },
+    {
+     "kind": "fixed",
+     "project": "Spotify",
+     "text": "Concert playlists: the exact-setlist way, in notes/c1120concerts.md."
+    },
+    {
+     "kind": "suggested",
+     "project": "Bulk Manager",
+     "text": "Show when Health Sync last ran."
+    },
+    {
+     "kind": "suggested",
+     "project": "Unsorted",
+     "text": "Help pick a backup for all your repos."
     }
    ]
   }
