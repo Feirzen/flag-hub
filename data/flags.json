@@ -605,10 +605,12 @@
    "kind": "fix",
    "project": "RetroBat",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Flash games: some use the keyboard. Custom key bindings per game?",
    "id": "rem-32",
-   "reviewedAt": "2026-10-25T05:24:35.115Z"
+   "reviewedAt": "2026-10-25T05:24:35.115Z",
+   "resolvedAt": "2026-11-22T06:21:59.633Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
