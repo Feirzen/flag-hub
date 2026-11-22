@@ -98,16 +98,6 @@
    "note": "Right now each Siri note becomes one flag. To have the night shift split a brain dump into several flags, its cloud prompt needs one added line. Ask in a chat and it can be added; no new setup needed.\nClaude did a piece of this: notes/c1120dump.md"
   },
   {
-   "id": "s20261118142207",
-   "project": "RetroBat",
-   "text": "Playnite setup: upload the logos for every app it launches, and strip out all the extra stuff the software came with. Keep it very, very simple.",
-   "kind": "fix",
-   "status": "open",
-   "source": "siri",
-   "heard": "So I want you to upload all of the logos for all of the different apps that we're going to be using and in addition to that I would love to get it I don't know there was a lot of extra content you know so I just went back and then there was all of this stuff from the actual website not the website but the actual software itself had so much extra stuff and I really want this to be very very simple",
-   "created": "2026-11-18T21:22:07Z"
-  },
-  {
    "id": "s20261118142050",
    "project": "RetroBat",
    "text": "Custom Playnite setup: none of the tiles show an image of the app they open. Give every tile a real image, even just the app's logo (for RetroBat, use my Wizard logo).",
