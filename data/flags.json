@@ -164,7 +164,8 @@
    "status": "open",
    "source": "claude",
    "created": "2026-11-16T09:20:00Z",
-   "text": "Bug: Steam has a hard time connecting with RetroBat. Launching Steam games from RetroBat throws lots of little popups and issues, none of them controller friendly. Make Steam launches from RetroBat smooth and controller-only (check how Steam is started, any Steam popups, focus returning to RetroBat on exit). Related: the cloud sync error flag fmvv9xqib."
+   "text": "Bug: Steam has a hard time connecting with RetroBat. Launching Steam games from RetroBat throws lots of little popups and issues, none of them controller friendly. Make Steam launches from RetroBat smooth and controller-only (check how Steam is started, any Steam popups, focus returning to RetroBat on exit). Related: the cloud sync error flag fmvv9xqib.",
+   "note": "Built 2026-11-22, waiting on a test: PLAY now starts Steam quietly in the tray (-silent) so a Steam game never cold-starts Steam and RetroBat stops killing Steam when the game closes; RetroBat's menu is pulled back to the front when a game ends; Steam games get a both-sticks couch mouse (handed to the Doghouse when it runs)."
   },
   {
    "id": "fmw16spanish",
@@ -220,7 +221,7 @@
    "status": "open",
    "source": "hub",
    "created": "2026-10-30T17:56:44.533Z",
-   "note": "You don't need to re-add the library: Connect Steam adds the drive to Steam once per computer and Steam remembers it, so the games just show as not installed while the drive is out. Cloud saves for most games live on C: (Steam's own folder or Documents), not on the drive. The errors most likely come from unplugging or shutting down before Steam finishes uploading a save, then playing on the other computer. Before you unplug, wait a few seconds after quitting a game until the Library shows the game's cloud status as up to date; if a conflict pops up, pick the side with the newer save."
+   "note": "Found the cause 2026-11-22: when RetroBat started Steam itself, it killed Steam the second the game closed (emulatorLauncher.log: 'Steam will be killed if not running before'), often mid cloud upload. PLAY now starts Steam ahead of time so it is never killed. Test: play a Steam game from RetroBat, quit, check the Library shows the cloud as up to date."
   },
   {
    "id": "fmvv9uimg",
@@ -660,7 +661,7 @@
    "id": "c1120quick",
    "project": "Music Space",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "text": "A \"Short on time? 5 minutes\" button under Start that keeps your chords warm without starting a new lesson.\n\nIt runs Land It on your two weakest chords with the lesson timer, then counts toward your 3 this week. Busy days still keep the ring and streak moving.",
    "source": "concept",
    "created": "2026-11-20T21:45:06.303Z",
@@ -673,7 +674,9 @@
     "created": "2026-11-20T21:33:34Z"
    },
    "plantedAt": "2026-11-20T21:45:06.303Z",
-   "reviewedAt": "2026-11-20T21:45:06.303Z"
+   "reviewedAt": "2026-11-20T21:45:06.303Z",
+   "resolvedAt": "2026-11-22T09:25:00Z",
+   "resolution": "Shipped: a quiet \"Short on time? 5 minutes\" button under Start runs Land It on your two weakest chords and counts toward your 3 this week."
   },
   {
    "id": "c1120concerts",
@@ -725,7 +728,7 @@
    "id": "c1120echo",
    "project": "Study Decks",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "text": "Echo Hall: a new Tower trial room whose gates only open with questions you've missed before.\n\nThe room is built from your weak spots, so clearing it is real review right before a test. It's dark and torchlit like the Labyrinth.",
    "source": "concept",
    "created": "2026-11-20T21:49:09.260Z",
@@ -738,13 +741,15 @@
     "created": "2026-11-20T21:47:59Z"
    },
    "plantedAt": "2026-11-20T21:49:09.260Z",
-   "reviewedAt": "2026-11-20T21:49:09.260Z"
+   "reviewedAt": "2026-11-20T21:49:09.260Z",
+   "resolvedAt": "2026-11-22T09:25:00Z",
+   "resolution": "Shipped: the Echo Hall trial room, where three dark mirrors ask questions you've missed, now shows up in the Tower on new floors."
   },
   {
    "id": "c1120spark",
    "project": "Bulk Manager",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "text": "A tiny 8-week trend line next to each lift, so you see if it's climbing without opening anything.\n\nIt's drawn from your logs and read only, nothing gets edited. Flat stretches show plain, never red or guilt-trippy.",
    "source": "concept",
    "created": "2026-11-20T21:49:25.685Z",
@@ -834,6 +839,43 @@
    "why": "Protects all your app work, and that idea has been sitting since October.",
    "source": "night shift",
    "created": "2026-11-21T09:00:05Z"
+  },
+  {
+   "id": "c1122dogkb",
+   "project": "HomeBox",
+   "kind": "fix",
+   "lane": "pc",
+   "status": "open",
+   "source": "claude",
+   "created": "2026-11-22T07:30:00Z",
+   "text": "Ruby's Doghouse: same keyboard and couch-mouse update RetroBat just got (Steven asked for both to match).\n\n1) Swap the Windows touch keyboard (TabTip) for the new controller keyboard: R:\\HomeBox\\Arcade\\RetroBat\\_Wizard\\Program\\scripts\\PadKeyboard.cs. It is one C# 5 class (WinForms, no focus stealing, types through SendInput as Unicode), so copy it into Apps\\HomeBoxHome\\src and compile it in with HomeBox.cs. Its API: Open, Dismiss, IsOpen, Nav(dx,dy), Press, Backspace, Space, TypeEnter, CursorLeft, CursorRight, ToggleShift, Tick (call every ~16 ms). Map it Xbox style from XInput: D-pad or a left-stick flick moves (repeat after 380 ms, then every 90), A types, X deletes, Y space, LB/RB move the text cursor, LT shift, Menu = Enter and close, B close. Keep Menu opening it and the auto-open when a text box gets focus.\n2) Two mice fight in RetroBat browser/Flash games: skip the Doghouse couch mouse (and its L3+R3 toggle) while the named mutex Local\\RetroBatCouchMouse exists. RetroBat's own couch mouse already steps aside for Steam and Jackbox games whenever HomeBox.exe is running.\n3) Start Steam with -silent at sign-in, after the R: drive shows up (homebox-startup.ps1), so Steam games never cold-start Steam (the pop-ups) and RetroBat never kills Steam mid cloud-save."
+  },
+  {
+   "id": "c1122fill",
+   "project": "Bulk Manager",
+   "kind": "concept",
+   "status": "open",
+   "text": "A \"Same as last time\" button on each lift that fills every set with last session's weight and reps in one tap.",
+   "detail": "You just tweak the one set that changed and save. It only fills the boxes on your phone, so nothing gets written until you save like normal.",
+   "size": "S",
+   "cost": "a small piece of a light night",
+   "why": "Makes logging a workout faster: most sets repeat last time's numbers.",
+   "source": "night shift",
+   "created": "2026-11-22T09:25:00Z"
+  },
+  {
+   "id": "c1122twl",
+   "project": "3DS Setup",
+   "kind": "concept",
+   "status": "open",
+   "helps": "rem-03",
+   "text": "For your DS emulator flag: I write exact, numbered steps to install TWiLight Menu++ on your 3DS, plus which settings to flip so DS games boot fast and saves stay safe.",
+   "detail": "One short page you can follow with the SD card in hand: what to download, where each file goes, and how to launch it from the Home Menu.",
+   "size": "S",
+   "cost": "a small piece of a light night",
+   "why": "Gets DS games running on the 3DS, and that flag has sat since October.",
+   "source": "night shift",
+   "created": "2026-11-22T09:25:00Z"
   }
  ],
  "proposals": [
@@ -1110,12 +1152,13 @@
      "r": 0.08
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-21T09:00:05Z",
    "flagIds": [
     "c1120quick"
    ],
-   "decidedAt": "2026-11-22T06:17:42.551Z"
+   "decidedAt": "2026-11-22T06:17:42.551Z",
+   "shippedAt": "2026-11-22T09:25:00Z"
   },
   {
    "id": "p1121sdecho",
@@ -1145,33 +1188,40 @@
      "r": 0.04
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-21T09:00:05Z",
    "flagIds": [
     "c1120echo"
    ],
-   "decidedAt": "2026-11-22T06:17:58.007Z"
+   "decidedAt": "2026-11-22T06:17:58.007Z",
+   "shippedAt": "2026-11-22T09:25:00Z"
+  },
+  {
+   "id": "p1122bmspark",
+   "project": "Bulk Manager",
+   "lane": "cloud",
+   "title": "Tiny 8-week trend line beside each lift",
+   "summary": "Each lift on the Workout page gets a small gray line with a dot on your latest session, showing the last 8 weeks at a glance, on open and collapsed cards. It stays hidden until a lift has two sessions in 8 weeks (your last log was in September, so the preview uses sample data).",
+   "link": "https://github.com/Feirzen/bulk-manager/pull/4",
+   "images": [
+    "previews/p1122bmspark/before.png",
+    "previews/p1122bmspark/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.5,
+     "y": 0.365,
+     "r": 0.08
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-22T09:25:00Z",
+   "flagIds": [
+    "c1120spark"
+   ]
   }
  ],
  "runs": [
-  {
-   "at": "2026-10-31T05:40:00Z",
-   "lane": "pc",
-   "mode": "big",
-   "summary": "On request: you merged the phone-ping change, and the smoother downloads (real progress, speed, time left, less freezing) are built and waiting for your OK.",
-   "items": [
-    {
-     "kind": "shipped",
-     "project": "RetroBat Wizard",
-     "text": "Phone pings say what kind of report it is and who sent it (goes out with the next wizard version)."
-    },
-    {
-     "kind": "proposed",
-     "project": "RetroBat Wizard",
-     "text": "Smoother downloads: real progress, MB/s and time left, a filling banner bar, and no full-page rebuild on every download."
-    }
-   ]
-  },
   {
    "at": "2026-10-31T08:05:28Z",
    "lane": "cloud",
@@ -1650,6 +1700,39 @@
      "kind": "suggested",
      "project": "Unsorted",
      "text": "Help pick a backup for all your repos."
+    }
+   ]
+  },
+  {
+   "at": "2026-11-22T09:25:00Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Merged your two approved proposals, built your lift trend line idea as a proposal, and left two suggestions.",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Music Space",
+     "text": "Short on time? 5-minute warm-up button is live."
+    },
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Echo Hall trial room is live in the Tower."
+    },
+    {
+     "kind": "proposed",
+     "project": "Bulk Manager",
+     "text": "Tiny 8-week trend line beside each lift, ready for a look."
+    },
+    {
+     "kind": "suggested",
+     "project": "Bulk Manager",
+     "text": "A Same as last time button to fill a lift's sets in one tap."
+    },
+    {
+     "kind": "suggested",
+     "project": "3DS Setup",
+     "text": "Step-by-step TWiLight Menu++ setup for DS games on your 3DS."
     }
    ]
   }

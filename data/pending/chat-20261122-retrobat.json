@@ -1,5 +1,5 @@
 {
-  "done": false,
+  "done": true,
   "note": "From a RetroBat chat on 2026-11-22. 1) Append the flag under 'add' to flags. 2) Set the 'note' on the two existing flags listed under 'notes' (replace any old note). Nothing else.",
   "add": [
     {
