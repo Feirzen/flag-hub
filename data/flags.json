@@ -816,15 +816,21 @@
   {
    "id": "c1121sync",
    "project": "Bulk Manager",
-   "kind": "concept",
+   "kind": "fix",
    "status": "open",
-   "text": "A small \"Health Sync last ran Nov 10\" line at the top whenever it's been more than 2 days, so a stalled sync is obvious instead of silent.",
-   "detail": "Plain gray text with the date, no red and no warnings. It disappears the moment a sync lands, and it never touches your data.",
-   "size": "S",
-   "cost": "a small piece of a light night",
-   "why": "Makes the health sync gaps obvious. The last sync was 11 days ago and nothing on the page says so.",
-   "source": "night shift",
-   "created": "2026-11-21T09:00:05Z"
+   "text": "A small \"Health Sync last ran Nov 10\" line at the top whenever it's been more than 2 days, so a stalled sync is obvious instead of silent.\n\nPlain gray text with the date, no red and no warnings. It disappears the moment a sync lands, and it never touches your data.",
+   "source": "concept",
+   "created": "2026-11-22T09:04:02.140Z",
+   "concept": {
+    "pitch": "A small \"Health Sync last ran Nov 10\" line at the top whenever it's been more than 2 days, so a stalled sync is obvious instead of silent.",
+    "detail": "Plain gray text with the date, no red and no warnings. It disappears the moment a sync lands, and it never touches your data.",
+    "size": "S",
+    "cost": "a small piece of a light night",
+    "why": "Makes the health sync gaps obvious. The last sync was 11 days ago and nothing on the page says so.",
+    "created": "2026-11-21T09:00:05Z"
+   },
+   "plantedAt": "2026-11-22T09:04:02.140Z",
+   "reviewedAt": "2026-11-22T09:04:02.140Z"
   },
   {
    "id": "c1121backup",
