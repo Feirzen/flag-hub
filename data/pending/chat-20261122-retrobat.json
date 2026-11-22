@@ -1,0 +1,20 @@
+{
+  "done": false,
+  "note": "From a RetroBat chat on 2026-11-22. 1) Append the flag under 'add' to flags. 2) Set the 'note' on the two existing flags listed under 'notes' (replace any old note). Nothing else.",
+  "add": [
+    {
+      "id": "c1122dogkb",
+      "project": "HomeBox",
+      "kind": "fix",
+      "lane": "pc",
+      "status": "open",
+      "source": "claude",
+      "created": "2026-11-22T07:30:00Z",
+      "text": "Ruby's Doghouse: same keyboard and couch-mouse update RetroBat just got (Steven asked for both to match).\n\n1) Swap the Windows touch keyboard (TabTip) for the new controller keyboard: R:\\HomeBox\\Arcade\\RetroBat\\_Wizard\\Program\\scripts\\PadKeyboard.cs. It is one C# 5 class (WinForms, no focus stealing, types through SendInput as Unicode), so copy it into Apps\\HomeBoxHome\\src and compile it in with HomeBox.cs. Its API: Open, Dismiss, IsOpen, Nav(dx,dy), Press, Backspace, Space, TypeEnter, CursorLeft, CursorRight, ToggleShift, Tick (call every ~16 ms). Map it Xbox style from XInput: D-pad or a left-stick flick moves (repeat after 380 ms, then every 90), A types, X deletes, Y space, LB/RB move the text cursor, LT shift, Menu = Enter and close, B close. Keep Menu opening it and the auto-open when a text box gets focus.\n2) Two mice fight in RetroBat browser/Flash games: skip the Doghouse couch mouse (and its L3+R3 toggle) while the named mutex Local\\RetroBatCouchMouse exists. RetroBat's own couch mouse already steps aside for Steam and Jackbox games whenever HomeBox.exe is running.\n3) Start Steam with -silent at sign-in, after the R: drive shows up (homebox-startup.ps1), so Steam games never cold-start Steam (the pop-ups) and RetroBat never kills Steam mid cloud-save."
+    }
+  ],
+  "notes": {
+    "fmw16steamrb": "Built 2026-11-22, waiting on a test: PLAY now starts Steam quietly in the tray (-silent) so a Steam game never cold-starts Steam and RetroBat stops killing Steam when the game closes; RetroBat's menu is pulled back to the front when a game ends; Steam games get a both-sticks couch mouse (handed to the Doghouse when it runs).",
+    "fmvv9xqib": "Found the cause 2026-11-22: when RetroBat started Steam itself, it killed Steam the second the game closed (emulatorLauncher.log: 'Steam will be killed if not running before'), often mid cloud upload. PLAY now starts Steam ahead of time so it is never killed. Test: play a Steam game from RetroBat, quit, check the Library shows the cloud as up to date."
+  }
+}
