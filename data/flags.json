@@ -825,7 +825,7 @@
    "id": "c1121backup",
    "project": "Unsorted",
    "kind": "concept",
-   "status": "open",
+   "status": "denied",
    "helps": "fmvoyxbj2",
    "text": "For your repo backup idea: I compare the simple ways to back up all your GitHub repos (second account, PC script, cloud copy) and write exact steps for the best one.",
    "detail": "Short pros and cons, what it costs (likely free), and how it runs on its own so you never think about it.",
@@ -833,7 +833,8 @@
    "cost": "a small piece of a light night",
    "why": "Protects all your app work, and that idea has been sitting since October.",
    "source": "night shift",
-   "created": "2026-11-21T09:00:05Z"
+   "created": "2026-11-21T09:00:05Z",
+   "deniedAt": "2026-11-22T09:04:42.496Z"
   },
   {
    "id": "c1122dogkb",
