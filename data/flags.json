@@ -859,15 +859,21 @@
   {
    "id": "c1122fill",
    "project": "Bulk Manager",
-   "kind": "concept",
+   "kind": "fix",
    "status": "open",
-   "text": "A \"Same as last time\" button on each lift that fills every set with last session's weight and reps in one tap.",
-   "detail": "You just tweak the one set that changed and save. It only fills the boxes on your phone, so nothing gets written until you save like normal.",
-   "size": "S",
-   "cost": "a small piece of a light night",
-   "why": "Makes logging a workout faster: most sets repeat last time's numbers.",
-   "source": "night shift",
-   "created": "2026-11-22T09:25:00Z"
+   "text": "A \"Same as last time\" button on each lift that fills every set with last session's weight and reps in one tap.\n\nYou just tweak the one set that changed and save. It only fills the boxes on your phone, so nothing gets written until you save like normal.",
+   "source": "concept",
+   "created": "2026-11-22T09:04:15.278Z",
+   "concept": {
+    "pitch": "A \"Same as last time\" button on each lift that fills every set with last session's weight and reps in one tap.",
+    "detail": "You just tweak the one set that changed and save. It only fills the boxes on your phone, so nothing gets written until you save like normal.",
+    "size": "S",
+    "cost": "a small piece of a light night",
+    "why": "Makes logging a workout faster: most sets repeat last time's numbers.",
+    "created": "2026-11-22T09:25:00Z"
+   },
+   "plantedAt": "2026-11-22T09:04:15.278Z",
+   "reviewedAt": "2026-11-22T09:04:15.278Z"
   },
   {
    "id": "c1122twl",
