@@ -708,7 +708,9 @@
    "source": "reminders",
    "status": "open",
    "text": "Pokemon Mystery Dungeon style pixel game: towns from my life (high school, college, mission) with Pokemon named after people I know, higher evolutions for older or more experienced. A fun way to remember wonderful people.",
-   "id": "rem-13"
+   "id": "rem-13",
+   "reviewedAt": "2026-11-23T15:54:05.876Z",
+   "reviewEvery": 90
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
