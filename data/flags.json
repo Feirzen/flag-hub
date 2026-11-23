@@ -1003,7 +1003,7 @@
    "id": "c1120ri",
    "project": "Big ideas",
    "kind": "concept",
-   "status": "open",
+   "status": "denied",
    "text": "For your Spanish course for Ri: I draft lesson 1 (full script plus review plan) and a quick 4-question intake for her.",
    "detail": "The intake covers her level, accent, goal, and minutes a day, so the real course fits her before any audio gets made.",
    "size": "S",
@@ -1011,7 +1011,9 @@
    "why": "That idea is stuck on exactly those four questions.",
    "source": "night shift",
    "created": "2026-11-20T21:47:59Z",
-   "helps": "fmw16spanish"
+   "helps": "fmw16spanish",
+   "deniedAt": "2026-11-23T15:52:53.554Z",
+   "denyNote": "I like the idea, but for now I think we'll pause on it. I think she's not as motivated for the concept, but I'd be down to make the app eventually just in general. I feel like the Pimsleur style is an awesome concept with a really low barrier to help people start speaking, so why not you know?"
   },
   {
    "id": "c1120saves",
