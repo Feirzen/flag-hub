@@ -541,7 +541,7 @@
    "project": "RetroBat Wizard",
    "text": "Both this start icon and the Games icon are gone! Although I would be down to replace the Start icon with the spinning globe from the wizard, and also include it on the page. Then update the chest icon to match the chest from the wizard for the games tab?",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-10-26T18:26:47.130Z",
    "where": {
@@ -551,7 +551,9 @@
     "says": "",
     "screen": "1536x695 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-11-23T15:54:43.633Z",
+   "resolution": "marked done by you"
   },
   {
    "id": "fmvoxf8cx",
