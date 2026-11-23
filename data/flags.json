@@ -1530,7 +1530,7 @@
     "previews/p1123sdhigh/before.png",
     "previews/p1123sdhigh/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-23T09:40:00Z",
    "flagIds": [
     "fmwsqnpth"
@@ -1541,7 +1541,8 @@
      "y": 0.535,
      "r": 0.08
     }
-   ]
+   ],
+   "decidedAt": "2026-11-23T14:29:10.261Z"
   },
   {
    "id": "p1123sdbal",
