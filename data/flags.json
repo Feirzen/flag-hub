@@ -1580,7 +1580,7 @@
     "previews/p1123sdgod/before.png",
     "previews/p1123sdgod/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-23T09:40:00Z",
    "flagIds": [
     "fmwsoobyl"
@@ -1591,7 +1591,8 @@
      "y": 0.318,
      "r": 0.09
     }
-   ]
+   ],
+   "decidedAt": "2026-11-23T14:31:14.513Z"
   },
   {
    "id": "p1123sdroom",
