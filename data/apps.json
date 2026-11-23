@@ -252,7 +252,7 @@
     "RetroBat"
    ],
    "lane": "pc",
-   "state": "off",
+   "state": "on",
    "glyph": "pad",
    "vision": {
     "never": [
