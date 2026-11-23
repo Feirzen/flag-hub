@@ -1,11 +1,11 @@
 {
- "mode": "big",
- "openFlags": 39,
+ "mode": "light",
+ "openFlags": 36,
  "waiting": 0,
  "lastRun": {
   "at": "2026-11-23T14:55:00Z",
   "summary": "Merged all 8 proposals you approved this morning (6 Study Decks, 2 Bulk Manager) and left 2 suggestions."
  },
- "updated": "2026-11-23T14:55:00Z",
+ "updated": "2026-11-23T15:55:53.262Z",
  "suggestions": 6
 }
