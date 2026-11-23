@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwsqnpth",
+   "project": "Study Decks",
+   "text": "Maybe add a highlight feature to the learning pages- highlight could show up on the right side of the main menu of the study deck in a list until 3 or more, in wihich case youd have to open the highlights window to see them all. It is just all the highlights of each learning page, all sitting on one entry (only one per learning page). Maybe include the choater and subject, as well as the entire setence in which a highlight is included for context. The I can highlight important things, and go back and review them again for practice.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-23T04:01:14.357Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": null,
+    "says": null,
+    "screen": "1920x911 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmwsqhbtw",
    "project": "Study Decks",
    "text": "I love this dark labrynth part, really cool fr! I do think however that I would rather only have one light source, so the key wouldve made the torches light but I got to the rune that lit the whole room first, which is cool but the key sounds way cooler. Maybe kill the rune that lights the whole room and maybe add something else to the room? Like a chest or sum idk?",
