@@ -270,6 +270,13 @@
     "retro bat",
     "emulation",
     "emulator"
+   ],
+   "denied": [
+    {
+     "id": "c1123wii",
+     "text": "For your Wii remotes flag: I compare the real and third-party remotes and nunchucks that pair well with Dolphin in RetroBat (and which ones lag), with links and prices.",
+     "at": "2026-11-23T15:49:55.782Z"
+    }
    ]
   },
   {
