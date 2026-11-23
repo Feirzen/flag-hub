@@ -1644,11 +1644,12 @@
     "previews/p1123sdvoice/before.png",
     "previews/p1123sdvoice/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-23T13:30:00Z",
    "flagIds": [
     "fmwsohnoz"
-   ]
+   ],
+   "decidedAt": "2026-11-23T14:28:44.956Z"
   }
  ],
  "runs": [
