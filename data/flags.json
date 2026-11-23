@@ -1555,7 +1555,7 @@
     "previews/p1123sdbal/before.png",
     "previews/p1123sdbal/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-23T09:40:00Z",
    "flagIds": [
     "fmwsosqvz"
@@ -1566,7 +1566,8 @@
      "y": 0.51,
      "r": 0.09
     }
-   ]
+   ],
+   "decidedAt": "2026-11-23T14:30:17.336Z"
   },
   {
    "id": "p1123sdgod",
