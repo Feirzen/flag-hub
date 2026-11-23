@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwsqhbtw",
+   "project": "Study Decks",
+   "text": "I love this dark labrynth part, really cool fr! I do think however that I would rather only have one light source, so the key wouldve made the torches light but I got to the rune that lit the whole room first, which is cool but the key sounds way cooler. Maybe kill the rune that lights the whole room and maybe add something else to the room? Like a chest or sum idk?",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-23T03:56:16.292Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": null,
+    "says": null,
+    "screen": "1920x911 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmwspfcon",
    "project": "Study Decks",
    "text": "Maybe we could have a tied up NPC at some point as poart of the game. Either as a trap and a monster pops out and then you can save the person, or maybe the person then follows you til you take them to the exit and kill the boss on your way out? Then they give you a gift for helping them out? Idk. Plenty of ideas.",
