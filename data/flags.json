@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwsohnoz",
+   "project": "Study Decks",
+   "text": "The audio tracks on lots of the pop ups dont follow me as I scroll down, or show on the page behind the pop up, so I cant pause or rewind as I follow along. Also,  so many of the acronyms and scientific words and chimicals are prnounced wrong and it makes it harder for me, make extra care that those sound right in the future",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-23T03:00:32.435Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": null,
+    "says": null,
+    "screen": "1920x911 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmwofiiyt",
    "project": "Study Decks",
    "text": "This question here is AWESOME. With the pic and everything, such a fan. If I'm ever studying and the resources I give you have diagrams that are helpful to learn, PLEASE keep giving me questions like that.",
