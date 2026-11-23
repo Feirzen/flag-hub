@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwsosqvz",
+   "project": "Study Decks",
+   "text": "The moves for each class I feel are skewed toward the lower ones- like using the most expensive one NEVER makes sense cause no mobs have that much health, it costs so much to charge up, and the lower ones do similar amounts of damage but with bigger buffs. I think there need to be buffs or effects that make the bigger ones worth it, or cheaper energy expense. Also a boon or magic items that could be collected to increase mana stores would be cool. Also I think XP needs to be blue lol, it just makes sense, the knights mana can change colors to not confuse. \nOn that note, the damage system feels strange to me- its hard to grind through enemies at the start, but after a couple boons, levelling up my damage after learning all the techniques, and using techniques and boons later, I shred through enemies SO fast. It's I think a steeper curve than the enemies imo. idk how to fix that lol.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-23T03:09:09.791Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": "div#app > div.wrap.battle > div.bgrid:nth-of-type(2) > div.bleft:nth-of-type(1) > div.specbar.tex:nth-of-type(3)",
+    "says": "3/9 Shield Bash 3 Whirlwind 4 Holy Strike 6 Judgment 9",
+    "screen": "1920x911 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmwsoobyl",
    "project": "Study Decks",
    "text": "There are different points at which I'm frustrated by a mechanic, for example rn I edited the game with claude and now I have to redo chapter 1. Sometimes the boons dont work right, or something happens, I mark a question wrong on accident, even though I knew the answer. I'd love an editor for that, like a God mode that allows me to just edit things to allow me to study more efficiently. I often am cramming last second, so it would make a big difference to have more control over my game in a pinch.",
