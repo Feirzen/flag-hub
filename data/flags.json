@@ -87,7 +87,7 @@
    "project": "Study Decks",
    "text": "Iwas thinkning on battle mode we could make the map a toggle? Like it stays small in the corner like it is now, but we could just make tab or sum move the map to take up the whole screen, and move back when you let go, you know? \nAnother one, Maybe there could be a couple rooms where monsters move, and try to come after you? Or like a room you get locked in that looks like a colloseum, and they add one monster to the other end 2-3 times til you beat them all and it opens unlocked. idk. \nAlso maybe a room with a trick door like the legend of zelda, where going through thetop door makes you walk back into the same room from below. idk sum like that could be fun. Zelda tricks and little puzzles and stuff fit perfectly into our game so feel free to look for more like that.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T04:38:04.051Z",
    "where": {
@@ -97,14 +97,16 @@
     "says": null,
     "screen": "1920x911 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-11-23T14:55:00Z",
+   "resolution": "The Arena and Winding Hall rooms are in, and holding Tab now shows a big map."
   },
   {
    "id": "fmwsqnpth",
    "project": "Study Decks",
    "text": "Maybe add a highlight feature to the learning pages- highlight could show up on the right side of the main menu of the study deck in a list until 3 or more, in wihich case youd have to open the highlights window to see them all. It is just all the highlights of each learning page, all sitting on one entry (only one per learning page). Maybe include the choater and subject, as well as the entire setence in which a highlight is included for context. The I can highlight important things, and go back and review them again for practice.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T04:01:14.357Z",
    "where": {
@@ -114,7 +116,9 @@
     "says": null,
     "screen": "1920x911 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-11-23T14:55:00Z",
+   "resolution": "Lesson pages now have highlights, listed on the deck home."
   },
   {
    "id": "fmwsqhbtw",
@@ -140,7 +144,7 @@
    "project": "Study Decks",
    "text": "Maybe we could have a tied up NPC at some point as poart of the game. Either as a trap and a monster pops out and then you can save the person, or maybe the person then follows you til you take them to the exit and kill the boss on your way out? Then they give you a gift for helping them out? Idk. Plenty of ideas.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T03:26:44.471Z",
    "where": {
@@ -150,7 +154,9 @@
     "says": null,
     "screen": "1920x911 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-11-23T14:55:00Z",
+   "resolution": "A tied-up captive can now show up on a floor: untie them (sometimes it is a trap) and they follow you for a gift."
   },
   {
    "id": "fmwspduk7",
@@ -176,7 +182,7 @@
    "project": "Study Decks",
    "text": "The moves for each class I feel are skewed toward the lower ones- like using the most expensive one NEVER makes sense cause no mobs have that much health, it costs so much to charge up, and the lower ones do similar amounts of damage but with bigger buffs. I think there need to be buffs or effects that make the bigger ones worth it, or cheaper energy expense. Also a boon or magic items that could be collected to increase mana stores would be cool. Also I think XP needs to be blue lol, it just makes sense, the knights mana can change colors to not confuse. \nOn that note, the damage system feels strange to me- its hard to grind through enemies at the start, but after a couple boons, levelling up my damage after learning all the techniques, and using techniques and boons later, I shred through enemies SO fast. It's I think a steeper curve than the enemies imo. idk how to fix that lol.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T03:09:09.791Z",
    "where": {
@@ -187,14 +193,16 @@
     "screen": "1920x911 computer",
     "look": "sepia"
    },
-   "note": "Partly shipped: the XP bar is blue now and the Knight's charge bar is gold so they don't clash. Still open: making the expensive techniques worth it, mana items/boons, and the damage curve."
+   "note": "Partly shipped: the XP bar is blue now and the Knight's charge bar is gold so they don't clash. Still open: making the expensive techniques worth it, mana items/boons, and the damage curve.",
+   "resolvedAt": "2026-11-23T14:55:00Z",
+   "resolution": "Techniques are rebalanced so the top ones are worth saving for, with steadier fights and more mana."
   },
   {
    "id": "fmwsoobyl",
    "project": "Study Decks",
    "text": "There are different points at which I'm frustrated by a mechanic, for example rn I edited the game with claude and now I have to redo chapter 1. Sometimes the boons dont work right, or something happens, I mark a question wrong on accident, even though I knew the answer. I'd love an editor for that, like a God mode that allows me to just edit things to allow me to study more efficiently. I often am cramming last second, so it would make a big difference to have more control over my game in a pinch.",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T03:05:43.821Z",
    "where": {
@@ -204,7 +212,9 @@
     "says": null,
     "screen": "1920x911 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-11-23T14:55:00Z",
+   "resolution": "God mode is in: you can edit your own adventure save."
   },
   {
    "id": "fmwsoj53t",
@@ -230,7 +240,7 @@
    "project": "Study Decks",
    "text": "The audio tracks on lots of the pop ups dont follow me as I scroll down, or show on the page behind the pop up, so I cant pause or rewind as I follow along. Also,  so many of the acronyms and scientific words and chimicals are prnounced wrong and it makes it harder for me, make extra care that those sound right in the future",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T03:00:32.435Z",
    "where": {
@@ -241,7 +251,9 @@
     "screen": "1920x911 computer",
     "look": "sepia"
    },
-   "note": "Audio part shipped: the mini player now shows at the bottom on every screen and on top of pop-ups whenever the full player is scrolled out of view. Still open: pronunciation of acronyms and chemical names (needs a pass when the narration is regenerated)."
+   "note": "Audio part shipped: the mini player now shows at the bottom on every screen and on top of pop-ups whenever the full player is scrolled out of view. Still open: pronunciation of acronyms and chemical names (needs a pass when the narration is regenerated).",
+   "resolvedAt": "2026-11-23T14:55:00Z",
+   "resolution": "Exam 3 narration is re-recorded with acronyms and chemistry words said right, and future biochem decks get the same fix."
   },
   {
    "id": "fmwofiiyt",
@@ -1129,6 +1141,33 @@
    "why": "Ties the Path straight to songs you can actually play, which keeps it rewarding.",
    "source": "night shift",
    "created": "2026-11-23T08:58:29Z"
+  },
+  {
+   "id": "c1123needq",
+   "project": "Flag Hub",
+   "kind": "concept",
+   "status": "open",
+   "text": "When Claude leaves a question on a flag (like \"mark this done?\" or \"move it?\"), it shows up under Needs you with one-tap answers instead of hiding in Claude's queue.",
+   "detail": "Right now the Hub says 0 need you while 3 flags (Party mode and the two Bilingual Blueprints ones) are really waiting on your answer. They'd sit with the proposals, with buttons like Done, Keep, or Move to For me.",
+   "size": "M",
+   "cost": "a small piece of a light night",
+   "why": "Always clear whose turn it is, and fewer taps from flag to shipped.",
+   "source": "night shift",
+   "created": "2026-11-23T14:55:00Z"
+  },
+  {
+   "id": "c1123wii",
+   "project": "RetroBat",
+   "kind": "concept",
+   "status": "open",
+   "helps": "rem-28",
+   "text": "For your Wii remotes flag: I compare the real and third-party remotes and nunchucks that pair well with Dolphin in RetroBat (and which ones lag), with links and prices.",
+   "detail": "Also covers whether a DolphinBar or your PC's Bluetooth is the smoother way to pair them.",
+   "size": "S",
+   "cost": "a small piece of a light night",
+   "why": "Moves a For me flag forward so RetroBat game nights just work.",
+   "source": "night shift",
+   "created": "2026-11-23T14:55:00Z"
   }
  ],
  "proposals": [
@@ -1538,7 +1577,7 @@
     "previews/p1123sdhigh/before.png",
     "previews/p1123sdhigh/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-23T09:40:00Z",
    "flagIds": [
     "fmwsqnpth"
@@ -1550,7 +1589,8 @@
      "r": 0.08
     }
    ],
-   "decidedAt": "2026-11-23T14:29:10.261Z"
+   "decidedAt": "2026-11-23T14:29:10.261Z",
+   "shippedAt": "2026-11-23T14:55:00Z"
   },
   {
    "id": "p1123sdbal",
@@ -1563,7 +1603,7 @@
     "previews/p1123sdbal/before.png",
     "previews/p1123sdbal/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-23T09:40:00Z",
    "flagIds": [
     "fmwsosqvz"
@@ -1575,7 +1615,8 @@
      "r": 0.09
     }
    ],
-   "decidedAt": "2026-11-23T14:30:17.336Z"
+   "decidedAt": "2026-11-23T14:30:17.336Z",
+   "shippedAt": "2026-11-23T14:55:00Z"
   },
   {
    "id": "p1123sdgod",
@@ -1588,7 +1629,7 @@
     "previews/p1123sdgod/before.png",
     "previews/p1123sdgod/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-23T09:40:00Z",
    "flagIds": [
     "fmwsoobyl"
@@ -1600,7 +1641,8 @@
      "r": 0.09
     }
    ],
-   "decidedAt": "2026-11-23T14:31:14.513Z"
+   "decidedAt": "2026-11-23T14:31:14.513Z",
+   "shippedAt": "2026-11-23T14:55:00Z"
   },
   {
    "id": "p1123sdroom",
@@ -1613,12 +1655,13 @@
     "previews/p1123sdroom/before.png",
     "previews/p1123sdroom/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-23T09:40:00Z",
    "flagIds": [
     "fmwsrz2tv"
    ],
-   "decidedAt": "2026-11-23T14:31:53.290Z"
+   "decidedAt": "2026-11-23T14:31:53.290Z",
+   "shippedAt": "2026-11-23T14:55:00Z"
   },
   {
    "id": "p1123sdrescue",
@@ -1631,7 +1674,7 @@
     "previews/p1123sdrescue/before.png",
     "previews/p1123sdrescue/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-23T09:40:00Z",
    "flagIds": [
     "fmwspfcon",
@@ -1644,7 +1687,8 @@
      "r": 0.05
     }
    ],
-   "decidedAt": "2026-11-23T14:32:33.154Z"
+   "decidedAt": "2026-11-23T14:32:33.154Z",
+   "shippedAt": "2026-11-23T14:55:00Z"
   },
   {
    "id": "p1123sdvoice",
@@ -1657,28 +1701,16 @@
     "previews/p1123sdvoice/before.png",
     "previews/p1123sdvoice/after.png"
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-23T13:30:00Z",
    "flagIds": [
     "fmwsohnoz"
    ],
-   "decidedAt": "2026-11-23T14:28:44.956Z"
+   "decidedAt": "2026-11-23T14:28:44.956Z",
+   "shippedAt": "2026-11-23T14:55:00Z"
   }
  ],
  "runs": [
-  {
-   "at": "2026-11-01T07:57:00Z",
-   "lane": "cloud",
-   "mode": "big",
-   "summary": "Built one proposal: skip back and forward 10 seconds on the Study Decks narration players.",
-   "items": [
-    {
-     "kind": "proposed",
-     "project": "Study Decks",
-     "text": "Back 10 and forward 10 buttons on the narration players."
-    }
-   ]
-  },
   {
    "at": "2026-11-02T09:05:05Z",
    "lane": "cloud",
@@ -2207,6 +2239,64 @@
      "kind": "proposed",
      "project": "Study Decks",
      "text": "Exam 3 narration with biochem words said right."
+    }
+   ]
+  },
+  {
+   "at": "2026-11-23T14:55:00Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Merged all 8 proposals you approved this morning (6 Study Decks, 2 Bulk Manager) and left 2 suggestions.",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Bulk Manager",
+     "text": "Quiet \"Health Sync last ran\" line on the Review page."
+    },
+    {
+     "kind": "merged",
+     "project": "Bulk Manager",
+     "text": "\"Same as last time\" button on each lift."
+    },
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Highlights on lesson pages."
+    },
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Top techniques worth saving for, steadier fights, more mana."
+    },
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "God mode: edit your own adventure save."
+    },
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "New Tower rooms: the Arena and the Winding Hall."
+    },
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Rescue a tied-up captive, plus hold Tab for a big map."
+    },
+    {
+     "kind": "merged",
+     "project": "Study Decks",
+     "text": "Exam 3 narration with the science words said right."
+    },
+    {
+     "kind": "suggested",
+     "project": "Flag Hub",
+     "text": "Show Claude's questions on flags under Needs you."
+    },
+    {
+     "kind": "suggested",
+     "project": "RetroBat",
+     "text": "For your Wii remotes flag: compare remotes and nunchucks that work well."
     }
    ]
   }
