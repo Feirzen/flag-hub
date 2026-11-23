@@ -743,7 +743,9 @@
    "source": "reminders",
    "status": "open",
    "text": "Custom home assistant that integrates everything (Skylight, Bluetooth, smart devices, gear) with no walled-garden limits. Claude knows the whole setup and can redesign things like the calendar on request. Worth the effort?",
-   "id": "rem-16"
+   "id": "rem-16",
+   "reviewedAt": "2026-11-23T15:54:28.886Z",
+   "reviewEvery": 90
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
