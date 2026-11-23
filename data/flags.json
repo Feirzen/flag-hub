@@ -30,7 +30,7 @@
    "project": "Study Decks",
    "text": "soooo what does the rune in the dark labrynth do now? I got the key for the torches, did it give me XP or sum? It didnt seem to do anything.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T09:03:21.040Z",
    "where": {
@@ -40,14 +40,16 @@
     "says": null,
     "screen": "2133x1012 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-11-23T09:40:00Z",
+   "resolution": "The rune is what opens the labyrinth's doors (+15 XP). Since it no longer lights the room, you couldn't see that happen, so it now says so clearly when you touch it."
   },
   {
    "id": "fmwszy80p",
    "project": "Study Decks",
    "text": "If I've already said (on the readiness tracker popups) that I'm green good to go no a section, dont ask me about it again even if I finish the questions in that section again. If it's green, its good to go. Misses and stars will still function like normal, but if I marked it green before, I dont want to mark it green again later.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T08:21:21.049Z",
    "where": {
@@ -57,14 +59,16 @@
     "says": null,
     "screen": "2133x1012 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-11-23T09:40:00Z",
+   "resolution": "Once you mark a section green on a confidence check, it won't ask about that section again, even after you finish its questions again. Misses and stars still work like normal."
   },
   {
    "id": "fmwss8lnw",
    "project": "Study Decks",
    "text": "When I got locked into a question room it started asking me questions from the new chatper, without a scroll of wisdom, so I have no idea what to answer lol",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T04:45:28.364Z",
    "where": {
@@ -74,14 +78,16 @@
     "says": null,
     "screen": "2133x1012 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-11-23T09:40:00Z",
+   "resolution": "The Answer Stones room now shows the new chapter's Scroll of Wisdom before its questions, like fights and riddle gates already did."
   },
   {
    "id": "fmwsrz2tv",
    "project": "Study Decks",
    "text": "Iwas thinkning on battle mode we could make the map a toggle? Like it stays small in the corner like it is now, but we could just make tab or sum move the map to take up the whole screen, and move back when you let go, you know? \nAnother one, Maybe there could be a couple rooms where monsters move, and try to come after you? Or like a room you get locked in that looks like a colloseum, and they add one monster to the other end 2-3 times til you beat them all and it opens unlocked. idk. \nAlso maybe a room with a trick door like the legend of zelda, where going through thetop door makes you walk back into the same room from below. idk sum like that could be fun. Zelda tricks and little puzzles and stuff fit perfectly into our game so feel free to look for more like that.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "app",
    "created": "2026-11-23T04:38:04.051Z",
    "where": {
@@ -98,7 +104,7 @@
    "project": "Study Decks",
    "text": "Maybe add a highlight feature to the learning pages- highlight could show up on the right side of the main menu of the study deck in a list until 3 or more, in wihich case youd have to open the highlights window to see them all. It is just all the highlights of each learning page, all sitting on one entry (only one per learning page). Maybe include the choater and subject, as well as the entire setence in which a highlight is included for context. The I can highlight important things, and go back and review them again for practice.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "app",
    "created": "2026-11-23T04:01:14.357Z",
    "where": {
@@ -134,7 +140,7 @@
    "project": "Study Decks",
    "text": "Maybe we could have a tied up NPC at some point as poart of the game. Either as a trap and a monster pops out and then you can save the person, or maybe the person then follows you til you take them to the exit and kill the boss on your way out? Then they give you a gift for helping them out? Idk. Plenty of ideas.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "app",
    "created": "2026-11-23T03:26:44.471Z",
    "where": {
@@ -170,7 +176,7 @@
    "project": "Study Decks",
    "text": "The moves for each class I feel are skewed toward the lower ones- like using the most expensive one NEVER makes sense cause no mobs have that much health, it costs so much to charge up, and the lower ones do similar amounts of damage but with bigger buffs. I think there need to be buffs or effects that make the bigger ones worth it, or cheaper energy expense. Also a boon or magic items that could be collected to increase mana stores would be cool. Also I think XP needs to be blue lol, it just makes sense, the knights mana can change colors to not confuse. \nOn that note, the damage system feels strange to me- its hard to grind through enemies at the start, but after a couple boons, levelling up my damage after learning all the techniques, and using techniques and boons later, I shred through enemies SO fast. It's I think a steeper curve than the enemies imo. idk how to fix that lol.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "app",
    "created": "2026-11-23T03:09:09.791Z",
    "where": {
@@ -188,7 +194,7 @@
    "project": "Study Decks",
    "text": "There are different points at which I'm frustrated by a mechanic, for example rn I edited the game with claude and now I have to redo chapter 1. Sometimes the boons dont work right, or something happens, I mark a question wrong on accident, even though I knew the answer. I'd love an editor for that, like a God mode that allows me to just edit things to allow me to study more efficiently. I often am cramming last second, so it would make a big difference to have more control over my game in a pinch.",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "source": "app",
    "created": "2026-11-23T03:05:43.821Z",
    "where": {
@@ -1511,6 +1517,120 @@
    "created": "2026-11-23T08:58:29Z",
    "flagIds": [
     "c1122fill"
+   ]
+  },
+  {
+   "id": "p1123sdhigh",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Highlights on lesson pages",
+   "summary": "Select any line on a lesson page, the Lesson pop-up, or a Scroll of Wisdom and tap the little Highlight button. Your highlights show on the deck's home screen grouped by page with their whole sentence, and tapping one takes you right back to it.",
+   "link": "https://github.com/Feirzen/study-decks/pull/18",
+   "images": [
+    "previews/p1123sdhigh/before.png",
+    "previews/p1123sdhigh/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-23T09:40:00Z",
+   "flagIds": [
+    "fmwsqnpth"
+   ],
+   "spots": [
+    {
+     "x": 0.35,
+     "y": 0.535,
+     "r": 0.08
+    }
+   ]
+  },
+  {
+   "id": "p1123sdbal",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Top techniques worth saving for, steadier fights, more mana",
+   "summary": "Each class's top technique now costs a bit less, hits hardest per charge and has its own trick (Judgment raises guard, Meteor stuns, Arrow Rain refunds charge, all carry damage over), and foes toughen as you level so early fights are shorter and late ones don't melt. You can also grow max charge with a new Deep Well boon or rare mana crystals in chests.",
+   "link": "https://github.com/Feirzen/study-decks/pull/19",
+   "images": [
+    "previews/p1123sdbal/before.png",
+    "previews/p1123sdbal/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-23T09:40:00Z",
+   "flagIds": [
+    "fmwsosqvz"
+   ],
+   "spots": [
+    {
+     "x": 0.72,
+     "y": 0.51,
+     "r": 0.09
+    }
+   ]
+  },
+  {
+   "id": "p1123sdgod",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "God mode: edit your own adventure save",
+   "summary": "Turn on God mode from the Battle save screen or the gear, then tap the gold crown in battle or on the map to count a misclick as right, jump to any floor, heal, set level or charge, pick boons, open a stuck room or boss door, or forgive misses. Every tap saves right away, and your decks are never touched.",
+   "link": "https://github.com/Feirzen/study-decks/pull/20",
+   "images": [
+    "previews/p1123sdgod/before.png",
+    "previews/p1123sdgod/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-23T09:40:00Z",
+   "flagIds": [
+    "fmwsoobyl"
+   ],
+   "spots": [
+    {
+     "x": 0.27,
+     "y": 0.318,
+     "r": 0.09
+    }
+   ]
+  },
+  {
+   "id": "p1123sdroom",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "New Tower rooms: the Arena and the Winding Hall",
+   "summary": "Some floors now have a colosseum where the gates lock and three monsters walk out one at a time and chase you down, plus a Zelda-style hall whose doors keep dropping you back in the same room until you follow the statue's pointing arm. They only show up on floors you start after this ships.",
+   "link": "https://github.com/Feirzen/study-decks/pull/21",
+   "images": [
+    "previews/p1123sdroom/before.png",
+    "previews/p1123sdroom/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-23T09:40:00Z",
+   "flagIds": [
+    "fmwsrz2tv"
+   ]
+  },
+  {
+   "id": "p1123sdrescue",
+   "project": "Study Decks",
+   "lane": "cloud",
+   "title": "Rescue a tied-up captive, plus hold Tab for a big map",
+   "summary": "Some floors have someone tied up: untie them (sometimes it's a trap and a foe jumps you first) and they follow you until you beat the boss, then thank you with XP, a full heal and a free boon. Hold Tab, or tap the corner map on your phone, to see the whole floor map big.",
+   "link": "https://github.com/Feirzen/study-decks/pull/22",
+   "images": [
+    "previews/p1123sdrescue/before.png",
+    "previews/p1123sdrescue/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-23T09:40:00Z",
+   "flagIds": [
+    "fmwspfcon",
+    "fmwsrz2tv"
+   ],
+   "spots": [
+    {
+     "x": 0.41,
+     "y": 0.218,
+     "r": 0.05
+    }
    ]
   }
  ],
