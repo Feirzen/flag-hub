@@ -1149,15 +1149,21 @@
   {
    "id": "c1123needq",
    "project": "Flag Hub",
-   "kind": "concept",
+   "kind": "fix",
    "status": "open",
-   "text": "When Claude leaves a question on a flag (like \"mark this done?\" or \"move it?\"), it shows up under Needs you with one-tap answers instead of hiding in Claude's queue.",
-   "detail": "Right now the Hub says 0 need you while 3 flags (Party mode and the two Bilingual Blueprints ones) are really waiting on your answer. They'd sit with the proposals, with buttons like Done, Keep, or Move to For me.",
-   "size": "M",
-   "cost": "a small piece of a light night",
-   "why": "Always clear whose turn it is, and fewer taps from flag to shipped.",
-   "source": "night shift",
-   "created": "2026-11-23T14:55:00Z"
+   "text": "When Claude leaves a question on a flag (like \"mark this done?\" or \"move it?\"), it shows up under Needs you with one-tap answers instead of hiding in Claude's queue.\n\nRight now the Hub says 0 need you while 3 flags (Party mode and the two Bilingual Blueprints ones) are really waiting on your answer. They'd sit with the proposals, with buttons like Done, Keep, or Move to For me.",
+   "source": "concept",
+   "created": "2026-11-23T15:51:33.935Z",
+   "concept": {
+    "pitch": "When Claude leaves a question on a flag (like \"mark this done?\" or \"move it?\"), it shows up under Needs you with one-tap answers instead of hiding in Claude's queue.",
+    "detail": "Right now the Hub says 0 need you while 3 flags (Party mode and the two Bilingual Blueprints ones) are really waiting on your answer. They'd sit with the proposals, with buttons like Done, Keep, or Move to For me.",
+    "size": "M",
+    "cost": "a small piece of a light night",
+    "why": "Always clear whose turn it is, and fewer taps from flag to shipped.",
+    "created": "2026-11-23T14:55:00Z"
+   },
+   "plantedAt": "2026-11-23T15:51:33.935Z",
+   "reviewedAt": "2026-11-23T15:51:33.935Z"
   },
   {
    "id": "c1123wii",
