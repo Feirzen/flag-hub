@@ -579,7 +579,9 @@
     "says": "Video coming soon",
     "screen": "1536x695 computer",
     "look": "light"
-   }
+   },
+   "reviewedAt": "2026-11-23T15:54:36.017Z",
+   "reviewEvery": 21
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
