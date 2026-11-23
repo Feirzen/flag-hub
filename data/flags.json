@@ -675,9 +675,11 @@
    "kind": "idea",
    "project": "Big ideas",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Touchscreen table for games, drawing, homework, covered when not in use",
-   "id": "rem-10"
+   "id": "rem-10",
+   "resolvedAt": "2026-11-23T15:53:53.996Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
