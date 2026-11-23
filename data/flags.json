@@ -1105,7 +1105,7 @@
    "id": "c1122twl",
    "project": "3DS Setup",
    "kind": "concept",
-   "status": "open",
+   "status": "denied",
    "helps": "rem-03",
    "text": "For your DS emulator flag: I write exact, numbered steps to install TWiLight Menu++ on your 3DS, plus which settings to flip so DS games boot fast and saves stay safe.",
    "detail": "One short page you can follow with the SD card in hand: what to download, where each file goes, and how to launch it from the Home Menu.",
@@ -1113,7 +1113,9 @@
    "cost": "a small piece of a light night",
    "why": "Gets DS games running on the 3DS, and that flag has sat since October.",
    "source": "night shift",
-   "created": "2026-11-22T09:25:00Z"
+   "created": "2026-11-22T09:25:00Z",
+   "deniedAt": "2026-11-23T15:50:55.982Z",
+   "denyNote": "instead I'll just plug in my SD card to you and ask you to do most of the edits yourself and setup the emulators and stuff. I can do steps too, but your help would be awesome."
   },
   {
    "id": "c1123immich",
