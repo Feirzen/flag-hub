@@ -732,7 +732,9 @@
    "source": "reminders",
    "status": "open",
    "text": "Kitchen or living room touchscreen like a Skylight calendar but better: fades to a painting, chores tabs, FaceTime, drawing, videos, AI assistant. Maybe one built into a table for tabletop games.",
-   "id": "rem-15"
+   "id": "rem-15",
+   "reviewedAt": "2026-11-23T15:54:21.625Z",
+   "reviewEvery": 90
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
