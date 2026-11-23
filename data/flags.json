@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwss8lnw",
+   "project": "Study Decks",
+   "text": "When I got locked into a question room it started asking me questions from the new chatper, without a scroll of wisdom, so I have no idea what to answer lol",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-23T04:45:28.364Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": null,
+    "says": null,
+    "screen": "2133x1012 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmwsrz2tv",
    "project": "Study Decks",
    "text": "Iwas thinkning on battle mode we could make the map a toggle? Like it stays small in the corner like it is now, but we could just make tab or sum move the map to take up the whole screen, and move back when you let go, you know? \nAnother one, Maybe there could be a couple rooms where monsters move, and try to come after you? Or like a room you get locked in that looks like a colloseum, and they add one monster to the other end 2-3 times til you beat them all and it opens unlocked. idk. \nAlso maybe a room with a trick door like the legend of zelda, where going through thetop door makes you walk back into the same room from below. idk sum like that could be fun. Zelda tricks and little puzzles and stuff fit perfectly into our game so feel free to look for more like that.",
