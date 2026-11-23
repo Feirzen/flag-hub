@@ -1138,17 +1138,13 @@
    "status": "open",
    "text": "When finishing a lesson makes a new song playable, the lesson-done card says \"New song unlocked: <song>\" with a Play it button.\n\nIt only shows when the count of songs you can play actually goes up, with one soft chime, so it stays a real moment instead of noise.",
    "source": "concept",
-   "created": "2026-11-23T15:51:17.503Z",
+   "created": "2026-11-23T15:51:19.090Z",
    "concept": {
-    "pitch": "When finishing a lesson makes a new song playable, the lesson-done card says \"New song unlocked: <song>\" with a Play it button.",
-    "detail": "It only shows when the count of songs you can play actually goes up, with one soft chime, so it stays a real moment instead of noise.",
-    "size": "S",
-    "cost": "a small piece of a light night",
-    "why": "Ties the Path straight to songs you can actually play, which keeps it rewarding.",
-    "created": "2026-11-23T08:58:29Z"
+    "pitch": "When finishing a lesson makes a new song playable, the lesson-done card says \"New song unlocked: <song>\" with a Play it button.\n\nIt only shows when the count of songs you can play actually goes up, with one soft chime, so it stays a real moment instead of noise.",
+    "created": "2026-11-23T15:51:17.503Z"
    },
-   "plantedAt": "2026-11-23T15:51:17.503Z",
-   "reviewedAt": "2026-11-23T15:51:17.503Z"
+   "plantedAt": "2026-11-23T15:51:19.090Z",
+   "reviewedAt": "2026-11-23T15:51:19.090Z"
   },
   {
    "id": "c1123needq",
