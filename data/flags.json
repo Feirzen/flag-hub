@@ -1159,7 +1159,7 @@
    "id": "c1123wii",
    "project": "RetroBat",
    "kind": "concept",
-   "status": "open",
+   "status": "denied",
    "helps": "rem-28",
    "text": "For your Wii remotes flag: I compare the real and third-party remotes and nunchucks that pair well with Dolphin in RetroBat (and which ones lag), with links and prices.",
    "detail": "Also covers whether a DolphinBar or your PC's Bluetooth is the smoother way to pair them.",
@@ -1167,7 +1167,8 @@
    "cost": "a small piece of a light night",
    "why": "Moves a For me flag forward so RetroBat game nights just work.",
    "source": "night shift",
-   "created": "2026-11-23T14:55:00Z"
+   "created": "2026-11-23T14:55:00Z",
+   "deniedAt": "2026-11-23T15:49:55.782Z"
   }
  ],
  "proposals": [
