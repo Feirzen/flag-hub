@@ -1026,7 +1026,7 @@
    "id": "c1121sync",
    "project": "Bulk Manager",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "text": "A small \"Health Sync last ran Nov 10\" line at the top whenever it's been more than 2 days, so a stalled sync is obvious instead of silent.\n\nPlain gray text with the date, no red and no warnings. It disappears the moment a sync lands, and it never touches your data.",
    "source": "concept",
    "created": "2026-11-22T09:04:02.140Z",
@@ -1039,7 +1039,9 @@
     "created": "2026-11-21T09:00:05Z"
    },
    "plantedAt": "2026-11-22T09:04:02.140Z",
-   "reviewedAt": "2026-11-22T09:04:02.140Z"
+   "reviewedAt": "2026-11-22T09:04:02.140Z",
+   "resolvedAt": "2026-11-23T14:41:31Z",
+   "resolution": "The quiet Health Sync last ran line is live on the Review page."
   },
   {
    "id": "c1121backup",
@@ -1070,7 +1072,7 @@
    "id": "c1122fill",
    "project": "Bulk Manager",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "text": "A \"Same as last time\" button on each lift that fills every set with last session's weight and reps in one tap.\n\nYou just tweak the one set that changed and save. It only fills the boxes on your phone, so nothing gets written until you save like normal.",
    "source": "concept",
    "created": "2026-11-22T09:04:15.278Z",
@@ -1083,7 +1085,9 @@
     "created": "2026-11-22T09:25:00Z"
    },
    "plantedAt": "2026-11-22T09:04:15.278Z",
-   "reviewedAt": "2026-11-22T09:04:15.278Z"
+   "reviewedAt": "2026-11-22T09:04:15.278Z",
+   "resolvedAt": "2026-11-23T14:41:31Z",
+   "resolution": "The Same as last time button is live on each lift."
   },
   {
    "id": "c1122twl",
@@ -1489,12 +1493,13 @@
      "r": 0.07
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-23T08:58:29Z",
    "flagIds": [
     "c1121sync"
    ],
-   "decidedAt": "2026-11-23T14:32:45.923Z"
+   "decidedAt": "2026-11-23T14:32:45.923Z",
+   "shippedAt": "2026-11-23T14:41:31Z"
   },
   {
    "id": "p1123bmsame",
@@ -1514,12 +1519,13 @@
      "r": 0.09
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-23T08:58:29Z",
    "flagIds": [
     "c1122fill"
    ],
-   "decidedAt": "2026-11-23T14:32:53.261Z"
+   "decidedAt": "2026-11-23T14:32:53.261Z",
+   "shippedAt": "2026-11-23T14:41:31Z"
   },
   {
    "id": "p1123sdhigh",
