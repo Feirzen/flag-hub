@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwsoj53t",
+   "project": "Study Decks",
+   "text": "At some random screen when I hit Enter on the keyboard (which I usually use to select my answer) it just takes me out of the game. Also when I come back in, if I was partway through a battle it resets the battle. I'd like for it to resume the battle where I left off unless I come back much much later like another day.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-23T03:01:41.657Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": null,
+    "says": null,
+    "screen": "1920x911 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmwsohnoz",
    "project": "Study Decks",
    "text": "The audio tracks on lots of the pop ups dont follow me as I scroll down, or show on the page behind the pop up, so I cant pause or rewind as I follow along. Also,  so many of the acronyms and scientific words and chimicals are prnounced wrong and it makes it harder for me, make extra care that those sound right in the future",
