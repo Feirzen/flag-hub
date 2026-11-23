@@ -1122,16 +1122,23 @@
   {
    "id": "c1123immich",
    "project": "Big ideas",
-   "kind": "concept",
+   "kind": "fix",
    "status": "open",
    "helps": "fmw16immich",
-   "text": "For your Immich idea: I write a safe, numbered plan for the Z240 (backups first, then install, iPhone auto-backup, and partner sharing) so it's ready the day your drives are in.",
-   "detail": "Notes only, nothing gets installed. It would also cover how to keep iCloud running side by side until you trust it.",
-   "size": "S",
-   "cost": "a small piece of a light night",
-   "why": "Moves one of your Big ideas forward without touching anything until backups are solid.",
-   "source": "night shift",
-   "created": "2026-11-23T08:58:29Z"
+   "text": "For your Immich idea: I write a safe, numbered plan for the Z240 (backups first, then install, iPhone auto-backup, and partner sharing) so it's ready the day your drives are in.\n\nNotes only, nothing gets installed. It would also cover how to keep iCloud running side by side until you trust it.",
+   "source": "concept",
+   "created": "2026-11-23T15:53:03.224Z",
+   "concept": {
+    "pitch": "For your Immich idea: I write a safe, numbered plan for the Z240 (backups first, then install, iPhone auto-backup, and partner sharing) so it's ready the day your drives are in.",
+    "detail": "Notes only, nothing gets installed. It would also cover how to keep iCloud running side by side until you trust it.",
+    "size": "S",
+    "cost": "a small piece of a light night",
+    "why": "Moves one of your Big ideas forward without touching anything until backups are solid.",
+    "helps": "fmw16immich",
+    "created": "2026-11-23T08:58:29Z"
+   },
+   "plantedAt": "2026-11-23T15:53:03.224Z",
+   "reviewedAt": "2026-11-23T15:53:03.224Z"
   },
   {
    "id": "c1123msunlock",
