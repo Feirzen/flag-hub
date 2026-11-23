@@ -47,7 +47,7 @@
    "project": "Study Decks",
    "text": "I love this dark labrynth part, really cool fr! I do think however that I would rather only have one light source, so the key wouldve made the torches light but I got to the rune that lit the whole room first, which is cool but the key sounds way cooler. Maybe kill the rune that lights the whole room and maybe add something else to the room? Like a chest or sum idk?",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T03:56:16.292Z",
    "where": {
@@ -57,7 +57,9 @@
     "says": null,
     "screen": "1920x911 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-11-23T04:45:00Z",
+   "resolution": "Shipped: the rune still breaks the seal but no longer lights the room, so the torch key is the only light. Each labyrinth now has a riddle chest in a far dead end."
   },
   {
    "id": "fmwspfcon",
@@ -81,7 +83,7 @@
    "project": "Study Decks",
    "text": "The little npc guy on the map- his icon looks so funky lets change him for sure. Also, he shows a ! always, even after I've already talked with him. Maybe make it dissapear until the quest is done and I can return to him? \nAlso the same is true of chests, they still have the ! even after I open them.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T03:25:34.327Z",
    "where": {
@@ -91,7 +93,9 @@
     "says": "",
     "screen": "1920x911 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-11-23T04:45:00Z",
+   "resolution": "Shipped: new hooded traveler sprite with a walking staff. The ! over him only shows when he has something new (a quest to give or a reward ready), and the ! hint no longer pops over opened chests or a used shrine."
   },
   {
    "id": "fmwsosqvz",
@@ -108,7 +112,8 @@
     "says": "3/9 Shield Bash 3 Whirlwind 4 Holy Strike 6 Judgment 9",
     "screen": "1920x911 computer",
     "look": "sepia"
-   }
+   },
+   "note": "Partly shipped: the XP bar is blue now and the Knight's charge bar is gold so they don't clash. Still open: making the expensive techniques worth it, mana items/boons, and the damage curve."
   },
   {
    "id": "fmwsoobyl",
@@ -132,7 +137,7 @@
    "project": "Study Decks",
    "text": "At some random screen when I hit Enter on the keyboard (which I usually use to select my answer) it just takes me out of the game. Also when I come back in, if I was partway through a battle it resets the battle. I'd like for it to resume the battle where I left off unless I come back much much later like another day.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T03:01:41.657Z",
    "where": {
@@ -142,7 +147,9 @@
     "says": null,
     "screen": "1920x911 computer",
     "look": "sepia"
-   }
+   },
+   "resolvedAt": "2026-11-23T04:45:00Z",
+   "resolution": "Shipped: Enter can't throw you out of the game anymore (after a screen change it presses the main button, never the back arrow), and leaving mid-fight brings you back into the same fight with the foe's health where you left it, unless it's been 12+ hours."
   },
   {
    "id": "fmwsohnoz",
@@ -159,7 +166,8 @@
     "says": null,
     "screen": "1920x911 computer",
     "look": "sepia"
-   }
+   },
+   "note": "Audio part shipped: the mini player now shows at the bottom on every screen and on top of pop-ups whenever the full player is scrolled out of view. Still open: pronunciation of acronyms and chemical names (needs a pass when the narration is regenerated)."
   },
   {
    "id": "fmwofiiyt",
