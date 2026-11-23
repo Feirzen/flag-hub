@@ -1605,11 +1605,12 @@
     "previews/p1123sdroom/before.png",
     "previews/p1123sdroom/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-23T09:40:00Z",
    "flagIds": [
     "fmwsrz2tv"
-   ]
+   ],
+   "decidedAt": "2026-11-23T14:31:53.290Z"
   },
   {
    "id": "p1123sdrescue",
