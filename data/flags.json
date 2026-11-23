@@ -488,9 +488,11 @@
    "project": "RetroBat Wizard",
    "text": "When we published 3.2 we were working on separate saves per person however it was unfinished and was presenting some issues because it almost caused damage. It didn't actually come up it just moved all of my saves somewhere else and gave us a mini heart attack. The idea is that if I want to allow someone else to play on my computer without sharing my saves with them when I select a different person on the login page it allows me completely new fresh saves per device and then tracks per that person on that device specifically.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "hub",
-   "created": "2026-10-30T03:55:14.776Z"
+   "created": "2026-10-30T03:55:14.776Z",
+   "resolvedAt": "2026-11-23T15:54:57.382Z",
+   "resolution": "marked done by you"
   },
   {
    "id": "fmvsrnlgf",
