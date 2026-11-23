@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwszy80p",
+   "project": "Study Decks",
+   "text": "If I've already said (on the readiness tracker popups) that I'm green good to go no a section, dont ask me about it again even if I finish the questions in that section again. If it's green, its good to go. Misses and stars will still function like normal, but if I marked it green before, I dont want to mark it green again later.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-23T08:21:21.049Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": null,
+    "says": null,
+    "screen": "2133x1012 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmwss8lnw",
    "project": "Study Decks",
    "text": "When I got locked into a question room it started asking me questions from the new chatper, without a scroll of wisdom, so I have no idea what to answer lol",
