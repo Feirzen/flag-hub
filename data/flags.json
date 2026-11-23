@@ -1489,11 +1489,12 @@
      "r": 0.07
     }
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-23T08:58:29Z",
    "flagIds": [
     "c1121sync"
-   ]
+   ],
+   "decidedAt": "2026-11-23T14:32:45.923Z"
   },
   {
    "id": "p1123bmsame",
