@@ -448,10 +448,12 @@
    "project": "RetroBat",
    "text": "For some reason, my PC and my laptop, keep popping up that different games Have a cloud sync error on steam. I imagine it’s because the saved data and begin and everything is saved onto my external hard drive, which I unplugged and plug back in all the time. Do I have to re add the library every time I probably get back in? Or how do I keep the cloud sync errors from happening?",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-30T17:56:44.533Z",
-   "note": "Found the cause 2026-11-22: when RetroBat started Steam itself, it killed Steam the second the game closed (emulatorLauncher.log: 'Steam will be killed if not running before'), often mid cloud upload. PLAY now starts Steam ahead of time so it is never killed. Test: play a Steam game from RetroBat, quit, check the Library shows the cloud as up to date."
+   "note": "Found the cause 2026-11-22: when RetroBat started Steam itself, it killed Steam the second the game closed (emulatorLauncher.log: 'Steam will be killed if not running before'), often mid cloud upload. PLAY now starts Steam ahead of time so it is never killed. Test: play a Steam game from RetroBat, quit, check the Library shows the cloud as up to date.",
+   "resolvedAt": "2026-11-23T15:55:35.213Z",
+   "resolution": "marked done by you"
   },
   {
    "id": "fmvv9uimg",
