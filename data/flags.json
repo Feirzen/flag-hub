@@ -1623,7 +1623,7 @@
     "previews/p1123sdrescue/before.png",
     "previews/p1123sdrescue/after.png"
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-23T09:40:00Z",
    "flagIds": [
     "fmwspfcon",
@@ -1635,7 +1635,8 @@
      "y": 0.218,
      "r": 0.05
     }
-   ]
+   ],
+   "decidedAt": "2026-11-23T14:32:33.154Z"
   },
   {
    "id": "p1123sdvoice",
