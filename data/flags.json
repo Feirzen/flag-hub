@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwspduk7",
+   "project": "Study Decks",
+   "text": "The little npc guy on the map- his icon looks so funky lets change him for sure. Also, he shows a ! always, even after I've already talked with him. Maybe make it dissapear until the quest is done and I can return to him? \nAlso the same is true of chests, they still have the ! even after I open them.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-23T03:25:34.327Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": "canvas#mapcv",
+    "says": "",
+    "screen": "1920x911 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmwsosqvz",
    "project": "Study Decks",
    "text": "The moves for each class I feel are skewed toward the lower ones- like using the most expensive one NEVER makes sense cause no mobs have that much health, it costs so much to charge up, and the lower ones do similar amounts of damage but with bigger buffs. I think there need to be buffs or effects that make the bigger ones worth it, or cheaper energy expense. Also a boon or magic items that could be collected to increase mana stores would be cool. Also I think XP needs to be blue lol, it just makes sense, the knights mana can change colors to not confuse. \nOn that note, the damage system feels strange to me- its hard to grind through enemies at the start, but after a couple boons, levelling up my damage after learning all the techniques, and using techniques and boons later, I shred through enemies SO fast. It's I think a steeper curve than the enemies imo. idk how to fix that lol.",
