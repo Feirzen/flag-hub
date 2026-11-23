@@ -933,7 +933,7 @@
    "id": "c1120spark",
    "project": "Bulk Manager",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "text": "A tiny 8-week trend line next to each lift, so you see if it's climbing without opening anything.\n\nIt's drawn from your logs and read only, nothing gets edited. Flat stretches show plain, never red or guilt-trippy.",
    "source": "concept",
    "created": "2026-11-20T21:49:25.685Z",
@@ -946,7 +946,9 @@
     "created": "2026-11-20T21:47:59Z"
    },
    "plantedAt": "2026-11-20T21:49:25.685Z",
-   "reviewedAt": "2026-11-20T21:49:25.685Z"
+   "reviewedAt": "2026-11-20T21:49:25.685Z",
+   "resolvedAt": "2026-11-23T08:58:29Z",
+   "resolution": "The 8-week trend line beside each lift is live on the Workout page."
   },
   {
    "id": "c1120exam",
@@ -1001,7 +1003,7 @@
    "id": "c1121sync",
    "project": "Bulk Manager",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "text": "A small \"Health Sync last ran Nov 10\" line at the top whenever it's been more than 2 days, so a stalled sync is obvious instead of silent.\n\nPlain gray text with the date, no red and no warnings. It disappears the moment a sync lands, and it never touches your data.",
    "source": "concept",
    "created": "2026-11-22T09:04:02.140Z",
@@ -1045,7 +1047,7 @@
    "id": "c1122fill",
    "project": "Bulk Manager",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "text": "A \"Same as last time\" button on each lift that fills every set with last session's weight and reps in one tap.\n\nYou just tweak the one set that changed and save. It only fills the boxes on your phone, so nothing gets written until you save like normal.",
    "source": "concept",
    "created": "2026-11-22T09:04:15.278Z",
@@ -1073,6 +1075,33 @@
    "why": "Gets DS games running on the 3DS, and that flag has sat since October.",
    "source": "night shift",
    "created": "2026-11-22T09:25:00Z"
+  },
+  {
+   "id": "c1123immich",
+   "project": "Big ideas",
+   "kind": "concept",
+   "status": "open",
+   "helps": "fmw16immich",
+   "text": "For your Immich idea: I write a safe, numbered plan for the Z240 (backups first, then install, iPhone auto-backup, and partner sharing) so it's ready the day your drives are in.",
+   "detail": "Notes only, nothing gets installed. It would also cover how to keep iCloud running side by side until you trust it.",
+   "size": "S",
+   "cost": "a small piece of a light night",
+   "why": "Moves one of your Big ideas forward without touching anything until backups are solid.",
+   "source": "night shift",
+   "created": "2026-11-23T08:58:29Z"
+  },
+  {
+   "id": "c1123msunlock",
+   "project": "Music Space",
+   "kind": "concept",
+   "status": "open",
+   "text": "When finishing a lesson makes a new song playable, the lesson-done card says \"New song unlocked: <song>\" with a Play it button.",
+   "detail": "It only shows when the count of songs you can play actually goes up, with one soft chime, so it stays a real moment instead of noise.",
+   "size": "S",
+   "cost": "a small piece of a light night",
+   "why": "Ties the Path straight to songs you can actually play, which keeps it rewarding.",
+   "source": "night shift",
+   "created": "2026-11-23T08:58:29Z"
   }
  ],
  "proposals": [
@@ -1411,43 +1440,64 @@
      "r": 0.08
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-22T09:25:00Z",
    "flagIds": [
     "c1120spark"
    ],
-   "decidedAt": "2026-11-22T09:03:41.888Z"
+   "decidedAt": "2026-11-22T09:03:41.888Z",
+   "shippedAt": "2026-11-23T08:58:29Z"
+  },
+  {
+   "id": "p1123bmsync",
+   "project": "Bulk Manager",
+   "lane": "cloud",
+   "title": "Quiet \"Health Sync last ran\" line on the Review page",
+   "summary": "When your Health Sync hasn't landed in more than 2 days, a small gray line under the month picker says when it last ran (right now: Nov 10). It disappears on its own the moment a sync comes in and never touches your data.",
+   "link": "https://github.com/Feirzen/bulk-manager/pull/5",
+   "images": [
+    "previews/p1123bmsync/before.png",
+    "previews/p1123bmsync/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.29,
+     "y": 0.136,
+     "r": 0.07
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-23T08:58:29Z",
+   "flagIds": [
+    "c1121sync"
+   ]
+  },
+  {
+   "id": "p1123bmsame",
+   "project": "Bulk Manager",
+   "lane": "cloud",
+   "title": "\"Same as last time\" button on each lift",
+   "summary": "Each lift's last-session box gets a Same as last time button that fills your blank sets with last session's weight and reps in one tap. It skips any box you already typed in, and nothing saves until you hit Save (the preview uses sample sessions since your last log was in September).",
+   "link": "https://github.com/Feirzen/bulk-manager/pull/6",
+   "images": [
+    "previews/p1123bmsame/before.png",
+    "previews/p1123bmsame/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.32,
+     "y": 0.366,
+     "r": 0.09
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-23T08:58:29Z",
+   "flagIds": [
+    "c1122fill"
+   ]
   }
  ],
  "runs": [
-  {
-   "at": "2026-10-31T08:05:28Z",
-   "lane": "cloud",
-   "mode": "big",
-   "summary": "Fixed the Study Decks play/pause and Space key and the settings tray lining up, and built two proposals: Scrolls of Wisdom in Options and a new medium widget.",
-   "items": [
-    {
-     "kind": "fixed",
-     "project": "Study Decks",
-     "text": "Play/pause catches every tap now, and Space pauses the narration instead of pressing Reset."
-    },
-    {
-     "kind": "fixed",
-     "project": "Flag Hub",
-     "text": "The icons under the settings gear line up right under it on a computer, in every app."
-    },
-    {
-     "kind": "proposed",
-     "project": "Study Decks",
-     "text": "Scrolls of Wisdom switch moves from Filters to Options."
-    },
-    {
-     "kind": "proposed",
-     "project": "Flag Hub",
-     "text": "New medium widget with two looks: counts by section and run times, or what's waiting on you up front."
-    }
-   ]
-  },
   {
    "at": "2026-11-01T07:28:17Z",
    "lane": "cloud",
@@ -1931,6 +1981,39 @@
      "kind": "suggested",
      "project": "3DS Setup",
      "text": "Step-by-step TWiLight Menu++ setup for DS games on your 3DS."
+    }
+   ]
+  },
+  {
+   "at": "2026-11-23T08:58:29Z",
+   "lane": "cloud",
+   "mode": "big",
+   "summary": "Merged your lift trend lines, built both Bulk Manager ideas you planted as proposals, and left two suggestions.",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Bulk Manager",
+     "text": "The 8-week trend line beside each lift is live."
+    },
+    {
+     "kind": "proposed",
+     "project": "Bulk Manager",
+     "text": "Quiet \"Health Sync last ran\" line, ready for a look."
+    },
+    {
+     "kind": "proposed",
+     "project": "Bulk Manager",
+     "text": "\"Same as last time\" button on each lift, ready for a look."
+    },
+    {
+     "kind": "suggested",
+     "project": "Big ideas",
+     "text": "A step-by-step Immich plan for the Z240."
+    },
+    {
+     "kind": "suggested",
+     "project": "Music Space",
+     "text": "A \"New song unlocked\" moment when a lesson opens up a song."
     }
    ]
   }
