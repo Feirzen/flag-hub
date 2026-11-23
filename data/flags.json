@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwsoobyl",
+   "project": "Study Decks",
+   "text": "There are different points at which I'm frustrated by a mechanic, for example rn I edited the game with claude and now I have to redo chapter 1. Sometimes the boons dont work right, or something happens, I mark a question wrong on accident, even though I knew the answer. I'd love an editor for that, like a God mode that allows me to just edit things to allow me to study more efficiently. I often am cramming last second, so it would make a big difference to have more control over my game in a pinch.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-23T03:05:43.821Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": null,
+    "says": null,
+    "screen": "1920x911 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmwsoj53t",
    "project": "Study Decks",
    "text": "At some random screen when I hit Enter on the keyboard (which I usually use to select my answer) it just takes me out of the game. Also when I come back in, if I was partway through a battle it resets the battle. I'd like for it to resume the battle where I left off unless I come back much much later like another day.",
