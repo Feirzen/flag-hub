@@ -26,6 +26,23 @@
  ],
  "flags": [
   {
+   "id": "fmwspfcon",
+   "project": "Study Decks",
+   "text": "Maybe we could have a tied up NPC at some point as poart of the game. Either as a trap and a monster pops out and then you can save the person, or maybe the person then follows you til you take them to the exit and kill the boss on your way out? Then they give you a gift for helping them out? Idk. Plenty of ideas.",
+   "kind": "fix",
+   "status": "open",
+   "source": "app",
+   "created": "2026-11-23T03:26:44.471Z",
+   "where": {
+    "app": "study-decks",
+    "page": "https://feirzen.github.io/study-decks/",
+    "element": null,
+    "says": null,
+    "screen": "1920x911 computer",
+    "look": "sepia"
+   }
+  },
+  {
    "id": "fmwspduk7",
    "project": "Study Decks",
    "text": "The little npc guy on the map- his icon looks so funky lets change him for sure. Also, he shows a ! always, even after I've already talked with him. Maybe make it dissapear until the quest is done and I can return to him? \nAlso the same is true of chests, they still have the ! even after I open them.",
