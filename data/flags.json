@@ -472,7 +472,9 @@
    "kind": "you",
    "status": "open",
    "source": "hub",
-   "created": "2026-10-30T03:56:22.679Z"
+   "created": "2026-10-30T03:56:22.679Z",
+   "reviewedAt": "2026-11-23T15:55:16.816Z",
+   "reviewEvery": 21
   },
   {
    "id": "fmvufw4mq",
