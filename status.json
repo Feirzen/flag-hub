@@ -1,11 +1,11 @@
 {
  "mode": "light",
  "openFlags": 36,
- "waiting": 0,
+ "waiting": 1,
  "lastRun": {
-  "at": "2026-11-23T14:55:00Z",
-  "summary": "Merged all 8 proposals you approved this morning (6 Study Decks, 2 Bulk Manager) and left 2 suggestions."
+  "at": "2026-11-24T08:57:19Z",
+  "summary": "Built a Music Space proposal: a \"New song unlocked\" moment on the lesson-done card."
  },
- "updated": "2026-11-23T15:55:53.262Z",
- "suggestions": 6
+ "updated": "2026-11-24T08:57:19Z",
+ "suggestions": 0
 }

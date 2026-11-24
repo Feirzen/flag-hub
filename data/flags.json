@@ -1185,7 +1185,7 @@
    "id": "c1123msunlock",
    "project": "Music Space",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "text": "When finishing a lesson makes a new song playable, the lesson-done card says \"New song unlocked: <song>\" with a Play it button.\n\nIt only shows when the count of songs you can play actually goes up, with one soft chime, so it stays a real moment instead of noise.",
    "source": "concept",
    "created": "2026-11-23T15:51:19.090Z",
@@ -1769,62 +1769,33 @@
    ],
    "decidedAt": "2026-11-23T14:28:44.956Z",
    "shippedAt": "2026-11-23T14:55:00Z"
+  },
+  {
+   "id": "p1124msunlock",
+   "project": "Music Space",
+   "lane": "cloud",
+   "title": "\"New song unlocked\" on the lesson-done card",
+   "summary": "When finishing a lesson makes a new song playable, the done card now says \"New song unlocked\" with the song and a Play it button. It only shows when your playable count really goes up, with one soft chime.",
+   "link": "https://github.com/Feirzen/music-space/pull/5",
+   "images": [
+    "previews/p1124msunlock/before.png",
+    "previews/p1124msunlock/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.5,
+     "y": 0.82,
+     "r": 0.09
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-24T08:57:19Z",
+   "flagIds": [
+    "c1123msunlock"
+   ]
   }
  ],
  "runs": [
-  {
-   "at": "2026-11-02T09:05:05Z",
-   "lane": "cloud",
-   "mode": "big",
-   "summary": "Merged your six approved changes, reworked the widget onto the large size, and built two proposals (Music Space gear fix, Study Decks Christmas look).",
-   "items": [
-    {
-     "kind": "merged",
-     "project": "Study Decks",
-     "text": "Scrolls of Wisdom switch moved to Options."
-    },
-    {
-     "kind": "merged",
-     "project": "Study Decks",
-     "text": "Back 10 and forward 10 buttons on the narration players."
-    },
-    {
-     "kind": "merged",
-     "project": "Music Space",
-     "text": "Tidier month card and chapter header on phones."
-    },
-    {
-     "kind": "merged",
-     "project": "Music Space",
-     "text": "Practice tools fit on one phone screen."
-    },
-    {
-     "kind": "merged",
-     "project": "Bulk Manager",
-     "text": "Lift calendar rings today and shows what is coming up."
-    },
-    {
-     "kind": "merged",
-     "project": "Bulk Manager",
-     "text": "Rest-day note on the workout page reads cleanly."
-    },
-    {
-     "kind": "proposed",
-     "project": "Flag Hub",
-     "text": "Reworked: the counts look now goes on your large widget, with cloud/PC icons and a big red waiting number."
-    },
-    {
-     "kind": "proposed",
-     "project": "Music Space",
-     "text": "Bring back the shared settings gear tray that the v2.4 update dropped."
-    },
-    {
-     "kind": "proposed",
-     "project": "Study Decks",
-     "text": "Christmas look for December, with a switch to turn it off."
-    }
-   ]
-  },
   {
    "at": "2026-11-03T09:04:59Z",
    "lane": "cloud",
@@ -2358,6 +2329,19 @@
      "kind": "suggested",
      "project": "RetroBat",
      "text": "For your Wii remotes flag: compare remotes and nunchucks that work well."
+    }
+   ]
+  },
+  {
+   "at": "2026-11-24T08:57:19Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Built a Music Space proposal: a \"New song unlocked\" moment on the lesson-done card.",
+   "items": [
+    {
+     "kind": "proposed",
+     "project": "Music Space",
+     "text": "\"New song unlocked\" with a Play it button when a lesson opens up a new song."
     }
    ]
   }
