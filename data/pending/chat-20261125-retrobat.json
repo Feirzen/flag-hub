@@ -1,0 +1,6 @@
+{
+  "done": false,
+  "note": "From a RetroBat chat on 2026-11-25. On flag c1122dogkb: set priority to true and set its note to the text under 'note_for_flag'. Nothing else.",
+  "flag": "c1122dogkb",
+  "note_for_flag": "Steven 2026-11-25: definitely wants this. The Doghouse still uses TabTip (checked HomeBox.cs build 8). PadKeyboard.cs now also has soft built-in sounds (Sounds = true/false), so copying the file brings them along."
+}
