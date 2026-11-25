@@ -1790,11 +1790,12 @@
      "r": 0.09
     }
    ],
-   "status": "waiting",
+   "status": "approved",
    "created": "2026-11-24T08:57:19Z",
    "flagIds": [
     "c1123msunlock"
-   ]
+   ],
+   "decidedAt": "2026-11-25T15:46:21.500Z"
   },
   {
    "id": "p1125askcards",
