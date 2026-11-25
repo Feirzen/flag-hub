@@ -1,11 +1,11 @@
 {
  "mode": "light",
- "openFlags": 36,
- "waiting": 1,
+ "openFlags": 34,
+ "waiting": 2,
  "lastRun": {
-  "at": "2026-11-24T08:57:19Z",
-  "summary": "Built a Music Space proposal: a \"New song unlocked\" moment on the lesson-done card."
+  "at": "2026-11-25T08:57:03Z",
+  "summary": "Fixed the jumpy Colosseum foes in Study Decks and built your Needs you question cards as a Flag Hub proposal."
  },
- "updated": "2026-11-24T08:57:19Z",
+ "updated": "2026-11-25T08:57:03Z",
  "suggestions": 0
 }

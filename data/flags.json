@@ -30,7 +30,7 @@
    "project": "Study Decks",
    "text": "On the colleseum level, the foes walk a little too slow, and actually glitch out as they move, showing further ahead and then glitching back, and sliding over, then again and again.",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-11-23T21:10:34.683Z",
    "where": {
@@ -40,7 +40,9 @@
     "says": null,
     "screen": "1745x828 computer",
     "look": "chameleon"
-   }
+   },
+   "resolvedAt": "2026-11-25T08:57:03Z",
+   "resolution": "Arena foes now slide smoothly from tile to tile (no more jumping ahead and snapping back) and walk about 20% faster."
   },
   {
    "id": "fmwt1g8gg",
@@ -1200,7 +1202,7 @@
    "id": "c1123needq",
    "project": "Flag Hub",
    "kind": "fix",
-   "status": "open",
+   "status": "proposed",
    "text": "When Claude leaves a question on a flag (like \"mark this done?\" or \"move it?\"), it shows up under Needs you with one-tap answers instead of hiding in Claude's queue.\n\nRight now the Hub says 0 need you while 3 flags (Party mode and the two Bilingual Blueprints ones) are really waiting on your answer. They'd sit with the proposals, with buttons like Done, Keep, or Move to For me.",
    "source": "concept",
    "created": "2026-11-23T15:51:33.935Z",
@@ -1793,42 +1795,33 @@
    "flagIds": [
     "c1123msunlock"
    ]
+  },
+  {
+   "id": "p1125askcards",
+   "project": "Flag Hub",
+   "lane": "cloud",
+   "title": "Claude's questions on flags show under Needs you",
+   "summary": "When Claude leaves a question on a flag, it now shows as a card under Needs you with one-tap answers: Done, Keep for Claude, For me, Idea, or PC. You can also type a reply, and the need-you count includes these so nothing hides in Claude's queue.",
+   "link": "https://github.com/Feirzen/flag-hub/pull/15",
+   "images": [
+    "previews/p1125askcards/before.png",
+    "previews/p1125askcards/after.png"
+   ],
+   "spots": [
+    {
+     "x": 0.5,
+     "y": 0.42,
+     "r": 0.1
+    }
+   ],
+   "status": "waiting",
+   "created": "2026-11-25T08:57:03Z",
+   "flagIds": [
+    "c1123needq"
+   ]
   }
  ],
  "runs": [
-  {
-   "at": "2026-11-03T09:04:59Z",
-   "lane": "cloud",
-   "mode": "big",
-   "summary": "Merged your three approved changes, shrank the Tower minimap, and built a Christmas adventure proposal for Study Decks.",
-   "items": [
-    {
-     "kind": "merged",
-     "project": "Music Space",
-     "text": "The shared settings gear tray is back."
-    },
-    {
-     "kind": "merged",
-     "project": "Study Decks",
-     "text": "Christmas look for December, with a switch to turn it off."
-    },
-    {
-     "kind": "merged",
-     "project": "Flag Hub",
-     "text": "Large widget counts look, now with a round cloud and a monitor icon."
-    },
-    {
-     "kind": "fixed",
-     "project": "Study Decks",
-     "text": "Tower minimap is smaller on computers and your dot stays solid."
-    },
-    {
-     "kind": "proposed",
-     "project": "Study Decks",
-     "text": "Christmas adventure: The Stolen Christmas, for December."
-    }
-   ]
-  },
   {
    "at": "2026-11-04T09:03:21Z",
    "lane": "cloud",
@@ -2342,6 +2335,24 @@
      "kind": "proposed",
      "project": "Music Space",
      "text": "\"New song unlocked\" with a Play it button when a lesson opens up a new song."
+    }
+   ]
+  },
+  {
+   "at": "2026-11-25T08:57:03Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Fixed the jumpy Colosseum foes in Study Decks and built your Needs you question cards as a Flag Hub proposal.",
+   "items": [
+    {
+     "kind": "fixed",
+     "project": "Study Decks",
+     "text": "Arena foes slide smoothly now instead of jumping ahead and snapping back, and walk a bit faster."
+    },
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "Claude's questions on flags show under Needs you with one-tap answers."
     }
    ]
   }
