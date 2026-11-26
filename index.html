@@ -368,6 +368,14 @@ header{padding-right:120px}
 .yn svg{width:18px;height:18px}
 .need .forgood{align-self:center;border:0;background:none;color:var(--ink3);font:500 13px var(--fb);text-decoration:underline;cursor:pointer}
 .need.leaving{animation:out .4s ease forwards}
+/* a question Claude left on a flag */
+.need.ask .ft{margin:0;font:600 15.5px/1.4 var(--fd);color:var(--ink)}
+.need.ask .q{margin:0;font-size:14px;line-height:1.5;color:var(--ink2);background:color-mix(in srgb,var(--warn) 8%,var(--card));border:1px solid color-mix(in srgb,var(--warn) 30%,var(--line));border-left:3px solid var(--warn);border-radius:10px;padding:8px 11px}
+.need.ask .q b{font-weight:600;color:var(--ink)}
+.need.ask .tools{justify-content:space-between}
+.need.ask .moves{display:flex;gap:6px}
+.need.ask .moves .chip{padding:6px 12px;font-size:13px}
+.need.ask .yn .no{background:var(--card);color:var(--ink);border:1px solid var(--line)}
 @keyframes out{to{opacity:0;transform:translateX(30px) scale(.98)}}
 .mini{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px dashed var(--line);border-radius:14px;cursor:pointer;color:var(--ink2);font-size:14px;background:none;width:100%;text-align:left}
 .mini b{color:var(--ink);font-weight:600}
@@ -546,6 +554,10 @@ const runLane = r => r.lane || (/^RetroBat/i.test(r.summary || "") ? "pc" : "clo
 const appOf = label => S.apps.find(a => (a.labels || [a.name]).includes(label));
 const labelsOf = a => a.labels || [a.name];
 const appState = label => { const a = appOf(label); return a ? (a.state || "on") : null; };
+/* Claude left a question on a flag (in its note) that only he can answer. "Keep" remembers which note he answered. */
+const isAsk = f => f.status === "open" && tabOf(f) === "claude" && !isConcept(f) && !!(f.note || "").trim() && f.askKept !== f.note
+  && (/\?\s*$/.test(f.note.trim()) || /\b(mark (this|it) done|tell me|move it to)\b/i.test(f.note));
+const askList = () => S.flags.filter(isAsk).sort((a, b) => (a.created || "").localeCompare(b.created || ""));
 const claudeTurn = p => ["approved", "ready", "redo"].includes(p.status);
 const CAN_UNDO = ["approved", "ready", "redo", "denied"];
 const isPR = p => /\/pull\/\d+/.test(p.link || "");
@@ -602,6 +614,19 @@ function needCard(p) {
     ${open ? `<textarea class="pnote" data-note="${p.id}" placeholder="Notes for Claude: what you like, what to change" maxlength="1500">${esc(note)}</textarea>` : ""}
     <div class="yn"><button class="no" data-a="deny">${ICON.no}<span>${has ? "Redo with notes" : "Nope"}</span></button><button class="yes" data-a="approve">${ICON.yes}<span>${has ? "Yes, with notes" : "Yes"}</span></button></div>
     ${has ? `<button class="forgood" data-a="denyforgood">Or deny it for good</button>` : ""}
+  </div>`;
+}
+function askCard(f) {
+  const note = S.notes[f.id] || "", open = S.noteOpen[f.id] || !!note.trim(), has = !!note.trim();
+  const t = f.text || "", short = t.length > 160 ? t.slice(0, 158).trim() + "…" : t;
+  return `<div class="need ask" data-ask="${f.id}">
+    <div class="meta" style="grid-column:auto"><span class="tag proj" style="${pc(f.project)}">${esc(f.project)}</span><span>${ago(f.created)}</span></div>
+    <p class="ft">${esc(short)}</p>
+    <p class="q"><b>Claude:</b> ${esc(f.note)}</p>
+    <div class="tools"><button class="ic" data-a="anote" aria-pressed="${open}" aria-label="Reply" title="Reply to Claude">${ICON.note}</button>
+      <div class="moves"><button class="chip" data-a="ayou">For me</button><button class="chip" data-a="aidea">Idea</button>${laneOf(f) === "pc" ? "" : `<button class="chip" data-a="apc">PC</button>`}</div></div>
+    ${open ? `<textarea class="pnote" data-anote="${f.id}" placeholder="Your answer for Claude" maxlength="1500">${esc(note)}</textarea>` : ""}
+    <div class="yn"><button class="no" data-a="akeep">${ICON.keep}<span>${has ? "Send answer" : "Keep for Claude"}</span></button><button class="yes" data-a="adone">${ICON.yes}<span>Done</span></button></div>
   </div>`;
 }
 function claudeCard(p) {
@@ -718,6 +743,7 @@ function fyList() {
 }
 function homeView() {
   const wait = S.props.filter(p => p.status === "waiting").sort((a, b) => (b.created || "").localeCompare(a.created || ""));
+  const asks = askList(), needN = wait.length + asks.length;
   const theirs = S.props.filter(claudeTurn);
   const sug = S.concepts.filter(c => c.status === "open");
   const sugApps = [...new Set(sug.map(c => (appOf(c.project) || { id: "label:" + c.project }).id))];
@@ -726,9 +752,9 @@ function homeView() {
   const fy = fyList(), youAll = open.filter(isMine).length;
   const f0 = fy[S.fyI % Math.max(1, fy.length)];
   return `<div class="view">
-    <header><h1>Flag Hub</h1><div class="tally"><b style="color:var(--warn)">${wait.length}</b> need you · <b style="color:var(--flag)">${open.filter(f => tabOf(f) === "claude").length}</b> for Claude · <b style="color:var(--tealInk)">${youAll}</b> for you</div></header>
-    <section aria-labelledby="ny"><h2 id="ny"><span class="ht"><i class="hd" style="--c:var(--warn)"></i>Needs you</span><span class="n">${wait.length || ""}</span></h2>
-      ${wait.length ? wait.map(needCard).join("") : `<p class="empty">You're all caught up. New proposals from the night shift land here.</p>`}
+    <header><h1>Flag Hub</h1><div class="tally"><b style="color:var(--warn)">${needN}</b> need you · <b style="color:var(--flag)">${open.filter(f => tabOf(f) === "claude").length}</b> for Claude · <b style="color:var(--tealInk)">${youAll}</b> for you</div></header>
+    <section aria-labelledby="ny"><h2 id="ny"><span class="ht"><i class="hd" style="--c:var(--warn)"></i>Needs you</span><span class="n">${needN || ""}</span></h2>
+      ${needN ? wait.map(needCard).join("") + asks.map(askCard).join("") : `<p class="empty">You're all caught up. New proposals from the night shift land here.</p>`}
       ${sug.length ? `<button class="mini" data-go="${sugApps.length === 1 ? "app/" + esc(sugApps[0]) : "apps"}"><span style="color:var(--clIdea)">✦</span><span><b>${sug.length} new idea${sug.length > 1 ? "s" : ""} from Claude</b> in Someday</span><span class="go">${ICON.chev}</span></button>` : ""}
       ${stale.length ? `<button class="mini" data-go="all/review"><span>${ICON.keep}</span><span><b>${stale.length} old flag${stale.length > 1 ? "s" : ""}</b> to keep or clear</span><span class="go">${ICON.chev}</span></button>` : ""}
       ${theirs.length ? `<details><summary>Waiting on Claude (${theirs.length})</summary><div class="list" style="margin-top:6px">${theirs.map(claudeCard).join("")}</div></details>` : ""}
@@ -785,7 +811,7 @@ function allView() {
 /* ================= APPS ================= */
 function counts(a) {
   const own = x => inApp(a, x.project);
-  return { need: S.props.filter(p => p.status === "waiting" && own(p)).length, sug: S.concepts.filter(c => c.status === "open" && own(c)).length,
+  return { need: S.props.filter(p => p.status === "waiting" && own(p)).length + S.flags.filter(f => isAsk(f) && own(f)).length, sug: S.concepts.filter(c => c.status === "open" && own(c)).length,
     open: S.flags.filter(f => f.status === "open" && own(f)).length };
 }
 function tile(a) {
@@ -842,8 +868,8 @@ function somedayCard(f) {
 function appView(id) {
   const a = appById(id); if (!a) return `<div class="view"><button class="back" data-go="apps">${ICON.back}Apps</button><p class="empty">That app isn't here anymore.</p></div>`;
   const own = x => inApp(a, x.project), st = a.state || "on", v = a.vision || {}, ve = S.vEdit === a.id;
-  const wait = S.props.filter(p => p.status === "waiting" && own(p));
-  const work = S.flags.filter(f => isOpen(f) && tabOf(f) === "claude" && own(f)).sort((x, y) => (y.priority ? 1 : 0) - (x.priority ? 1 : 0));
+  const wait = S.props.filter(p => p.status === "waiting" && own(p)), asks = askList().filter(own);
+  const work = S.flags.filter(f => isOpen(f) && tabOf(f) === "claude" && own(f) && !isAsk(f)).sort((x, y) => (y.priority ? 1 : 0) - (x.priority ? 1 : 0));
   const theirs = S.props.filter(p => claudeTurn(p) && own(p));
   const mine = S.flags.filter(f => isOpen(f) && isMine(f) && own(f));
   const ideas = [...S.concepts.filter(c => c.status === "open" && own(c)), ...S.flags.filter(f => isOpen(f) && isIdea(f) && own(f))];
@@ -862,7 +888,7 @@ function appView(id) {
         <div class="row" style="justify-content:space-between"><span class="note">${(a.denied || []).length ? `${a.denied.length} turned-down idea${a.denied.length > 1 ? "s" : ""} won't come back.` : ""}</span><button class="btn sm ghost" data-a="vedit">${ICON.pen} Edit</button></div>`}
       </div></details>
       <div class="links" style="display:flex;gap:14px;font-size:13px">${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener" style="color:var(--ink2)">Open the app</a>` : ""}${a.repo ? `<a href="https://github.com/${esc(a.repo)}" target="_blank" rel="noopener" style="color:var(--ink2)">Code on GitHub</a>` : ""}${a.roadmap ? `<a href="${esc(a.roadmap)}" target="_blank" rel="noopener" style="color:var(--ink2)">Roadmap</a>` : ""}</div></section>`}
-    ${wait.length ? `<section><h2><span class="ht"><i class="hd" style="--c:var(--warn)"></i>Needs you</span><span class="n">${wait.length}</span></h2>${wait.map(needCard).join("")}</section>` : ""}
+    ${wait.length + asks.length ? `<section><h2><span class="ht"><i class="hd" style="--c:var(--warn)"></i>Needs you</span><span class="n">${wait.length + asks.length}</span></h2>${wait.map(needCard).join("")}${asks.map(askCard).join("")}</section>` : ""}
     <section><h2><span class="ht"><i class="hd" style="--c:var(--flag)"></i>Claude's working on</span><span class="n">${work.length + theirs.length || ""}</span></h2>
       <div class="list">${work.map(f => flagRow(f, { noLabel: labelsOf(a).length === 1 })).join("")}${theirs.map(claudeCard).join("")}</div>${work.length + theirs.length ? "" : `<p class="empty">Nothing right now.</p>`}</section>
     <section><h2><span class="ht"><i class="hd" style="--c:var(--teal)"></i>Your list</span><span class="n">${mine.length || ""}</span></h2>
@@ -938,6 +964,9 @@ document.addEventListener("click", async e => {
   /* concepts (Claude's ideas) */
   const cr = b.closest("[data-cid]");
   if (cr) return conceptAction(a, cr.dataset.cid, b, now);
+  /* questions Claude left on flags */
+  const ak = b.closest("[data-ask]");
+  if (ak) return askAction(a, ak.dataset.ask, b, now);
   /* tonight skip */
   if (a === "skip" || a === "unskip") { const id = b.closest("[data-id]").dataset.id; b.disabled = true;
     await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; if (a === "skip") f.skipUntil = new Date(Date.now() + 24 * 3600e3).toISOString(); else delete f.skipUntil; }, a === "skip" ? "Skip tonight" : "Unskip"); return; }
@@ -994,6 +1023,22 @@ async function propAction(a, id, b, now) {
     if (ok) { delete S.notes[id]; delete S.noteOpen[id]; render(); } else card && card.classList.remove("leaving");
   }
 }
+async function askAction(a, id, b, now) {
+  const f = S.flags.find(x => x.id === id); if (!f) return;
+  if (a === "anote") { S.noteOpen[id] = !S.noteOpen[id] || !!(S.notes[id] || "").trim(); render(); const ta = document.querySelector(`[data-anote="${id}"]`); if (ta) ta.focus(); return; }
+  const reply = (S.notes[id] || "").trim(), asked = f.note, card = b.closest(".need");
+  const fn = { adone: x => { x.status = "done"; x.resolvedAt = now; x.resolution = "marked done by you"; },
+    akeep: x => { x.askKept = asked; },
+    ayou: x => { x.prevKind = x.kind; x.kind = "you"; },
+    aidea: x => { x.kind = "idea"; delete x.lane; },
+    apc: x => { if (workLane(x.project) === "pc") delete x.lane; else x.lane = "pc"; } }[a];
+  if (!fn) return;
+  card && card.classList.add("leaving");
+  const ok = await save(d => { const x = (d.flags || []).find(y => y.id === id); if (!x) return;
+    fn(x); x.askKept = asked; if (reply) x.text = (x.text || "") + "\n\nMy answer: " + reply; x.reviewedAt = now; },
+    { adone: "Flag done", akeep: reply ? "Answered Claude" : "Kept for Claude", ayou: "Flag moved to For me", apc: "Flag moved to the PC run", aidea: "Flag made an idea" }[a]);
+  if (ok) { delete S.notes[id]; delete S.noteOpen[id]; render(); } else card && card.classList.remove("leaving");
+}
 async function conceptAction(a, id, b, now) {
   const c = S.concepts.find(x => x.id === id); if (!c) return;
   const note = (S.sNotes[id] || "").trim(), card = b.closest(".sd");
@@ -1026,6 +1071,7 @@ document.addEventListener("input", e => {
   if (t.dataset && t.dataset.note) { S.notes[t.dataset.note] = t.value; const card = t.closest(".need"), has = !!t.value.trim();
     card.querySelector('[data-a="approve"] span').textContent = has ? "Yes, with notes" : "Yes"; card.querySelector('[data-a="deny"] span').textContent = has ? "Redo with notes" : "Nope";
     let fg = card.querySelector(".forgood"); if (has && !fg) card.insertAdjacentHTML("beforeend", `<button class="forgood" data-a="denyforgood">Or deny it for good</button>`); else if (!has && fg) fg.remove(); return; }
+  if (t.dataset && t.dataset.anote) { S.notes[t.dataset.anote] = t.value; t.closest(".need").querySelector('[data-a="akeep"] span').textContent = t.value.trim() ? "Send answer" : "Keep for Claude"; return; }
   if (t.dataset && t.dataset.snote) { S.sNotes[t.dataset.snote] = t.value; t.closest(".sd").querySelector('[data-a="plant"] span').textContent = t.value.trim() ? "Plant with notes" : "Plant it"; }
 });
 document.addEventListener("change", e => { if (e.target.classList.contains("fproj") && S.draft) S.draft.project = e.target.value; });
