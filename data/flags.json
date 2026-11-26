@@ -1127,7 +1127,9 @@
    "status": "open",
    "source": "claude",
    "created": "2026-11-22T07:30:00Z",
-   "text": "Ruby's Doghouse: same keyboard and couch-mouse update RetroBat just got (Steven asked for both to match).\n\n1) Swap the Windows touch keyboard (TabTip) for the new controller keyboard: R:\\HomeBox\\Arcade\\RetroBat\\_Wizard\\Program\\scripts\\PadKeyboard.cs. It is one C# 5 class (WinForms, no focus stealing, types through SendInput as Unicode), so copy it into Apps\\HomeBoxHome\\src and compile it in with HomeBox.cs. Its API: Open, Dismiss, IsOpen, Nav(dx,dy), Press, Backspace, Space, TypeEnter, CursorLeft, CursorRight, ToggleShift, Tick (call every ~16 ms). Map it Xbox style from XInput: D-pad or a left-stick flick moves (repeat after 380 ms, then every 90), A types, X deletes, Y space, LB/RB move the text cursor, LT shift, Menu = Enter and close, B close. Keep Menu opening it and the auto-open when a text box gets focus.\n2) Two mice fight in RetroBat browser/Flash games: skip the Doghouse couch mouse (and its L3+R3 toggle) while the named mutex Local\\RetroBatCouchMouse exists. RetroBat's own couch mouse already steps aside for Steam and Jackbox games whenever HomeBox.exe is running.\n3) Start Steam with -silent at sign-in, after the R: drive shows up (homebox-startup.ps1), so Steam games never cold-start Steam (the pop-ups) and RetroBat never kills Steam mid cloud-save."
+   "text": "Ruby's Doghouse: same keyboard and couch-mouse update RetroBat just got (Steven asked for both to match).\n\n1) Swap the Windows touch keyboard (TabTip) for the new controller keyboard: R:\\HomeBox\\Arcade\\RetroBat\\_Wizard\\Program\\scripts\\PadKeyboard.cs. It is one C# 5 class (WinForms, no focus stealing, types through SendInput as Unicode), so copy it into Apps\\HomeBoxHome\\src and compile it in with HomeBox.cs. Its API: Open, Dismiss, IsOpen, Nav(dx,dy), Press, Backspace, Space, TypeEnter, CursorLeft, CursorRight, ToggleShift, Tick (call every ~16 ms). Map it Xbox style from XInput: D-pad or a left-stick flick moves (repeat after 380 ms, then every 90), A types, X deletes, Y space, LB/RB move the text cursor, LT shift, Menu = Enter and close, B close. Keep Menu opening it and the auto-open when a text box gets focus.\n2) Two mice fight in RetroBat browser/Flash games: skip the Doghouse couch mouse (and its L3+R3 toggle) while the named mutex Local\\RetroBatCouchMouse exists. RetroBat's own couch mouse already steps aside for Steam and Jackbox games whenever HomeBox.exe is running.\n3) Start Steam with -silent at sign-in, after the R: drive shows up (homebox-startup.ps1), so Steam games never cold-start Steam (the pop-ups) and RetroBat never kills Steam mid cloud-save.",
+   "priority": true,
+   "note": "Steven 2026-11-25: definitely wants this. The Doghouse still uses TabTip (checked HomeBox.cs build 8). PadKeyboard.cs now also has soft built-in sounds (Sounds = true/false), so copying the file brings them along."
   },
   {
    "id": "c1122fill",
@@ -1187,7 +1189,7 @@
    "id": "c1123msunlock",
    "project": "Music Space",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "text": "When finishing a lesson makes a new song playable, the lesson-done card says \"New song unlocked: <song>\" with a Play it button.\n\nIt only shows when the count of songs you can play actually goes up, with one soft chime, so it stays a real moment instead of noise.",
    "source": "concept",
    "created": "2026-11-23T15:51:19.090Z",
@@ -1196,13 +1198,15 @@
     "created": "2026-11-23T15:51:17.503Z"
    },
    "plantedAt": "2026-11-23T15:51:19.090Z",
-   "reviewedAt": "2026-11-23T15:51:19.090Z"
+   "reviewedAt": "2026-11-23T15:51:19.090Z",
+   "resolvedAt": "2026-11-26T09:02:00Z",
+   "resolution": "Shipped: the lesson-done card now says \"New song unlocked\" with a Play it button when a lesson opens up a new song."
   },
   {
    "id": "c1123needq",
    "project": "Flag Hub",
    "kind": "fix",
-   "status": "proposed",
+   "status": "done",
    "text": "When Claude leaves a question on a flag (like \"mark this done?\" or \"move it?\"), it shows up under Needs you with one-tap answers instead of hiding in Claude's queue.\n\nRight now the Hub says 0 need you while 3 flags (Party mode and the two Bilingual Blueprints ones) are really waiting on your answer. They'd sit with the proposals, with buttons like Done, Keep, or Move to For me.",
    "source": "concept",
    "created": "2026-11-23T15:51:33.935Z",
@@ -1215,7 +1219,9 @@
     "created": "2026-11-23T14:55:00Z"
    },
    "plantedAt": "2026-11-23T15:51:33.935Z",
-   "reviewedAt": "2026-11-23T15:51:33.935Z"
+   "reviewedAt": "2026-11-23T15:51:33.935Z",
+   "resolvedAt": "2026-11-26T09:02:00Z",
+   "resolution": "Shipped: Claude's questions on flags now show under Needs you with one-tap answers."
   },
   {
    "id": "c1123wii",
@@ -1790,12 +1796,13 @@
      "r": 0.09
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-24T08:57:19Z",
    "flagIds": [
     "c1123msunlock"
    ],
-   "decidedAt": "2026-11-25T15:46:21.500Z"
+   "decidedAt": "2026-11-25T15:46:21.500Z",
+   "shippedAt": "2026-11-26T09:02:00Z"
   },
   {
    "id": "p1125askcards",
@@ -1815,33 +1822,16 @@
      "r": 0.1
     }
    ],
-   "status": "approved",
+   "status": "shipped",
    "created": "2026-11-25T08:57:03Z",
    "flagIds": [
     "c1123needq"
    ],
-   "decidedAt": "2026-11-25T15:46:12.095Z"
+   "decidedAt": "2026-11-25T15:46:12.095Z",
+   "shippedAt": "2026-11-26T09:02:00Z"
   }
  ],
  "runs": [
-  {
-   "at": "2026-11-04T09:03:21Z",
-   "lane": "cloud",
-   "mode": "big",
-   "summary": "Merged the Christmas adventure and built a Labyrinth trial room proposal for Study Decks.",
-   "items": [
-    {
-     "kind": "merged",
-     "project": "Study Decks",
-     "text": "Christmas adventure: The Stolen Christmas, live for December."
-    },
-    {
-     "kind": "proposed",
-     "project": "Study Decks",
-     "text": "Labyrinth trial rooms: a dark maze with riddle gates and a rune to find."
-    }
-   ]
-  },
   {
    "at": "2026-11-05T06:50:00Z",
    "lane": "pc",
@@ -2353,6 +2343,24 @@
     },
     {
      "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "Claude's questions on flags show under Needs you with one-tap answers."
+    }
+   ]
+  },
+  {
+   "at": "2026-11-26T09:02:00Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Merged both proposals you approved: the Music Space \"New song unlocked\" card and the Needs you question cards in the Hub.",
+   "items": [
+    {
+     "kind": "merged",
+     "project": "Music Space",
+     "text": "\"New song unlocked\" with a Play it button on the lesson-done card."
+    },
+    {
+     "kind": "merged",
      "project": "Flag Hub",
      "text": "Claude's questions on flags show under Needs you with one-tap answers."
     }
