@@ -851,11 +851,13 @@
    "kind": "you",
    "project": "RetroBat",
    "source": "reminders",
-   "status": "open",
+   "status": "done",
    "text": "Get 2 more real Wii remotes? Laggy nunchucks, one didn't work",
    "id": "rem-28",
    "reviewedAt": "2026-11-10T04:51:50.593Z",
-   "reviewEvery": 45
+   "reviewEvery": 45,
+   "resolvedAt": "2026-11-27T23:03:04.199Z",
+   "resolution": "marked done by you"
   },
   {
    "created": "2026-10-19T16:10:00-06:00",
