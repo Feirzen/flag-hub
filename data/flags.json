@@ -26,6 +26,15 @@
  ],
  "flags": [
   {
+   "id": "fmwzl4wqo",
+   "project": "Flag Hub",
+   "text": "The buttons on the flags and flag hub don’t react when I push them. They take a long time to react such as the trash, checkmark arrows to move or priority buttons they all seem to take a while to react, and I need them to react faster so that I at least know that it worked and I don’t need to press it again because if I go to press it again and it worked but was delayed I’ll accidentally press the next one so I just need the buttons to react immediately even if the flag takes its time to go where it needs to go. I just need the buttons to work immediately. Also, if we can get it to react completely faster that would also be pretty nice but bigger deal is that the flags buttons work",
+   "kind": "fix",
+   "status": "open",
+   "source": "hub",
+   "created": "2026-11-27T23:01:02.016Z"
+  },
+  {
    "id": "fmwtrfge3",
    "project": "Study Decks",
    "text": "On the colleseum level, the foes walk a little too slow, and actually glitch out as they move, showing further ahead and then glitching back, and sliding over, then again and again.",
