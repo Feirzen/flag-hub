@@ -456,11 +456,14 @@
    "id": "fmvzovk96",
    "project": "Bilingual Blueprints",
    "text": "“Do-it-yourself website builders\nabout $17 to $29/mo + your time”\n\nThis is in a funky spot and doesn’t make sense at all glance. Make it easier to understand (Our competitors price or whatever like that)\n\nAlso just above, let’s cut the prices  of each add on. Lots of numbers and looks like I’m looking to take money wherever possible.",
-   "kind": "fix",
+   "kind": "you",
    "status": "open",
    "source": "hub",
    "created": "2026-11-02T20:06:02.058Z",
-   "note": "No repo for this, so the night shift can't do it. Move it to For me, PC, or Ideas?"
+   "note": "No repo for this, so the night shift can't do it. Move it to For me, PC, or Ideas?",
+   "prevKind": "fix",
+   "askKept": "No repo for this, so the night shift can't do it. Move it to For me, PC, or Ideas?",
+   "reviewedAt": "2026-11-27T22:55:40.650Z"
   },
   {
    "id": "fmvv9xqib",
