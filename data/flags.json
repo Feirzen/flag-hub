@@ -512,11 +512,13 @@
    "project": "RetroBat Wizard",
    "text": "I need to use the Check missing games button to find any games that aren't actually listed under Retro Bat and figure out why they aren't showing",
    "kind": "you",
-   "status": "open",
+   "status": "done",
    "source": "hub",
    "created": "2026-10-30T03:55:41.042Z",
    "reviewedAt": "2026-11-23T15:55:09.432Z",
-   "reviewEvery": 21
+   "reviewEvery": 21,
+   "resolvedAt": "2026-11-27T22:56:56.050Z",
+   "resolution": "marked done by you"
   },
   {
    "id": "fmvufvkd4",
