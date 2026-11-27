@@ -439,7 +439,7 @@
    "project": "Study Decks",
    "text": "Another idea after all the other flags with ideas have been applied, would be a party mode, where 1-4 players can connect. We use either QR codes to connect people's phones (ideal) or connect xbox controllers directly and have each control a player. The map would probably go away, but the unique challenges I mentioned in another flag like mazes or whatevs, or battle mode, could all be worked into a party mode. That would be so fun in AA school!",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "app",
    "created": "2026-11-02T22:42:30.238Z",
    "where": {
@@ -450,7 +450,11 @@
     "screen": "1396x785 computer",
     "look": "chameleon"
    },
-   "note": "Party mode (Raid and Duel, phones as controllers) landed Nov 19 in PR #15. Mark this done if that covers it, or tell me what's still missing."
+   "note": "Party mode (Raid and Duel, phones as controllers) landed Nov 19 in PR #15. Mark this done if that covers it, or tell me what's still missing.",
+   "resolvedAt": "2026-11-27T22:55:59.675Z",
+   "resolution": "marked done by you",
+   "askKept": "Party mode (Raid and Duel, phones as controllers) landed Nov 19 in PR #15. Mark this done if that covers it, or tell me what's still missing.",
+   "reviewedAt": "2026-11-27T22:55:59.675Z"
   },
   {
    "id": "fmvzovk96",
