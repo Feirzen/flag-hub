@@ -339,12 +339,13 @@
    "id": "s20261118142357",
    "project": "Flag Hub",
    "text": "I use Plant a Flag for brainstorming while driving or thinking. Long brain dumps need splitting into separate actionable flags across projects, with side notes sent where they belong. Does that need a new setup, or can the night shift just do it each night?",
-   "kind": "you",
+   "kind": "fix",
    "status": "open",
    "source": "siri",
    "heard": "So also for this plant a flag thing I definitely feel like I use it a lot for just brainstorming like while I'm driving or thinking so I definitely feel like a current setup is great and also I think a lot of times I'll just be brainstorming so I might need you to on the Night Shift and dissect a lot of what they write into actual actionable flags and some of the content will just be like sidenote or things that belong in other places I don't know if that means I need to do a whole new set up or if that means that just every night shift you might be interacting with a lot of different projects trying to understand all of my thoughts but",
    "created": "2026-11-18T21:23:57Z",
-   "note": "Right now each Siri note becomes one flag. To have the night shift split a brain dump into several flags, its cloud prompt needs one added line. Ask in a chat and it can be added; no new setup needed.\nClaude did a piece of this: notes/c1120dump.md"
+   "note": "Right now each Siri note becomes one flag. To have the night shift split a brain dump into several flags, its cloud prompt needs one added line. Ask in a chat and it can be added; no new setup needed.\nClaude did a piece of this: notes/c1120dump.md",
+   "reviewedAt": "2026-11-27T22:56:38.468Z"
   },
   {
    "id": "c1118deeplink",
