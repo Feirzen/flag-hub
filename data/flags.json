@@ -1833,34 +1833,6 @@
  ],
  "runs": [
   {
-   "at": "2026-11-05T06:50:00Z",
-   "lane": "pc",
-   "mode": "big",
-   "summary": "Marked the smoother downloads shipped (they went out in 3.3.1), closed three wizard flags 3.3.1 already covered, and built a Box art Health light proposal.",
-   "items": [
-    {
-     "kind": "shipped",
-     "project": "RetroBat Wizard",
-     "text": "Smoother downloads were already live in 3.3.1, so nothing needed copying over."
-    },
-    {
-     "kind": "fixed",
-     "project": "RetroBat Wizard",
-     "text": "Closed three flags 3.3.1 already handled: mage on the loading bar, favourites, invites, Steam tab, How this setup works."
-    },
-    {
-     "kind": "proposed",
-     "project": "RetroBat Wizard",
-     "text": "A Box art card on Health with how many games have no pictures and how to scrape them."
-    },
-    {
-     "kind": "failed",
-     "project": "RetroBat",
-     "text": "Couldn't save to the Hub file this run, so these changes wait in data/pending until the next run merges them."
-    }
-   ]
-  },
-  {
    "at": "2026-11-05T23:41:45Z",
    "lane": "cloud",
    "mode": "big",
@@ -2365,6 +2337,13 @@
      "text": "Claude's questions on flags show under Needs you with one-tap answers."
     }
    ]
+  },
+  {
+   "at": "2026-11-27T08:53:36Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Quiet night: no approvals or reworks waiting, and the only open Cloud flag (Study Decks party mode) is waiting on your answer to Claude's question.",
+   "items": []
   }
  ],
  "digestAt": "2026-11-10T08:58:58Z",
