@@ -922,12 +922,19 @@ function render() {
 }
 
 /* ================= saving ================= */
+let pending = 0;
 async function save(fn, msg) {
   if (!store.token()) { showConnect("Connect this device to save changes."); return false; }
-  busy = true;
-  try { const d = await store.change("data/flags.json", fn, msg); apply(d); return true; }
-  catch (e) { if (e.code === "token") showConnect("That key didn't work. Make a new one below."); else $("#syncNote").textContent = "Didn't save. Try again."; render(); return false; }
-  finally { busy = false; }
+  busy = true; pending++;
+  /* show the change right away, then save it in the background */
+  const before = S.raw;
+  if (before) { try { const local = JSON.parse(JSON.stringify(before)); apply(fn(local) || local, true); } catch (e) {} }
+  let ok = false;
+  try { const d = await store.change("data/flags.json", fn, msg); ok = true; if (pending === 1) apply(d); else S.raw = d; }
+  catch (e) { if (e.code === "token") showConnect("That key didn't work. Make a new one below."); }
+  finally { pending--; if (!pending) busy = false; }
+  if (!ok) { if (before && !pending) apply(before); $("#syncNote").textContent = "Didn't save. Try again."; if (!pending) await load(); $("#syncNote").textContent = "Didn't save. Try again."; }
+  return ok;
 }
 /* instant feedback: the tapped button lights up and its row locks until the save lands */
 function pend(b) { if (!store.token()) return; b.classList.add("working"); const r = b.closest("[data-id]") || b.closest("#fyCard"); if (r) r.classList.add("saving"); }
@@ -1288,14 +1295,15 @@ const SHARE_STEPS = `<ol>
 </ol><p class="note">Heads up: flag-hub is a public repo, so anyone with the link could see shared screenshots. Don't share anything private this way.</p>`;
 
 /* ================= data ================= */
-function apply(d) {
+function apply(d, local) {
+  S.raw = d;
   S.projects = d.projects || []; S.colors = d.colors || {}; S.lanes = d.lanes || {};
   const all = d.flags || [];
   S.concepts = all.filter(isConcept);
   S.flags = all.filter(f => !isConcept(f)).sort((a, b) => (b.created || "").localeCompare(a.created || ""));
   S.props = d.proposals || [];
   S.runs = (d.runs || []).slice().sort((a, b) => (b.at || "").localeCompare(a.at || ""));
-  $("#syncNote").textContent = "Synced " + new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  $("#syncNote").textContent = local ? "Saving…" : "Synced " + new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
   render();
 }
 function showConnect(msg) { const c = $("#connect"); c.hidden = false; if (msg) $("#tokenErr").textContent = msg; c.scrollIntoView({ behavior: "smooth", block: "start" }); }
