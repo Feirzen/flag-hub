@@ -82,6 +82,12 @@ textarea:focus,input[type=text]:focus{border-color:var(--flag)}
 .acts{display:flex;gap:6px;align-items:center}
 .ic{width:32px;height:32px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--ink2);display:flex;align-items:center;justify-content:center;cursor:pointer}
 .ic.sure{background:var(--flag);color:var(--flagInk);border-color:var(--flag)}
+.ic,.btn{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.ic{transition:transform .12s ease,background .15s ease,color .15s ease}
+.ic:active{transform:scale(.88)}
+.ic.working,.saving button.ic.working{background:var(--ink);color:var(--bg);border-color:var(--ink);animation:tapwait 1.1s ease-in-out infinite}
+.saving{opacity:.6;pointer-events:none;transition:opacity .2s ease}
+@keyframes tapwait{50%{opacity:.5;transform:scale(.92)}}
 .empty{color:var(--ink3);font-size:14px;margin:0;padding:6px 0}
 .prop{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
 .prop h3{margin:0;font:600 16px/1.3 var(--fd)}
@@ -920,9 +926,11 @@ async function save(fn, msg) {
   if (!store.token()) { showConnect("Connect this device to save changes."); return false; }
   busy = true;
   try { const d = await store.change("data/flags.json", fn, msg); apply(d); return true; }
-  catch (e) { if (e.code === "token") showConnect("That key didn't work. Make a new one below."); else $("#syncNote").textContent = "Didn't save. Try again."; return false; }
+  catch (e) { if (e.code === "token") showConnect("That key didn't work. Make a new one below."); else $("#syncNote").textContent = "Didn't save. Try again."; render(); return false; }
   finally { busy = false; }
 }
+/* instant feedback: the tapped button lights up and its row locks until the save lands */
+function pend(b) { if (!store.token()) return; b.classList.add("working"); const r = b.closest("[data-id]") || b.closest("#fyCard"); if (r) r.classList.add("saving"); }
 async function saveApps(fn, msg) {
   if (!store.token()) { showConnect("Connect this device to save changes."); return false; }
   try { const d = await store.change("data/apps.json", fn, msg); S.apps = d.apps || []; render(); return true; }
@@ -968,9 +976,9 @@ document.addEventListener("click", async e => {
   const ak = b.closest("[data-ask]");
   if (ak) return askAction(a, ak.dataset.ask, b, now);
   /* tonight skip */
-  if (a === "skip" || a === "unskip") { const id = b.closest("[data-id]").dataset.id; b.disabled = true;
+  if (a === "skip" || a === "unskip") { const id = b.closest("[data-id]").dataset.id; b.disabled = true; pend(b);
     await save(d => { const f = (d.flags || []).find(x => x.id === id); if (!f) return; if (a === "skip") f.skipUntil = new Date(Date.now() + 24 * 3600e3).toISOString(); else delete f.skipUntil; }, a === "skip" ? "Skip tonight" : "Unskip"); return; }
-  if (a === "fydone") { const f = fyList()[S.fyI % Math.max(1, fyList().length)]; if (f) { S.fyI = 0; save(d => { const x = (d.flags || []).find(y => y.id === f.id); if (x) { x.status = "done"; x.resolvedAt = now; x.resolution = "marked done by you"; } }, "Flag done"); } return; }
+  if (a === "fydone") { const f = fyList()[S.fyI % Math.max(1, fyList().length)]; if (f) { S.fyI = 0; pend(b); save(d => { const x = (d.flags || []).find(y => y.id === f.id); if (x) { x.status = "done"; x.resolvedAt = now; x.resolution = "marked done by you"; } }, "Flag done"); } return; }
   /* north star */
   if (a === "vedit") { S.vEdit = b.closest("[data-appd]").dataset.appd; render(); return; }
   if (a === "vcancel") { S.vEdit = null; b.blur(); render(); return; }
@@ -984,6 +992,7 @@ document.addEventListener("click", async e => {
   const row = b.closest("[data-id]"); const id = row && row.dataset.id; if (!id) return;
   const edit = fn => d => { const it = (d.flags || []).find(x => x.id === id); if (it) fn(it, d); };
   const f = S.flags.find(x => x.id === id) || {};
+  if (["pri", "keep", "swap", "done", "reopen"].includes(a) || (a === "del" && S.sure === id)) pend(b);
   if (a === "pri") save(edit(f => { if (f.priority) delete f.priority; else f.priority = true; f.reviewedAt = now; }), "Flag priority");
   else if (a === "fshots") openShots({ title: f.text, images: f.images }, 0);
   else if (a === "keepask") { S.keeping = S.keeping === id ? null : id; render(); }
