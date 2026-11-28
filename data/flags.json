@@ -30,9 +30,11 @@
    "project": "Flag Hub",
    "text": "The buttons on the flags and flag hub don’t react when I push them. They take a long time to react such as the trash, checkmark arrows to move or priority buttons they all seem to take a while to react, and I need them to react faster so that I at least know that it worked and I don’t need to press it again because if I go to press it again and it worked but was delayed I’ll accidentally press the next one so I just need the buttons to react immediately even if the flag takes its time to go where it needs to go. I just need the buttons to work immediately. Also, if we can get it to react completely faster that would also be pretty nice but bigger deal is that the flags buttons work",
    "kind": "fix",
-   "status": "open",
+   "status": "done",
    "source": "hub",
-   "created": "2026-11-27T23:01:02.016Z"
+   "created": "2026-11-27T23:01:02.016Z",
+   "resolvedAt": "2026-11-28T09:05:00Z",
+   "resolution": "Flag buttons now light up and lock their row the moment you tap them, so a second tap can't hit the next flag; making flags move instantly is waiting for you as a proposal."
   },
   {
    "id": "fmwtrfge3",
@@ -1856,22 +1858,26 @@
    ],
    "decidedAt": "2026-11-25T15:46:12.095Z",
    "shippedAt": "2026-11-26T09:02:00Z"
+  },
+  {
+   "id": "p1128instant",
+   "project": "Flag Hub",
+   "lane": "cloud",
+   "title": "Flags move the instant you tap",
+   "summary": "Tapping done, delete, move, or priority moves the flag right away and saves to GitHub in the background. If a save fails, the flag pops back and the status line says so.",
+   "link": "https://github.com/Feirzen/flag-hub/pull/16",
+   "images": [
+    "previews/p1128instant/before.png",
+    "previews/p1128instant/after.png"
+   ],
+   "status": "waiting",
+   "created": "2026-11-28T09:05:00Z",
+   "flagIds": [
+    "fmwzl4wqo"
+   ]
   }
  ],
  "runs": [
-  {
-   "at": "2026-11-05T23:41:45Z",
-   "lane": "cloud",
-   "mode": "big",
-   "summary": "Reworked the Study Decks Labyrinth per your notes and saved the PC run's pending Hub update.",
-   "items": [
-    {
-     "kind": "proposed",
-     "project": "Study Decks",
-     "text": "Reworked: Labyrinth goes pitch black, light stops at walls, glowing gate locks, and a torch key in a dead end."
-    }
-   ]
-  },
   {
    "at": "2026-11-06T00:17:21Z",
    "lane": "cloud",
@@ -2371,6 +2377,24 @@
    "mode": "light",
    "summary": "Quiet night: no approvals or reworks waiting, and the only open Cloud flag (Study Decks party mode) is waiting on your answer to Claude's question.",
    "items": []
+  },
+  {
+   "at": "2026-11-28T09:05:00Z",
+   "lane": "cloud",
+   "mode": "light",
+   "summary": "Flag Hub buttons now react the instant you tap them, and a proposal to make flags move instantly is waiting for you.",
+   "items": [
+    {
+     "kind": "fixed",
+     "project": "Flag Hub",
+     "text": "Flag buttons light up the moment you tap them and the row locks until the save lands."
+    },
+    {
+     "kind": "proposed",
+     "project": "Flag Hub",
+     "text": "Flags move the instant you tap and save in the background."
+    }
+   ]
   }
  ],
  "digestAt": "2026-11-10T08:58:58Z",

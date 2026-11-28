@@ -1,11 +1,11 @@
 {
  "mode": "light",
- "openFlags": 34,
- "waiting": 0,
+ "openFlags": 29,
+ "waiting": 1,
  "lastRun": {
-  "at": "2026-11-27T08:53:36Z",
-  "summary": "Quiet night: no approvals or reworks waiting, and the only open Cloud flag (Study Decks party mode) is waiting on your answer to Claude's question."
+  "at": "2026-11-28T09:05:00Z",
+  "summary": "Flag Hub buttons now react the instant you tap them, and a proposal to make flags move instantly is waiting for you."
  },
- "updated": "2026-11-27T08:53:36Z",
+ "updated": "2026-11-28T09:05:00Z",
  "suggestions": 0
 }
